@@ -28,7 +28,6 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.ListaItensF
     Todo: Criar o fragmento com as dados adicionais do cliente;
     Todo: Criar um fragmento para pre pedido (devera ser utilizado tanto para a consulta interna no
         pedido quanto para uma possivel consulta externa);
-	Todo: verificar data e hora do sistema;
 
  */
 
