@@ -25,6 +25,11 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoD
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrecoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
 
+/*
+	Todo: verificar data e hora do sistema;
+
+*/
+	
 public class Inicial extends AppCompatActivity
 {
     @Override
