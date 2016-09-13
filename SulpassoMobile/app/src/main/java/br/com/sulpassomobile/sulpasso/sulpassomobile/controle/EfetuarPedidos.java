@@ -188,6 +188,15 @@ public class EfetuarPedidos
 
     public String getItem() { return this.controleDigitacao.getItem().toDisplay(); }
 
+    public Boolean alteraValor(String campo)
+    {
+        if(campo.equalsIgnoreCase("v")) { return this.controleConfiguracao.alteraValor(campo); }
+        else
+        {
+            return !this.controleConfiguracao.alteraValor(campo);
+        }
+    }
+
     public String getValor() { return String.valueOf(this.controleDigitacao.getValor()); }
 
     public String calcularTotal() { return String.valueOf(this.controleDigitacao.calcularTotal()); }

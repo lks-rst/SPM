@@ -9,6 +9,12 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 
+
+/*
+    TODO: Criar função para busca do percentual maximo de desconto em um item (configuração do item).
+    TODO: Criar função para busca do valor minimo possivel de venda do item.
+*/
+
 /**
  * Created by Lucas on 01/08/2016.
  */

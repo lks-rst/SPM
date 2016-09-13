@@ -239,6 +239,8 @@ public class Pedido extends AppCompatActivity
 
     public String getItem() { return this.controlePedido.getItem(); }
 
+    public Boolean alteraValor(String campo) { return this.controlePedido.alteraValor(campo); }
+
     public String getValor() { return this.controlePedido.getValor(); }
 
     public String calcularTotalItem() { return this.controlePedido.calcularTotal(); }

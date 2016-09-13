@@ -86,6 +86,13 @@ public class DigitacaoItemFragment extends Fragment
                 .setHint("0");
         ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
                 .setHint("0");
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                .setEnabled(((Pedido) getActivity()).alteraValor("v"));
+        ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
+                .setEnabled(!(((Pedido) getActivity()).alteraValor("d")));
+        ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
+                .setEnabled(!(((Pedido) getActivity()).alteraValor("a")));
     }
 
     private void exibirTotal()
