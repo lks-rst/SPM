@@ -19,8 +19,23 @@ import java.util.HashMap;
 public class ConfigurarSistema
 {
     private Context context;
+    private float saldoAtual;
 
     private HashMap<String, String> configuracoesVenda;
+
+    public ConfigurarSistema(Context context)
+    {
+        this.context = context;
+        this.getConfiguracoesVenda();
+        this.saldoAtual = Float.parseFloat(this.getConfiguracao(1));
+    }
+
+    public float getSaldoAtual() { return saldoAtual; }
+
+    public void setSaldoAtual(float saldoAtual)
+    {
+        this.saldoAtual = saldoAtual;
+    }
 
     public float pedidoMinimo()
     {
@@ -29,8 +44,9 @@ public class ConfigurarSistema
 
     /*
     public int tipoDesconto() { return this.getTipoDesconto(); }
-    public int formaDesconto() { return this.getFormaDesconto(); }
     */
+
+    public int formaDesconto() { return this.getFormaDesconto(); }
 
     public Boolean alteraValor(String campo)
     {
@@ -55,13 +71,18 @@ public class ConfigurarSistema
 
     public float descontoMaximo() { return this.getDesconto(); }
 
+    public boolean contribuicaoIdeal()
+    {
+        return this.verifyContribuicao();
+    }
+
     /**
      * Retorna o tipo de modificação de preço possivel para o vendedor, se por alteração do preço
      * real do item ou por desconto percentual aplicado ao item.
      *
      * @return 1 para alteração de valor 0 para desconto percentual
      */
-    private int getTipoDesconto() { return 0; }
+    private int getTipoDesconto() { return 1; }
 
     /**
      * Retorna a forma de desconto a ser utilizada, com base no saldo flex ou com base na contribuição
@@ -81,4 +102,19 @@ public class ConfigurarSistema
     private float getValorMinimo() { return 50; }
 
     private float getDesconto() { return 10; }
+
+    private Boolean verifyContribuicao() { return true; }
+
+    private void getConfiguracoesVenda() { /*****/ }
+
+    private String getConfiguracao(int data)
+    {
+        switch (data)
+        {
+            case 1:
+                return "0";
+            default :
+                return "--";
+        }
+    }
 }

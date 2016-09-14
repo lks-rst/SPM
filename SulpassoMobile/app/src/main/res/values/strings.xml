@@ -15,6 +15,11 @@
         completions."
     </string>
 
+    <!-- Strings da tela de digitação -->
+    <string name="str_minimo">Minimo</string>
+    <string name="str_promocao">Promoções</string>
+    <string name="str_tabela">Valor Tabela</string>
+
     <string name="telaPedido">PEDIDO</string>
     <string-array name="fragTitles">
         <item><b>#</b>INICIO</item>

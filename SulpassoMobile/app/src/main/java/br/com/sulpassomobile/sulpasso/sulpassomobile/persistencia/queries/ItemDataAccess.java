@@ -66,9 +66,9 @@ public class ItemDataAccess
         return this.insert(item);
     }
 
-    public HashMap<String, String>  dadosVenda(int item, int tabela)
+    public HashMap<String, String>  dadosVenda(int item, int tabela, int minimo)
     {
-        return this.searchSaleData(item, tabela);
+        return this.searchSaleData(item, tabela, minimo);
     }
 
     private Boolean insert(Item item) throws InsertionExeption
@@ -391,9 +391,10 @@ public class ItemDataAccess
         return 0;
     }
 
-    private HashMap<String, String> searchSaleData(int codigo, int tabela)
+    private HashMap<String, String> searchSaleData(int codigo, int tabela, int minimo)
     {
         HashMap<String, String> saleMap = new HashMap<String, String>();
+        Cursor c;
 
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
@@ -432,19 +433,78 @@ public class ItemDataAccess
         this.sBuilder.append(codigo);
         this.sBuilder.append(");");
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
         for(int i = 0; i < c.getCount(); i++)
         {
-            Item item = new Item();
-
             saleMap.put("TABELA",
-                    String.valueOf(c.getInt(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO))));
+                String.valueOf(c.getFloat(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO))));
+
+            saleMap.put("QTDMINIMA",
+                String.valueOf(c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.MINIMO))));
+            saleMap.put("UNIDADE",
+                String.valueOf(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE))));
+            saleMap.put("UNVENDA",
+                String.valueOf(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA))));
 
             c.moveToNext();
         }
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" ON (");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(") WHERE (");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(minimo);
+        this.sBuilder.append(") AND (");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(codigo);
+        this.sBuilder.append(");");
+
+        float valorMinimo = 0;
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            valorMinimo = c.getFloat(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO));
+
+            c.moveToNext();
+        }
+        saleMap.put("MINIMO", String.valueOf(valorMinimo));
+        saleMap.put("PROMOCAO", String.valueOf(true));
 
         return saleMap;
     }

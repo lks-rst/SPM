@@ -28,8 +28,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.ListaItensF
     Todo: Criar o fragmento com as dados adicionais do cliente;
     Todo: Criar um fragmento para pre pedido (devera ser utilizado tanto para a consulta interna no
         pedido quanto para uma possivel consulta externa);
-
- */
+*/
 
 public class Pedido extends AppCompatActivity
 {
@@ -130,6 +129,44 @@ public class Pedido extends AppCompatActivity
     {
         if(this.controlePedido.confirmarItem())
             getFragmentManager().popBackStackImmediate();
+    }
+
+    public void exibirPromocoes(View v) { this.controlePedido.buscarPromocoes(); }
+
+    public void buscarMinimoTabela(View v)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        DigitacaoItemFragment fragment;
+
+        try
+        {
+            fragment = (DigitacaoItemFragment) fragmentManager.findFragmentById(R.id.frame_container);
+
+            if (fragment != null) { fragment.indicarMinimo(this.controlePedido.buscarMinimoTabela()); }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void buscarValorTabela(View v)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        DigitacaoItemFragment fragment;
+
+        try
+        {
+            fragment = (DigitacaoItemFragment) fragmentManager.findFragmentById(R.id.frame_container);
+
+            if (fragment != null) { fragment.indicarMinimo(this.getValor()); }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void finalizar(View v)
@@ -239,9 +276,19 @@ public class Pedido extends AppCompatActivity
 
     public String getItem() { return this.controlePedido.getItem(); }
 
+    public Boolean temValorMinimo() { return this.controlePedido.temValorMinimo(); }
+
+    public Boolean temPromocao() { return this.controlePedido.temPromocao(); }
+
     public Boolean alteraValor(String campo) { return this.controlePedido.alteraValor(campo); }
 
     public String getValor() { return this.controlePedido.getValor(); }
+
+    public String getQtdMinimaVenda() { return this.controlePedido.getQtdMinimaVenda(); }
+
+    public String getUnidade() { return this.controlePedido.getUnidade(); }
+
+    public String getUnidadeVenda() { return this.controlePedido.getUnidadeVenda(); }
 
     public String calcularTotalItem() { return this.controlePedido.calcularTotal(); }
 

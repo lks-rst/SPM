@@ -16,6 +16,9 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
 
+/*
+    TODO: Buscar tabela minima da configuração da venda (118)
+ */
 /**
  * Created by Lucas on 02/08/2016.
  */
@@ -44,7 +47,7 @@ public class EfetuarPedidos
     public EfetuarPedidos(Context ctx)
     {
         this.context = ctx;
-        this.controleConfiguracao = new ConfigurarSistema();
+        this.controleConfiguracao = new ConfigurarSistema(ctx);
         this.controleClientes = new ConsultarClientes(ctx);
         this.controleProdutos = new ConsultarProdutos(ctx);
         this.controleSalvar = new SalvarPedido();
@@ -183,7 +186,35 @@ public class EfetuarPedidos
     public void selecionarItem(int posicao)
     {
         this.controleDigitacao.setItem(this.controleProdutos.getItem(posicao));
-        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda(posicao, this.tabela));
+        this.controleDigitacao.setDadosVendaItem(
+            this.controleProdutos.dadosVenda(posicao, this.tabela, 2));
+    }
+
+    public Boolean temValorMinimo()
+    {
+        return this.controleDigitacao.temMinimo();
+    }
+
+    public Boolean temPromocao()
+    {
+        return this.controleDigitacao.temPromocao();
+    }
+
+
+    public void buscarPromocoes()
+    {
+        Toast.makeText(this.context
+                ,"Valores promocionais encontrados para o item: "
+                , Toast.LENGTH_LONG).show();
+    }
+
+    public String buscarMinimoTabela()
+    {
+        Toast.makeText(this.context
+                ,"Valor minimo encontrado para o item: " + this.controleDigitacao.buscarMinimo()
+                , Toast.LENGTH_LONG).show();
+
+        return this.controleDigitacao.buscarMinimo();
     }
 
     public String getItem() { return this.controleDigitacao.getItem().toDisplay(); }
@@ -197,7 +228,13 @@ public class EfetuarPedidos
         }
     }
 
-    public String getValor() { return String.valueOf(this.controleDigitacao.getValor()); }
+    public String getValor() { return this.controleDigitacao.getValor(); }
+
+    public String getQtdMinimaVenda() { return this.controleDigitacao.getQtdMinimaVenda(); }
+
+    public String getUnidade() { return this.controleDigitacao.getUnidade(); }
+
+    public String getUnidadeVenda() { return this.controleDigitacao.getUnidadeVenda(); }
 
     public String calcularTotal() { return String.valueOf(this.controleDigitacao.calcularTotal()); }
 
@@ -218,27 +255,34 @@ public class EfetuarPedidos
         Boolean alteracao = false;
         int posicao = -1;
 
-        ItensVendidos item = this.controleDigitacao.confirmarItem();
+        ItensVendidos item = this.controleDigitacao.confirmarItem(
+            this.controleConfiguracao.descontoMaximo(), this.controleConfiguracao.alteraValor("v"));
         if (item != null)
         {
-            for (ItensVendidos i : this.itensVendidos)
+            if(this.finalizarItem())
             {
-                if (item.equals(i))
+                for (ItensVendidos i : this.itensVendidos)
                 {
-                    alteracao = true;
-                    posicao = this.itensVendidos.indexOf(i);
+                    if (item.equals(i))
+                    {
+                        alteracao = true;
+                        posicao = this.itensVendidos.indexOf(i);
+                    }
                 }
-            }
 
-            if (alteracao)
-                this.itensVendidos.set(posicao, item);
-            else
-            {
-                this.itensVendidos.add(item);
-                Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
-            }
+                if (alteracao)
+                    this.itensVendidos.set(posicao, item);
+                else
+                {
+                    this.itensVendidos.add(item);
+                    Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
+                }
 
-            return true;
+                this.controleConfiguracao.setSaldoAtual(this.controleDigitacao.diferencaFlex());
+
+                return true;
+            }
+            else return false;
         }
         else return false;
     }
@@ -341,6 +385,23 @@ public class EfetuarPedidos
 
         if(clienteLiberado && (this.itensVendidos.size() <= 0)) { return true; }
         else { return false; }
+    }
+
+    private Boolean finalizarItem()
+    {
+        if(this.controleConfiguracao.formaDesconto() == 0)
+            if(this.controleConfiguracao.contribuicaoIdeal())
+                return true;
+            else
+                return false;
+        else
+        {
+            float saldo = this.controleConfiguracao.getSaldoAtual();
+            if(saldo - this.controleDigitacao.diferencaFlex() >= 0)
+                return true;
+            else
+                return false;
+        }
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/
