@@ -100,14 +100,14 @@ public class PrecoDataAccess
             Preco preco = new Preco();
 
             preco.setTabelaPrecos(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO)));
+                c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO)));
             preco.setPreco(
-                    c.getDouble(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO)));
+                c.getDouble(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO)));
             preco.setCodigoItem(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO)));
+                c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO)));
 
             lista.add(preco);
             c.moveToNext();
@@ -133,11 +133,11 @@ public class PrecoDataAccess
             Preco preco = new Preco();
 
             preco.setCodigoItem(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO)));
+                c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO)));
             preco.setPreco(
-                    c.getDouble(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO)));
+                c.getDouble(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO)));
 
             lista.add(preco);
             c.moveToNext();

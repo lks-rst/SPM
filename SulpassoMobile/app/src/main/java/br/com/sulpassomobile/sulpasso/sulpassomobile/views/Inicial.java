@@ -16,6 +16,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Natureza;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Prazo;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Preco;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Promocao;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ClienteDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.EstoqueDataAccess;
@@ -23,6 +24,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ItemDa
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrecoDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
 
 /*
@@ -65,6 +67,8 @@ public class Inicial extends AppCompatActivity
         PrecoDataAccess tda = new PrecoDataAccess(getApplicationContext());
         EstoqueDataAccess eda = new EstoqueDataAccess(getApplicationContext());
 
+        PromocaoDataAccess proda = new PromocaoDataAccess(getApplicationContext());
+
         List<Cliente> clientes;
         List<Item> itens;
         List<Venda> vendas;
@@ -73,6 +77,8 @@ public class Inicial extends AppCompatActivity
         List<Prazo> prazos;
         List<Preco> precos;
         List<Estoque> estoques;
+
+        List<Promocao> promocoes;
 
         try {
             clientes = cda.getAll();
@@ -123,6 +129,13 @@ public class Inicial extends AppCompatActivity
         }
         catch (GenercicException ge) { ge.printStackTrace(); }
 
+        try {
+            promocoes = proda.buscarTodos();
+
+            for(Promocao v : promocoes) { System.out.println(v.toString()); }
+        }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+
         return retorno;
     }
 
@@ -135,6 +148,8 @@ public class Inicial extends AppCompatActivity
         ItemDataAccess ida = new ItemDataAccess(getApplicationContext());
         PrecoDataAccess tda = new PrecoDataAccess(getApplicationContext());
         EstoqueDataAccess eda = new EstoqueDataAccess(getApplicationContext());
+
+        PromocaoDataAccess proda = new PromocaoDataAccess(getApplicationContext());
 
         String cli1 = "050002852ILVA T. GONCALVES JAHN                                                     0000WILSON                   00/00/0000AUREA DE OLIVEIRA, 222                       VICTOR ISLER        00121  005154 3313-2304                  00010755570001540050104NCD        SS      620000000061000000000                    000815000000000000000714000000000000/00/00000030000000000000S091/0184410 99020-390xml.jahn@yahoo.com.br                             001J10000000000N222                                                                                                                                                                                                                                             ";
         String cli2 = "050011827SUPERMERCADO NITEROI LTDA                                                  00001                        00/00/0000RUA NITEROI, 561                             VALINHOS            00114  005154 33272185    1              00934697810001490090104NCDFS              636100000000000000300                    000357300000032200000589000000000000/00/00000030000000000000S091/0131716 99042-540novo.milenio@annex.com.br                         001J10000000000N561                                                                                                                                                                                                                                             ";
@@ -399,5 +414,36 @@ public class Inicial extends AppCompatActivity
         catch (GenercicException e) { e.printStackTrace(); }
         try { eda.inserir(e8); }
         catch (GenercicException e) { e.printStackTrace(); }
+
+        String pro1 = "15000001900010000000727";
+        String pro2 = "15000001900015000000720";
+        String pro3 = "15000001900020000000710";
+        String pro4 = "15000001900030000000700";
+        String pro5 = "15000173200005000000728";
+        String pro6 = "15000206200007000000728";
+        String pro7 = "15000239900010000000728";
+        String pro8 = "15000546000002000000728";
+        String pro9 = "15000546000004000000728";
+        String pro10 = "15000546000010000000728";
+        try{ proda.inserir(pro1); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro2); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro3); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro4); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro5); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro6); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro7); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro8); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro9); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
+        try{ proda.inserir(pro10); }
+        catch (GenercicException ge) { ge.printStackTrace(); }
     }
 }
