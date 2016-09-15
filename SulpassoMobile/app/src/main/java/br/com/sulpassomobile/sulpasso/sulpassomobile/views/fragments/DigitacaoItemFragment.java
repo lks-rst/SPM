@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,7 +27,9 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.Pedido;
 public class DigitacaoItemFragment extends Fragment
 {
     public DigitacaoItemFragment(){}
-    /**********************************FRAGMENT LIFE CICLE*********************************************/
+/**************************************************************************************************/
+/**********************************FRAGMENT LIFE CICLE*********************************************/
+/**************************************************************************************************/
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -58,8 +61,20 @@ public class DigitacaoItemFragment extends Fragment
                     + " must be Pedido.class calss");
         }
     }
+/**************************************************************************************************/
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
+/**************************************************************************************************/
+/*********************************FRAGMENT ACCESS METHODS******************************************/
+/**************************************************************************************************/
+    public void indicarMinimo(String valor)
+    {
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).setText(valor);
+    }
+/**************************************************************************************************/
+/******************************END OF FRAGMENT ACCESS METHODS**************************************/
+/**************************************************************************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
+/**************************************************************************************************/
     /**
      * Metodo para vinculação do layout e inicialização dos itens de UI
      */
@@ -82,10 +97,34 @@ public class DigitacaoItemFragment extends Fragment
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setText(((Pedido) getActivity()).getValor());
 
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnidade)))
+                .setText(((Pedido) getActivity()).getUnidade());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnVda)))
+                .setText(((Pedido) getActivity()).getUnidadeVenda());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtQtdVda)))
+                .setText(((Pedido) getActivity()).getQtdMinimaVenda());
+
         ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
                 .setHint("0");
         ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
                 .setHint("0");
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                .setEnabled(((Pedido) getActivity()).alteraValor("v"));
+        ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
+                .setEnabled(!(((Pedido) getActivity()).alteraValor("d")));
+        ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
+                .setEnabled(!(((Pedido) getActivity()).alteraValor("a")));
+
+        ((Button) (getActivity().findViewById(R.id.fdBtnMinimos)))
+                .setEnabled(((Pedido) getActivity()).temValorMinimo());
+        ((Button) (getActivity().findViewById(R.id.fdBtnPromocoes)))
+                .setEnabled(((Pedido) getActivity()).temPromocao());
+        ((Button) (getActivity().findViewById(R.id.fdBtnMinimos)))
+                .setClickable(((Pedido) getActivity()).temValorMinimo());
+        ((Button) (getActivity().findViewById(R.id.fdBtnPromocoes)))
+                .setClickable(((Pedido) getActivity()).temPromocao());
     }
 
     private void exibirTotal()

@@ -14,6 +14,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ItensV
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Natureza;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Venda;
 
 /**
@@ -37,6 +38,7 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
         this.scriptSQLCreate.add(Preco.CriarTabela());
         this.scriptSQLCreate.add(ItensVendidos.CriarTabela());
         this.scriptSQLCreate.add(Venda.CriarTabela());
+        this.scriptSQLCreate.add(Promocao.CriarTabela());
     }
 
     /**

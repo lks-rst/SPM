@@ -41,7 +41,25 @@ public class InserirItemPedidos
 
     public Item getItem() { return item; }
 
+    public Boolean temMinimo()
+    {
+        return Float.parseFloat(this.dadosVendaItem.get("MINIMO")) > 0 ? true : false;
+    }
+
+    public Boolean temPromocao()
+    {
+        return Boolean.parseBoolean(this.dadosVendaItem.get("PROMOCAO"));
+    }
+
     public String getValor() { return this.buscarDadosVendaItem(1); }
+
+    public String buscarMinimo() { return this.buscarDadosVendaItem(2); }
+
+    public String getQtdMinimaVenda() { return this.buscarDadosVendaItem(3); }
+
+    public String getUnidade() { return this.buscarDadosVendaItem(4); }
+
+    public String getUnidadeVenda() { return this.buscarDadosVendaItem(5); }
 
     public float calcularTotal()
     {
@@ -51,11 +69,26 @@ public class InserirItemPedidos
                 * this.quantidade ;
     }
 
-    public ItensVendidos confirmarItem()
+    public float diferencaFlex()
+    {
+        float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
+        float minimoPromocional = this.verificarPromocoes();
+        float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
+        float diferenca = 0;
+
+        minimo = minimo < minimoPromocional ? minimo : minimoPromocional;
+        minimo = minimo < tabela ? minimo : tabela;
+
+        diferenca = minimo - this.valor;
+
+        return diferenca;
+    }
+
+    public ItensVendidos confirmarItem(float desconto, boolean percentual)
     {
         if(this.verificarQuantidade())
-            if(this.verificarDesconto())
-                if(this.verificarValor())
+            if(this.verificarDesconto(desconto, percentual))
+                if(this.verificarValor(desconto, percentual))
                 {
                     ItensVendidos item = new ItensVendidos();
                     item.setItem(this.item.getCodigo());
@@ -80,22 +113,58 @@ public class InserirItemPedidos
         {
             case 1 :
                 return this.dadosVendaItem.get("TABELA");
+            case 2 :
+                return this.dadosVendaItem.get("MINIMO");
+            case 3 :
+                return this.dadosVendaItem.get("QTDMINIMA");
+            case 4 :
+                return this.dadosVendaItem.get("UNIDADE");
+            case 5 :
+                return this.dadosVendaItem.get("UNVENDA");
             default :
                 return "--";
         }
     }
 
-    private Boolean verificarValor() {
-        return true;
+    private Boolean verificarValor(float desconto, boolean percentual) {
+        if(percentual)
+        {
+            float valordesconto;
+            float valorTabela = Float.parseFloat(buscarDadosVendaItem(1));
+
+            valordesconto = valorTabela - (valorTabela * desconto / 100);
+
+            if(this.valor < valordesconto)
+                return false;
+            else
+                return true;
+        }
+        else
+            return true;
     }
 
-    private Boolean verificarQuantidade() {
-        return true;
+    private Boolean verificarQuantidade()
+    {
+        if(quantidade % Integer.parseInt(this.buscarDadosVendaItem(3)) == 0)
+            return true;
+        else
+            return false;
     }
 
-    private Boolean verificarDesconto() {
-        return true;
+    private Boolean verificarDesconto(float desconto, boolean percentual) {
+        if(!percentual)
+            if(this.desconto < desconto)
+                return true;
+            else
+                return false;
+        else
+            return true;
     }
 
     private void calcularFlex() { /*****/ }
+
+    private float verificarPromocoes()
+    {
+        return Float.parseFloat(this.buscarMinimo());
+    }
 }

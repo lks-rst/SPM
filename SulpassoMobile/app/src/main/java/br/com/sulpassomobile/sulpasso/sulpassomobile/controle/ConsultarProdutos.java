@@ -9,6 +9,12 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 
+
+/*
+    TODO: Criar função para busca do percentual maximo de desconto em um item (configuração do item).
+    TODO: Criar função para busca do valor minimo possivel de venda do item.
+*/
+
 /**
  * Created by Lucas on 01/08/2016.
  */
@@ -49,9 +55,9 @@ public class ConsultarProdutos
 
     public Item getItem(int posicao) { return this.lista.get(posicao); }
 
-    public HashMap<String, String> dadosVenda(int posicao, int tabela)
+    public HashMap<String, String> dadosVenda(int posicao, int tabela, int minimo)
     {
-        return this.getDadosVenda(this.lista.get(posicao).getCodigo(), tabela);
+        return this.getDadosVenda(this.lista.get(posicao).getCodigo(), tabela, minimo);
     }
 
     public ArrayList<String> buscarItens() throws GenercicException
@@ -104,8 +110,8 @@ public class ConsultarProdutos
 
     private void listarBusca(int tabela) throws GenercicException { this.lista = this.ida.getByData(); }
 
-    private HashMap<String, String>  getDadosVenda(int codigo, int tabela)
+    private HashMap<String, String>  getDadosVenda(int codigo, int tabela, int minimo)
     {
-        return this.ida.dadosVenda(codigo, tabela);
+        return this.ida.dadosVenda(codigo, tabela, minimo);
     }
 }
