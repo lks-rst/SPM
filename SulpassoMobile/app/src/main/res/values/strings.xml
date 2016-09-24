@@ -20,6 +20,7 @@
     <string name="str_promocao">Promoções</string>
     <string name="str_tabela">Valor Tabela</string>
 
+    <!-- Strings titulos fragments tela de padidos -->
     <string name="telaPedido">PEDIDO</string>
     <string-array name="fragTitles">
         <item><b>#</b>INICIO</item>
@@ -29,4 +30,8 @@
         <item><b>#</b>ITENS DO PEDIDO</item>
         <item><b>#</b>DADOS ADCIONAIS CLIENTE</item>
     </string-array>
+
+    <!-- Strings mensagens de erro -->
+    <string name="sem_promocoes">Não foram encontradas promoções para esse item</string>
+
 </resources>

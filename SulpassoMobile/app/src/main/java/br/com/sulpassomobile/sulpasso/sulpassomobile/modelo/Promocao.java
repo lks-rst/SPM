@@ -36,6 +36,6 @@ public class Promocao
         return "Promocao{" + item +
                 " - " + quantidade +
                 " - " + valor +
-                '}';
+                "}\n";
     }
 }

@@ -19,6 +19,10 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.Pedido;
     Todo: Verificar se o cliente possui títulos abertos, e apresentar estes caso haja;
     Todo: Verificar se o cliente possui devoluções e apresentar as mesmas caso haja;
     Todo: Criar filtro de clientes e função de ordenaçã externa ao configurador;
+
+    TODO: Verificar alteração de clientes, trazer naturezas, prazo e tabelas;
+    TODO: Verificar alteração de natureza, trazer prazos;
+    TODO: Verificar alteração de prazos carregar tabela (quando necessário);
  */
 
 /**

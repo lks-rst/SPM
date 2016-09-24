@@ -12,9 +12,11 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Natureza;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Prazo;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Promocao;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 
 /*
     TODO: Buscar tabela minima da configuração da venda (118)
@@ -203,8 +205,22 @@ public class EfetuarPedidos
 
     public void buscarPromocoes()
     {
+
+        PromocaoDataAccess pda = new PromocaoDataAccess(this.context);
+        ArrayList<Promocao> promocoes = new ArrayList<>();
+        try { promocoes = pda.buscarPromocao(this.controleDigitacao.getItem().getCodigo()); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        ArrayList<String> lista = new ArrayList<>();
+
+        if(promocoes.size() > 0)
+            for (Promocao p : promocoes)
+                lista.add(p.toDisplay());
+        else
+            lista.add(this.context.getString(R.string.sem_promocoes));
+
         Toast.makeText(this.context
-                ,"Valores promocionais encontrados para o item: "
+                ,"Valores promocionais encontrados para o item:\n" + lista.toString()
                 , Toast.LENGTH_LONG).show();
     }
 
@@ -278,7 +294,8 @@ public class EfetuarPedidos
                     Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
                 }
 
-                this.controleConfiguracao.setSaldoAtual(this.controleDigitacao.diferencaFlex());
+                this.controleConfiguracao.setSaldoAtual(
+                        this.controleDigitacao.diferencaFlex(this.context));
 
                 return true;
             }
@@ -304,23 +321,33 @@ public class EfetuarPedidos
         if(this.controleSalvar.verificarMinimo(nda.buscarNatureza(this.codigoNatureza).getMinimo()
                 , this.controleConfiguracao.pedidoMinimo()))
         {
-            this.venda = new Venda();
-            this.venda.setItens(this.itensVendidos);
-            this.venda.setValor(Double.parseDouble(String.valueOf(this.valorVendido())));
-            this.venda.setCodigoCliente(this.controleClientes.getCodigoClienteSelecionado());
-            this.venda.setDesconto(Double.parseDouble(String.valueOf(this.controleSalvar.getDesconto())));
-            this.venda.setData(this.dataSistema());
+            if(this.controleSalvar.verificarSaldo(this.controleConfiguracao.getSaldoAtual()))
+            {
+                this.venda = new Venda();
+                this.venda.setItens(this.itensVendidos);
+                this.venda.setValor(Double.parseDouble(String.valueOf(this.valorVendido())));
+                this.venda.setCodigoCliente(this.controleClientes.getCodigoClienteSelecionado());
+                this.venda.setDesconto(Double.parseDouble(String.valueOf(this.controleSalvar.getDesconto())));
+                this.venda.setData(this.dataSistema());
 
-            if(this.controleSalvar.salvarPedido(this.context, this.venda)) { return 1; }
+                if(this.controleSalvar.salvarPedido(this.context, this.venda)) { return 1; }
+                else
+                {
+                    Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+                    return 0;
+                }
+            }
             else
             {
-                Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                        , Toast.LENGTH_LONG).show();
                 return 0;
             }
         }
         else
         {
-            Toast.makeText(context, "ATENÇÃO!\nVocê deve vender no minimo", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                    , Toast.LENGTH_LONG).show();
             return 0;
         }
     }
@@ -390,14 +417,16 @@ public class EfetuarPedidos
     private Boolean finalizarItem()
     {
         if(this.controleConfiguracao.formaDesconto() == 0)
-            if(this.controleConfiguracao.contribuicaoIdeal())
+        {
+            if (this.controleConfiguracao.contribuicaoIdeal())
                 return true;
             else
                 return false;
+        }
         else
         {
             float saldo = this.controleConfiguracao.getSaldoAtual();
-            if(saldo - this.controleDigitacao.diferencaFlex() >= 0)
+            if(saldo - this.controleDigitacao.diferencaFlex(this.context) >= 0)
                 return true;
             else
                 return false;

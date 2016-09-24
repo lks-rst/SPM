@@ -44,6 +44,11 @@ public class SalvarPedido
 
     public Boolean verificarItens() { return null; }
 
+    public Boolean verificarSaldo(float saldo)
+    {
+        return (saldo - this.desconto > 0);
+    }
+
     public Boolean salvarPedido(Context ctx, Venda venda)
     {
         VendaDataAccess vda = new VendaDataAccess(ctx);
