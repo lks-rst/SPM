@@ -111,14 +111,17 @@ public class ConsultarClientes
 
     public int restoreClient()
     {
-        int i;
-        for (i = 0; i < this.lista.size(); i++)
+        int pos = 0;
+        for (int i = 0; i < this.lista.size(); i++)
         {
             if(this.lista.get(i).getCodigoCliente() == this.getCodigoClienteSelecionado())
+            {
+                pos = i;
                 break;
+            }
         }
 
-        return i;
+        return pos;
     }
 
     private void listarClientes() throws GenercicException

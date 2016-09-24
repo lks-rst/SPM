@@ -1,9 +1,14 @@
 package br.com.sulpassomobile.sulpasso.sulpassomobile.controle;
 
+import android.content.Context;
+
 import java.util.HashMap;
 
+import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ItensVendidos;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Promocao;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 
 /**
  * Created by Lucas on 01/08/2016.
@@ -69,14 +74,15 @@ public class InserirItemPedidos
                 * this.quantidade ;
     }
 
-    public float diferencaFlex()
+    public float diferencaFlex(Context ctx)
     {
         float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
-        float minimoPromocional = this.verificarPromocoes();
+        float minimoPromocional = this.verificarPromocoes(ctx);
         float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
         float diferenca = 0;
 
-        minimo = minimo < minimoPromocional ? minimo : minimoPromocional;
+        minimo = minimoPromocional > 0 ?
+                (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
         minimo = minimo < tabela ? minimo : tabela;
 
         diferenca = minimo - this.valor;
@@ -151,7 +157,8 @@ public class InserirItemPedidos
             return false;
     }
 
-    private Boolean verificarDesconto(float desconto, boolean percentual) {
+    private Boolean verificarDesconto(float desconto, boolean percentual)
+    {
         if(!percentual)
             if(this.desconto < desconto)
                 return true;
@@ -163,8 +170,15 @@ public class InserirItemPedidos
 
     private void calcularFlex() { /*****/ }
 
-    private float verificarPromocoes()
+    private float verificarPromocoes(Context ctx)
     {
-        return Float.parseFloat(this.buscarMinimo());
+        PromocaoDataAccess pda = new PromocaoDataAccess(ctx);
+        Promocao p = null;
+
+        try { p = pda.buscarPromocao(this.item.getCodigo(), this.quantidade); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        if(p != null) { return p.getValor(); }
+        else { return -1; }
     }
 }

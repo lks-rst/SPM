@@ -39,6 +39,22 @@ public class PromocaoDataAccess
         return this.searchAll();
     }
 
+    public Promocao buscarPromocao(int item, int quantidade) throws GenercicException
+    {
+        return this.searchPromo(item, quantidade);
+        /*
+        if(quantidade > 0)
+            return this.searchPromo(item, quantidade);
+        else
+            return this.searchPromo(item, quantidade);
+        */
+    }
+
+    public ArrayList<Promocao> buscarPromocao(int item) throws GenercicException
+    {
+        return this.searchPromo(item);
+    }
+
     public ArrayList<Promocao> getByData() throws GenercicException
     {
         return this.searchByData();
@@ -126,6 +142,104 @@ public class PromocaoDataAccess
             c.moveToNext();
         }
 
+        return lista;
+    }
+
+    private Promocao searchPromo(int item, int quantidade) throws ReadExeption
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT MAX(");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE);
+        this.sBuilder.append(") FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(item);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE);
+        this.sBuilder.append(" <= ");
+        this.sBuilder.append(quantidade);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(item);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(c.getInt(0));
+
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+
+            Promocao promocao = new Promocao();
+
+            promocao.setItem(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM)));
+            promocao.setQuantidade(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE)));
+            promocao.setValor(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.VALOR)));
+
+            return promocao;
+        }
+        else
+            return null;
+    }
+
+    private ArrayList<Promocao> searchPromo(int item) throws ReadExeption
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(item);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        ArrayList<Promocao> lista = new ArrayList<>();
+        c.moveToFirst();
+
+        for (int i = 0; i < c.getCount(); i++)
+        {
+            Promocao promocao = new Promocao();
+
+            promocao.setItem(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM)));
+            promocao.setQuantidade(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE)));
+            promocao.setValor(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.VALOR)));
+
+            lista.add(promocao);
+            c.moveToNext();
+        }
         return lista;
     }
 
