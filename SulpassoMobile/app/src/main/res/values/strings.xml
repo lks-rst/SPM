@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SulpassoMobile</string>
     <string name="title_activity_login">Login</string>
+    <!-- END -->
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -14,13 +15,57 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <!-- END -->
 
     <!-- Strings da tela de digitação -->
     <string name="str_minimo">Minimo</string>
     <string name="str_promocao">Promoções</string>
     <string name="str_tabela">Valor Tabela</string>
+    <!-- END -->
 
-    <!-- Strings titulos fragments tela de padidos -->
+    <!-- Strings da tela dados clientes -->
+    <string name="str_prazo">Prazo: </string>
+    <string name="str_tab">Tabela: </string>
+    <string name="str_flex">DCA: </string>
+    <string name="str_qtd">Quantidade: $1</string>
+    <string name="str_media">Média: $1</string>
+
+    <string name="lbl_estado">UF: </string>
+    <string name="lbl_end">Endereço: </string>
+    <string name="lbl_fone">Telefone: </string>
+    <string name="lbl_cel">Celular: </string>
+    <string name="lbl_ultima">Ult Comp: </string>
+    <string name="lbl_meta">Meta: </string>
+    <string name="lbl_realizado">Realizado: </string>
+    <string name="lbl_credito">Crédito: </string>
+
+    <string name="lbl_cidade">Cidade: </string><!-- Também usada na finalização do pedido -->
+    <!-- END -->
+
+    <!-- Strings da tela de busca itens -->
+    <string name="str_busca">Digite o item de busca: </string>
+    <string name="btn_serach">Pesq.: </string>
+    <!-- END -->
+
+    <!-- Strings da tela resumo -->
+    <string name="str_itens">Qtd.: </string>
+    <string name="str_valor">Val.: </string>
+    <string name="str_contribuicao">Con.: </string>
+    <string name="str_volume">Vol.: </string>
+    <!-- END -->
+
+    <!-- Strings da tela finalização -->
+    <string name="lbl_total_itens">Total dos Itens: </string>
+    <string name="lbl_valor_total">Total da Venda: </string>
+    <string name="lbl_desconto">Desconto: </string>
+    <string name="lbl_acrescimo">Frete: </string>
+    <string name="lbl_cli">Cliente: </string>
+    <string name="lbl_natureza">NATUREZA </string>
+    <string name="lbl_prazo">PRAZO </string>
+    <string name="lbl_tabela">TABELA </string>
+    <!-- END -->
+
+    <!-- Strings titulos fragments tela de pedidos -->
     <string name="telaPedido">PEDIDO</string>
     <string-array name="fragTitles">
         <item><b>#</b>INICIO</item>
@@ -30,8 +75,10 @@
         <item><b>#</b>ITENS DO PEDIDO</item>
         <item><b>#</b>DADOS ADCIONAIS CLIENTE</item>
     </string-array>
+    <!-- END -->
 
     <!-- Strings mensagens de erro -->
     <string name="sem_promocoes">Não foram encontradas promoções para esse item</string>
+    <!-- END -->
 
 </resources>

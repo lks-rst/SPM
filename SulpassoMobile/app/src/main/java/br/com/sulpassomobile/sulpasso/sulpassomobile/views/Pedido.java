@@ -6,8 +6,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,16 +24,18 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.Finalizacao
 import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.ListaItensFragment;
 
 /*
-    Todo: Buscar as configurações de abertura do pedido;
-    Todo: Criar as configurações de tipos de venda;
     Todo: Ajustar a forma de transação entre as telas (swipe);
     Todo: Criar o fragmento com as dados adicionais do cliente;
+    Todo: Buscar as configurações de abertura do pedido;
     Todo: Criar um fragmento para pre pedido (devera ser utilizado tanto para a consulta interna no
         pedido quanto para uma possivel consulta externa);
+    Todo: Criar as configurações de tipos de venda;
 */
 
 public class Pedido extends AppCompatActivity
 {
+    private GestureDetector gestureDetector;
+
     private View fragmentsContainer;
 
     private EfetuarPedidos controlePedido;
@@ -67,6 +71,11 @@ public class Pedido extends AppCompatActivity
 
         this.controlLiquidacao = new ControlDistribuicao(getApplicationContext());
         */
+
+        // Create an object of the Android_Gesture_Detector  Class
+        Android_Gesture_Detector android_gesture_detector = new Android_Gesture_Detector();
+        // Create a GestureDetector
+        gestureDetector = new GestureDetector(this, android_gesture_detector);
     }
 
     @Override
@@ -360,6 +369,128 @@ public class Pedido extends AppCompatActivity
 
     public void salvarPedido() { /*****/ }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
+
+/*******n************************End the Overridin**************************************************/
+/******************************Methods to make class services direct ******************************/
+    /**
+     * Calback para interceptar os movimentos na tela
+     */
+    private class Android_Gesture_Detector implements GestureDetector.OnGestureListener,
+            GestureDetector.OnDoubleTapListener
+    {
+        @Override
+        public boolean onDown(MotionEvent e)
+        {
+            Log.d("Gesture ", " onDown");
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e)
+        {
+            Log.d("Gesture ", " onSingleTapConfirmed");
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e)
+        {
+            Log.d("Gesture ", " onSingleTapUp");
+            return true;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+            Log.d("Gesture ", " onShowPress");
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e)
+        {
+            Log.d("Gesture ", " onDoubleTap");
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e)
+        {
+            Log.d("Gesture ", " onDoubleTapEvent");
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            Log.d("Gesture ", " onLongPress");
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
+        {
+            /*
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            int height = size.y;
+            int scrollUpBegin = (int) height - ((height * 20) / 100);
+            int scrollDownBegin = (int) height - (height - ((height * 20) / 100));
+            int scrollEnd = (int) height - ((height * 50) / 100);
+            */
+            Log.d("Gesture ", " onScroll");
+
+            if (e1.getY() < e2.getY())
+            {
+                Log.d("Gesture ", " Scroll Down");
+                /*
+                if (e1.getY() < scrollDownBegin && e2.getY() <= scrollEnd)
+                {
+                    Log.d("Gesture ", " Scroll Down");
+                }
+                else { Log.d("Gesture ", " Scroll Down -- To Lower"); }
+                */
+            }
+            if (e1.getY() > e2.getY())
+            {
+                Log.d("Gesture ", " Scroll Up");
+                /*
+                if (e1.getY() > scrollUpBegin) { Log.d("Gesture ", " Scroll Up -- To high"); }
+                else { Log.d("Gesture ", " Scroll Up"); }
+                */
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+        {
+            if (e1.getX() < e2.getX()) {
+                Log.d("Gesture ", "Left to Right swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
+                Log.d("Gesture ", "Left to Right swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
+                if (e2.getX() - e1.getX() > 25) {
+                    displayView(1);
+                }
+            }
+            if (e1.getX() > e2.getX()) {
+                Log.d("Gesture ", "Right to Left swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
+
+                displayView(0);
+            }
+            if (e1.getY() < e2.getY()) {
+                Log.d("Gesture ", "Up to Down swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityY) + " pixels/second");
+            }
+            if (e1.getY() > e2.getY()) {
+                Log.d("Gesture ", "Down to Up swipe: " + e1.getX() + " - " + e2.getX());
+                Log.d("Speed ", String.valueOf(velocityY) + " pixels/second");
+            }
+            return true;
+        }
+    }
+
 
     /**
      * Diplaying fragment view for selected nav drawer list item
