@@ -203,11 +203,49 @@
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="119dp"
+                android:inputType="textMultiLine"
+                android:hint="@string/hnt_obs_pedido"
+                android:id="@+id/editText" />
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/password2"
+                    android:layout_width="match_parent"
+                    android:layout_height="119dp"
+                    android:hint="@string/hnt_obs_nota"
+                    android:imeActionId="@+id/editText"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textMultiLine" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_vertical_margin"
+                android:background="#a10505" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fdcSpnrNaturezas2" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_vertical_margin"
+                android:background="#a10505" />
+
+            <!-- Remover esse botão e desenvolver a operaçao no menu -->
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

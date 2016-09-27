@@ -21,6 +21,24 @@
     <string name="str_minimo">Minimo</string>
     <string name="str_promocao">Promoções</string>
     <string name="str_tabela">Valor Tabela</string>
+
+    <string name="lbl_un">UN.: </string>
+    <string name="lbl_uv">UN. V.: </string>
+    <string name="lbl_estoque">Estoque: </string>
+    <string name="lbl_barras">C. Barras: </string>
+    <string name="str_unitario">Valor Unitário: </string>
+    <string name="str_desc_item">Desc. Item: </string>
+    <string name="str_val_cli">Val. Especial: </string>
+    <string name="lbl_qtd_caixa">Qtd. Caixa: </string>
+    <string name="lbl_qtd_vda">Qtd. Venda: </string>
+    <string name="lbl_qtd">Quantidade: </string>
+    <string name="lbl_val">Valor: </string>
+    <string name="lbl_desc">Desconto(%): </string>
+    <string name="lbl_acre">Acréscimo(%): </string>
+    <string name="lbl_total">Total R($): </string>
+    <string name="lbl_mrk">Markup %: </string>
+    <string name="lbl_ppc">PPC: </string>
+    <string name="lbl_cont">CONT.: </string>
     <!-- END -->
 
     <!-- Strings da tela dados clientes -->
@@ -63,6 +81,12 @@
     <string name="lbl_natureza">NATUREZA </string>
     <string name="lbl_prazo">PRAZO </string>
     <string name="lbl_tabela">TABELA </string>
+
+    <string name="hnt_obs_pedido">Informações para o CPD</string>
+    <string name="hnt_obs_nota">Observação impressa na NFE</string>
+    <string name="hnt_obs_desconto">Justificativa para desconto no pedido</string>
+
+    <string name="hnt_zero">0,00</string>
     <!-- END -->
 
     <!-- Strings titulos fragments tela de pedidos -->
