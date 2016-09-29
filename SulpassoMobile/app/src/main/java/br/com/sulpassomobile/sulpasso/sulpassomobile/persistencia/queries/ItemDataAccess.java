@@ -295,11 +295,17 @@ public class ItemDataAccess
             Item item = new Item();
 
             item.setCodigo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+                c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
             item.setDescricao(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+                c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+            item.setReferencia(
+                c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+            item.setComplemento(
+                c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO)));
 
             lista.add(item);
             c.moveToNext();

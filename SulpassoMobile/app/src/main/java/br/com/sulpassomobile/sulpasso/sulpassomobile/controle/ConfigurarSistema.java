@@ -76,6 +76,10 @@ public class ConfigurarSistema
         return this.verifyContribuicao();
     }
 
+    public String buscarFlex()
+    {
+        return this.getConfiguracao(1);
+    }
     /**
      * Retorna o tipo de modificação de preço possivel para o vendedor, se por alteração do preço
      * real do item ou por desconto percentual aplicado ao item.
@@ -112,7 +116,7 @@ public class ConfigurarSistema
         switch (data)
         {
             case 1:
-                return "0";
+                return "50.00";
             default :
                 return "--";
         }

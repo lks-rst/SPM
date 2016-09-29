@@ -3,7 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin">
-
+    <!--
+        TODO: Verificar qual estilo de layout é melhor apresentado e verificar configuração de cores
+    -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,12 +51,12 @@
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="75dp"
                 android:id="@+id/fdcSpnrNaturezas" />
 
             <Spinner
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="75dp"
                 android:id="@+id/fdcSpnrPrazos" />
 
             <LinearLayout
@@ -249,6 +251,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/lbl_realizado"
+                    android:id="@+id/fdcTxtRealizado"
                     android:gravity="center_vertical|right" />
 
                 <EditText

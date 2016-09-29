@@ -56,6 +56,7 @@ public class EfetuarPedidos
         this.controleDigitacao = new InserirItemPedidos(this.getConfiguracaoVendaItem());
 
         this.itensVendidos = new ArrayList<>();
+        this.venda = new Venda();
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/
@@ -116,8 +117,22 @@ public class EfetuarPedidos
 
     public int getTabela() { return this.tabela; }
 
+    public String getDesdobramentoPrazo()
+    {
+        int i = 0;
+
+        for(i = 0; i < this.listaPrazos.size(); i++)
+        {
+            if (this.listaPrazos.get(i).getCodigo() == this.codigoPrazo)
+                break;
+        }
+
+        return i <= this.listaPrazos.size() ? this.listaPrazos.get(i).getDesdobramento() : "--";
+    }
+
     public String selecionarCliente(int posicao)
     {
+        this.venda.setCliente(this.controleClientes.getCliente(posicao));
         this.codigoNatureza = this.controleClientes.getCliente(posicao).getCodigoCliente();
         this.codigoPrazo = this.controleClientes.getCliente(posicao).getCodigoCliente();
 
@@ -323,7 +338,6 @@ public class EfetuarPedidos
         {
             if(this.controleSalvar.verificarSaldo(this.controleConfiguracao.getSaldoAtual()))
             {
-                this.venda = new Venda();
                 this.venda.setItens(this.itensVendidos);
                 this.venda.setValor(Double.parseDouble(String.valueOf(this.valorVendido())));
                 this.venda.setCodigoCliente(this.controleClientes.getCodigoClienteSelecionado());
@@ -350,6 +364,69 @@ public class EfetuarPedidos
                     , Toast.LENGTH_LONG).show();
             return 0;
         }
+    }
+
+    public String buscarDadosVenda(int campo)
+    {
+        //return this.controleClientes.buscarDadosCliente(campo);
+        String retorno;
+        switch (campo)
+        {
+            case R.id.fdcEdtDca :
+                retorno = String.format(this.context.getResources().getString(R.string.str_flex)
+                        , String.valueOf(this.controleConfiguracao.buscarFlex()));
+                break;
+            default:
+                retorno = "--";
+        }
+        return retorno;
+    }
+
+    public String buscarDadosCliente(int campo)
+    {
+        //return this.controleClientes.buscarDadosCliente(campo);
+        String retorno;
+        switch (campo)
+        {
+            case R.id.fdcEdtMedia :
+                retorno = String.format(this.context.getResources().getString(R.string.str_media)
+                    , String.valueOf(this.venda.getCliente().getMediaCompras()));
+                break;
+            case R.id.fdcEdtQuantidade :
+                retorno = String.format(this.context.getResources().getString(R.string.str_qtd)
+                    , String.valueOf(this.venda.getCliente().getMediaIndustrializados()));
+                break;
+            case R.id.fdcEdtLimite :
+                retorno = String.valueOf(this.venda.getCliente().getLimiteCredito());
+                break;
+            case R.id.fdcEdtReal :
+                retorno = String.valueOf(this.venda.getCliente().getRealizado());
+                break;
+            case R.id.fdcEdtMeta :
+                retorno = String.valueOf(this.venda.getCliente().getMetaPeso());
+                break;
+            case R.id.fdcEdtUltima :
+                retorno = this.venda.getCliente().getDataUltimaCompra();
+                break;
+            case R.id.fdcEdtCel :
+                retorno = this.venda.getCliente().getCelular();
+                break;
+            case R.id.fdcEdtFone :
+                retorno = this.venda.getCliente().getTelefone();
+                break;
+            case R.id.fdcEdtEnd :
+                retorno = this.venda.getCliente().getEndereco();
+                break;
+            case R.id.fdcEdtUf :
+                retorno = String.valueOf(this.venda.getCliente().getCodigoCidade());
+                break;
+            case R.id.fdcEdtCidade :
+                retorno = String.valueOf(this.venda.getCliente().getCodigoCidade());
+                break;
+            default:
+                retorno = "--";
+        }
+        return retorno;
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/

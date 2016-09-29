@@ -42,11 +42,11 @@
     <!-- END -->
 
     <!-- Strings da tela dados clientes -->
-    <string name="str_prazo">Prazo: </string>
-    <string name="str_tab">Tabela: </string>
-    <string name="str_flex">DCA: </string>
-    <string name="str_qtd">Quantidade: $1</string>
-    <string name="str_media">Média: $1</string>
+    <string name="str_prazo">Prazo: %1$s</string>
+    <string name="str_tab">Tabela: %1$s</string>
+    <string name="str_flex">DCA: %1$s</string>
+    <string name="str_qtd">Quantidade: %1$s</string>
+    <string name="str_media">Média: %1$s</string>
 
     <string name="lbl_estado">UF: </string>
     <string name="lbl_end">Endereço: </string>

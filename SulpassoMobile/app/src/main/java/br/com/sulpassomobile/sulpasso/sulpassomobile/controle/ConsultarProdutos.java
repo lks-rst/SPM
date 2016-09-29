@@ -78,7 +78,9 @@ public class ConsultarProdutos
     public ArrayList<String> buscarItens(int tabela) throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();
+        /*
         retorno.add("SELECIONE UM ITEM");
+        */
 
         this.listar(tabela);
 

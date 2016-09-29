@@ -87,26 +87,29 @@ public class ConsultarClientes
 
     public Boolean clienteAlteraTabela()
     {
-        Boolean liberado = false;
         try
         {
             Cliente c = this.cda.buscarCliente(this.codigoClienteSelecionado);
 
-            if(!(c.getAlteraPrazo() == 'N'))
-                liberado = true;
+            /*
+            TODO: Alterar o retorno deste item para false (foi modificado para verificação)
+             */
+            if((String.valueOf(c.getAlteraPrazo()).equalsIgnoreCase("N")))
+                return true;
 
-            if(c.getSituacao() == 'B')
-                liberado = false;
+            if(String.valueOf(c.getSituacao()).contentEquals("B"))
+                return false;
 
-            if(c.getEspecial() == 'E')
-                liberado = false;
+            if(String.valueOf(c.getEspecial()).equalsIgnoreCase("E"))
+                return false;
+
+            return true;
         }
         catch (ReadExeption readExeption)
         {
             readExeption.printStackTrace();
-            liberado = false;
+            return false;
         }
-        return liberado;
     }
 
     public int restoreClient()

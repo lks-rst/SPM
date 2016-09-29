@@ -89,9 +89,9 @@ public class DigitacaoItemFragment extends Fragment
         ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
                 .addTextChangedListener(digitacaoAcrescimo);
 
-        ((TextView) (getActivity().findViewById(R.id.fdTxtDados)))
+        ((TextView) (getActivity().findViewById(R.id.fdEdtDados)))
                 .setText(((Pedido) getActivity()).getItem());
-        ((TextView) (getActivity().findViewById(R.id.fdTxtValor)))
+        ((TextView) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setText(((Pedido) getActivity()).getValor());
 
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
@@ -129,7 +129,7 @@ public class DigitacaoItemFragment extends Fragment
 
     private void exibirTotal()
     {
-        ((TextView) (getActivity().findViewById(R.id.fdTxtTotal)))
+        ((TextView) (getActivity().findViewById(R.id.fdEdtTotal)))
                 .setText(((Pedido) getActivity()).calcularTotalItem());
     }
 /**************************************************************************************************/

@@ -238,6 +238,16 @@ public class Pedido extends AppCompatActivity
         }
     }
 
+    public String buscarDadosCliente(int campo)
+    {
+        return this.controlePedido.buscarDadosCliente(campo);
+    }
+
+    public String buscarDadosVenda(int campo)
+    {
+        return this.controlePedido.buscarDadosVenda(campo);
+    }
+
     public Boolean permitirClick(int id) { return this.controlePedido.permitirClick(id); }
 
     public int buscarNatureza()
@@ -256,6 +266,11 @@ public class Pedido extends AppCompatActivity
     {
         this.controlePedido.setPrazo(position);
         return this.controlePedido.getTabela();
+    }
+
+    public String selecionarPrazo()
+    {
+        return this.controlePedido.getDesdobramentoPrazo();
     }
 
     public int itensVendidos() { return this.controlePedido.itensVendidos(); }

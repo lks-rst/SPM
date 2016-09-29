@@ -18,6 +18,7 @@ public class Venda
     private Double valor;
     private Integer tabela;
     private ArrayList<ItensVendidos> itens;
+    private Cliente cliente;
 
     public Venda() { this.itens = new ArrayList<>(); }
 
@@ -64,6 +65,10 @@ public class Venda
     public ArrayList<ItensVendidos> getItens() { return itens; }
 
     public void setItens(ArrayList<ItensVendidos> itens) { this.itens = itens; }
+
+    public Cliente getCliente() { return cliente; }
+
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
 
     @Override
     public String toString()
