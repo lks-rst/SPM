@@ -19,7 +19,8 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoD
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 
 /*
-    TODO: Buscar tabela minima da configuração da venda (118)
+    TODO: Buscar tabela minima da configuração da venda (118);
+    TODO: Remover o campo tabela dessa classe e utilizar diretamente a da classe Venda;
  */
 /**
  * Created by Lucas on 02/08/2016.
@@ -103,13 +104,19 @@ public class EfetuarPedidos
         {
             case R.id.fdcSpnrClientes :
                 click = this.clientIsClicable();
-                break;
+            break;
             case R.id.fdcSpnrNaturezas :
                 click = this.naturezaPrazoIsClicable();
-                break;
+            break;
             case R.id.fdcSpnrPrazos :
                 click = this.naturezaPrazoIsClicable();
-                break;
+            break;
+            case R.id.ffpSpnrNaturezas :
+                click = this.naturezaPrazoIsClicableEnd();
+            break;
+            case R.id.ffpSpnrPrazos :
+                click = this.naturezaPrazoIsClicableEnd();
+            break;
         }
 
         return click;
@@ -166,6 +173,7 @@ public class EfetuarPedidos
             if (p.getCodigo() == this.codigoPrazo)
             {
                 this.tabela = this.listaPrazos.get(this.listaPrazos.indexOf(p)).getTabela();
+                this.venda.setTabela(this.tabela);
                 break;
             }
         }
@@ -189,6 +197,26 @@ public class EfetuarPedidos
             itens += (this.itensVendidos.get(i).toString() + "\n");
 
         return itens;
+    }
+
+    public String cabecahoPedido(int campo)
+    {
+        String valor = "";
+
+        switch (campo)
+        {
+            case R.id.ffpEdtCliente:
+                valor = this.venda.getCliente().toDisplay();
+            break;
+            case R.id.ffpEdtCidade:
+                valor = this.venda.getCliente().toDisplay() + " - CIDADE";
+            break;
+            case R.id.ffpEdtTab:
+                valor = String.valueOf(this.venda.getTabela());
+            break;
+        }
+
+        return valor;
     }
 
     public ArrayList<String> listarItens() throws GenercicException
@@ -267,6 +295,14 @@ public class EfetuarPedidos
 
     public String getUnidadeVenda() { return this.controleDigitacao.getUnidadeVenda(); }
 
+    public String getCodigoBarras() { return this.controleDigitacao.getCodigoBarras(); }
+
+    public String getQtdCaixa() { return this.controleDigitacao.getQtdCaixa(); }
+
+    public String getValorUnitario() { return this.controleDigitacao.getValorUnitario(); }
+
+    public String getMarkup() { return this.controleConfiguracao.getMarkup(); }
+
     public String calcularTotal() { return String.valueOf(this.controleDigitacao.calcularTotal()); }
 
     public void setQuantidade(String quantidade) { this.controleDigitacao.setQuantidade(Integer.parseInt(quantidade)); }
@@ -280,6 +316,15 @@ public class EfetuarPedidos
     public void setDesconto(String desconto) { this.controleDigitacao.setDesconto(Float.parseFloat(desconto));}
 
     public void setAcrescimo(String acrescimo) { this.controleDigitacao.setAcrescimo(Integer.parseInt(acrescimo)); }
+
+    public String calcularPPC(String mkp, String vlr)
+    {
+        float markup = Float.parseFloat(mkp);
+        float valor = Float.parseFloat(vlr);
+        float ppc = valor + (valor * ( markup / 100));
+
+        return String.valueOf(ppc);
+    }
 
     public Boolean confirmarItem()
     {
@@ -488,6 +533,14 @@ public class EfetuarPedidos
         boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
 
         if(clienteLiberado && (this.itensVendidos.size() <= 0)) { return true; }
+        else { return false; }
+    }
+
+    private Boolean naturezaPrazoIsClicableEnd()
+    {
+        boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
+
+        if(clienteLiberado) { return true; }
         else { return false; }
     }
 

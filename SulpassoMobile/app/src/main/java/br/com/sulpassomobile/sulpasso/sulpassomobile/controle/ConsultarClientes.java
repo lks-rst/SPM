@@ -90,7 +90,6 @@ public class ConsultarClientes
         try
         {
             Cliente c = this.cda.buscarCliente(this.codigoClienteSelecionado);
-
             /*
             TODO: Alterar o retorno deste item para false (foi modificado para verificação)
              */

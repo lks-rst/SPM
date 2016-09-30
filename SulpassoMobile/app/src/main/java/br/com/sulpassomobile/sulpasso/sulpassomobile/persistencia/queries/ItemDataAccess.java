@@ -381,7 +381,8 @@ public class ItemDataAccess
         i.setDivisao(Integer.parseInt(item.substring(69, 72)));
         i.setUnidade(item.substring(72, 74));
         i.setUnidadeVenda(item.substring(74, 76));
-        i.setQuantidadeCaixa(Integer.parseInt(item.substring(76, 82)));
+        i.setQuantidadeCaixa(Integer.parseInt(item.substring(76, 82)) / 100);
+        i.setBarras(item.substring(102, 116));
         i.setMinimoVenda(Integer.parseInt(item.substring(82, 86)));
         i.setFaixa(Float.parseFloat(item.substring(86, 90)) / 100);
         i.setPeso(Float.parseFloat(item.substring(90, 96)) / 100);
@@ -457,6 +458,13 @@ public class ItemDataAccess
             saleMap.put("UNVENDA",
                 String.valueOf(c.getString(c.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA))));
+
+            saleMap.put("BARRAS",
+                String.valueOf(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS))));
+            saleMap.put("QTDCAIXA",
+                String.valueOf(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA))));
 
             c.moveToNext();
         }

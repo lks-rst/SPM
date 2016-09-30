@@ -279,6 +279,8 @@ public class Pedido extends AppCompatActivity
 
     public String listarVendidos() { return this.controlePedido.listarVendidos(); }
 
+    public String cabecahoPedido(int campo) { return this.controlePedido.cabecahoPedido(campo); }
+
     public ArrayList<String> listarItens(int tipo, String dados)
     {
         this.controlePedido.indicarTipoBuscaItem(tipo);
@@ -310,6 +312,14 @@ public class Pedido extends AppCompatActivity
 
     public String getQtdMinimaVenda() { return this.controlePedido.getQtdMinimaVenda(); }
 
+    public String getCodigoBarras() { return this.controlePedido.getCodigoBarras(); }
+
+    public String getQtdCaixa() { return this.controlePedido.getQtdCaixa(); }
+
+    public String getValorUnitario() { return this.controlePedido.getValorUnitario(); }
+
+    public String getMarkup() { return this.controlePedido.getMarkup(); }
+
     public String getUnidade() { return this.controlePedido.getUnidade(); }
 
     public String getUnidadeVenda() { return this.controlePedido.getUnidadeVenda(); }
@@ -323,6 +333,8 @@ public class Pedido extends AppCompatActivity
     public void digitarDesconto(String desconto) { this.controlePedido.setDesconto(desconto); }
 
     public void digitarAcrescimo(String acrescimo) { this.controlePedido.setAcrescimo(acrescimo); }
+
+    public String calcularPPC(String mkp, String vlr) { return this.controlePedido.calcularPPC(mkp, vlr); }
 
     public int restoreClient() { return this.controlePedido.restoreClient(); }
 

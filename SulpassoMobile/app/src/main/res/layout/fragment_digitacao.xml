@@ -231,7 +231,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:ems="10"
-                        android:id="@+id/fdEdtQuantidade" />
+                        android:id="@+id/fdEdtQuantidade">
+                        <requestFocus />
+                    </EditText>
                 </LinearLayout>
 
                 <LinearLayout
@@ -306,6 +308,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
+                        android:clickable="false"
+                        android:enabled="false"
                         android:ems="10"
                         android:id="@+id/fdEdtTotal" />
                 </LinearLayout>
@@ -323,7 +327,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight=".1"
+                    android:layout_weight=".15"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/lbl_mrk" />
@@ -333,8 +337,6 @@
                     android:layout_weight=".2"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:enabled="false"
-                    android:clickable="false"
                     android:id="@+id/fdEdtMkp" />
 
                 <TextView
@@ -362,7 +364,7 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_weight=".2"
+                    android:layout_weight=".15"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:enabled="false"

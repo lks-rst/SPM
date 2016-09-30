@@ -104,12 +104,13 @@ public class ListaItensFragment extends Fragment
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            if(position > 0)
-            {
-                ((Pedido) getActivity()).selecionarItem(position - 1);
+//            if(position > 0)
+//            {
+              ((Pedido) getActivity()).selecionarItem(position);
+//                ((Pedido) getActivity()).selecionarItem(position - 1);
 //                ((TextView) getActivity().findViewById(R.id.fliTxtDados)).setText(((Pedido) getActivity()).selecionarItem(position - 1));
 //                ajustarLayout();
-            }
+//            }
         }
     };
 

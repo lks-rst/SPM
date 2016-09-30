@@ -30,8 +30,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:clickable="false"
+                    android:enabled="false"
                     android:ems="10"
-                    android:id="@+id/ffpEdtTotalItens2" />
+                    android:id="@+id/ffpEdtCliente" />
             </LinearLayout>
 
             <LinearLayout
@@ -49,8 +51,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:clickable="false"
+                    android:enabled="false"
                     android:ems="10"
-                    android:id="@+id/ffpEdtTotalItens" />
+                    android:id="@+id/ffpEdtCidade" />
             </LinearLayout>
 
             <Space
@@ -96,13 +100,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.45"
-                    android:id="@+id/fdcSpnrNaturezas" />
+                    android:id="@+id/ffpSpnrNaturezas"
+                    android:layout_gravity="center" />
 
                 <Spinner
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.35"
-                    android:id="@+id/fdcSpnrPrazos" />
+                    android:id="@+id/ffpSpnrPrazos"
+                    android:layout_gravity="center" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -111,7 +117,7 @@
                     android:inputType="number"
                     android:ems="10"
                     android:id="@+id/ffpEdtTab"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="center"
                     android:enabled="false"
                     android:clickable="false"
                     android:hint="@string/str_flex" />
@@ -138,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="10"
-                    android:id="@+id/ffpEdtTotalItens22" />
+                    android:id="@+id/ffpEdtTotalItens" />
             </LinearLayout>
 
             <LinearLayout
@@ -155,7 +161,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:ems="10"
                     android:id="@+id/ffpEdtDesconto" />
             </LinearLayout>
@@ -176,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:ems="10"
-                    android:id="@+id/ffpEdtTotalPedido22" />
+                    android:id="@+id/ffpEdtFrete" />
             </LinearLayout>
 
             <LinearLayout
@@ -203,12 +209,21 @@
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
 
-            <EditText
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="119dp"
-                android:inputType="textMultiLine"
-                android:hint="@string/hnt_obs_pedido"
-                android:id="@+id/editText" />
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/ffpEdtObsCpd"
+                    android:layout_width="match_parent"
+                    android:layout_height="119dp"
+                    android:inputType="textMultiLine"
+                    android:hint="@string/hnt_obs_pedido"
+                    android:imeActionId="@+id/ffpEdtObsCpd"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified" />
+            </android.support.design.widget.TextInputLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -217,14 +232,15 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
 
                 <EditText
-                    android:id="@+id/password2"
+                    android:id="@+id/ffpEdtObsNfe"
                     android:layout_width="match_parent"
                     android:layout_height="119dp"
                     android:hint="@string/hnt_obs_nota"
-                    android:imeActionId="@+id/editText"
+                    android:imeActionId="@+id/ffpEdtObsCpd"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textMultiLine" />
@@ -238,7 +254,7 @@
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fdcSpnrNaturezas2" />
+                android:id="@+id/ffpSpnrJustificativa" />
 
             <Space
                 android:layout_width="match_parent"

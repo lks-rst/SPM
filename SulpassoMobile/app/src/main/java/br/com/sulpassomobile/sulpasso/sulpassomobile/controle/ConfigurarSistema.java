@@ -80,6 +80,11 @@ public class ConfigurarSistema
     {
         return this.getConfiguracao(1);
     }
+
+    public String getMarkup()
+    {
+        return this.getConfiguracao(2);
+    }
     /**
      * Retorna o tipo de modificação de preço possivel para o vendedor, se por alteração do preço
      * real do item ou por desconto percentual aplicado ao item.
@@ -117,6 +122,8 @@ public class ConfigurarSistema
         {
             case 1:
                 return "50.00";
+            case 2:
+                return "40";
             default :
                 return "--";
         }
