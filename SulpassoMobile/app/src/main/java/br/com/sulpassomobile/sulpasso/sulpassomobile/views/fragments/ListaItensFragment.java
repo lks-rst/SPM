@@ -22,7 +22,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.Pedido;
  */
 public class ListaItensFragment extends Fragment
 {
-    private ListView fliSpnrItens;
+    private ListView fliLiItens;
 
     public ListaItensFragment(){}
     /**********************************FRAGMENT LIFE CICLE*********************************************/
@@ -73,8 +73,8 @@ public class ListaItensFragment extends Fragment
      */
     private void setUpLayout()
     {
-        this.fliSpnrItens = (ListView) (getActivity().findViewById(R.id.flibLiItens));
-        this.fliSpnrItens.setOnItemClickListener(selectingItems);
+        this.fliLiItens = (ListView) (getActivity().findViewById(R.id.flibLiItens));
+        this.fliLiItens.setOnItemClickListener(selectingItems);
         this.listarItens();
 
         /*
@@ -85,7 +85,7 @@ public class ListaItensFragment extends Fragment
 
     public void listarItens()
     {
-        this.fliSpnrItens.setAdapter
+        this.fliLiItens.setAdapter
         (
             new ArrayAdapter<String>
             (

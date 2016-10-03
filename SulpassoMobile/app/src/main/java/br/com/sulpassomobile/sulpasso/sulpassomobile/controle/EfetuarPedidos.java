@@ -206,13 +206,22 @@ public class EfetuarPedidos
         switch (campo)
         {
             case R.id.ffpEdtCliente:
+            case R.id.flirEdtCliente :
                 valor = this.venda.getCliente().toDisplay();
             break;
             case R.id.ffpEdtCidade:
+            case R.id.flirEdtCidade :
                 valor = this.venda.getCliente().toDisplay() + " - CIDADE";
             break;
             case R.id.ffpEdtTab:
+            case R.id.flirEdtTabela :
                 valor = String.valueOf(this.venda.getTabela());
+            break;
+            case R.id.flirEdtNaturesa :
+                valor = "NATUREZA";
+            break;
+            case R.id.flirEdtTipo :
+                valor = "PD";
             break;
         }
 
@@ -222,6 +231,18 @@ public class EfetuarPedidos
     public ArrayList<String> listarItens() throws GenercicException
     {
         return this.controleProdutos.buscarItens(this.tabela);
+    }
+
+    public ArrayList<String> listarResumo() throws GenercicException
+    {
+        ArrayList<String> itens = new ArrayList<>();
+
+        for (int i = 0; i < this.venda.getItens().size(); i++)
+        {
+            itens.add(this.venda.getItens().get(i).toDisplay());
+        }
+
+        return itens;
     }
 
     public void indicarTipoBuscaItem(int tipo) { this.controleProdutos.setSearchType(tipo); }

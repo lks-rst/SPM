@@ -22,6 +22,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.DadosClient
 import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.DigitacaoItemFragment;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.FinalizacaoPedidoFragment;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.ListaItensFragment;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.ResumoFragment;
 
 /*
     Todo: Ajustar a forma de transação entre as telas (swipe);
@@ -133,6 +134,8 @@ public class Pedido extends AppCompatActivity
     }
 
     public void selecionarItem(View v) { displayView(3);/*displayView(2);*/ }
+
+    public void abrirResumo(View v) { displayView(4);/*displayView(2);*/ }
 
     public void confirmarDigitacao(View v)
     {
@@ -290,6 +293,16 @@ public class Pedido extends AppCompatActivity
         catch (GenercicException ge)
         {
             Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<String> listarResumo()
+    {
+        try { return this.controlePedido.listarResumo(); }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
             return new ArrayList<>();
         }
     }
@@ -547,6 +560,8 @@ public class Pedido extends AppCompatActivity
                 title += fragTitles[position];
                 break;
             case 4:
+                fragment = new ResumoFragment();
+                title += fragTitles[position];
                 break;
             case 5:
                 break;

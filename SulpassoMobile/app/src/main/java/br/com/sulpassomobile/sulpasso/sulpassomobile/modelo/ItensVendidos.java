@@ -57,7 +57,8 @@ public class ItensVendidos
     public void setTotal(float total) { this.total = total; }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ItensVendidos{" +
                 "item=" + item +
                 ", valorTabela=" + valorTabela +
@@ -69,6 +70,15 @@ public class ItensVendidos
                 ", valorLiquido=" + valorLiquido +
                 ", flex=" + flex +
                 ", total=" + total +
+                '}';
+    }
+
+    public String toDisplay() {
+        return item +
+                " - " + valorTabela +
+                " - " + quantidade +
+                " - " + descontoCG +
+                " - " + total +
                 '}';
     }
 

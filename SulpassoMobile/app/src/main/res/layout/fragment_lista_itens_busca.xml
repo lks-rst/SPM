@@ -18,10 +18,10 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Finalizar Pedido"
+                android:text="Resumo Pedido"
                 android:id="@+id/button2"
                 android:layout_gravity="center_horizontal"
-                android:onClick="selecionarItem" />
+                android:onClick="abrirResumo" />
 
             <LinearLayout
                 android:orientation="horizontal"

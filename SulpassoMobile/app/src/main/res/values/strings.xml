@@ -96,7 +96,7 @@
         <item><b>#</b>LISTA ITENS</item>
         <item><b>#</b>DIGITAÇÃO ITEM</item>
         <item><b>#</b>FINALIZAÇÃO</item>
-        <item><b>#</b>ITENS DO PEDIDO</item>
+        <item><b>#</b>RESUMO ITENS DO PEDIDO</item>
         <item><b>#</b>DADOS ADCIONAIS CLIENTE</item>
     </string-array>
     <!-- END -->
