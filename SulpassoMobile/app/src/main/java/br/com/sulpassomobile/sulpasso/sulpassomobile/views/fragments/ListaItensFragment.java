@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ListView;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.R;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.views.Pedido;
@@ -23,7 +22,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.Pedido;
  */
 public class ListaItensFragment extends Fragment
 {
-    private Spinner fliSpnrItens;
+    private ListView fliLiItens;
 
     public ListaItensFragment(){}
     /**********************************FRAGMENT LIFE CICLE*********************************************/
@@ -38,7 +37,7 @@ public class ListaItensFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_lista_itens, /*container, false*/null);
+        return inflater.inflate(R.layout.fragment_lista_itens_busca, /*container, false*/null);
     }
 
     @Override
@@ -74,30 +73,47 @@ public class ListaItensFragment extends Fragment
      */
     private void setUpLayout()
     {
-        this.fliSpnrItens = (Spinner) (getActivity().findViewById(R.id.fliSpnrItens));
-        this.fliSpnrItens.setOnItemSelectedListener(selectingItem);
+        this.fliLiItens = (ListView) (getActivity().findViewById(R.id.flibLiItens));
+        this.fliLiItens.setOnItemClickListener(selectingItems);
         this.listarItens();
 
-        ((EditText) (getActivity().findViewById(R.id.fliEdtItens)))
+        /*
+        ((EditText) (getActivity().findViewById(R.id.flibEdtSearch)))
                 .setText(String.valueOf(((Pedido) getActivity()).itensVendidos()));
-        ((EditText) (getActivity().findViewById(R.id.fliEdtValor)))
-                .setText(String.valueOf(((Pedido) getActivity()).valorVendido()));
-        ((EditText) (getActivity().findViewById(R.id.fliEdtVolume)))
-                .setText(((Pedido) getActivity()).listarVendidos());
+        */
     }
 
     public void listarItens()
     {
-            this.fliSpnrItens.setAdapter(
-                    new ArrayAdapter<String>(
-                            getActivity().getApplicationContext(),
-                            android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                            ((Pedido) getActivity()).listarItens(0, "")));
+        this.fliLiItens.setAdapter
+        (
+            new ArrayAdapter<String>
+            (
+                getActivity().getApplicationContext(),
+                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+                ((Pedido) getActivity()).listarItens(0, "")
+            )
+        );
     }
 
     public void ajustarLayout() { /*****/ }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
+    private AdapterView.OnItemClickListener selectingItems = new AdapterView.OnItemClickListener()
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+//            if(position > 0)
+//            {
+              ((Pedido) getActivity()).selecionarItem(position);
+//                ((Pedido) getActivity()).selecionarItem(position - 1);
+//                ((TextView) getActivity().findViewById(R.id.fliTxtDados)).setText(((Pedido) getActivity()).selecionarItem(position - 1));
+//                ajustarLayout();
+//            }
+        }
+    };
+
     private AdapterView.OnItemSelectedListener selectingItem = new AdapterView.OnItemSelectedListener()
     {
         @Override

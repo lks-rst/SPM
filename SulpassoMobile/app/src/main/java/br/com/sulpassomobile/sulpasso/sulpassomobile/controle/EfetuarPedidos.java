@@ -19,7 +19,8 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoD
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 
 /*
-    TODO: Buscar tabela minima da configuração da venda (118)
+    TODO: Buscar tabela minima da configuração da venda (118);
+    TODO: Remover o campo tabela dessa classe e utilizar diretamente a da classe Venda;
  */
 /**
  * Created by Lucas on 02/08/2016.
@@ -56,6 +57,7 @@ public class EfetuarPedidos
         this.controleDigitacao = new InserirItemPedidos(this.getConfiguracaoVendaItem());
 
         this.itensVendidos = new ArrayList<>();
+        this.venda = new Venda();
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/
@@ -102,13 +104,19 @@ public class EfetuarPedidos
         {
             case R.id.fdcSpnrClientes :
                 click = this.clientIsClicable();
-                break;
+            break;
             case R.id.fdcSpnrNaturezas :
                 click = this.naturezaPrazoIsClicable();
-                break;
+            break;
             case R.id.fdcSpnrPrazos :
                 click = this.naturezaPrazoIsClicable();
-                break;
+            break;
+            case R.id.ffpSpnrNaturezas :
+                click = this.naturezaPrazoIsClicableEnd();
+            break;
+            case R.id.ffpSpnrPrazos :
+                click = this.naturezaPrazoIsClicableEnd();
+            break;
         }
 
         return click;
@@ -116,8 +124,22 @@ public class EfetuarPedidos
 
     public int getTabela() { return this.tabela; }
 
+    public String getDesdobramentoPrazo()
+    {
+        int i = 0;
+
+        for(i = 0; i < this.listaPrazos.size(); i++)
+        {
+            if (this.listaPrazos.get(i).getCodigo() == this.codigoPrazo)
+                break;
+        }
+
+        return i <= this.listaPrazos.size() ? this.listaPrazos.get(i).getDesdobramento() : "--";
+    }
+
     public String selecionarCliente(int posicao)
     {
+        this.venda.setCliente(this.controleClientes.getCliente(posicao));
         this.codigoNatureza = this.controleClientes.getCliente(posicao).getCodigoCliente();
         this.codigoPrazo = this.controleClientes.getCliente(posicao).getCodigoCliente();
 
@@ -151,6 +173,7 @@ public class EfetuarPedidos
             if (p.getCodigo() == this.codigoPrazo)
             {
                 this.tabela = this.listaPrazos.get(this.listaPrazos.indexOf(p)).getTabela();
+                this.venda.setTabela(this.tabela);
                 break;
             }
         }
@@ -176,9 +199,50 @@ public class EfetuarPedidos
         return itens;
     }
 
+    public String cabecahoPedido(int campo)
+    {
+        String valor = "";
+
+        switch (campo)
+        {
+            case R.id.ffpEdtCliente:
+            case R.id.flirEdtCliente :
+                valor = this.venda.getCliente().toDisplay();
+            break;
+            case R.id.ffpEdtCidade:
+            case R.id.flirEdtCidade :
+                valor = this.venda.getCliente().toDisplay() + " - CIDADE";
+            break;
+            case R.id.ffpEdtTab:
+            case R.id.flirEdtTabela :
+                valor = String.valueOf(this.venda.getTabela());
+            break;
+            case R.id.flirEdtNaturesa :
+                valor = "NATUREZA";
+            break;
+            case R.id.flirEdtTipo :
+                valor = "PD";
+            break;
+        }
+
+        return valor;
+    }
+
     public ArrayList<String> listarItens() throws GenercicException
     {
         return this.controleProdutos.buscarItens(this.tabela);
+    }
+
+    public ArrayList<String> listarResumo() throws GenercicException
+    {
+        ArrayList<String> itens = new ArrayList<>();
+
+        for (int i = 0; i < this.venda.getItens().size(); i++)
+        {
+            itens.add(this.venda.getItens().get(i).toDisplay());
+        }
+
+        return itens;
     }
 
     public void indicarTipoBuscaItem(int tipo) { this.controleProdutos.setSearchType(tipo); }
@@ -252,6 +316,14 @@ public class EfetuarPedidos
 
     public String getUnidadeVenda() { return this.controleDigitacao.getUnidadeVenda(); }
 
+    public String getCodigoBarras() { return this.controleDigitacao.getCodigoBarras(); }
+
+    public String getQtdCaixa() { return this.controleDigitacao.getQtdCaixa(); }
+
+    public String getValorUnitario() { return this.controleDigitacao.getValorUnitario(); }
+
+    public String getMarkup() { return this.controleConfiguracao.getMarkup(); }
+
     public String calcularTotal() { return String.valueOf(this.controleDigitacao.calcularTotal()); }
 
     public void setQuantidade(String quantidade) { this.controleDigitacao.setQuantidade(Integer.parseInt(quantidade)); }
@@ -265,6 +337,15 @@ public class EfetuarPedidos
     public void setDesconto(String desconto) { this.controleDigitacao.setDesconto(Float.parseFloat(desconto));}
 
     public void setAcrescimo(String acrescimo) { this.controleDigitacao.setAcrescimo(Integer.parseInt(acrescimo)); }
+
+    public String calcularPPC(String mkp, String vlr)
+    {
+        float markup = Float.parseFloat(mkp);
+        float valor = Float.parseFloat(vlr);
+        float ppc = valor + (valor * ( markup / 100));
+
+        return String.valueOf(ppc);
+    }
 
     public Boolean confirmarItem()
     {
@@ -323,7 +404,6 @@ public class EfetuarPedidos
         {
             if(this.controleSalvar.verificarSaldo(this.controleConfiguracao.getSaldoAtual()))
             {
-                this.venda = new Venda();
                 this.venda.setItens(this.itensVendidos);
                 this.venda.setValor(Double.parseDouble(String.valueOf(this.valorVendido())));
                 this.venda.setCodigoCliente(this.controleClientes.getCodigoClienteSelecionado());
@@ -350,6 +430,69 @@ public class EfetuarPedidos
                     , Toast.LENGTH_LONG).show();
             return 0;
         }
+    }
+
+    public String buscarDadosVenda(int campo)
+    {
+        //return this.controleClientes.buscarDadosCliente(campo);
+        String retorno;
+        switch (campo)
+        {
+            case R.id.fdcEdtDca :
+                retorno = String.format(this.context.getResources().getString(R.string.str_flex)
+                        , String.valueOf(this.controleConfiguracao.buscarFlex()));
+                break;
+            default:
+                retorno = "--";
+        }
+        return retorno;
+    }
+
+    public String buscarDadosCliente(int campo)
+    {
+        //return this.controleClientes.buscarDadosCliente(campo);
+        String retorno;
+        switch (campo)
+        {
+            case R.id.fdcEdtMedia :
+                retorno = String.format(this.context.getResources().getString(R.string.str_media)
+                    , String.valueOf(this.venda.getCliente().getMediaCompras()));
+                break;
+            case R.id.fdcEdtQuantidade :
+                retorno = String.format(this.context.getResources().getString(R.string.str_qtd)
+                    , String.valueOf(this.venda.getCliente().getMediaIndustrializados()));
+                break;
+            case R.id.fdcEdtLimite :
+                retorno = String.valueOf(this.venda.getCliente().getLimiteCredito());
+                break;
+            case R.id.fdcEdtReal :
+                retorno = String.valueOf(this.venda.getCliente().getRealizado());
+                break;
+            case R.id.fdcEdtMeta :
+                retorno = String.valueOf(this.venda.getCliente().getMetaPeso());
+                break;
+            case R.id.fdcEdtUltima :
+                retorno = this.venda.getCliente().getDataUltimaCompra();
+                break;
+            case R.id.fdcEdtCel :
+                retorno = this.venda.getCliente().getCelular();
+                break;
+            case R.id.fdcEdtFone :
+                retorno = this.venda.getCliente().getTelefone();
+                break;
+            case R.id.fdcEdtEnd :
+                retorno = this.venda.getCliente().getEndereco();
+                break;
+            case R.id.fdcEdtUf :
+                retorno = String.valueOf(this.venda.getCliente().getCodigoCidade());
+                break;
+            case R.id.fdcEdtCidade :
+                retorno = String.valueOf(this.venda.getCliente().getCodigoCidade());
+                break;
+            default:
+                retorno = "--";
+        }
+        return retorno;
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/
@@ -411,6 +554,14 @@ public class EfetuarPedidos
         boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
 
         if(clienteLiberado && (this.itensVendidos.size() <= 0)) { return true; }
+        else { return false; }
+    }
+
+    private Boolean naturezaPrazoIsClicableEnd()
+    {
+        boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
+
+        if(clienteLiberado) { return true; }
         else { return false; }
     }
 

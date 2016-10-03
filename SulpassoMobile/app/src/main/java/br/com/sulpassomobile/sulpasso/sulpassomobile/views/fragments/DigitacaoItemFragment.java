@@ -19,6 +19,9 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.Pedido;
     Todo: Apresenta os dados de venda do item na tela;
     Todo: Criar função para verificação do saldo / contribuição;
     Todo: Criar função de solicitação de senha;
+    Todo: Verificar valor total na inicialização do fragmento;
+    Todo: Carregar PPC na inicialização do fragmento;
+    Todo: Carregar contribuição;
  */
 
 /**
@@ -80,6 +83,36 @@ public class DigitacaoItemFragment extends Fragment
      */
     private void setUpLayout()
     {
+        /*
+        Inserção dos valores nos campos
+         */
+        ((TextView) (getActivity().findViewById(R.id.fdEdtDados)))
+                .setText(((Pedido) getActivity()).getItem());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                .setText(((Pedido) getActivity()).getValor());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnidade)))
+                .setText(((Pedido) getActivity()).getUnidade());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnVda)))
+                .setText(((Pedido) getActivity()).getUnidadeVenda());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtQtdVda)))
+                .setText(((Pedido) getActivity()).getQtdMinimaVenda());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtBarras)))
+                .setText(((Pedido) getActivity()).getCodigoBarras());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtQtdCaixa)))
+                .setText(((Pedido) getActivity()).getQtdCaixa());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnitario)))
+                .setText(((Pedido) getActivity()).getValorUnitario());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtMkp)))
+                .setText(((Pedido) getActivity()).getMarkup());
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
+                .setHint("0");
+        ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
+                .setHint("0");
+
+        /*
+        Indicação de calbacks de escuta a alteração de valores nos campos
+         */
         ((EditText) (getActivity().findViewById(R.id.fdEdtQuantidade)))
                 .addTextChangedListener(digitacaoQuantidade);
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
@@ -88,28 +121,12 @@ public class DigitacaoItemFragment extends Fragment
                 .addTextChangedListener(digitacaoDesconto);
         ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
                 .addTextChangedListener(digitacaoAcrescimo);
+        ((EditText) (getActivity().findViewById(R.id.fdEdtMkp)))
+                .addTextChangedListener(alteracaoMkp);
 
-        ((TextView) (getActivity().findViewById(R.id.fdTxtDados)))
-                .setText(((Pedido) getActivity()).getItem());
-        ((TextView) (getActivity().findViewById(R.id.fdTxtValor)))
-                .setText(((Pedido) getActivity()).getValor());
-
-        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
-                .setText(((Pedido) getActivity()).getValor());
-
-
-        ((EditText) (getActivity().findViewById(R.id.fdEdtUnidade)))
-                .setText(((Pedido) getActivity()).getUnidade());
-        ((EditText) (getActivity().findViewById(R.id.fdEdtUnVda)))
-                .setText(((Pedido) getActivity()).getUnidadeVenda());
-        ((EditText) (getActivity().findViewById(R.id.fdEdtQtdVda)))
-                .setText(((Pedido) getActivity()).getQtdMinimaVenda());
-
-        ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
-                .setHint("0");
-        ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
-                .setHint("0");
-
+        /*
+        Bloqueio ou liberação de campos da tela de acordo com as configurações da venda
+         */
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setEnabled(((Pedido) getActivity()).alteraValor("v"));
         ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
@@ -129,7 +146,7 @@ public class DigitacaoItemFragment extends Fragment
 
     private void exibirTotal()
     {
-        ((TextView) (getActivity().findViewById(R.id.fdTxtTotal)))
+        ((TextView) (getActivity().findViewById(R.id.fdEdtTotal)))
                 .setText(((Pedido) getActivity()).calcularTotalItem());
     }
 /**************************************************************************************************/
@@ -203,6 +220,29 @@ public class DigitacaoItemFragment extends Fragment
                 ((Pedido) getActivity()).digitarAcrescimo(s.toString());
 
             exibirTotal();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) { /*****/ }
+    };
+
+    private TextWatcher alteracaoMkp = new TextWatcher()
+    {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { /*****/ }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            if(s.toString().length() > 0 && s.toString().indexOf('.') != (s.toString().length() - 1))
+            {
+                ((EditText) (getActivity().findViewById(R.id.fdEdtPpc)))
+                    .setText(((Pedido) getActivity()).calcularPPC
+                    (
+                        ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).getText().toString(),
+                        ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString()
+                    ));
+            }
         }
 
         @Override

@@ -452,6 +452,22 @@ public class ClienteDataAccess
                     c.getInt(c.getColumnIndex(
                     br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA)));
 
+            cliente.setMetaPeso(
+                    c.getInt(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.METAPESO)));
+            cliente.setMediaCompras(
+                    c.getInt(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.MEDIA)));
+            cliente.setRealizado(
+                    c.getInt(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.REALIZADO)));
+            cliente.setLimiteCredito(
+                    c.getInt(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.LIMITE)));
+            cliente.setDataUltimaCompra(
+                    c.getString(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ULTIMA)));
+
             lista.add(cliente);
             c.moveToNext();
         }

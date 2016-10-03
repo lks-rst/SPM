@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SulpassoMobile</string>
     <string name="title_activity_login">Login</string>
+    <!-- END -->
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -14,24 +15,94 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <!-- END -->
 
     <!-- Strings da tela de digitação -->
     <string name="str_minimo">Minimo</string>
     <string name="str_promocao">Promoções</string>
     <string name="str_tabela">Valor Tabela</string>
 
-    <!-- Strings titulos fragments tela de padidos -->
+    <string name="lbl_un">UN.: </string>
+    <string name="lbl_uv">UN. V.: </string>
+    <string name="lbl_estoque">Estoque: </string>
+    <string name="lbl_barras">C. Barras: </string>
+    <string name="str_unitario">Valor Unitário: </string>
+    <string name="str_desc_item">Desc. Item: </string>
+    <string name="str_val_cli">Val. Especial: </string>
+    <string name="lbl_qtd_caixa">Qtd. Caixa: </string>
+    <string name="lbl_qtd_vda">Qtd. Venda: </string>
+    <string name="lbl_qtd">Quantidade: </string>
+    <string name="lbl_val">Valor: </string>
+    <string name="lbl_desc">Desconto(%): </string>
+    <string name="lbl_acre">Acréscimo(%): </string>
+    <string name="lbl_total">Total R($): </string>
+    <string name="lbl_mrk">Markup %: </string>
+    <string name="lbl_ppc">PPC: </string>
+    <string name="lbl_cont">CONT.: </string>
+    <!-- END -->
+
+    <!-- Strings da tela dados clientes -->
+    <string name="str_prazo">Prazo: %1$s</string>
+    <string name="str_tab">Tabela: %1$s</string>
+    <string name="str_flex">DCA: %1$s</string>
+    <string name="str_qtd">Quantidade: %1$s</string>
+    <string name="str_media">Média: %1$s</string>
+
+    <string name="lbl_estado">UF: </string>
+    <string name="lbl_end">Endereço: </string>
+    <string name="lbl_fone">Telefone: </string>
+    <string name="lbl_cel">Celular: </string>
+    <string name="lbl_ultima">Ult Comp: </string>
+    <string name="lbl_meta">Meta: </string>
+    <string name="lbl_realizado">Realizado: </string>
+    <string name="lbl_credito">Crédito: </string>
+
+    <string name="lbl_cidade">Cidade: </string><!-- Também usada na finalização do pedido -->
+    <!-- END -->
+
+    <!-- Strings da tela de busca itens -->
+    <string name="str_busca">Digite o item de busca: </string>
+    <string name="btn_serach">Pesq.: </string>
+    <!-- END -->
+
+    <!-- Strings da tela resumo -->
+    <string name="str_itens">Qtd.: </string>
+    <string name="str_valor">Val.: </string>
+    <string name="str_contribuicao">Con.: </string>
+    <string name="str_volume">Vol.: </string>
+    <!-- END -->
+
+    <!-- Strings da tela finalização -->
+    <string name="lbl_total_itens">Total dos Itens: </string>
+    <string name="lbl_valor_total">Total da Venda: </string>
+    <string name="lbl_desconto">Desconto: </string>
+    <string name="lbl_acrescimo">Frete: </string>
+    <string name="lbl_cli">Cliente: </string>
+    <string name="lbl_natureza">NATUREZA </string>
+    <string name="lbl_prazo">PRAZO </string>
+    <string name="lbl_tabela">TABELA </string>
+
+    <string name="hnt_obs_pedido">Informações para o CPD</string>
+    <string name="hnt_obs_nota">Observação impressa na NFE</string>
+    <string name="hnt_obs_desconto">Justificativa para desconto no pedido</string>
+
+    <string name="hnt_zero">0,00</string>
+    <!-- END -->
+
+    <!-- Strings titulos fragments tela de pedidos -->
     <string name="telaPedido">PEDIDO</string>
     <string-array name="fragTitles">
         <item><b>#</b>INICIO</item>
         <item><b>#</b>LISTA ITENS</item>
         <item><b>#</b>DIGITAÇÃO ITEM</item>
         <item><b>#</b>FINALIZAÇÃO</item>
-        <item><b>#</b>ITENS DO PEDIDO</item>
+        <item><b>#</b>RESUMO ITENS DO PEDIDO</item>
         <item><b>#</b>DADOS ADCIONAIS CLIENTE</item>
     </string-array>
+    <!-- END -->
 
     <!-- Strings mensagens de erro -->
     <string name="sem_promocoes">Não foram encontradas promoções para esse item</string>
+    <!-- END -->
 
 </resources>

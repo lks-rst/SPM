@@ -66,6 +66,12 @@ public class InserirItemPedidos
 
     public String getUnidadeVenda() { return this.buscarDadosVendaItem(5); }
 
+    public String getCodigoBarras() { return this.buscarDadosVendaItem(6); }
+
+    public String getQtdCaixa() { return this.buscarDadosVendaItem(7); }
+
+    public String getValorUnitario() { return this.buscarDadosVendaItem(8); }
+
     public float calcularTotal()
     {
         return (this.valor
@@ -127,6 +133,19 @@ public class InserirItemPedidos
                 return this.dadosVendaItem.get("UNIDADE");
             case 5 :
                 return this.dadosVendaItem.get("UNVENDA");
+            case 6 :
+                return this.dadosVendaItem.get("BARRAS");
+            case 7 :
+                return this.dadosVendaItem.get("QTDCAIXA");
+            case 8 :
+                float quantidade = Float.parseFloat(this.dadosVendaItem.get("QTDCAIXA"));
+                float valor = Float.parseFloat(this.dadosVendaItem.get("TABELA"));
+                float unitario = 0;
+
+                try { unitario = quantidade > 0 ? (valor / quantidade) : valor; }
+                catch (Exception e){ unitario = valor; }
+
+                return String.valueOf(unitario);
             default :
                 return "--";
         }

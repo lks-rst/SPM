@@ -101,6 +101,31 @@ public class DadosClienteFragment extends Fragment
         this.fdcSpnrNaturezas.setEnabled(this.activity.permitirClick(R.id.fdcSpnrNaturezas));
         this.fdcSpnrPrazos.setClickable(this.activity.permitirClick(R.id.fdcSpnrPrazos));
         this.fdcSpnrPrazos.setEnabled(this.activity.permitirClick(R.id.fdcSpnrPrazos));
+
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtCidade)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtCidade));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtUf)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtUf));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtEnd)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtEnd));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtFone)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtFone));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtCel)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtCel));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtUltima)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtUltima));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtMeta)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtMeta));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtReal)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtReal));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtLimite)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtLimite));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtQuantidade)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtQuantidade));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtMedia)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtMedia));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtDca)))
+                .setText(activity.buscarDadosVenda(R.id.fdcEdtDca));
     }
 
     public void ajustarPrazos(int posicao)
@@ -169,7 +194,12 @@ public class DadosClienteFragment extends Fragment
                 break;
                 case R.id.fdcSpnrPrazos :
                     ((EditText) getActivity().findViewById(R.id.fdcEdtTabela))
-                            .setText(String.valueOf(activity.selecionarPrazo(position)));
+                        .setText(String.format(activity.getApplicationContext()
+                        .getResources().getString(R.string.str_tab)
+                        , String.valueOf(String.valueOf(activity.selecionarPrazo(position)))));
+                    ((EditText) getActivity().findViewById(R.id.fdcEdtPrazo)).setText(String.format
+                            (activity.getApplicationContext().getResources()
+                            .getString(R.string.str_prazo), activity.selecionarPrazo()));
                 break;
             }
         }
