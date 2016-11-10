@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SulpassoMobile</string>
     <string name="title_activity_login">Login</string>
+    <string name="empty"></string>
     <!-- END -->
 
     <!-- Strings related to login -->
@@ -101,8 +102,41 @@
     </string-array>
     <!-- END -->
 
+    <!-- Strings da tela de atualização -->
+    <string name="tab"> </string>
+
+    <!-- END -->
+
     <!-- Strings mensagens de erro -->
     <string name="sem_promocoes">Não foram encontradas promoções para esse item</string>
+    <!-- END -->
+
+    <!-- Strings menus -->
+    <string name="menu_clientes">CLIENTES</string>
+    <string name="menu_clientes_a">Agenda</string>
+    <string name="menu_clientes_v">Visita</string>
+    <string name="menu_clientes_t">Todos</string>
+    <string name="menu_clientes_c">Cidade</string>
+    <string name="menu_clientes_r">Razão Social</string>
+    <string name="menu_clientes_f">Nome Fantasia</string>
+
+    <string name="menu_itens">ITENS</string>
+    <string name="menu_itens_descI">Descrição (Inicio)</string>
+    <string name="menu_itens_r">Referencia</string>
+    <string name="menu_itens_g">Grupo</string>
+    <string name="menu_itens_s">Sub Grupo</string>
+    <string name="menu_itens_d">Divisão</string>
+    <string name="menu_itens_p">Pre Pedido</string>
+    <string name="menu_itens_gr">Gravosos</string>
+    <string name="menu_itens_m">Mix Ideal</string>
+    <string name="menu_itens_desc">Descrição</string>
+
+    <string name="menu_inicial_p">Pedido</string>
+    <string name="menu_inicial_co">Consultas</string>
+    <string name="menu_inicial_ca">Cadastro</string>
+    <string name="menu_inicial_ag">Agenda</string>
+    <string name="menu_inicial_at">Atualização</string>
+    <string name="menu_inicial_s">Sair</string>
     <!-- END -->
 
 </resources>

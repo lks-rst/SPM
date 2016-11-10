@@ -13,7 +13,8 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Preco;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
 
 /**
- * Created by Lucas on 15/08/2016.
+ * Created by Lucas on 15/08/2016 - 17:55 as part of the project SulpassoMobile.
+ *
  */
 public class PrecoDataAccess
 {
@@ -55,7 +56,7 @@ public class PrecoDataAccess
     private Boolean insertPreco(Preco preco) throws InsertionExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("Insert into ");
+        this.sBuilder.append("Insert or replace into ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
         this.sBuilder.append("(");

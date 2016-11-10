@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/clientes"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_clientes">
+        <menu>
+            <item
+                android:id="@+id/clientes_agenda"
+                android:title="@string/menu_clientes_a">
+            </item>
+            <item
+                android:id="@+id/clientes_visita"
+                android:title="@string/menu_clientes_v">
+            </item>
+            <item
+                android:id="@+id/clientes_todos"
+                android:title="@string/menu_clientes_t">
+            </item>
+            <item
+                android:id="@+id/clientes_cidade"
+                android:title="@string/menu_clientes_c">
+            </item>
+            <item
+                android:id="@+id/clientes_razao"
+                android:title="@string/menu_clientes_r">
+            </item>
+            <item
+                android:id="@+id/clientes_fantasia"
+                android:title="@string/menu_clientes_f">
+            </item>
+        </menu>
+    </item>
+</menu>

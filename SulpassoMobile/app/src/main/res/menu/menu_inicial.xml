@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/inicial_pedidos"
+        android:showAsAction="always"
+        android:title="@string/menu_inicial_p">
+    </item>
+    <item
+        android:id="@+id/inicial_clientes"
+        android:showAsAction="never"
+        android:title="@string/menu_inicial_ca">
+    </item>
+    <item
+        android:id="@+id/inicial_agenda"
+        android:showAsAction="never"
+        android:title="@string/menu_inicial_ag">
+    </item>
+    <item
+        android:id="@+id/inicial_consultas"
+        android:showAsAction="always"
+        android:title="@string/menu_inicial_co">
+    </item>
+    <item
+        android:id="@+id/inicial_atualizar"
+        android:showAsAction="never"
+        android:title="@string/menu_inicial_at">
+    </item>
+    <item
+        android:id="@+id/inicial_sair"
+        android:showAsAction="never"
+        android:title="@string/menu_inicial_s">
+    </item>
+</menu>
