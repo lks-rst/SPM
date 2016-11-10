@@ -70,7 +70,7 @@ public class ClienteDataAccess
     private Boolean insertCliente(Cliente cliente) throws InsertionExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("Insert into ");
+        this.sBuilder.append("Insert or replace into ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
         this.sBuilder.append("(");

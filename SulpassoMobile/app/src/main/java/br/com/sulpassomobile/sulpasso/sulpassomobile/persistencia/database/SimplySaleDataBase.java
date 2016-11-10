@@ -7,14 +7,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Banco;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Estoque;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Natureza;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.TiposVenda;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Venda;
 
 /**
@@ -39,6 +45,12 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
         this.scriptSQLCreate.add(ItensVendidos.CriarTabela());
         this.scriptSQLCreate.add(Venda.CriarTabela());
         this.scriptSQLCreate.add(Promocao.CriarTabela());
+        this.scriptSQLCreate.add(Cidade.CriarTabela());
+        this.scriptSQLCreate.add(Banco.CriarTabela());
+        this.scriptSQLCreate.add(TiposVenda.CriarTabela());
+        this.scriptSQLCreate.add(Grupo.CriarTabela());
+        this.scriptSQLCreate.add(CampanhaGrupo.CriarTabela());
+        this.scriptSQLCreate.add(CampanhaProduto.CriarTabela());
     }
 
     /**

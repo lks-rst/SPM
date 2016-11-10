@@ -17,6 +17,9 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.Simpl
 /**
  * Created by Lucas on 15/08/2016.
  */
+/*
+    TODO: Verificar se remove a parte de busca e insercao dos itens vendidos dessa classe para uma especializada
+ */
 public class VendaDataAccess
 {
     private Context ctx;
@@ -237,7 +240,7 @@ public class VendaDataAccess
     private boolean insertItens(ArrayList<ItensVendidos> itens, int pedido) throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("Insert into ");
+        this.sBuilder.append("Insert or replace into ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
         this.sBuilder.append("(");

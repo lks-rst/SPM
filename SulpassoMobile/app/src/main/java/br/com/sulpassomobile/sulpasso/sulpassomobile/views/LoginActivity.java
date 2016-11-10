@@ -252,7 +252,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 // Show primary email addresses first. Note that there won't be
                 // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
+                ContactsContract.Contacts.Data.IS_PRIMARY + " NATUREZA");
     }
 
     @Override

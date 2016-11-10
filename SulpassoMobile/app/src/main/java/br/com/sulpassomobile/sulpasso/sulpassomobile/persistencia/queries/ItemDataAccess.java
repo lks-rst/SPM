@@ -74,7 +74,7 @@ public class ItemDataAccess
     private Boolean insert(Item item) throws InsertionExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("Insert into ");
+        this.sBuilder.append("Insert or replace into ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
         this.sBuilder.append("(");

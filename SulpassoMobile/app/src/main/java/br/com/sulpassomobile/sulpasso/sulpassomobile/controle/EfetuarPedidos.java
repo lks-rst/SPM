@@ -211,7 +211,7 @@ public class EfetuarPedidos
             break;
             case R.id.ffpEdtCidade:
             case R.id.flirEdtCidade :
-                valor = this.venda.getCliente().toDisplay() + " - CIDADE";
+                valor = this.venda.getCliente().toDisplay() + " - PRODUTO";
             break;
             case R.id.ffpEdtTab:
             case R.id.flirEdtTabela :

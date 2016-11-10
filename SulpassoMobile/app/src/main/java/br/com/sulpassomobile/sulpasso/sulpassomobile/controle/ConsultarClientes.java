@@ -41,7 +41,7 @@ public class ConsultarClientes
     public ArrayList<String> exibirLista() throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();
-        retorno.add("SELECIONE UM CLIENTE");
+        retorno.add("SELECIONE UM NATUREZA");
 
         this.listarClientes();
         for(Cliente c : this.lista) { retorno.add(c.toDisplay()); }
