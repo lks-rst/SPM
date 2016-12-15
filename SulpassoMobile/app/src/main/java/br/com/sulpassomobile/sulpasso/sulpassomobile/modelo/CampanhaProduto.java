@@ -27,4 +27,34 @@ public class CampanhaProduto
     public List<Integer> getItens() { return itens; }
 
     public void setItens(List<Integer> itens) { this.itens = itens; }
+
+    @Override
+    public String toString()
+    {
+        return "CampanhaProduto{" +
+                "codigo=" + codigo +
+                ", quantidade=" + quantidade +
+                ", desconto=" + desconto +
+                ", itens=" + itens +
+                '}';
+    }
+
+    public String toDisplay()
+    {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.delete(0, sBuilder.length());
+
+        for(Integer i : this.itens)
+        {
+            sBuilder.append(codigo);
+            sBuilder.append(" - ");
+            sBuilder.append(i);
+            sBuilder.append(" Qtd.:");
+            sBuilder.append(quantidade);
+            sBuilder.append(" Desc.:");
+            sBuilder.append(desconto);
+        }
+
+        return sBuilder.toString();
+    }
 }

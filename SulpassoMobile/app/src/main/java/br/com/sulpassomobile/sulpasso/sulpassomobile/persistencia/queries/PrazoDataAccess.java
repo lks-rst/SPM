@@ -89,13 +89,11 @@ public class PrazoDataAccess
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
-        /*
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
         this.sBuilder.append(" WHERE ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
-        this.sBuilder.append(" LIKE '000-000-000-000'");
-        */
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
+        this.sBuilder.append(" NOT LIKE '000-000-000-000'");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -128,11 +126,11 @@ public class PrazoDataAccess
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
         this.sBuilder.append(" WHERE ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
-        this.sBuilder.append(" NOT LIKE '000-000-000-000'");
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
+        this.sBuilder.append(" LIKE '000-000-000-000'");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

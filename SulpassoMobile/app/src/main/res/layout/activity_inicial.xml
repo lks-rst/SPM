@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,57 +9,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.com.sulpassomobile.sulpasso.sulpassomobile.views.Inicial">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/vendas"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <LinearLayout
-        android:orientation="vertical"
+    <fragment
+        android:id="@+id/fragDesenv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/vendas"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        class="br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.InicialCliente" />
 
-        <!--   style="@android:style/Widget.ProgressBar.Horizontal"       -->
+    <FrameLayout
+        android:id="@+id/fragmentInicial"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.6" >
+    </FrameLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/empty"
-            android:id="@+id/textProgressOne"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"/>
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_vertical_margin"
-            android:id="@+id/progress_bar_full"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/empty"
-            android:id="@+id/textProgressTwo"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp" />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_vertical_margin"
-            android:id="@+id/progress_bar_pw" />
-
-    </LinearLayout>
-</RelativeLayout>
+    <fragment
+        android:id="@+id/fragEmp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        class="br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.IncialDesenvolvedor" />
+</LinearLayout>

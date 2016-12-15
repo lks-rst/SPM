@@ -10,6 +10,7 @@ import java.util.List;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.ReadExeption;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Cliente;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ContasReceber;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
 
@@ -39,6 +40,8 @@ public class ContasReceberDataAccess
     public Boolean insert(String data) throws GenercicException { return this.insert(this.dataConverter(data)); }
 
     public Boolean insert(ContasReceber conta) throws GenercicException { return this.inserirGrupo(conta); }
+
+    public ArrayList<Cliente> buscarContas() throws GenercicException { return  this.buscarContasClientes(); }
 
     private ContasReceber dataConverter(String data)
     {
@@ -171,6 +174,59 @@ public class ContasReceberDataAccess
                     br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.TIPO)));
 
             lista.add(conta);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList<Cliente> buscarContasClientes() throws GenercicException
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT DISTINCT (");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.CLIENTE);
+        this.sBuilder.append("), ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(" ORDER BY ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Cliente cliente = new Cliente();
+
+            cliente.setCodigoCliente(c.getInt(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.CLIENTE)));
+            cliente.setFantasia(c.getString(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
+            cliente.setRazao(c.getString(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
+
+            cliente.setContas(this.getByData(cliente.getCodigoCliente()));
+
+            lista.add(cliente);
             c.moveToNext();
         }
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.R;
@@ -86,10 +87,13 @@ public class DigitacaoItemFragment extends Fragment
         /*
         Inserção dos valores nos campos
          */
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                .setText("0");
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                .setText("0");
         ((TextView) (getActivity().findViewById(R.id.fdEdtDados)))
                 .setText(((Pedido) getActivity()).getItem());
-        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
-                .setText(((Pedido) getActivity()).getValor());
         ((EditText) (getActivity().findViewById(R.id.fdEdtUnidade)))
                 .setText(((Pedido) getActivity()).getUnidade());
         ((EditText) (getActivity().findViewById(R.id.fdEdtUnVda)))
@@ -104,7 +108,6 @@ public class DigitacaoItemFragment extends Fragment
                 .setText(((Pedido) getActivity()).getValorUnitario());
         ((EditText) (getActivity().findViewById(R.id.fdEdtMkp)))
                 .setText(((Pedido) getActivity()).getMarkup());
-
         ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
                 .setHint("0");
         ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
@@ -124,24 +127,42 @@ public class DigitacaoItemFragment extends Fragment
         ((EditText) (getActivity().findViewById(R.id.fdEdtMkp)))
                 .addTextChangedListener(alteracaoMkp);
 
+
+        /******************************************************************************************/
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                .setText(((Pedido) getActivity()).getValor());
+        /******************************************************************************************/
+
         /*
         Bloqueio ou liberação de campos da tela de acordo com as configurações da venda
          */
-        ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+        ((getActivity().findViewById(R.id.fdEdtValor)))
                 .setEnabled(((Pedido) getActivity()).alteraValor("v"));
-        ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo)))
-                .setEnabled(!(((Pedido) getActivity()).alteraValor("d")));
-        ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto)))
-                .setEnabled(!(((Pedido) getActivity()).alteraValor("a")));
+        ((getActivity().findViewById(R.id.fdEdtAcrescimo)))
+                .setEnabled((((Pedido) getActivity()).alteraValor("a")));
+        ((getActivity().findViewById(R.id.fdEdtDesconto)))
+                .setEnabled((((Pedido) getActivity()).alteraValor("d")));
 
-        ((Button) (getActivity().findViewById(R.id.fdBtnMinimos)))
+        ((LinearLayout) ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo))).getParent())
+                .setVisibility(((((Pedido) getActivity()).alteraValor("a"))) ? View.VISIBLE : View.GONE);
+        ((LinearLayout) ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto))).getParent())
+                .setVisibility(((((Pedido) getActivity()).alteraValor("d"))) ? View.VISIBLE : View.GONE);
+
+        ((getActivity().findViewById(R.id.fdBtnMinimos)))
                 .setEnabled(((Pedido) getActivity()).temValorMinimo());
-        ((Button) (getActivity().findViewById(R.id.fdBtnPromocoes)))
+        ((getActivity().findViewById(R.id.fdBtnPromocoes)))
                 .setEnabled(((Pedido) getActivity()).temPromocao());
-        ((Button) (getActivity().findViewById(R.id.fdBtnMinimos)))
+        ((getActivity().findViewById(R.id.fdBtnMinimos)))
                 .setClickable(((Pedido) getActivity()).temValorMinimo());
-        ((Button) (getActivity().findViewById(R.id.fdBtnPromocoes)))
+        ((getActivity().findViewById(R.id.fdBtnPromocoes)))
                 .setClickable(((Pedido) getActivity()).temPromocao());
+
+        ((getActivity().findViewById(R.id.fdBtnValorTabela)))
+                .setVisibility(((((Pedido) getActivity()).alteraValor("v"))) ? View.VISIBLE : View.GONE);
+        ((getActivity().findViewById(R.id.fdBtnMinimos)))
+                .setVisibility(((((Pedido) getActivity()).temValorMinimo())) ? View.VISIBLE : View.GONE);
+        ((Button) (getActivity().findViewById(R.id.fdBtnPromocoes)))
+                .setVisibility(((((Pedido) getActivity()).temPromocao())) ? View.VISIBLE : View.GONE);
     }
 
     private void exibirTotal()

@@ -32,4 +32,28 @@ public class Kit
     public float getValor() { return valor; }
 
     public void setValor(float valor) { this.valor = valor; }
+
+    @Override
+    public String toString() {
+        return "Kit{" +
+                "kit='" + kit + '\'' +
+                ", itens=" + itens +
+                ", descricao='" + descricao + '\'' +
+                ", quantidade=" + quantidade +
+                ", valor=" + valor +
+                '}';
+    }
+
+    public String toDisplay() {
+        return "Kit{" +
+                "kit='" + kit + '\'' +
+                ", itens=" + itens +
+                ", descricao='" + descricao + '\'' +
+                ", quantidade=" + quantidade +
+                ", valor=" + valor +
+                '}';
+    }
+    /*
+        Todo: Verificar a forma de apresentação on display;
+     */
 }

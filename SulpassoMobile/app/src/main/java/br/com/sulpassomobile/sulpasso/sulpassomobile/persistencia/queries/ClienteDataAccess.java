@@ -374,6 +374,9 @@ public class ClienteDataAccess
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" ORDER BY ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

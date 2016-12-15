@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.R;
@@ -80,6 +81,10 @@ public class FinalizacaoPedidoFragment extends Fragment
             .setText(String.valueOf(((Pedido) getActivity()).valorVendido()));
         ((EditText) (getActivity().findViewById(R.id.ffpEdtTotalPedido)))
             .setText(String.valueOf(((Pedido) getActivity()).valorVendido()));
+
+        ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto))).setText(String.valueOf(0));
+        ((EditText) (getActivity().findViewById(R.id.ffpEdtFrete))).setText(String.valueOf(0));
+
         ((EditText) (getActivity().findViewById(R.id.ffpEdtCliente)))
             .setText(String.valueOf(((Pedido) getActivity()).cabecahoPedido(R.id.ffpEdtCliente)));
         ((EditText) (getActivity().findViewById(R.id.ffpEdtCidade)))
@@ -101,6 +106,7 @@ public class FinalizacaoPedidoFragment extends Fragment
         this.ffpSpnrNaturezas.setSelection(((Pedido) getActivity()).buscarNatureza());
 
         this.ffpSpnrNaturezas.setOnItemSelectedListener(selectingData);
+        this.ffpSpnrPrazos.setOnItemSelectedListener(selectingData);
 
         this.ffpSpnrNaturezas.setClickable(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrNaturezas));
         this.ffpSpnrNaturezas.setEnabled(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrNaturezas));
@@ -112,9 +118,14 @@ public class FinalizacaoPedidoFragment extends Fragment
          */
         ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto)))
                 .addTextChangedListener(recalcularTotal);
-        this.ffpSpnrNaturezas.setOnItemSelectedListener(selectingData);
-        this.ffpSpnrPrazos.setOnItemSelectedListener(selectingData);
+        ((EditText) (getActivity().findViewById(R.id.ffpEdtFrete)))
+                .addTextChangedListener(recalcularFrete);
         this.ffpSpnrJustificativa.setOnItemSelectedListener(selectingData);
+
+        ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtDesconto)).getParent()).setVisibility
+            (((((Pedido) getActivity()).alteraValorFim(R.id.ffpEdtDesconto))) ? View.VISIBLE : View.GONE);
+        ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtFrete)).getParent()).setVisibility
+            (((((Pedido) getActivity()).alteraValorFim(R.id.ffpEdtFrete))) ? View.VISIBLE : View.GONE);
     }
 
     public void listarClientes()
@@ -147,8 +158,8 @@ public class FinalizacaoPedidoFragment extends Fragment
         this.ffpSpnrPrazos.setSelection(((Pedido) getActivity()).buscarPrazo());
         this.ffpSpnrPrazos.setOnItemSelectedListener(selectingData);
 
-        this.ffpSpnrPrazos.setClickable(((Pedido) getActivity()).permitirClick(R.id.fdcSpnrPrazos));
-        this.ffpSpnrPrazos.setEnabled(((Pedido) getActivity()).permitirClick(R.id.fdcSpnrPrazos));
+        this.ffpSpnrPrazos.setClickable(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrPrazos));
+        this.ffpSpnrPrazos.setEnabled(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrPrazos));
     }
 
     public void bloquearClicks()
@@ -162,6 +173,12 @@ public class FinalizacaoPedidoFragment extends Fragment
 /******************************END OF FRAGMENT ACCESS METHODS**************************************/
 /**************************************************************************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
+/**************************************************************************************************/
+
+/**************************************************************************************************/
+/*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/
+/**************************************************************************************************/
+/*****************************     CLICK LISTENERS FOR THE UI         *****************************/
 /**************************************************************************************************/
     private TextWatcher recalcularTotal = new TextWatcher()
     {
@@ -178,11 +195,22 @@ public class FinalizacaoPedidoFragment extends Fragment
         @Override
         public void afterTextChanged(Editable s) { /*****/ }
     };
-/**************************************************************************************************/
-/*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/
-/**************************************************************************************************/
-/*****************************     CLICK LISTENERS FOR THE UI         *****************************/
-/**************************************************************************************************/
+
+    private TextWatcher recalcularFrete = new TextWatcher()
+    {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { /*****/ }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            if(s.toString().length() > 0 && s.toString().indexOf('.') != (s.toString().length() - 1))
+                ((Pedido) getActivity()).indicarFretePedido(s.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) { /*****/ }
+    };
 
     private AdapterView.OnItemSelectedListener selectingData = new AdapterView.OnItemSelectedListener()
     {

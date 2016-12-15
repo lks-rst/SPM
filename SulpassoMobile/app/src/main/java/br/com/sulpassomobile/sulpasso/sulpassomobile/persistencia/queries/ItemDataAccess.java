@@ -22,7 +22,7 @@ public class ItemDataAccess
     private StringBuilder sBuilder;
     private SQLiteDatabase db;
     private int searchType;
-    private int searchData;
+    private String searchData;
 
     public ItemDataAccess(Context context)
     {
@@ -33,7 +33,7 @@ public class ItemDataAccess
 
     public void setSearchType(int searchType) { this.searchType = searchType; }
 
-    public void setSearchData(int searchData) { this.searchData = searchData; }
+    public void setSearchData(String searchData) { this.searchData = searchData; }
 
     public ArrayList<Item> getAll() throws GenercicException
     {
@@ -49,8 +49,16 @@ public class ItemDataAccess
     {
         switch (this.searchType)
         {
-            case 0:
-                return this.searchByData(0, "");
+            case 1:
+            case 2:
+            case 3:
+                return this.searchByData();
+            case 4:
+                return this.searchByGroup();
+            case 5:
+                return this.searchByGravosos();
+            case 6:
+                return this.searchByMix();
             default :
                 return this.searchAll();
         }
@@ -177,7 +185,7 @@ public class ItemDataAccess
         catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
     }
 
-    private ArrayList<Item> searchByData(int type, String data) throws ReadExeption
+    private ArrayList<Item> searchByData() throws ReadExeption
     {
         ArrayList lista = new ArrayList();
 
@@ -186,13 +194,184 @@ public class ItemDataAccess
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
         this.sBuilder.append(" WHERE ");
-        /*switch*/
+
+
+        switch (this.searchType)
+        {
+            case 1:
+                this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+                this.sBuilder.append(" LIKE ('");
+                this.sBuilder.append(this.searchData);
+                this.sBuilder.append("%')");
+                break;
+            case 2:
+                this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+                this.sBuilder.append(" LIKE ('%");
+                this.sBuilder.append(this.searchData);
+                this.sBuilder.append("%')");
+                break;
+            case 3:
+                this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA);
+                this.sBuilder.append(" LIKE ('%");
+                this.sBuilder.append(this.searchData);
+                this.sBuilder.append("')");
+                break;
+        }
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Item item = new Item();
+
+            item.setCodigo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+            item.setBarras(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS)));
+            item.setDescricao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+            item.setReferencia(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+            item.setComplemento(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO)));
+            item.setUnidadeVenda(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA)));
+            item.setUnidade(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE)));
+            item.setDesconto(
+                    c.getDouble(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCONTO)));
+            item.setMinimoVenda(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.MINIMO)));
+            item.setFlex(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.FLEX)));
+            item.setQuantidadeCaixa(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
+
+            lista.add(item);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList<Item> searchByGroup() throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
-        /*switch*/
-        this.sBuilder.append(" LIKE ('");
-        this.sBuilder.append(data);
-        this.sBuilder.append("')");
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" WHERE ");
+
+        int grupo = 0;
+        int subGrupo = -1;
+        int divisao = -1;
+
+        try { grupo = Integer.parseInt(this.searchData.substring(0, 2).trim()); }
+        catch (Exception exception) { grupo = 0; }
+
+        try { subGrupo = Integer.parseInt(this.searchData.substring(2, 4).trim()); }
+        catch (Exception exception) { subGrupo = 0; }
+
+        try { divisao = Integer.parseInt(this.searchData.substring(4, 6).trim()); }
+        catch (Exception exception) { divisao = 0; }
+
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(grupo);
+        if(subGrupo > 0)
+        {
+            this.sBuilder.append("' AND ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.SUBGRUPO);
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(subGrupo);
+
+            if(divisao > 0)
+            {
+                this.sBuilder.append("' AND ");
+                this.sBuilder.append(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
+                this.sBuilder.append(" = '");
+                this.sBuilder.append(divisao);
+            }
+        }
+
+        this.sBuilder.append("';");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Item item = new Item();
+
+            item.setCodigo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+            item.setBarras(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS)));
+            item.setDescricao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+            item.setReferencia(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+            item.setComplemento(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO)));
+            item.setUnidadeVenda(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA)));
+            item.setUnidade(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE)));
+            item.setDesconto(
+                    c.getDouble(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCONTO)));
+            item.setMinimoVenda(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.MINIMO)));
+            item.setFlex(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.FLEX)));
+            item.setQuantidadeCaixa(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
+
+            lista.add(item);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList<Item> searchByGravosos() throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -207,6 +386,42 @@ public class ItemDataAccess
             item.setDescricao(
                     c.getString(c.getColumnIndex(
                             br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+            item.setReferencia(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+
+            lista.add(item);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList<Item> searchByMix() throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Item item = new Item();
+
+            item.setCodigo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+            item.setDescricao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+            item.setReferencia(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
 
             lista.add(item);
             c.moveToNext();
@@ -243,9 +458,36 @@ public class ItemDataAccess
             item.setCodigo(
                     c.getInt(c.getColumnIndex(
                             br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+            item.setBarras(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS)));
             item.setDescricao(
                     c.getString(c.getColumnIndex(
                             br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+            item.setReferencia(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+            item.setComplemento(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO)));
+            item.setUnidadeVenda(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA)));
+            item.setUnidade(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE)));
+            item.setDesconto(
+                    c.getDouble(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCONTO)));
+            item.setMinimoVenda(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.MINIMO)));
+            item.setFlex(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.FLEX)));
+            item.setQuantidadeCaixa(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
 
             lista.add(item);
             c.moveToNext();
@@ -295,17 +537,38 @@ public class ItemDataAccess
             Item item = new Item();
 
             item.setCodigo(
-                c.getInt(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+            item.setBarras(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS)));
             item.setDescricao(
-                c.getString(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
             item.setReferencia(
-                c.getString(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
             item.setComplemento(
-                c.getString(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO)));
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO)));
+            item.setUnidadeVenda(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA)));
+            item.setUnidade(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE)));
+            item.setDesconto(
+                    c.getDouble(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCONTO)));
+            item.setMinimoVenda(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.MINIMO)));
+            item.setFlex(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.FLEX)));
+            item.setQuantidadeCaixa(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
 
             lista.add(item);
             c.moveToNext();
@@ -332,10 +595,10 @@ public class ItemDataAccess
 
             item.setCodigo(
                     c.getInt(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
             item.setBarras(
                     c.getString(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS)));
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS)));
             item.setDescricao(
                     c.getString(c.getColumnIndex(
                             br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
@@ -360,6 +623,9 @@ public class ItemDataAccess
             item.setFlex(
                     c.getString(c.getColumnIndex(
                             br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.FLEX)));
+            item.setQuantidadeCaixa(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
 
             lista.add(item);
             c.moveToNext();
@@ -518,7 +784,25 @@ public class ItemDataAccess
             c.moveToNext();
         }
         saleMap.put("MINIMO", String.valueOf(valorMinimo));
-        saleMap.put("PROMOCAO", String.valueOf(true));
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT (*) FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.TABELA);
+        this.sBuilder.append(" WHERE (");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(codigo);
+        this.sBuilder.append(");");
+
+        float promos = 0;
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        promos = c.getInt(0);
+
+        saleMap.put("PROMOCAO", String.valueOf(promos > 0 ? true : false));
 
         return saleMap;
     }

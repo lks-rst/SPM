@@ -109,7 +109,7 @@ public class Venda
 
         for(ItensVendidos i : this.itens)
         {
-            if (i.getItem() == item)
+            if (i.buscarItem() == item)
             {
                 position = this.itens.indexOf(i);
                 break;
@@ -125,7 +125,7 @@ public class Venda
 
         for(ItensVendidos i : this.itens)
         {
-            if (i.getItem() == item.getItem())
+            if (i.buscarItem() == item.buscarItem())
             {
                 position = this.itens.indexOf(i);
                 break;

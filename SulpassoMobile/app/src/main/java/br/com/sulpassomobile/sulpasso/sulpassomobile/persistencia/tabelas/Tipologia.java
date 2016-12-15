@@ -25,6 +25,7 @@ public class Tipologia
         builder.append(",");
         builder.append(DESCRICAO);
         builder.append(Types.CHAR_NOT_NULL);
+        builder.append(");");
 
         stmt = builder.toString();
         return stmt;

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/rootView.fragdesenv"
     android:padding="@dimen/activity_horizontal_margin">
 
     <ScrollView
@@ -18,36 +19,20 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:background="@color/bgColor"
+                android:background="@color/bgColorSoft"
                 android:layout_height="wrap_content">
 
-                <Button
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Confirmar Item"
-                    android:id="@+id/button3"
-                    android:onClick="confirmarDigitacao" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:clickable="false"
                     android:enabled="false"
-                    android:textColor="#000000"
+                    android:textColor="@color/Black"
                     android:text="Medium Text"
                     android:id="@+id/fdEdtDados" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:clickable="false"
-                    android:enabled="false"
-                    android:textColor="#000000"
-                    android:text="Medium Text"
-                    android:id="@+id/fdEdtComplemento" />
             </LinearLayout>
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_vertical_margin"
@@ -60,9 +45,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/labels"
                     android:text="@string/lbl_un" />
 
                 <EditText
@@ -72,18 +55,18 @@
                     android:ems="10"
                     android:enabled="false"
                     android:clickable="false"
+                    android:textColor="@color/Black"
                     android:id="@+id/fdEdtUnidade" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/labels"
                     android:text="@string/lbl_uv" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:textColor="@color/Black"
                     android:enabled="false"
                     android:clickable="false"
                     android:ems="10"
@@ -98,28 +81,26 @@
                 android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/labels"
                     android:text="@string/lbl_qtd_vda" />
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:textColor="@color/Black"
                     android:ems="10"
                     android:enabled="false"
                     android:clickable="false"
                     android:id="@+id/fdEdtQtdVda" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/labels"
                     android:text="@string/lbl_qtd_caixa" />
 
                 <EditText
                     android:layout_width="wrap_content"
+                    android:textColor="@color/Black"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
@@ -135,9 +116,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/labels"
                     android:text="@string/lbl_estoque" />
 
                 <EditText
@@ -145,14 +124,13 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
+                    android:textColor="@color/Black"
                     android:enabled="false"
                     android:clickable="false"
                     android:id="@+id/fdEdtEstoque" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/labels"
                     android:text="@string/lbl_barras" />
 
                 <EditText
@@ -160,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:ems="10"
+                    android:textColor="@color/Black"
                     android:enabled="false"
                     android:clickable="false"
                     android:id="@+id/fdEdtBarras" />
@@ -176,6 +155,7 @@
                     android:layout_weight=".4"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:textColor="@color/Black"
                     android:enabled="false"
                     android:clickable="false"
                     android:hint="@string/str_unitario"
@@ -211,7 +191,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:background="@color/bgColor"
+                android:background="@color/bgColorSoft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -221,15 +201,14 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        style="@style/labels"
                         android:text="@string/lbl_qtd" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        android:textColor="@color/Black"
                         android:ems="10"
                         android:id="@+id/fdEdtQuantidade">
                         <requestFocus />
@@ -242,15 +221,14 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        style="@style/labels"
                         android:text="@string/lbl_val" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
+                        android:textColor="@color/Black"
                         android:ems="10"
                         android:id="@+id/fdEdtValor" />
                 </LinearLayout>
@@ -261,9 +239,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        style="@style/labels"
                         android:text="@string/lbl_desc" />
 
                     <EditText
@@ -271,6 +247,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:ems="10"
+                        android:textColor="@color/Black"
                         android:id="@+id/fdEdtDesconto" />
                 </LinearLayout>
 
@@ -280,15 +257,14 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        style="@style/labels"
                         android:text="@string/lbl_acre" />
 
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
+                        android:textColor="@color/Black"
                         android:ems="10"
                         android:id="@+id/fdEdtAcrescimo" />
                 </LinearLayout>
@@ -299,9 +275,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        style="@style/labels.bigger"
                         android:text="@string/lbl_total"/>
 
                     <EditText
@@ -310,6 +284,7 @@
                         android:inputType="numberDecimal"
                         android:clickable="false"
                         android:enabled="false"
+                        android:textColor="@color/Black"
                         android:ems="10"
                         android:id="@+id/fdEdtTotal" />
                 </LinearLayout>
@@ -327,8 +302,10 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight=".15"
+                    android:layout_weight=".2"
                     android:layout_height="wrap_content"
+                    android:typeface="monospace"
+                    android:textColor="@color/colorAccent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/lbl_mrk" />
 
@@ -336,19 +313,23 @@
                     android:layout_width="0dp"
                     android:layout_weight=".2"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
                     android:inputType="numberDecimal"
                     android:id="@+id/fdEdtMkp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight=".1"
+                    android:typeface="monospace"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/lbl_ppc" />
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight=".2"
+                    android:textColor="@color/Black"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:enabled="false"
@@ -357,8 +338,10 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight=".1"
+                    android:layout_weight=".12"
+                    android:typeface="monospace"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/lbl_cont" />
 
@@ -368,6 +351,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:enabled="false"
+                    android:textColor="@color/Black"
                     android:clickable="false"
                     android:id="@+id/fdEdtCnt" />
             </LinearLayout>
@@ -382,28 +366,33 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/bgColorSoft"
                 android:layout_gravity="center_horizontal" >
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/labels"
                     android:text="@string/str_minimo"
                     android:onClick="buscarMinimoTabela"
                     android:id="@+id/fdBtnMinimos" />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/labels"
                     android:text="@string/str_promocao"
                     android:onClick="exibirPromocoes"
                     android:id="@+id/fdBtnPromocoes" />
 
                 <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/labels"
                     android:text="@string/str_tabela"
                     android:onClick="buscarValorTabela"
                     android:id="@+id/fdBtnValorTabela" />
+
+                <Button
+                    style="@style/labels"
+                    android:text="Confirmar Item"
+                    android:id="@+id/button3"
+                    android:onClick="confirmarDigitacao" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

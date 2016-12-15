@@ -7,7 +7,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.Types
  */
 public class Motivos
 {
-    public static final String TABELA = "Grupos";
+    public static final String TABELA = "Motivos";
     public static final String CODIGO = "Codigo";
     public static final String DESCRICAO = "Motivos";
 

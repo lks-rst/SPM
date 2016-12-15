@@ -133,7 +133,9 @@ public class CampanhaProdutoDataAccess
             this.sBuilder.append(" = ");
             this.sBuilder.append(((CampanhaProduto) lista.get(i)).getCodigo());
 
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
             c.moveToFirst();
+
             ((CampanhaProduto) lista.get(i)).setQuantidade(
                 c.getInt(c.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE)));
@@ -157,6 +159,7 @@ public class CampanhaProdutoDataAccess
             this.sBuilder.append(" = ");
             this.sBuilder.append(((CampanhaProduto) lista.get(i)).getCodigo());
 
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
             c.moveToFirst();
             for(int d = 0; d < c.getCount(); d++)
             {

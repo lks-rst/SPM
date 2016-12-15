@@ -30,4 +30,9 @@ public class Preco
                 ", preco=" + preco +
                 '}';
     }
+
+    public String toDisplay()
+    {
+        return "Preço{ Tab.:" +  tabelaPrecos + " Val.: " + preco + '}';
+    }
 }

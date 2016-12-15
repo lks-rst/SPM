@@ -164,9 +164,7 @@ public class CampanhaGrupoDataAccess
 
             c.moveToFirst();
 
-            ((CampanhaGrupo)lista.get(i)).getGrupo().setGrupo(c.getInt(0));
-            ((CampanhaGrupo)lista.get(i)).getGrupo().setSubGrupo(c.getInt(1));
-            ((CampanhaGrupo)lista.get(i)).getGrupo().setDivisao(c.getInt(2));
+            ((CampanhaGrupo)lista.get(i)).getGrupo().setDescricao(c.getString(0));
         }
 
         return lista;

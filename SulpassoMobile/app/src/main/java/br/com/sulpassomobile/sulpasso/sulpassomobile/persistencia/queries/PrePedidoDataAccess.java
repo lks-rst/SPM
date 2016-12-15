@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
@@ -34,7 +33,9 @@ public class PrePedidoDataAccess
     /*
         TODO: Remover após testes de inserção.
      */
-    public List getAll() throws GenercicException { return this.searchAll(); }
+    public ArrayList getAll() throws GenercicException { return this.searchAll(); }
+
+    public ArrayList getAllClients() throws GenercicException { return this.searchAllClients(); }
 
     public ArrayList getByData(int g) throws GenercicException
     {
@@ -108,6 +109,56 @@ public class PrePedidoDataAccess
         catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
     }
 
+    private ArrayList searchAllClients() throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT DISTINCT ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.CLIENTE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(" ORDER BY ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.CLIENTE);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Cliente cli = new Cliente();
+            cli.setCodigoCliente(c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.CLIENTE)));
+            cli.setFantasia(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
+            cli.setRazao(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
+
+            lista.add(cli);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
     private ArrayList searchAll() throws ReadExeption
     {
         ArrayList lista = new ArrayList();
@@ -125,21 +176,21 @@ public class PrePedidoDataAccess
             PrePedido pre = new PrePedido();
             Cliente cli = new Cliente();
             cli.setCodigoCliente(c.getInt(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.CLIENTE)));
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.CLIENTE)));
 
             ItensVendidos item = new ItensVendidos();
             item.setItem(c.getInt(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.PRODUTO)));
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.PRODUTO)));
             item.setQuantidade(c.getFloat(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.QUANTIDADE)));
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.QUANTIDADE)));
             item.setValorLiquido(c.getFloat(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.VALOR)));
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.VALOR)));
 
             ArrayList<ItensVendidos> itens = new ArrayList<>();
             itens.add(item);
 
             pre.setData(c.getString(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.DATA)));
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.PrePedido.DATA)));
             pre.setCliente(cli);
             pre.setItensDevolvidos(itens);
 

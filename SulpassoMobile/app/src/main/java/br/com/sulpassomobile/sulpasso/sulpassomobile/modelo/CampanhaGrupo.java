@@ -22,4 +22,19 @@ public class CampanhaGrupo
     public float getDesconto() { return desconto; }
 
     public void setDesconto(float desconto) { this.desconto = desconto; }
+
+    @Override
+    public String toString() {
+        return "CampanhaGrupo{" +
+                "grupo=" + grupo +
+                ", quantidade=" + quantidade +
+                ", desconto=" + desconto +
+                '}';
+    }
+
+    public String toDisplay() {
+        return grupo.getDescricao() +
+                " Qtd.:" + quantidade +
+                " Desc.:" + desconto;
+    }
 }

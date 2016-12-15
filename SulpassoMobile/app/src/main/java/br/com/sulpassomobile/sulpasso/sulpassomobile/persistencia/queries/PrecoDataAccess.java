@@ -11,6 +11,8 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Preco;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.util.modelos.GenericItemFour;
 
 /**
  * Created by Lucas on 15/08/2016 - 17:55 as part of the project SulpassoMobile.
@@ -22,7 +24,7 @@ public class PrecoDataAccess
     private StringBuilder sBuilder;
     private SQLiteDatabase db;
     private int searchType;
-    private int searchData;
+    private String searchData;
 
     public PrecoDataAccess(Context context)
     {
@@ -33,15 +35,16 @@ public class PrecoDataAccess
 
     public void setSearchType(int searchType) { this.searchType = searchType; }
 
+    public void setSearchData(String searchData) { this.searchData = searchData; }
+
     public ArrayList<Preco> buscarTodos() throws GenercicException
     {
         return this.searchAll();
     }
 
-    public ArrayList<Preco> buscarRestrito() throws GenercicException
-    {
-        return this.searchByData(this.searchType);
-    }
+    public ArrayList<Preco> buscarRestrito() throws GenercicException { return this.searchByData(); }
+
+    public ArrayList<GenericItemFour> buscarMinimo() throws GenercicException { return this.searchByMinimo(); }
 
     public Boolean inserir(String data) throws GenercicException
     {
@@ -117,14 +120,31 @@ public class PrecoDataAccess
         return lista;
     }
 
-    private ArrayList<Preco> searchByData(int type) throws ReadExeption
+    private ArrayList<Preco> searchByData() throws ReadExeption
     {
         ArrayList lista = new ArrayList();
 
         this.sBuilder.delete(0, this.sBuilder.length());
+
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(" WHERE ");
+
+        if(this.searchType == 1)
+        {
+            this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
+        }
+        else
+        {
+            this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO);
+        }
+
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(this.searchData);
+        this.sBuilder.append("';");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -133,12 +153,90 @@ public class PrecoDataAccess
         {
             Preco preco = new Preco();
 
-            preco.setCodigoItem(
+            preco.setTabelaPrecos(
                 c.getInt(c.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO)));
             preco.setPreco(
                 c.getDouble(c.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO)));
+            preco.setCodigoItem(
+                c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO)));
+
+            lista.add(preco);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList<GenericItemFour> searchByMinimo() throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(Item.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(Item.DESCRICAO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(Item.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(Item.REFERENCIA);
+
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(Item.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(Item.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(Item.CODIGO);
+
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(this.searchData);
+        this.sBuilder.append("';");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            GenericItemFour preco = new GenericItemFour();
+
+            preco.setDataOne(c.getString(c.getColumnIndex(Item.REFERENCIA)));
+            preco.setDataTwo(c.getString(c.getColumnIndex(Item.DESCRICAO)));
+            preco.setDataThre(String.valueOf(c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO))));
+            preco.setDataFour(String.valueOf(c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO))));
 
             lista.add(preco);
             c.moveToNext();

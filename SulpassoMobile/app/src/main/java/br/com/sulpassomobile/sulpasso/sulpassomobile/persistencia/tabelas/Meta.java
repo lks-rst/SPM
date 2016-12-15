@@ -52,6 +52,7 @@ public class Meta
         builder.append(",");
         builder.append(FATURAMENTO_M);
         builder.append(Types.FLOAT_NOT_NULL);
+        builder.append(");");
 
         stmt = builder.toString();
         return stmt;

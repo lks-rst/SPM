@@ -14,6 +14,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Natureza;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Prazo;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Promocao;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.Venda;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.CidadeDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
@@ -58,6 +59,13 @@ public class EfetuarPedidos
 
         this.itensVendidos = new ArrayList<>();
         this.venda = new Venda();
+
+        try { this.controleConfiguracao.carregarConfiguracoesVenda(); }
+        catch (GenercicException exeption)
+        {
+            exeption.printStackTrace();
+            System.out.println("Erro ao carregar os dados de configuração de venda");
+        }
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/
@@ -106,16 +114,16 @@ public class EfetuarPedidos
                 click = this.clientIsClicable();
             break;
             case R.id.fdcSpnrNaturezas :
-                click = this.naturezaPrazoIsClicable();
+                click = this.naturezaIsClicable();
             break;
             case R.id.fdcSpnrPrazos :
-                click = this.naturezaPrazoIsClicable();
+                click = this.prazoIsClicable();
             break;
             case R.id.ffpSpnrNaturezas :
-                click = this.naturezaPrazoIsClicableEnd();
+                click = this.naturezaIsClicableEnd();
             break;
             case R.id.ffpSpnrPrazos :
-                click = this.naturezaPrazoIsClicableEnd();
+                click = this.prazoIsClicableEnd();
             break;
         }
 
@@ -140,8 +148,8 @@ public class EfetuarPedidos
     public String selecionarCliente(int posicao)
     {
         this.venda.setCliente(this.controleClientes.getCliente(posicao));
-        this.codigoNatureza = this.controleClientes.getCliente(posicao).getCodigoCliente();
-        this.codigoPrazo = this.controleClientes.getCliente(posicao).getCodigoCliente();
+        this.codigoNatureza = this.controleClientes.getCliente(posicao).getNatureza();
+        this.codigoPrazo = this.controleClientes.getCliente(posicao).getPrazo();
 
         return this.controleClientes.getCliente(posicao).toString();
     }
@@ -207,21 +215,35 @@ public class EfetuarPedidos
         {
             case R.id.ffpEdtCliente:
             case R.id.flirEdtCliente :
-                valor = this.venda.getCliente().toDisplay();
+                try { valor = this.venda.getCliente().toDisplay(); }
+                catch (Exception e) { valor = "--"; }
             break;
             case R.id.ffpEdtCidade:
             case R.id.flirEdtCidade :
-                valor = this.venda.getCliente().toDisplay() + " - PRODUTO";
+                try { valor = this.buscarCidade(this.venda.getCliente().getCodigoCidade()); }
+                catch (Exception e) { valor = "--"; }
             break;
             case R.id.ffpEdtTab:
             case R.id.flirEdtTabela :
                 valor = String.valueOf(this.venda.getTabela());
             break;
             case R.id.flirEdtNaturesa :
-                valor = "NATUREZA";
+                valor = this.listaNaturezas.get(this.buscarNatureza()).getDescricao();
             break;
             case R.id.flirEdtTipo :
                 valor = "PD";
+                break;
+            case R.id.flirEdtItens :
+                valor = String.valueOf(this.itensVendidos.size());
+                break;
+            case R.id.flirEdtValor :
+                valor = String.valueOf(this.valorVendido());
+                break;
+            case R.id.flirEdtVolume :
+                valor = "--";
+                break;
+            case R.id.flirEdtCont :
+                valor = "--";
             break;
         }
 
@@ -237,9 +259,9 @@ public class EfetuarPedidos
     {
         ArrayList<String> itens = new ArrayList<>();
 
-        for (int i = 0; i < this.venda.getItens().size(); i++)
+        for (int i = 0; i < this.itensVendidos.size(); i++)
         {
-            itens.add(this.venda.getItens().get(i).toDisplay());
+            itens.add(this.itensVendidos.get(i).toDisplay());
         }
 
         return itens;
@@ -252,8 +274,8 @@ public class EfetuarPedidos
     public void selecionarItem(int posicao)
     {
         this.controleDigitacao.setItem(this.controleProdutos.getItem(posicao));
-        this.controleDigitacao.setDadosVendaItem(
-            this.controleProdutos.dadosVenda(posicao, this.tabela, 2));
+        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda
+                (posicao, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
     }
 
     public Boolean temValorMinimo()
@@ -265,7 +287,6 @@ public class EfetuarPedidos
     {
         return this.controleDigitacao.temPromocao();
     }
-
 
     public void buscarPromocoes()
     {
@@ -301,11 +322,19 @@ public class EfetuarPedidos
 
     public Boolean alteraValor(String campo)
     {
+        return this.controleConfiguracao.alteraValor(campo);
+        /*
         if(campo.equalsIgnoreCase("v")) { return this.controleConfiguracao.alteraValor(campo); }
         else
         {
             return !this.controleConfiguracao.alteraValor(campo);
         }
+        */
+    }
+
+    public Boolean alteraValorFim(int campo)
+    {
+        return this.controleConfiguracao.alteraValorFim(campo);
     }
 
     public String getValor() { return this.controleDigitacao.getValor(); }
@@ -353,8 +382,9 @@ public class EfetuarPedidos
         int posicao = -1;
 
         ItensVendidos item = this.controleDigitacao.confirmarItem(
-            this.controleConfiguracao.descontoMaximo(), this.controleConfiguracao.alteraValor("v"));
-        if (item != null)
+            this.controleConfiguracao.descontoMaximo(), this.controleConfiguracao.alteraValor("d"), this.context);
+
+        if(item != null)
         {
             if(this.finalizarItem())
             {
@@ -368,14 +398,13 @@ public class EfetuarPedidos
                 }
 
                 if (alteracao)
-                    this.itensVendidos.set(posicao, item);
-                else
                 {
-                    this.itensVendidos.add(item);
+                    this.itensVendidos.set(posicao, item);
                     Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
                 }
+                else this.itensVendidos.add(item);
 
-                this.controleConfiguracao.setSaldoAtual(
+                this.controleConfiguracao.setSaldoAtual(this.controleConfiguracao.getSaldoAtual() -
                         this.controleDigitacao.diferencaFlex(this.context));
 
                 return true;
@@ -484,10 +513,10 @@ public class EfetuarPedidos
                 retorno = this.venda.getCliente().getEndereco();
                 break;
             case R.id.fdcEdtUf :
-                retorno = String.valueOf(this.venda.getCliente().getCodigoCidade());
+                retorno = this.buscarEstado(this.venda.getCliente().getCodigoCidade());
                 break;
             case R.id.fdcEdtCidade :
-                retorno = String.valueOf(this.venda.getCliente().getCodigoCidade());
+                retorno = this.buscarCidade(this.venda.getCliente().getCodigoCidade());
                 break;
             default:
                 retorno = "--";
@@ -497,6 +526,27 @@ public class EfetuarPedidos
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/
+    private String buscarCidade(int codigo)
+    {
+        CidadeDataAccess cda = new CidadeDataAccess(this.context);
+        try { return cda.getByData(codigo).getNome(); }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private String buscarEstado(int codigo)
+    {
+        CidadeDataAccess cda = new CidadeDataAccess(this.context);
+        try { return cda.getByData(codigo).getUf(); }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            return "";
+        }
+    }
     private void getNaturezasList(Boolean especial) throws GenercicException
     {
         NaturezaDataAccess nda = new NaturezaDataAccess(this.context);
@@ -512,9 +562,9 @@ public class EfetuarPedidos
         PrazoDataAccess pda = new PrazoDataAccess(this.context);
 
         if (prazo.equalsIgnoreCase("0") || prazo.equalsIgnoreCase("a"))
-            this.listaPrazos = pda.buscarTodos();
-        else
             this.listaPrazos = pda.buscarRestrito();
+        else
+            this.listaPrazos = pda.buscarTodos();
     }
 
     private String getPrazoNatureza(int position)
@@ -534,34 +584,68 @@ public class EfetuarPedidos
         return this.strDataBanco(sf.format(today));
     }
 
-    private String strDataBanco(String data){
+    private String strDataBanco(String data)
+    {
         String nova_data = "";
         String[] datas;
 
-        try {
+        try
+        {
             datas = data.split("/");
             nova_data = datas[2] + "-" + datas[1] + "-" + datas[0];
-        } catch (Exception e) {
-            nova_data = data;
+        }
+        catch (Exception e) { nova_data = data;
         }
         return nova_data;
     }
 
-    private Boolean clientIsClicable() { return this.itensVendidos.size() > 0; }
+    private Boolean clientIsClicable() { return this.itensVendidos.size() <= 0; }
 
-    private Boolean naturezaPrazoIsClicable()
+    private Boolean naturezaIsClicable()
     {
         boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
 
-        if(clienteLiberado && (this.itensVendidos.size() <= 0)) { return true; }
+        if(clienteLiberado && (this.itensVendidos.size() <= 0))
+        {
+            if(this.controleConfiguracao.getConfigVda().getAlteraNaturezaInicio()) { return true; }
+            else { return false; }
+        }
         else { return false; }
     }
 
-    private Boolean naturezaPrazoIsClicableEnd()
+    private Boolean prazoIsClicable()
     {
         boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
 
-        if(clienteLiberado) { return true; }
+        if(clienteLiberado && (this.itensVendidos.size() <= 0))
+        {
+            if(this.controleConfiguracao.getConfigVda().getAlteraPrazoInicio()) { return true; }
+            else { return false; }
+        }
+        else { return false; }
+    }
+
+    private Boolean naturezaIsClicableEnd()
+    {
+        boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
+
+        if(clienteLiberado)
+        {
+            if(this.controleConfiguracao.getConfigVda().getAlteraNaturezaFim()) { return true; }
+            else { return false; }
+        }
+        else { return false; }
+    }
+
+    private Boolean prazoIsClicableEnd()
+    {
+        boolean clienteLiberado = this.controleClientes.clienteAlteraTabela();
+
+        if(clienteLiberado)
+        {
+            if(this.controleConfiguracao.getConfigVda().getAlteraPrazoFim()) { return true; }
+            else { return false; }
+        }
         else { return false; }
     }
 
