@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/rootView.fragdesenv"
     android:padding="@dimen/activity_horizontal_margin">
     <!--
         TODO: Verificar qual estilo de layout é melhor apresentado e verificar configuração de cores
@@ -16,19 +17,15 @@
             android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Confirmar Escolha Cliente"
-                android:id="@+id/button"
-                android:onClick="selecionarCliente" />
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <Spinner
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_width="0dp"
                     android:layout_weight="0.9"
                     android:layout_height="wrap_content"
@@ -51,13 +48,23 @@
 
             <Spinner
                 android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_height="75dp"
                 android:id="@+id/fdcSpnrNaturezas" />
 
             <Spinner
                 android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_height="75dp"
                 android:id="@+id/fdcSpnrPrazos" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/activity_vertical_margin"
+                android:background="#a10505" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -110,10 +117,9 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    style="@style/texts.labels"
                     android:layout_width="0dp"
                     android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/lbl_cidade"
                     android:gravity="center_vertical|right" />
 
@@ -128,8 +134,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_estado"
                     android:gravity="center_vertical|right" />
 
@@ -149,9 +154,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="0.2"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_end"
                     android:gravity="center_vertical|right" />
 
@@ -171,9 +175,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="0.18"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_fone"
                     android:gravity="center_vertical|right" />
 
@@ -188,8 +191,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_cel"
                     android:gravity="center_vertical|right" />
 
@@ -209,9 +211,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="0.2"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_ultima"
                     android:gravity="center_vertical|right" />
 
@@ -232,8 +233,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_meta"
                     android:gravity="center_vertical|right" />
 
@@ -247,9 +247,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="0.25"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_realizado"
                     android:id="@+id/fdcTxtRealizado"
                     android:gravity="center_vertical|right" />
@@ -278,9 +277,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="0.2"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_credito"
                     android:gravity="center_vertical|right" />
 
@@ -325,6 +323,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
+
+            <Button
+                style="@style/texts.labels"
+                android:text="Confirmar Escolha Cliente"
+                android:id="@+id/button"
+                android:onClick="selecionarCliente" />
 
         </LinearLayout>
     </ScrollView>

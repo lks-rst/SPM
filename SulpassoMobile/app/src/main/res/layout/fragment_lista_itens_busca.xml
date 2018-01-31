@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/rootView.fragdesenv"
     android:padding="@dimen/activity_horizontal_margin">
 
     <ScrollView
@@ -16,10 +17,8 @@
             android:layout_height="match_parent">
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/texts.labels.bigger"
                 android:text="Resumo Pedido"
-                android:id="@+id/button2"
                 android:layout_gravity="center_horizontal"
                 android:onClick="abrirResumo" />
 
@@ -37,10 +36,11 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/texts.labels.bigger"
+                    android:visibility="gone"
                     android:layout_weight="0.2"
                     android:text="@string/btn_serach"
-                    android:id="@+id/button5" />
+                    android:onClick="efetuarBusca" />
             </LinearLayout>
 
             <Space

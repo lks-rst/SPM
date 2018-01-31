@@ -9,7 +9,7 @@
     <FrameLayout style="@style/rootView.fragEmp.frame" >
 
         <ImageView
-            android:id="@+id/tela_inicial_img_logo"
+            android:id="@+id/imgFicLogo"
             style="@style/rootView.fragEmp.frame.imagens"
             android:contentDescription="@string/apresentacao_1"
             android:src="@drawable/btn_sulpasso" />
@@ -20,29 +20,34 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/tela_inicial_txt_emp_nome"
+            android:id="@+id/txtFicNome"
             style="@style/rootView.fragEmp.frame.textos.negrito"
             android:text="@string/apresentacao_1" />
 
         <TextView
-            android:id="@+id/tela_inicial_txt_emp_sub"
+            android:id="@+id/txtFicSecond"
             style="@style/rootView.fragEmp.frame.textos"
             android:text="@string/apresentacao_1" />
 
         <TextView
-            android:id="@+id/tela_inicial_txt_emp_fone"
+            android:id="@+id/txtFicFone"
             style="@style/rootView.fragEmp.frame.textos"
             android:text="@string/apresentacao_1" />
 
         <TextView
-            android:id="@+id/tela_inicial_txt_emp_mail"
+            android:id="@+id/txtFicMail"
             style="@style/rootView.fragEmp.frame.textos"
             android:text="@string/apresentacao_1" />
 
         <TextView
-            android:id="@+id/tela_inicial_txt_emp_page"
+            android:id="@+id/txtFicWeb"
             style="@style/rootView.fragEmp.frame.textos"
             android:text="@string/apresentacao_1" />
+
+        <TextView
+            android:id="@+id/txtFicVendedor"
+            style="@style/rootView.fragEmp.frame.textos"
+            android:text="" />
     </LinearLayout>
 
 </LinearLayout>

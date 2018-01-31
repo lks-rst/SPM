@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:showAsAction="always"
+    android:id="@+id/itens_desc_ini"
+    android:title="@string/menu_itens_descI">
+</item>
+<item
+    android:showAsAction="always"
+    android:id="@+id/itens_ref"
+    android:title="@string/menu_itens_r">
+</item>
+<item
+    android:showAsAction="always"
+    android:id="@+id/itens_grupo"
+    android:title="@string/menu_itens_g">
+</item>
+
+<item
+    android:showAsAction="ifRoom"
+    android:id="@+id/itens_pre_pedido"
+    android:title="@string/menu_itens_p">
+</item>
+
+<item
+    android:showAsAction="ifRoom"
+    android:id="@+id/itens_gravosos"
+    android:title="@string/menu_itens_gr">
+</item>
+
+<item
+    android:showAsAction="ifRoom"
+    android:id="@+id/itens_mix"
+    android:title="@string/menu_itens_m">
+</item>
+
+<item
+    android:id="@+id/itens_desc_any"
+    android:title="@string/menu_itens_desc">
+</item>
+
+</menu>

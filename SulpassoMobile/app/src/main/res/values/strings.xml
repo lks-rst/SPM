@@ -6,9 +6,14 @@
     <!-- END -->
 
     <!-- Strings related to login -->
+    <string name="prompt_email">USUÁRIO</string>
+    <string name="prompt_password">SENHA</string>
+    <string name="action_sign_in">ACESSAR</string>
+    <!--
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
+    -->
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -22,6 +27,13 @@
     <!-- Strings utilizadas em mais de uma tela -->
     <string name="generic_confirmar">Confirmar</string>
     <string name="generic_cancelar">Cancelar</string>
+    <string name="lbl_qtd">Quantidade: </string>
+
+
+    <!-- Consulta de itens e digitação de pedidos -->
+    <string name="lbl_desh">-</string>
+    <string name="lbl_seq">1234567890</string>
+    <!-- END -->
 
     <!-- Consulta de itens e digitação de pedidos -->
     <string name="lbl_qtd_caixa">Qtd. Caixa: </string>
@@ -55,11 +67,11 @@
     <string name="str_minimo">Minimo</string>
     <string name="str_promocao">Promoções</string>
     <string name="str_tabela">Valor Tabela</string>
+    <string name="str_confirmar">Confirmar Item</string>
 
     <string name="str_desc_item">Desc. Item: </string>
     <string name="str_val_cli">Val. Especial: </string>
     <string name="str_unitario">Valor Unitário: </string>
-    <string name="lbl_qtd">Quantidade: </string>
     <string name="lbl_val">Valor: </string>
     <string name="lbl_desc">Desconto(%): </string>
     <string name="lbl_acre">Acréscimo(%): </string>
@@ -123,6 +135,14 @@
 
     <string name="hnt_zero">0,00</string>
     <!-- END -->
+
+    <!-- Strings dos alertas -->
+    <string name="str_excluir">EXCLUÍR ITEM</string>
+    <string name="str_alterar">ALTERAR ITEM</string>
+
+    <string name="tlt_alterar_excluir">ALTERAR OU EXCLUÍR O ITEM</string>
+    <!-- END -->
+
     <!-- END -->
 
     <!-- Strings das telas de consulta -->
@@ -137,6 +157,20 @@
     <string name="tlt_detalhes">DETALHES DO ITEM</string>
     <string name="lbl_comp">Complemento</string>
     <string name="lbl_ref">Referência</string>
+    <!-- END -->
+    <!-- END -->
+
+    <!-- Strings consultas clientes -->
+    <string name="tlt_pre_pedido">PRE PEDIDO</string>
+    <string name="tlt_corte">CONSULTA CORTE</string>
+    <string name="tlt_devoucao">CONSULTA DEVOLUÇÃO</string>
+    <string name="tlt_titulos">CONSULTA TITULOS ABERTOS</string>
+
+    <!-- Strings consultas positivação -->
+    <string name="positivados">POSITIVADOS</string>
+    <string name="mes">MÊS</string>
+    <string name="semana">SEMANA</string>
+    <string name="n_positivados">NÃO POSITIVADOS</string>
     <!-- END -->
     <!-- END -->
     <!-- END -->
@@ -179,6 +213,23 @@
         <item><b>#</b>CORTES</item>
         <item><b>#</b>PRE PEDIDOS</item>
         <item><b>#</b>ANIVERSÁRIOS</item>
+    </string-array>
+    <!-- END -->
+
+    <!-- Pedidos -->
+    <string-array name="fragTitlesConsultaPedidos">
+        <item><b>#</b>PEDIDOS</item>
+        <item><b>#</b>VENDAS DIRETA</item>
+        <item><b>#</b>RESUMO DIA</item>
+    </string-array>
+    <!-- END -->
+
+    <!-- Gerencial -->
+    <string-array name="fragTitlesConsultaGerencial">
+        <item><b>#</b>MENSAGENS</item>
+        <item><b>#</b>METAS</item>
+        <item><b>#</b>GRÁFICOS</item>
+        <item><b>#</b>PLANO DE VISITAS</item>
     </string-array>
     <!-- END -->
     <!-- END -->
@@ -231,7 +282,7 @@
     <string name="menu_consulta_resumo">Resumo Dia</string>
     <string name="menu_consulta_precos">Produtos</string>
     <string name="menu_consulta_minimo">Preços Minimos</string>
-    <string name="menu_consulta_gravoso">GRavosos</string>
+    <string name="menu_consulta_gravoso">Gravosos</string>
     <string name="menu_consulta_foco">Produtos Foco</string>
     <string name="menu_consulta_kit">Kits</string>
     <string name="menu_consulta_promo">Promoções</string>
@@ -252,12 +303,24 @@
     <string name="menu_atualizacao_vendas">Enviar Vendas</string>
     <string name="menu_atualizacao_clientes">Enviar Clientes</string>
     <string name="menu_atualizacao_full">Atualizar Sistema</string>
+    <string name="menu_atualizacao_config">Configurar Sistemas</string>
     <!-- END -->
 
     <!-- String da tela de atualização -->
     <string name="tlt_atualiza">DETALHES DO ITEM</string>
     <string name="lbl_geral">Geral</string>
     <string name="lbl_parcial">Parcial</string>
+    <!-- END -->
+
+    <!-- String da tela de cadastro de clientes -->
+    <string-array name="array_dias">
+        <item>02 -- SEGUNDA</item>
+        <item>03 -- TERÇA</item>
+        <item>04 -- QUARTA</item>
+        <item>05 -- QUINTA</item>
+        <item>06 -- SEXTA</item>
+        <item>07 -- SABADO</item>
+    </string-array>
     <!-- END -->
 
 </resources>

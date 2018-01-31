@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/rootView.fragdesenv"
     android:padding="@dimen/activity_horizontal_margin">
 
     <ScrollView
@@ -21,9 +22,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/texts.labels.bigger"
                     android:text="@string/lbl_cli" />
 
                 <EditText
@@ -42,9 +41,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/texts.labels.bigger"
                     android:text="@string/lbl_cidade" />
 
                 <EditText
@@ -65,34 +62,33 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
+                android:background="@color/bgColorSoft"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_height="wrap_content"
+                    style="@style/texts.labels.bigger"
                     android:layout_weight="0.45"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/lbl_natureza"/>
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="0.35"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    style="@style/texts.labels.bigger"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/lbl_prazo" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    style="@style/texts.labels.bigger"
                     android:layout_weight="0.20"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/lbl_tabela" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
+                android:background="@color/bgColorSoft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -128,92 +124,6 @@
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/lbl_total_itens" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:ems="10"
-                    android:id="@+id/ffpEdtTotalItens" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/lbl_desconto"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="10"
-                    android:id="@+id/ffpEdtDesconto" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/lbl_acrescimo" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="10"
-                    android:id="@+id/ffpEdtFrete" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/lbl_valor_total" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:ems="10"
-                    android:id="@+id/ffpEdtTotalPedido" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -228,11 +138,6 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified" />
             </android.support.design.widget.TextInputLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -255,9 +160,79 @@
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/bgColorSoft"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/texts.labels.bigger"
+                    android:text="@string/lbl_total_itens" />
+
+                <EditText
+                    style="@style/texts.values.bigger"
+                    android:inputType="none"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:id="@+id/ffpEdtTotalItens" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/bgColorSoft"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/texts.labels.bigger"
+                    android:text="@string/lbl_desconto"/>
+
+                <EditText
+                    style="@style/texts.values.bigger"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/ffpEdtDesconto" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/bgColorSoft"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/texts.labels.bigger"
+                    android:text="@string/lbl_acrescimo" />
+
+                <EditText
+                    style="@style/texts.values.bigger"
+                    android:inputType="numberDecimal"
+                    android:id="@+id/ffpEdtFrete" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:background="@color/bgColorSoft"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/texts.labels.bigger"
+                    android:text="@string/lbl_valor_total" />
+
+                <EditText
+                    style="@style/texts.values.bigger"
+                    android:inputType="none"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:id="@+id/ffpEdtTotalPedido" />
+            </LinearLayout>
+
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:id="@+id/ffpSpnrJustificativa" />
 
             <Space
@@ -267,10 +242,8 @@
 
             <!-- Remover esse botão e desenvolver a operaçao no menu -->
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/texts.labels.bigger"
                 android:text="Salvar Pedido"
-                android:id="@+id/button4"
                 android:onClick="finalizar" />
         </LinearLayout>
     </ScrollView>
