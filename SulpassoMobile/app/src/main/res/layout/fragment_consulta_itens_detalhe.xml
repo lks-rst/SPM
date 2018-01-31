@@ -28,11 +28,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/digitacao_pedidos_textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                style="@style/texts.labels"
                 android:text="@string/lbl_comp" />
 
             <EditText
@@ -46,11 +42,7 @@
                 android:ems="10" />
 
             <TextView
-                android:id="@+id/digitacao_pedidos_textView3"
-                android:layout_width="wrap_content"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
+                style="@style/texts.labels"
                 android:layout_gravity="right|center_vertical"
                 android:text="@string/lbl_ref" />
 
@@ -72,9 +64,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="0.1"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
+                style="@style/texts.labels"
                 android:text="@string/lbl_un" />
 
             <EditText
@@ -90,10 +80,8 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.1"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_height="wrap_content"
+                android:layout_weight="0.15"
+                style="@style/texts.labels"
                 android:text="@string/lbl_uv"/>
 
             <EditText
@@ -106,26 +94,6 @@
                 android:focusable="false"
                 android:layout_height="wrap_content"
                 android:ems="10" />
-
-            <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="0dp"
-                android:layout_weight="0.16"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/lbl_estoque" />
-
-            <EditText
-                android:id="@+id/edtAlertEstoque"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:textColor="@color/colorAccent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:clickable="false"
-                android:focusable="false"
-                android:ems="10" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,16 +102,14 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.16"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="0.25"
+                style="@style/texts.labels"
                 android:text="@string/lbl_qtd_caixa"/>
 
             <EditText
                 android:id="@+id/edtAlertCaixa"
                 android:layout_width="0dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.25"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorAccent"
                 android:enabled="false"
@@ -153,29 +119,49 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.16"
-                android:layout_height="wrap_content"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="0.25"
+                style="@style/texts.labels"
                 android:text="@string/lbl_qtd_vda" />
 
             <EditText
                 android:id="@+id/edtAlertQuantidade"
                 android:textColor="@color/colorAccent"
                 android:layout_width="0dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.25"
                 android:enabled="false"
                 android:clickable="false"
                 android:focusable="false"
                 android:layout_height="wrap_content"
                 android:ems="10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.16"
-                android:textColor="#000000"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_weight="0.25"
+                style="@style/texts.labels"
+                android:text="@string/lbl_estoque" />
+
+            <EditText
+                android:id="@+id/edtAlertEstoque"
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:textColor="@color/colorAccent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
+                android:clickable="false"
+                android:focusable="false"
+                android:ems="10" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                style="@style/texts.labels"
                 android:text="@string/lbl_barras"/>
 
             <EditText
@@ -189,6 +175,7 @@
                 android:singleLine="true"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
+
     </LinearLayout>
 
     <TextView

@@ -10,8 +10,8 @@
 
     <dimen name="padding_superior">1dp</dimen>
     <dimen name="padding_inferior">1dp</dimen>
-    <dimen name="padding_direita">5dp</dimen>
-    <dimen name="padding_esquerda">5dp</dimen>
+    <dimen name="padding_direita">1dp</dimen>
+    <dimen name="padding_esquerda">1dp</dimen>
 
     <dimen name="zero_space">0dp</dimen>
 
@@ -25,8 +25,8 @@
 
     <!-- FRAG_EMP -->
     <dimen name="altura_logo_cliente_inicial">150dp</dimen>
-    <dimen name="largura_logo_cliente_inicial">250dp</dimen>
-    <dimen name="tamanho_fonte_razao_cliente_inicial">20dp</dimen>
-    <dimen name="tamanho_fonte_info_cliente_inicial">15dp</dimen>
+    <dimen name="largura_logo_cliente_inicial">200dp</dimen>
+    <dimen name="tamanho_fonte_razao_cliente_inicial">17dp</dimen>
+    <dimen name="tamanho_fonte_info_cliente_inicial">14dp</dimen>
 
 </resources>

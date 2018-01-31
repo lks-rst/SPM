@@ -44,6 +44,18 @@
         <item name="android:layout_marginLeft">@dimen/zero_space</item>
     </style>
 
+    <!-- TELA INICIAL FRAG DESENV SMALL SCREENS-->
+    <style name="rootView.fragdesenv_small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/zero_space</item>
+        <item name="android:layout_marginBottom">@dimen/zero_space</item>
+        <item name="android:layout_marginRight">@dimen/zero_space</item>
+        <item name="android:layout_marginLeft">@dimen/zero_space</item>
+    </style>
+
     <style name="rootView.fragdesenv.frame">
         <item name="android:layout_width">@dimen/largura_frame_logo</item>
         <item name="android:layout_height">wrap_content</item>
@@ -122,15 +134,29 @@
     <!--
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     -->
-    <style name = "labels">
+    <style name = "texts">
         <item name="android:typeface">monospace</item>
-        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name = "texts.labels">
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name = "labels.bigger">
+    <style name = "texts.values">
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name = "texts.labels.bigger">
+        <item name="android:textSize">@dimen/tamanho_fonte_razao_cliente_inicial</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name = "texts.values.bigger">
         <item name="android:textSize">@dimen/tamanho_fonte_razao_cliente_inicial</item>
         <item name="android:textStyle">bold</item>
     </style>

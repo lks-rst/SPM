@@ -45,7 +45,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <TextView
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_un" />
 
                 <EditText
@@ -59,7 +59,7 @@
                     android:id="@+id/fdEdtUnidade" />
 
                 <TextView
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_uv" />
 
                 <EditText
@@ -81,7 +81,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <TextView
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_qtd_vda" />
 
                 <EditText
@@ -95,7 +95,7 @@
                     android:id="@+id/fdEdtQtdVda" />
 
                 <TextView
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_qtd_caixa" />
 
                 <EditText
@@ -116,7 +116,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <TextView
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_estoque" />
 
                 <EditText
@@ -130,7 +130,7 @@
                     android:id="@+id/fdEdtEstoque" />
 
                 <TextView
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/lbl_barras" />
 
                 <EditText
@@ -201,15 +201,12 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        style="@style/labels"
+                        style="@style/texts.labels"
                         android:text="@string/lbl_qtd" />
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:textColor="@color/Black"
-                        android:ems="10"
+                        style="@style/texts.values.bigger"
+                        android:inputType="numberDecimal"
                         android:id="@+id/fdEdtQuantidade">
                         <requestFocus />
                     </EditText>
@@ -221,15 +218,12 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        style="@style/labels"
+                        style="@style/texts.labels"
                         android:text="@string/lbl_val" />
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texts.values.bigger"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/Black"
-                        android:ems="10"
                         android:id="@+id/fdEdtValor" />
                 </LinearLayout>
 
@@ -239,15 +233,12 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        style="@style/labels"
+                        style="@style/texts.labels"
                         android:text="@string/lbl_desc" />
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texts.values.bigger"
                         android:inputType="numberDecimal"
-                        android:ems="10"
-                        android:textColor="@color/Black"
                         android:id="@+id/fdEdtDesconto" />
                 </LinearLayout>
 
@@ -257,15 +248,12 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        style="@style/labels"
+                        style="@style/texts.labels"
                         android:text="@string/lbl_acre" />
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/texts.values.bigger"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/Black"
-                        android:ems="10"
                         android:id="@+id/fdEdtAcrescimo" />
                 </LinearLayout>
 
@@ -275,17 +263,14 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        style="@style/labels.bigger"
+                        style="@style/texts.labels.bigger"
                         android:text="@string/lbl_total"/>
 
                     <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        style="@style/texts.values.bigger"
+                        android:inputType="numberDecimal|none"
                         android:clickable="false"
                         android:enabled="false"
-                        android:textColor="@color/Black"
-                        android:ems="10"
                         android:id="@+id/fdEdtTotal" />
                 </LinearLayout>
             </LinearLayout>
@@ -370,26 +355,26 @@
                 android:layout_gravity="center_horizontal" >
 
                 <Button
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/str_minimo"
                     android:onClick="buscarMinimoTabela"
                     android:id="@+id/fdBtnMinimos" />
 
                 <Button
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/str_promocao"
                     android:onClick="exibirPromocoes"
                     android:id="@+id/fdBtnPromocoes" />
 
                 <Button
-                    style="@style/labels"
+                    style="@style/texts.labels"
                     android:text="@string/str_tabela"
                     android:onClick="buscarValorTabela"
                     android:id="@+id/fdBtnValorTabela" />
 
                 <Button
-                    style="@style/labels"
-                    android:text="Confirmar Item"
+                    style="@style/texts.labels"
+                    android:text="@string/str_confirmar"
                     android:id="@+id/button3"
                     android:onClick="confirmarDigitacao" />
 

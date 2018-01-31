@@ -17,4 +17,9 @@
         android:showAsAction="always"
         android:title="@string/menu_atualizacao_full">
     </item>
+    <item
+        android:id="@+id/atualizar_configuracao"
+        android:showAsAction="always"
+        android:title="@string/menu_atualizacao_config">
+    </item>
 </menu>
