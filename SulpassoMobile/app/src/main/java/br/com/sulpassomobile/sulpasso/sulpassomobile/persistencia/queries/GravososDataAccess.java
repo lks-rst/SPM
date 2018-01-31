@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
@@ -30,7 +29,7 @@ public class GravososDataAccess
         this.db = SimplySalePersistencySingleton.getDb(context);
     }
 
-    public List getAll() throws GenercicException { return this.searchAll(); }
+    public ArrayList<Gravosos> getAll() throws GenercicException { return this.searchAll(); }
 
     public ArrayList getByData(int g) throws GenercicException
     {
@@ -49,10 +48,10 @@ public class GravososDataAccess
         i.setCodigo(Integer.parseInt(data.substring(2, 9).trim()));
 
         gravoso.setItem(i);
-        gravoso.setQuantidade(Float.parseFloat(data.substring(9, 16).trim()) / 100);
-        gravoso.setFabricacao(data.substring(16, 26).trim());
-        gravoso.setDias(Integer.parseInt(data.substring(26, 32).trim()));
-        gravoso.setValidade(data.substring(32, 42).trim());
+        gravoso.setQuantidade(Float.parseFloat(data.substring(9, 18).trim()) / 100);
+        gravoso.setFabricacao(data.substring(18, 28).trim());
+        gravoso.setDias(Integer.parseInt(data.substring(28, 34).trim()));
+        gravoso.setValidade(data.substring(34, 44).trim());
 
         return gravoso;
     }
@@ -79,7 +78,7 @@ public class GravososDataAccess
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Gravosos.VALIDADE);
         this.sBuilder.append(") VALUES ('");
-        this.sBuilder.append(gravoso.getItem());
+        this.sBuilder.append(gravoso.getItem().getCodigo());
         this.sBuilder.append("', '");
         this.sBuilder.append(gravoso.getQuantidade());
         this.sBuilder.append("', '");
@@ -113,6 +112,9 @@ public class GravososDataAccess
         for(int i = 0; i < c.getCount(); i++)
         {
             Gravosos gravoso = new Gravosos();
+            /*
+                TODO: Fazer join com a tabela de Itens;
+             */
 
             Item item = new Item();
             item.setCodigo(c.getInt(c.getColumnIndex(

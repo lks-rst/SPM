@@ -1,5 +1,7 @@
 package br.com.sulpassomobile.sulpasso.sulpassomobile.modelo;
 
+import java.util.ArrayList;
+
 /**
  * Created by Lucas on 02/08/2016.
  */
@@ -43,6 +45,10 @@ public class Cliente
     private Integer natureza;
     private Integer banco;
 
+    private ArrayList<ContasReceber> contas;
+/****************************************                  ****************************************/
+/****************************************                  ****************************************/
+/****************************************                  ****************************************/
     public String getBairro() { return bairro; }
 
     public void setBairro(String bairro) { this.bairro = bairro; }
@@ -191,6 +197,12 @@ public class Cliente
 
     public void setBanco(Integer banco) { this.banco = banco; }
 
+    public ArrayList<ContasReceber> getContas() { return contas; }
+
+    public void setContas(ArrayList<ContasReceber> contas) { this.contas = contas; }
+/****$************************************                  ****************************************/
+/****************************************                  ****************************************/
+/****************************************                  ****************************************/
     @Override
     public String toString()
     {
@@ -237,7 +249,6 @@ public class Cliente
 
     public String toDisplay()
     {
-        return codigoCliente + " - " + fantasia;
+        return codigoCliente + " - " + razao.trim();
     }
 }
-

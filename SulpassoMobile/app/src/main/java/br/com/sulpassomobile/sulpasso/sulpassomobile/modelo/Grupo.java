@@ -25,4 +25,23 @@ public class Grupo
     public String getDescricao() { return descricao; }
 
     public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    @Override
+    public String toString()
+    {
+        return "Grupo{" +
+                "grupo=" + grupo +
+                ", subGrupo=" + subGrupo +
+                ", divisao=" + divisao +
+                ", descricao='" + descricao + '\'' +
+                '}';
+    }
+
+    public String toDisplay()
+    {
+        return  grupo +
+                " - " + subGrupo +
+                " - " + divisao +
+                " - " + descricao;
+    }
 }

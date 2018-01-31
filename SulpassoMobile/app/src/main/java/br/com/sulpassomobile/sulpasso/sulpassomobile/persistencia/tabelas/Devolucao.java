@@ -7,14 +7,14 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.Types
  */
 public class Devolucao
 {
-    public static final String TABELA = "Clientes";
-    public static final String CLIENTE = "CodigoCliente";
-    public static final String PRODUTO = "RazaoCliente";
-    public static final String DOCUMENTO = "FantasiaCliente";
-    public static final String QUANTIDADE = "CNPJ";
-    public static final String VALOR = "IE";
-    public static final String DATA = "CodigoNatureza";
-    public static final String MOTIVO = "CodigoPrazo";
+    public static final String TABELA = "Devolucao";
+    public static final String CLIENTE = "ClienteDevolucao";
+    public static final String PRODUTO = "ProdutoDevolvido";
+    public static final String DOCUMENTO = "Documento";
+    public static final String QUANTIDADE = "Quantidade";
+    public static final String VALOR = "Valor";
+    public static final String DATA = "Data";
+    public static final String MOTIVO = "motivo";
 
     public static String CriarTabela()
     {

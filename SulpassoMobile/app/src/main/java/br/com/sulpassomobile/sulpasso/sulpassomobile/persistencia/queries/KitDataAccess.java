@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
@@ -30,7 +29,7 @@ public class KitDataAccess
         this.db = SimplySalePersistencySingleton.getDb(context);
     }
 
-    public List getAll() throws GenercicException { return this.searchAll(); }
+    public ArrayList<Kit> getAll() throws GenercicException { return this.searchAll(); }
 
     public ArrayList getByData(int g) throws GenercicException
     {
@@ -45,14 +44,14 @@ public class KitDataAccess
     {
         Kit kit = new Kit();
         Item item = new Item();
-        item.setCodigo(Integer.parseInt(data.substring(12, 19)));
+        item.setCodigo(Integer.parseInt(data.substring(12, 19).trim()));
         ArrayList<Item> itens = new ArrayList<>();
-
-        kit.setKit(data.substring(2, 12));
+        itens.add(item);
+        kit.setKit(data.substring(2, 12).trim());
         kit.setItens(itens);
-        kit.setDescricao(data.substring(19, 49));
-        kit.setQuantidade(Float.parseFloat(data.substring(49, 54)) / 100);
-        kit.setValor(Float.parseFloat(data.substring(54, 59)) / 100);
+        kit.setDescricao(data.substring(19, 49).trim());
+        kit.setQuantidade(Float.parseFloat(data.substring(49, 56).trim()) / 100);
+        kit.setValor(Float.parseFloat(data.substring(56, 63).trim()) / 100);
 
         return kit;
     }
@@ -109,6 +108,9 @@ public class KitDataAccess
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
+        /*
+            TODO: Verificar melhor forma de fazer a união dos kits;
+         */
         c.moveToFirst();
         for(int i = 0; i < c.getCount(); i++)
         {

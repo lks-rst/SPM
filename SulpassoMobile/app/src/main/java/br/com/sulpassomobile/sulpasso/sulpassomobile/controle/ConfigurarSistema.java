@@ -2,7 +2,15 @@ package br.com.sulpassomobile.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
 
-import java.util.HashMap;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.R;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ConfiguradorConexao;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ConfiguradorEmpresa;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ConfiguradorTelas;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ConfiguradorUsuario;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.modelo.ConfiguradorVendas;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ConfiguradorDataAccess;
 
 /*
     #TODO: Criar a função para verificação da forma de desconto, saldo flex ou contribuição.
@@ -21,13 +29,81 @@ public class ConfigurarSistema
     private Context context;
     private float saldoAtual;
 
-    private HashMap<String, String> configuracoesVenda;
+    private ConfiguradorEmpresa configEmp;
+    private ConfiguradorUsuario configUsr;
+    private ConfiguradorVendas configVda;
+    private ConfiguradorConexao configCon;
+    private ConfiguradorHorarios configHor;
+    private ConfiguradorTelas configTel;
 
     public ConfigurarSistema(Context context)
     {
         this.context = context;
-        this.getConfiguracoesVenda();
+    }
+
+    public ConfiguradorEmpresa getConfigEmp() { return configEmp; }
+
+    public void setConfigEmp(ConfiguradorEmpresa configEmp) { this.configEmp = configEmp; }
+
+    public ConfiguradorUsuario getConfigUsr() { return configUsr; }
+
+    public void setConfigUsr(ConfiguradorUsuario configUsr) { this.configUsr = configUsr; }
+
+    public ConfiguradorVendas getConfigVda() { return configVda; }
+
+    public void setConfigVda(ConfiguradorVendas configVda) { this.configVda = configVda; }
+
+    public ConfiguradorConexao getConfigCon() { return configCon; }
+
+    public void setConfigCon(ConfiguradorConexao configCon) { this.configCon = configCon; }
+
+    public ConfiguradorHorarios getConfigHor() { return configHor; }
+
+    public void setConfigHor(ConfiguradorHorarios configHor) { this.configHor = configHor; }
+
+    public ConfiguradorTelas getConfigTel() { return configTel; }
+
+    public void setConfigTel(ConfiguradorTelas configTel) { this.configTel = configTel; }
+
+    public void carregarConfiguracoesVenda() throws GenercicException
+    {
+        this.configUsr = new ConfiguradorUsuario();
+        this.configVda = new ConfiguradorVendas();
+        this.configHor = new ConfiguradorHorarios();
+        this.configTel = new ConfiguradorTelas();
+
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+
+        this.configUsr = cda.getUsuario();
+        this.configVda = cda.getVenda();
+        this.configHor = cda.getHorario();
+        this.configTel = cda.getTelas();
+
         this.saldoAtual = Float.parseFloat(this.getConfiguracao(1));
+    }
+
+    public void carregarConfiguracoesGeral()
+    {
+        this.configEmp = new ConfiguradorEmpresa();
+        this.configUsr = new ConfiguradorUsuario();
+        this.configVda = new ConfiguradorVendas();
+        this.configCon = new ConfiguradorConexao();
+        this.configHor = new ConfiguradorHorarios();
+        this.configTel = new ConfiguradorTelas();
+    }
+
+    public void carregarConfiguracoesInicial() throws GenercicException {
+        this.configEmp = new ConfiguradorEmpresa();
+        this.configVda = new ConfiguradorVendas();
+        this.configHor = new ConfiguradorHorarios();
+        this.configTel = new ConfiguradorTelas();
+
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+
+        this.configEmp = cda.getEmpresa();
+        this.configVda = cda.getVenda();
+        this.configHor = cda.getHorario();
+        this.configTel = cda.getTelas();
     }
 
     public float getSaldoAtual() { return saldoAtual; }
@@ -69,6 +145,17 @@ public class ConfigurarSistema
         }
     }
 
+    public Boolean alteraValorFim(int campo)
+    {
+        if(campo == R.id.ffpEdtFrete)
+            return this.configVda.getFrete();
+        else
+        if(campo == R.id.ffpEdtDesconto)
+            return this.configUsr.getDescontoPedido() > 0;
+        else
+            return false;
+    }
+
     public float descontoMaximo() { return this.getDesconto(); }
 
     public boolean contribuicaoIdeal()
@@ -91,37 +178,35 @@ public class ConfigurarSistema
      *
      * @return 1 para alteração de valor 0 para desconto percentual
      */
-    private int getTipoDesconto() { return 1; }
+    private int getTipoDesconto() { return (this.configVda.getDescontoPecentual() ? 0 : 1); }
 
     /**
      * Retorna a forma de desconto a ser utilizada, com base no saldo flex ou com base na contribuição
      *
-     * @return 1 para saldo flez 0 para contribuição
+     * @return 1 para saldo flex 0 para contribuição
      */
     private int getFormaDesconto() { return 1; }
 
     /**
-     * Verifica se esta configurada a alteração de preços para o sistema, não considera as
+     * Verifica se está configurada a alteração de preços para o sistema, não considera as
      * configurações do cliente ou do item que esta sendo vendido
      *
      * @return true - false
      */
-    private Boolean podeModificarPreco() { return true; }
+    private Boolean podeModificarPreco() { return this.configVda.getAlteraPrecos(); }
 
-    private float getValorMinimo() { return 50; }
+    private float getValorMinimo() { return this.configUsr.getPedidoMinimo(); }
 
-    private float getDesconto() { return 10; }
+    private float getDesconto() { return this.configUsr.getDescontoItem(); }
 
     private Boolean verifyContribuicao() { return true; }
-
-    private void getConfiguracoesVenda() { /*****/ }
 
     private String getConfiguracao(int data)
     {
         switch (data)
         {
             case 1:
-                return "50.00";
+                return String.valueOf(this.getConfigUsr().getSaldo());
             case 2:
                 return "40";
             default :

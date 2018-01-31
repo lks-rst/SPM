@@ -78,8 +78,7 @@ public class ItensVendidos
                 " - " + valorTabela +
                 " - " + quantidade +
                 " - " + descontoCG +
-                " - " + total +
-                '}';
+                " - " + total;
     }
 
     @Override

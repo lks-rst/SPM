@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/consulta_pedidos_todos"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_todos">
+    </item>
+    <item
+        android:id="@+id/consulta_pedidos_resumo"
+        android:showAsAction="never"
+        android:title="@string/menu_consulta_resumo">
+    </item>
+    <item
+        android:id="@+id/consulta_pedidos_nao"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_nao">
+    </item>
+    <item
+        android:id="@+id/consulta_pedidos_direta"
+        android:showAsAction="never"
+        android:title="@string/menu_consulta_direta">
+    </item>
+    <item
+        android:id="@+id/consulta_pedidos_enviados"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_enviados">
+    </item>
+</menu>

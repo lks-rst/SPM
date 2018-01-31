@@ -65,15 +65,18 @@ public class ResumoFragment extends Fragment
         ((EditText) getActivity().findViewById(R.id.flirEdtTabela)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtTabela));
         ((EditText) getActivity().findViewById(R.id.flirEdtTipo)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtTipo));
         ((ListView) getActivity().findViewById(R.id.flirLiItens)).setAdapter
+        (
+            new ArrayAdapter<String>
             (
-                new ArrayAdapter<String>
-                    (
-                        getActivity().getApplicationContext(),
-                        android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                        ((Pedido) getActivity()).listarResumo()
-                    )
-            );
-
+                getActivity().getApplicationContext(),
+                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+                ((Pedido) getActivity()).listarResumo()
+            )
+        );
+        ((EditText) getActivity().findViewById(R.id.flirEdtItens)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtItens));
+        ((EditText) getActivity().findViewById(R.id.flirEdtValor)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtValor));
+        ((EditText) getActivity().findViewById(R.id.flirEdtVolume)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtVolume));
+        ((EditText) getActivity().findViewById(R.id.flirEdtCont)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCont));
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/

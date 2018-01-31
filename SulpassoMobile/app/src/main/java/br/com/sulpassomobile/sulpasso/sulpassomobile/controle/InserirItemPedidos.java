@@ -89,18 +89,18 @@ public class InserirItemPedidos
 
         minimo = minimoPromocional > 0 ?
                 (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
-        minimo = minimo < tabela ? minimo : tabela;
+        minimo = (minimo > 0 && minimo < tabela) ? minimo : tabela;
 
         diferenca = minimo - this.valor;
 
         return diferenca;
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context)
     {
         if(this.verificarQuantidade())
-            if(this.verificarDesconto(desconto, percentual))
-                if(this.verificarValor(desconto, percentual))
+            if(this.verificarDesconto(desconto, percentual, context))
+                if(this.verificarValor(desconto, percentual, context))
                 {
                     ItensVendidos item = new ItensVendidos();
                     item.setItem(this.item.getCodigo());
@@ -151,21 +151,21 @@ public class InserirItemPedidos
         }
     }
 
-    private Boolean verificarValor(float desconto, boolean percentual) {
+    private Boolean verificarValor(float desconto, boolean percentual, Context context) {
         if(percentual)
+            return true;
+        else
         {
             float valordesconto;
             float valorTabela = Float.parseFloat(buscarDadosVendaItem(1));
 
             valordesconto = valorTabela - (valorTabela * desconto / 100);
 
-            if(this.valor < valordesconto)
-                return false;
-            else
+            if(this.valor >= valordesconto)
                 return true;
+            else
+                return this.verificarPromocoes(context, this.valor);
         }
-        else
-            return true;
     }
 
     private Boolean verificarQuantidade()
@@ -176,13 +176,13 @@ public class InserirItemPedidos
             return false;
     }
 
-    private Boolean verificarDesconto(float desconto, boolean percentual)
+    private Boolean verificarDesconto(float desconto, boolean percentual, Context context)
     {
-        if(!percentual)
+        if(percentual)
             if(this.desconto < desconto)
                 return true;
             else
-                return false;
+                return this.verificarPromocoes(context, this.valor - (this.valor * desconto / 100));
         else
             return true;
     }
@@ -199,5 +199,17 @@ public class InserirItemPedidos
 
         if(p != null) { return p.getValor(); }
         else { return -1; }
+    }
+
+    private boolean verificarPromocoes(Context ctx, float valor)
+    {
+        PromocaoDataAccess pda = new PromocaoDataAccess(ctx);
+        Promocao p = null;
+
+        try { p = pda.buscarPromocao(this.item.getCodigo(), this.quantidade); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        if(p != null) { return p.getValor() <= valor; }
+        else { return false; }
     }
 }

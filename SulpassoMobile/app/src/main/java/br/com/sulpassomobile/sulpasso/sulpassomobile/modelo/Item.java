@@ -5,7 +5,6 @@ package br.com.sulpassomobile.sulpasso.sulpassomobile.modelo;
  */
 public class Item
 {
-
     private Integer codigo;
     private String barras;
     private String descricao;
@@ -25,7 +24,6 @@ public class Item
     private Integer grupo;
     private Integer subGrupo;
     private Integer divisao;
-
 
     public Integer getCodigo() { return codigo; }
 

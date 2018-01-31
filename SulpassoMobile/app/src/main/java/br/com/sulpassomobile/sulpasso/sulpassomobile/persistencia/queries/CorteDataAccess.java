@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
@@ -31,7 +30,7 @@ public class CorteDataAccess
         this.db = SimplySalePersistencySingleton.getDb(context);
     }
 
-    public List getAll() throws GenercicException { return this.searchAll(); }
+    public ArrayList<Corte> getAll() throws GenercicException { return this.searchAll(); }
 
     public ArrayList getByData(int g) throws GenercicException
     {
@@ -102,9 +101,21 @@ public class CorteDataAccess
         ArrayList lista = new ArrayList();
 
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append("SELECT DISTINCT ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.TABELA);
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.CLIENTE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -113,21 +124,42 @@ public class CorteDataAccess
         {
             Corte corte = new Corte();
             Cliente cli = new Cliente();
-            ItensVendidos item = new ItensVendidos();
-            ArrayList<ItensVendidos> itens = new ArrayList<>();
 
             cli.setCodigoCliente(c.getInt(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.CLIENTE)));
-            item.setItem(c.getInt(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.PRODUTO)));
-            item.setQuantidade(c.getFloat(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.QUANTIDADE)));
-            itens.add(item);
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.CLIENTE)));
+
+            cli.setRazao(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
+            cli.setFantasia(c.getString(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
+/*
+
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT ");
+            this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.DATA);
+            this.sBuilder.append(" FROM ");
+            this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.TABELA);
+            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.CLIENTE);
+            this.sBuilder.append(" = ");
+            this.sBuilder.append(cli.getCodigoCliente());
+
+            Cursor cursor = this.db.rawQuery(this.sBuilder.toString(), null);
+
+            cursor.moveToFirst();
+
+            corte.setData(cursor.getString(cursor.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.DATA)));
+*/
 
             corte.setCliente(cli);
-            corte.setItensCortados(itens);
-            corte.setData(c.getString(c.getColumnIndex(
-                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.DATA)));
+            /*
+                TODO: Verificar a forma de acrescenbtar os Itens cortados
+             */
+            //corte.setItensCortados(this.searchByData(cli.getCodigoCliente(), corte.getData()));
 
             lista.add(corte);
             c.moveToNext();
@@ -178,5 +210,71 @@ public class CorteDataAccess
         }
 
         return lista;
+    }
+
+    private ArrayList searchByData(int g, String data) throws ReadExeption
+    {
+        ArrayList<ItensVendidos> itens = new ArrayList<>();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.PRODUTO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.QUANTIDADE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.TABELA);
+
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.PRODUTO);
+
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(g);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.DATA);
+        this.sBuilder.append(" LIKE '");
+        this.sBuilder.append(data);
+        this.sBuilder.append("';");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            ItensVendidos item = new ItensVendidos();
+
+            item.setItem(c.getInt(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.PRODUTO)));
+            item.setQuantidade(c.getFloat(c.getColumnIndex(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Corte.QUANTIDADE)));
+
+            itens.add(item);
+
+            c.moveToNext();
+        }
+
+        return itens;
     }
 }

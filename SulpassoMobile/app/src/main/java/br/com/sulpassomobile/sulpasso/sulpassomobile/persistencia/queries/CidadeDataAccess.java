@@ -30,7 +30,7 @@ public class CidadeDataAccess
 
     public ArrayList getAll() throws GenercicException { return this.searchAll(); }
 
-    public ArrayList getByData(int cod) throws GenercicException { return this.searchByData(cod); }
+    public Cidade getByData(int cod) throws GenercicException { return this.searchByData(cod); }
 
     public ArrayList getByData() throws GenercicException { return new ArrayList(); }
 
@@ -122,10 +122,8 @@ public class CidadeDataAccess
         return lista;
     }
 
-    private ArrayList searchByData(int cod) throws ReadExeption
+    private Cidade searchByData(int cod) throws ReadExeption
     {
-        ArrayList lista = new ArrayList();
-
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
@@ -139,27 +137,20 @@ public class CidadeDataAccess
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
-        {
-            Cidade cidade = new Cidade();
+        Cidade cidade = new Cidade();
 
-            cidade.setCodigo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO)));
-            cidade.setNome(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CIDADE)));
-            cidade.setUf(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
-            cidade.setCep(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
-
-            lista.add(cidade);
-            c.moveToNext();
-        }
-
-        return lista;
+        cidade.setCodigo(
+                c.getInt(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO)));
+        cidade.setNome(
+                c.getString(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CIDADE)));
+        cidade.setUf(
+                c.getString(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
+        cidade.setCep(
+                c.getString(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
+        return cidade;
     }
 }

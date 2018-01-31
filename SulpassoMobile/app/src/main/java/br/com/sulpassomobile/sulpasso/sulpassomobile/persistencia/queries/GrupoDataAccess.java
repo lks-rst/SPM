@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
@@ -29,7 +28,11 @@ public class GrupoDataAccess
         this.db = SimplySalePersistencySingleton.getDb(context);
     }
 
-    public List getAll() throws GenercicException { return this.searchAll(); }
+    public ArrayList<Grupo> getAll() throws GenercicException { return this.searchAll(); }
+
+    public ArrayList<Grupo> getAll(int grupo) throws GenercicException { return this.searchAll(grupo); }
+
+    public ArrayList<Grupo> getAll(int grupo, int subGrupo) throws GenercicException { return this.searchAll(grupo, subGrupo); }
 
     public ArrayList getByData(int g, int s, int v) throws GenercicException
     {
@@ -96,7 +99,121 @@ public class GrupoDataAccess
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.TABELA);
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(0);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(0);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Grupo grupo = new Grupo();
+
+            grupo.setGrupo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO)));
+            grupo.setSubGrupo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB)));
+            grupo.setDivisao(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV)));
+            grupo.setDescricao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DESC)));
+
+
+            lista.add(grupo);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList searchAll(int g) throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(g);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+        this.sBuilder.append(" <> ");
+        this.sBuilder.append(0);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(0);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Grupo grupo = new Grupo();
+
+            grupo.setGrupo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO)));
+            grupo.setSubGrupo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB)));
+            grupo.setDivisao(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV)));
+            grupo.setDescricao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DESC)));
+
+
+            lista.add(grupo);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList searchAll(int g, int s) throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(g);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(s);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+        this.sBuilder.append(" <> ");
+        this.sBuilder.append(0);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

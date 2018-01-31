@@ -29,9 +29,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:clickable="false"
+                    android:inputType="none"
                     android:enabled="false"
+                    android:focusable="false"
                     android:ems="10"
                     android:id="@+id/ffpEdtCliente" />
             </LinearLayout>
@@ -50,9 +50,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:clickable="false"
+                    android:inputType="none"
                     android:enabled="false"
+                    android:focusable="false"
                     android:ems="10"
                     android:id="@+id/ffpEdtCidade" />
             </LinearLayout>
@@ -142,7 +142,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="none"
+                    android:enabled="false"
+                    android:focusable="false"
                     android:ems="10"
                     android:id="@+id/ffpEdtTotalItens" />
             </LinearLayout>
@@ -199,7 +201,9 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="none"
+                    android:enabled="false"
+                    android:focusable="false"
                     android:ems="10"
                     android:id="@+id/ffpEdtTotalPedido" />
             </LinearLayout>

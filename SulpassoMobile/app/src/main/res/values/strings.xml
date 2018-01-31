@@ -2,6 +2,7 @@
     <string name="app_name">SulpassoMobile</string>
     <string name="title_activity_login">Login</string>
     <string name="empty"></string>
+    <string name="action_settings">Settings</string>
     <!-- END -->
 
     <!-- Strings related to login -->
@@ -18,20 +19,46 @@
     </string>
     <!-- END -->
 
+    <!-- Strings utilizadas em mais de uma tela -->
+    <string name="generic_confirmar">Confirmar</string>
+    <string name="generic_cancelar">Cancelar</string>
+
+    <!-- Consulta de itens e digitação de pedidos -->
+    <string name="lbl_qtd_caixa">Qtd. Caixa: </string>
+    <string name="lbl_qtd_vda">Qtd. Venda: </string>
+    <string name="lbl_un">UN.: </string>
+    <string name="lbl_uv">UN. V.: </string>
+    <string name="lbl_estoque">Estoque: </string>
+    <string name="lbl_barras">C. Barras: </string>
+    <!-- END -->
+    <!-- END -->
+
+    <!-- Strings utilizadas na tela inicial -->
+    <string name="versao">Versão 1.0</string>
+    <string name="str_pedido">Digitação de Pedidos</string>
+    <string name="str_consulta">Consultas/Relatórios</string>
+    <string name="str_enviar">Envio de Pedidos</string>
+    <string name="str_atualizar">Atualizar Sistema</string>
+    <string name="str_agenda">Agenda de Visita</string>
+    <string name="str_cadastro">Cadastro Cliente</string>
+    <string name="str_pesq_merc">Pesquisa de Mercado</string>
+    <string name="str_sair">Sair do \n Sistema</string>
+    <string name="apresentacao_1">Desenvolvido por: </string>
+    <string name="apresentacao_2"> Sulpasso Informática</string>
+    <string name="contato_fone">Fone: (54) 3311\-1081</string>
+    <string name="contato_email">gestao@sulpasso.com.br</string>
+    <string name="validade_data">Validade: 20/04/2013</string>
+    <!-- END -->
+
+    <!-- String das telas de pedidos -->
     <!-- Strings da tela de digitação -->
     <string name="str_minimo">Minimo</string>
     <string name="str_promocao">Promoções</string>
     <string name="str_tabela">Valor Tabela</string>
 
-    <string name="lbl_un">UN.: </string>
-    <string name="lbl_uv">UN. V.: </string>
-    <string name="lbl_estoque">Estoque: </string>
-    <string name="lbl_barras">C. Barras: </string>
-    <string name="str_unitario">Valor Unitário: </string>
     <string name="str_desc_item">Desc. Item: </string>
     <string name="str_val_cli">Val. Especial: </string>
-    <string name="lbl_qtd_caixa">Qtd. Caixa: </string>
-    <string name="lbl_qtd_vda">Qtd. Venda: </string>
+    <string name="str_unitario">Valor Unitário: </string>
     <string name="lbl_qtd">Quantidade: </string>
     <string name="lbl_val">Valor: </string>
     <string name="lbl_desc">Desconto(%): </string>
@@ -62,8 +89,15 @@
     <!-- END -->
 
     <!-- Strings da tela de busca itens -->
-    <string name="str_busca">Digite o item de busca: </string>
+    <string name="str_busca">Digite o item de busca </string>
     <string name="btn_serach">Pesq.: </string>
+
+    <string name="hnt_descIni">Inicio Descrição: </string>
+    <string name="hnt_descAny">Descrição: </string>
+    <string name="hnt_ref">Referência: </string>
+    <string name="hnt_grp">Grupo: </string>
+    <string name="hnt_sgrp">Sub Grupo: </string>
+    <string name="hnt_div">Divisão: </string>
     <!-- END -->
 
     <!-- Strings da tela resumo -->
@@ -89,7 +123,25 @@
 
     <string name="hnt_zero">0,00</string>
     <!-- END -->
+    <!-- END -->
 
+    <!-- Strings das telas de consulta -->
+    <!-- Strings consulta de Itens -->
+    <string name="tlt_busca_grupo">Busca Por Grupos</string>
+    <string name="msg_busca_grupo">Selecione o grupo, sub grupo e divisão para a consulta</string>
+    <string name="str_grupo_zero">Escolha o grupo</string>
+    <string name="str_sub_zero">Escolha o subgrupo</string>
+    <string name="str_div_zero">Escolha a divisão</string>
+
+    <!-- String detalhes do Item -->
+    <string name="tlt_detalhes">DETALHES DO ITEM</string>
+    <string name="lbl_comp">Complemento</string>
+    <string name="lbl_ref">Referência</string>
+    <!-- END -->
+    <!-- END -->
+    <!-- END -->
+
+    <!-- Strings de titulos -->
     <!-- Strings titulos fragments tela de pedidos -->
     <string name="telaPedido">PEDIDO</string>
     <string-array name="fragTitles">
@@ -102,13 +154,42 @@
     </string-array>
     <!-- END -->
 
+    <!-- Strings titulos fragments telas de consultas -->
+    <string name="telasConsulta">CONSULTA</string>
+
+    <!-- Itens -->
+    <string-array name="fragTitlesConsultaItens">
+        <item><b>#</b>ITENS</item>
+        <item><b>#</b>PROMOÇÕES</item>
+        <item><b>#</b>GRAVOSOS</item>
+        <item><b>#</b>KITS</item>
+        <item><b>#</b>PREÇO MINIMO</item>
+        <item><b>#</b>CAMPANHA PRODUTOS</item>
+        <item><b>#</b>CAMPANHA GRUPOS</item>
+        <item><b>#</b>DETLHES ITENS</item>
+    </string-array>
+    <!-- END -->
+
+    <!-- Clientes -->
+    <string-array name="fragTitlesConsultaClientes">
+        <item><b>#</b>POSITIVAÇÃO</item>
+        <item><b>#</b>CURVA ABC</item>
+        <item><b>#</b>CONTAS RECEBER</item>
+        <item><b>#</b>DEVOLUÇÕES</item>
+        <item><b>#</b>CORTES</item>
+        <item><b>#</b>PRE PEDIDOS</item>
+        <item><b>#</b>ANIVERSÁRIOS</item>
+    </string-array>
+    <!-- END -->
+    <!-- END -->
+
     <!-- Strings da tela de atualização -->
     <string name="tab"> </string>
-
     <!-- END -->
 
     <!-- Strings mensagens de erro -->
     <string name="sem_promocoes">Não foram encontradas promoções para esse item</string>
+    <string name="lista_invalida">Não foram encontradas resultados para essa busca</string>
     <!-- END -->
 
     <!-- Strings menus -->
@@ -131,12 +212,52 @@
     <string name="menu_itens_m">Mix Ideal</string>
     <string name="menu_itens_desc">Descrição</string>
 
-    <string name="menu_inicial_p">Pedido</string>
-    <string name="menu_inicial_co">Consultas</string>
-    <string name="menu_inicial_ca">Cadastro</string>
-    <string name="menu_inicial_ag">Agenda</string>
-    <string name="menu_inicial_at">Atualização</string>
-    <string name="menu_inicial_s">Sair</string>
+    <string name="menu_inicial_p">PEDIDO</string>
+    <string name="menu_inicial_ca">CADASTRO</string>
+    <string name="menu_inicial_ag">AGENDA</string>
+    <string name="menu_inicial_at">ATUALIZAÇÃO</string>
+    <string name="menu_inicial_s">SAIR</string>
+    <string name="menu_inicial_co">CONSULTAS</string>
+
+    <string name="menu_inicial_co_ped">Pedidos</string>
+    <string name="menu_inicial_co_iten">Itens</string>
+    <string name="menu_inicial_co_cli">Clientes</string>
+    <string name="menu_inicial_co_geral">Gerencial</string>
+
+    <string name="menu_consulta_todos">Todos</string>
+    <string name="menu_consulta_enviados">Enviados</string>
+    <string name="menu_consulta_nao">Não Enviados</string>
+    <string name="menu_consulta_direta">Vendas Diretas</string>
+    <string name="menu_consulta_resumo">Resumo Dia</string>
+    <string name="menu_consulta_precos">Produtos</string>
+    <string name="menu_consulta_minimo">Preços Minimos</string>
+    <string name="menu_consulta_gravoso">GRavosos</string>
+    <string name="menu_consulta_foco">Produtos Foco</string>
+    <string name="menu_consulta_kit">Kits</string>
+    <string name="menu_consulta_promo">Promoções</string>
+    <string name="menu_consulta_campP">Campanhas Produtos</string>
+    <string name="menu_consulta_campG">Campanhas Grupos</string>
+    <string name="menu_consulta_titulos">Títulos Abertos</string>
+    <string name="menu_consulta_devolucao">Devoluções</string>
+    <string name="menu_consulta_corte">Cortes</string>
+    <string name="menu_consulta_abc">Curva ABC</string>
+    <string name="menu_consulta_aniversario">Aniversários</string>
+    <string name="menu_consulta_positivacao">Positivação</string>
+    <string name="menu_consulta_pre">Pre Pedidos</string>
+    <string name="menu_consulta_meta">Metas</string>
+    <string name="menu_consulta_mensagem">Mensagens</string>
+    <string name="menu_consulta_grafico">Gráficos</string>
+    <string name="menu_consulta_plano">Plano Visitas</string>
+
+    <string name="menu_atualizacao_vendas">Enviar Vendas</string>
+    <string name="menu_atualizacao_clientes">Enviar Clientes</string>
+    <string name="menu_atualizacao_full">Atualizar Sistema</string>
+    <!-- END -->
+
+    <!-- String da tela de atualização -->
+    <string name="tlt_atualiza">DETALHES DO ITEM</string>
+    <string name="lbl_geral">Geral</string>
+    <string name="lbl_parcial">Parcial</string>
     <!-- END -->
 
 </resources>

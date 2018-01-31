@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.InsertionExeption;
@@ -32,10 +31,7 @@ public class DevolucaoDataAccess
         this.db = SimplySalePersistencySingleton.getDb(context);
     }
 
-    /*
-        TODO: Remover após testes de inserção. Não há (hoje) no sistema nada que necessite uma busca por todos os devolucaos
-     */
-    public List getAll() throws GenercicException { return this.searchAll(); }
+    public ArrayList getAll() throws GenercicException { return this.searchAll(); }
 
     public ArrayList getByData(int g) throws GenercicException
     {
@@ -122,17 +118,17 @@ public class DevolucaoDataAccess
         catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
     }
 
-    /*
-        TODO: É preciso alterar esses dois metodos para buscarem de maneira separada cada um dos clientes retornando os itens como a lista
-     */
-    private ArrayList searchAll() throws ReadExeption
+    private ArrayList searchAll() throws GenercicException
     {
         ArrayList lista = new ArrayList();
 
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append("SELECT DISTINCT ");
         this.sBuilder.append(
-            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.TABELA);
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DOCUMENTO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.TABELA);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -140,37 +136,67 @@ public class DevolucaoDataAccess
         for(int i = 0; i < c.getCount(); i++)
         {
             Devolucao d = new Devolucao();
-            Cliente cli = new Cliente();
-            cli.setCodigoCliente(
-                c.getInt(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE)));
-            d.setCliente(cli);
-
-            d.setDocumento(
-                c.getString(c.getColumnIndex(
+            d.setDocumento(c.getString(c.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DOCUMENTO)));
-            d.setDataDevolucao(
-                c.getString(c.getColumnIndex(
+
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DATA);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.MOTIVO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+            this.sBuilder.append(" FROM ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.TABELA);
+
+            this.sBuilder.append(" JOIN ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+            this.sBuilder.append(" ON ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE);
+            this.sBuilder.append(" = ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+
+            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DOCUMENTO);
+            this.sBuilder.append(" LIKE '");
+            this.sBuilder.append(d.getDocumento());
+            this.sBuilder.append("';");
+
+            Cursor cursor = this.db.rawQuery(this.sBuilder.toString(), null);
+            cursor.moveToFirst();
+
+            d.setDataDevolucao(cursor.getString(cursor.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DATA)));
-            d.setMotivo(
-                c.getString(c.getColumnIndex(
+            d.setMotivo(cursor.getString(cursor.getColumnIndex(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.MOTIVO)));
 
-            ItensVendidos item = new ItensVendidos();
-            item.setItem(
-                c.getInt(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO)));
-            item.setQuantidade(
-                c.getFloat(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.QUANTIDADE)));
-            item.setValorLiquido(
-                c.getFloat(c.getColumnIndex(
-                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.VALOR)));
 
-            ArrayList<ItensVendidos> itens = new ArrayList<>();
-            itens.add(item);
+            Cliente cliente = new Cliente();
 
-            d.setItensDevolvidos(itens);
+            cliente.setCodigoCliente(cursor.getInt(cursor.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE)));
+            cliente.setFantasia(cursor.getString(cursor.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
+            cliente.setRazao(cursor.getString(cursor.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
+
+            d.setCliente(cliente);
+
+            d.setItensDevolvidos(this.searchByData(d.getDocumento()));
 
             lista.add(d);
             c.moveToNext();
@@ -184,9 +210,36 @@ public class DevolucaoDataAccess
         ArrayList lista = new ArrayList();
 
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.QUANTIDADE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.VALOR);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO);
+        this.sBuilder.append(" FROM ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
         this.sBuilder.append(" WHERE ");
         this.sBuilder.append(
                 br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE);
@@ -198,40 +251,77 @@ public class DevolucaoDataAccess
         c.moveToFirst();
         for(int i = 0; i < c.getCount(); i++)
         {
-            Devolucao d = new Devolucao();
-            Cliente cli = new Cliente();
-            cli.setCodigoCliente(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE)));
-            d.setCliente(cli);
-
-            d.setDocumento(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DOCUMENTO)));
-            d.setDataDevolucao(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DATA)));
-            d.setMotivo(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.MOTIVO)));
-
             ItensVendidos item = new ItensVendidos();
-            item.setItem(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO)));
-            item.setQuantidade(
-                    c.getFloat(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.QUANTIDADE)));
-            item.setValorLiquido(
-                    c.getFloat(c.getColumnIndex(
-                            br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.VALOR)));
+            item.setItem(c.getInt(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO)));
+            item.setQuantidade(c.getFloat(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.QUANTIDADE)));
+            item.setValorLiquido(c.getFloat(c.getColumnIndex(
+                        br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.VALOR)));
 
-            ArrayList<ItensVendidos> itens = new ArrayList<>();
-            itens.add(item);
+            lista.add(item);
+            c.moveToNext();
+        }
 
-            d.setItensDevolvidos(itens);
+        return lista;
+    }
 
-            lista.add(d);
+    private ArrayList searchByData(String g) throws ReadExeption
+    {
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.QUANTIDADE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.VALOR);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.DOCUMENTO);
+        this.sBuilder.append(" LIKE '");
+        this.sBuilder.append(g);
+        this.sBuilder.append("';");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            ItensVendidos item = new ItensVendidos();
+            item.setItem(c.getInt(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.PRODUTO)));
+            item.setQuantidade(c.getFloat(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.QUANTIDADE)));
+            item.setValorLiquido(c.getFloat(c.getColumnIndex(
+                    br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.VALOR)));
+
+            lista.add(item);
             c.moveToNext();
         }
 

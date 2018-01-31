@@ -13,7 +13,8 @@ public enum Tabelas
     MOTIVOS(2), PRE_PEDIDO(3), PRE_PEDIDO_CD(4), CLIENTES(5), SALDO_FLEX(6), TIPO_VENDA(7),
     TIPOLOGIA(10), VALIDADE(12), PRODUTO(13), MIX(14), PROMOCOES(15), GRAVOSOS(16), GRUPO(19),
     NATUREZA(20), KIT(22), TOTALIZADORES(23), TABELA_CLIENTE(25), PRAZOS(28), TABELA_PRECOS(33),
-    ESTOQUE(43), DESC_GRUPO(46), DESC_CAMP(47), RESTRICAO_CLIENTE(69), RESTRICAO_GRUPO(90);
+    ESTOQUE(43), DESC_GRUPO(46), DESC_CAMP(47), RESTRICAO_CLIENTE(69), RESTRICAO_GRUPO(90),
+    INVALIDO(-1);
 
     
 
@@ -106,7 +107,10 @@ public enum Tabelas
             case 99 :
                 return MENSAGENS_MSG;
             default:
-                return DEVOLUCAO;
+                return INVALIDO;
+            /*
+            TODO: Rever esse default esta retornando um valor valido isso não pode ocorrer
+             */
         }
     }
 }

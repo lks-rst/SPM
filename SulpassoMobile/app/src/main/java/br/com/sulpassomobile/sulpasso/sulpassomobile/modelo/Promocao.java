@@ -33,9 +33,6 @@ public class Promocao
 
     public String toDisplay()
     {
-        return "Promocao{" + item +
-                " - " + quantidade +
-                " - " + valor +
-                "}\n";
+        return "Promocao{" + quantidade + " - " + valor + "}";
     }
 }

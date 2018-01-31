@@ -25,7 +25,7 @@ public class ListaItensFragment extends Fragment
     private ListView fliLiItens;
 
     public ListaItensFragment(){}
-    /**********************************FRAGMENT LIFE CICLE*********************************************/
+/**********************************FRAGMENT LIFE CICLE*********************************************/
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

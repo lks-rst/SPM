@@ -8,4 +8,132 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+
+    <!-- TELA INICIAL -->
+    <style name="rootView" parent="AppTheme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">@dimen/padding_superior</item>
+        <item name="android:paddingBottom">@dimen/padding_inferior</item>
+        <item name="android:paddingLeft">@dimen/padding_direita</item>
+        <item name="android:paddingRight">@dimen/padding_esquerda</item>
+        <item name="android:layout_marginTop">@dimen/margem_superior</item>
+        <item name="android:layout_marginBottom">@dimen/margem_inferior</item>
+        <item name="android:layout_marginRight">@dimen/margem_direita</item>
+        <item name="android:layout_marginLeft">@dimen/margem_esquerda</item>
+        <item name="android:background">@drawable/border</item>
+    </style>
+
+    <!-- TELA INICIAL FRAG DESENV -->
+    <style name="rootView.fragdesenv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">@dimen/padding_superior</item>
+        <item name="android:paddingBottom">@dimen/padding_inferior</item>
+        <item name="android:paddingLeft">@dimen/padding_direita</item>
+        <item name="android:paddingRight">@dimen/padding_esquerda</item>
+        <item name="android:layout_marginTop">@dimen/zero_space</item>
+        <item name="android:layout_marginBottom">@dimen/zero_space</item>
+        <item name="android:layout_marginRight">@dimen/zero_space</item>
+        <item name="android:layout_marginLeft">@dimen/zero_space</item>
+    </style>
+
+    <style name="rootView.fragdesenv.frame">
+        <item name="android:layout_width">@dimen/largura_frame_logo</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">@dimen/zero_space</item>
+        <item name="android:paddingBottom">@dimen/zero_space</item>
+        <item name="android:paddingLeft">@dimen/zero_space</item>
+        <item name="android:paddingRight">@dimen/zero_space</item>
+    </style>
+
+    <style name="rootView.fragdesenv.frame.imagens">
+        <item name="android:layout_width">@dimen/largura_logo_sulpasso_inicial</item>
+        <item name="android:layout_height">@dimen/altura_logo_sulpasso_inicial</item>
+        <item name="android:contentDescription">@string/action_settings</item>
+    </style>
+
+    <style name="rootView.fragdesenv.frame.textos">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="rootView.fragdesenv.frame.textos.negrito">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="rootView.fragdesenv.frame.textos.validade">
+        <item name="android:textSize">@dimen/fonte_validade_frag_desenv</item>
+    </style>
+
+    <!-- TELA INICIAL FRAG EMP -->
+    <style name="rootView.fragEmp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">@dimen/padding_superior</item>
+        <item name="android:paddingBottom">@dimen/padding_inferior</item>
+        <item name="android:paddingLeft">@dimen/padding_direita</item>
+        <item name="android:paddingRight">@dimen/padding_esquerda</item>
+        <item name="android:layout_marginTop">@dimen/zero_space</item>
+        <item name="android:layout_marginBottom">@dimen/zero_space</item>
+        <item name="android:layout_marginRight">@dimen/zero_space</item>
+        <item name="android:layout_marginLeft">@dimen/zero_space</item>
+    </style>
+
+    <style name="rootView.fragEmp.frame">
+        <item name="android:layout_width">@dimen/largura_frame_logo</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">@dimen/zero_space</item>
+        <item name="android:paddingBottom">@dimen/zero_space</item>
+        <item name="android:paddingLeft">@dimen/zero_space</item>
+        <item name="android:paddingRight">@dimen/zero_space</item>
+        <item name="android:contentDescription">@string/action_settings</item>
+    </style>
+
+    <style name="rootView.fragEmp.frame.imagens">
+        <item name="android:layout_width">@dimen/largura_logo_cliente_inicial</item>
+        <item name="android:layout_height">@dimen/altura_logo_cliente_inicial</item>
+        <item name="android:contentDescription">@string/action_settings</item>
+    </style>
+
+    <style name="rootView.fragEmp.frame.textos">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/tamanho_fonte_info_cliente_inicial</item>
+    </style>
+
+    <style name="rootView.fragEmp.frame.textos.negrito">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/tamanho_fonte_razao_cliente_inicial</item>
+    </style>
+
+    <!--
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    -->
+    <style name = "labels">
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name = "labels.bigger">
+        <item name="android:textSize">@dimen/tamanho_fonte_razao_cliente_inicial</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
 </resources>

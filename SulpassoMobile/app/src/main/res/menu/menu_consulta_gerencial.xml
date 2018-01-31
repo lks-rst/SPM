@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/consulta_gerencial_mensagem"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_mensagem">
+    </item>
+    <item
+        android:id="@+id/consulta_gerencial_meta"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_meta">
+    </item>
+    <item
+        android:id="@+id/consulta_gerencial_grafico"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_grafico">
+    </item>
+    <item
+        android:id="@+id/consulta_gerencial_plano"
+        android:showAsAction="always"
+        android:title="@string/menu_consulta_plano">
+    </item>
+</menu>

@@ -80,6 +80,7 @@ public class DadosClienteFragment extends Fragment
         super.onResume();
         this.setUpLayout();
         this.fdcSpnrClientes.setSelection(this.activity.restoreClient());
+        this.bloquearClicks();
     }
 /**************************************************************************************************/
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
@@ -89,9 +90,9 @@ public class DadosClienteFragment extends Fragment
     public void ajustarLayout()
     {
         this.fdcSpnrNaturezas.setAdapter(
-                new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                        android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                        activity.listarNaturezas(!ESPECIAL)));
+            new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+                activity.listarNaturezas(!ESPECIAL)));
 
         this.fdcSpnrNaturezas.setSelection(this.activity.buscarNatureza());
 
@@ -131,9 +132,9 @@ public class DadosClienteFragment extends Fragment
     public void ajustarPrazos(int posicao)
     {
         this.fdcSpnrPrazos.setAdapter(
-                new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                        android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                        activity.listarPrazos(posicao)));
+            new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+                activity.listarPrazos(posicao)));
 
         this.fdcSpnrPrazos.setSelection(this.activity.buscarPrazo());
         this.fdcSpnrPrazos.setOnItemSelectedListener(selectingData);
@@ -148,6 +149,8 @@ public class DadosClienteFragment extends Fragment
         this.fdcSpnrNaturezas.setEnabled(this.activity.permitirClick(R.id.fdcSpnrNaturezas));
         this.fdcSpnrPrazos.setClickable(this.activity.permitirClick(R.id.fdcSpnrPrazos));
         this.fdcSpnrPrazos.setEnabled(this.activity.permitirClick(R.id.fdcSpnrPrazos));
+        this.fdcSpnrClientes.setClickable(this.activity.permitirClick(R.id.fdcSpnrClientes));
+        this.fdcSpnrClientes.setEnabled(this.activity.permitirClick(R.id.fdcSpnrClientes));
     }
 /**************************************************************************************************/
 /******************************END OF FRAGMENT ACCESS METHODS**************************************/

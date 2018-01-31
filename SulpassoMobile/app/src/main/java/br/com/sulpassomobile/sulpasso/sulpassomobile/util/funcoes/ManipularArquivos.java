@@ -12,19 +12,37 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import br.com.sulpassomobile.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.AtividadeDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.BancoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.CampanhaGrupoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.CampanhaProdutoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.CidadeDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ClienteDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ContasReceberDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.CorteDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.CurvaAbcDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.DevolucaoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.EstoqueDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.GravososDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.GrupoBloqueadoClienteDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.GrupoBloqueadoNaturezaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.GrupoDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.KitDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.MensagemDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.MetaDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.MixDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.MotivosDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrePedidoDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrePedidoDiretaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrecoDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PrecosClientesDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.StatusDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.TipoVendaDataAccess;
+import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.queries.TipologiaDataAccess;
 import br.com.sulpassomobile.sulpasso.sulpassomobile.util.Enumarations.Tabelas;
 
 /**
@@ -33,6 +51,24 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.util.Enumarations.Tabelas;
  */
 public class ManipularArquivos
 {
+    private ArrayList<String> devolucoes = null;
+    private ArrayList<String> motivos = null;
+    private ArrayList<String> prePedidos = null;
+    private ArrayList<String> prePedidosDiretas = null;
+    private ArrayList<String> metas = null;
+    private ArrayList<String> tipologias = null;
+    private ArrayList<String> contasReceber = null;
+    private ArrayList<String> mix = null;
+    private ArrayList<String> gravosos = null;
+    private ArrayList<String> mensagens = null;
+    private ArrayList<String> curvaAbc = null;
+    private ArrayList<String> precosClientes = null;
+    private ArrayList<String> atividades = null;
+    private ArrayList<String> clientesRestricoes = null;
+    private ArrayList<String> cortes = null;
+    private ArrayList<String> status = null;
+    private ArrayList<String> naturezasRestricoes = null;
+
     private ArrayList<String> clientes = null;
     private ArrayList<String> promocoes = null;
     private ArrayList<String> produtos = null;
@@ -60,7 +96,8 @@ public class ManipularArquivos
 
     public File AbrirArquivosExterno()
     {
-        return (new File(Environment.getExternalStorageDirectory() + "/MobileVenda", "PW0015.450"));
+        return (new File(Environment.getExternalStorageDirectory() + "/MobileVenda", "PW0020.319"));
+        //return (new File(Environment.getExternalStorageDirectory() + "/MobileVenda", "PW0015.492"));
     }
 
     public void separarStrings() throws GenercicException
@@ -85,6 +122,75 @@ public class ManipularArquivos
 
                 switch (tb)
                 {
+                    case DEVOLUCAO :
+                        if(devolucoes == null) { devolucoes = new ArrayList<>(); }
+                        devolucoes.add(s);
+                        break;
+                    case MOTIVOS :
+                        if(motivos == null) { motivos = new ArrayList<>(); }
+                        motivos.add(s);
+                        break;
+                    case PRE_PEDIDO :
+                        if(prePedidos == null) { prePedidos = new ArrayList<>(); }
+                        prePedidos.add(s);
+                        break;
+                    case PRE_PEDIDO_CD :
+                        if(prePedidosDiretas == null) { prePedidosDiretas = new ArrayList<>(); }
+                        prePedidosDiretas.add(s);
+                        break;
+                    case METAS :
+                        if(metas == null) { metas = new ArrayList<>(); }
+                        metas.add(s);
+                        break;
+                    case TIPOLOGIA :
+                        if(tipologias == null) { tipologias = new ArrayList<>(); }
+                        tipologias.add(s);
+                        break;
+                    case CTAS_RECEBER :
+                        if(contasReceber == null) { contasReceber = new ArrayList<>(); }
+                        contasReceber.add(s);
+                        break;
+                    case MIX :
+                        if(mix == null) { mix = new ArrayList<>(); }
+                        mix.add(s);
+                        break;
+                    case GRAVOSOS :
+                        if(gravosos == null) { gravosos = new ArrayList<>(); }
+                        gravosos.add(s);
+                        break;
+                    case MENSAGENS :
+                        if(mensagens == null) { mensagens = new ArrayList<>(); }
+                        mensagens.add(s);
+                        break;
+                    case TOTALIZADORES :
+                        if(curvaAbc == null) { curvaAbc = new ArrayList<>(); }
+                        curvaAbc.add(s);
+                        break;
+                    case TABELA_CLIENTE :
+                        if(precosClientes == null) { precosClientes = new ArrayList<>(); }
+                        precosClientes.add(s);
+                        break;
+                    case ATIVIDADE :
+                        if(atividades == null) { atividades = new ArrayList<>(); }
+                        atividades.add(s);
+                        break;
+                    case RESTRICAO_CLIENTE :
+                        if(clientesRestricoes == null) { clientesRestricoes = new ArrayList<>(); }
+                        clientesRestricoes.add(s);
+                        break;
+                    case CORTE :
+                        if(cortes == null) { cortes = new ArrayList<>(); }
+                        cortes.add(s);
+                        break;
+                    case STATUS :
+                        if(status == null) { status = new ArrayList<>(); }
+                        status.add(s);
+                        break;
+                    case RESTRICAO_GRUPO :
+                        if(naturezasRestricoes == null) { naturezasRestricoes = new ArrayList<>(); }
+                        naturezasRestricoes.add(s);
+                        break;
+
                     case CLIENTES :
                         if(clientes == null) { clientes = new ArrayList<>(); }
                         clientes.add(s);
@@ -205,6 +311,244 @@ public class ManipularArquivos
 
         switch (tb)
         {
+            case DEVOLUCAO :
+                DevolucaoDataAccess devda = new DevolucaoDataAccess(context);
+                if(devolucoes != null && devolucoes.size() > 0)
+                {
+                    for (String s : devolucoes) {
+                        try {
+                            devda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case MOTIVOS :
+                MotivosDataAccess mda = new MotivosDataAccess(context);
+                if(motivos != null && motivos.size() > 0)
+                {
+                    for (String s : motivos) {
+                        try {
+                            mda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case PRE_PEDIDO :
+                PrePedidoDataAccess ppda = new PrePedidoDataAccess(context);
+                if(prePedidos != null && prePedidos.size() > 0)
+                {
+                    for (String s : prePedidos) {
+                        try {
+                            ppda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case PRE_PEDIDO_CD :
+                PrePedidoDiretaDataAccess ppdda = new PrePedidoDiretaDataAccess(context);
+                if(prePedidosDiretas != null && prePedidosDiretas.size() > 0)
+                {
+                    for (String s : prePedidosDiretas) {
+                        try {
+                            ppdda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case METAS :
+                MetaDataAccess metada = new MetaDataAccess(context);
+                if(metas != null && metas.size() > 0)
+                {
+                    for (String s : metas) {
+                        try {
+                            metada.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case TIPOLOGIA :
+                TipologiaDataAccess tipoda = new TipologiaDataAccess(context);
+                if(tipologias != null && tipologias.size() > 0)
+                {
+                    for (String s : tipologias) {
+                        try {
+                            tipoda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case CTAS_RECEBER :
+                ContasReceberDataAccess crda = new ContasReceberDataAccess(context);
+                if(contasReceber != null && contasReceber.size() > 0)
+                {
+                    for (String s : contasReceber) {
+                        try {
+                            crda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case MIX :
+                MixDataAccess mixda = new MixDataAccess(context);
+                if(mix != null && mix.size() > 0)
+                {
+                    for (String s : mix) {
+                        try {
+                            mixda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case GRAVOSOS :
+                GravososDataAccess gravda = new GravososDataAccess(context);
+                if(gravosos != null && gravosos.size() > 0)
+                {
+                    for (String s : gravosos) {
+                        try {
+                            gravda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case MENSAGENS :
+                MensagemDataAccess msgda = new MensagemDataAccess(context);
+                if(mensagens != null && mensagens.size() > 0)
+                {
+                    for (String s : mensagens) {
+                        try {
+                            msgda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case TOTALIZADORES :
+                CurvaAbcDataAccess abcda = new CurvaAbcDataAccess(context);
+                if(curvaAbc != null && curvaAbc.size() > 0)
+                {
+                    for (String s : curvaAbc) {
+                        try {
+                            abcda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case TABELA_CLIENTE :
+                PrecosClientesDataAccess pcda = new PrecosClientesDataAccess(context);
+                if(precosClientes != null && precosClientes.size() > 0)
+                {
+                    for (String s : precosClientes) {
+                        try {
+                            pcda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case ATIVIDADE :
+                AtividadeDataAccess atvda = new AtividadeDataAccess(context);
+                if(atividades != null && atividades.size() > 0)
+                {
+                    for (String s : atividades) {
+                        try {
+                            atvda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case RESTRICAO_CLIENTE :
+                GrupoBloqueadoClienteDataAccess gbcda = new GrupoBloqueadoClienteDataAccess(context);
+                if(clientesRestricoes != null && clientesRestricoes.size() > 0)
+                {
+                    for (String s : clientesRestricoes) {
+                        try {
+                            gbcda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case CORTE :
+                CorteDataAccess corteda = new CorteDataAccess(context);
+                if(cortes != null && cortes.size() > 0)
+                {
+                    for (String s : cortes) {
+                        try {
+                            corteda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case STATUS :
+                StatusDataAccess sda = new StatusDataAccess(context);
+                if(status != null && status.size() > 0)
+                {
+                    for (String s : status) {
+                        try {
+                            sda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
+            case RESTRICAO_GRUPO :
+                GrupoBloqueadoNaturezaDataAccess gbnda = new GrupoBloqueadoNaturezaDataAccess(context);
+                if(naturezasRestricoes != null && naturezasRestricoes.size() > 0)
+                {
+                    for (String s : naturezasRestricoes) {
+                        try {
+                            gbnda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
+                break;
             case CLIENTES :
                 ClienteDataAccess cda = new ClienteDataAccess(context);
                 if(clientes != null && clientes.size() > 0)
@@ -214,6 +558,7 @@ public class ManipularArquivos
                             cda.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -227,6 +572,7 @@ public class ManipularArquivos
                             proda.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -240,6 +586,7 @@ public class ManipularArquivos
                             ida.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -253,6 +600,7 @@ public class ManipularArquivos
                             cida.insert(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -266,6 +614,7 @@ public class ManipularArquivos
                             bda.insert(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -279,6 +628,7 @@ public class ManipularArquivos
                             tvda.insert(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -292,6 +642,7 @@ public class ManipularArquivos
                             gda.insert(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -305,11 +656,24 @@ public class ManipularArquivos
                             nda.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
                 break;
             case KIT :
+                KitDataAccess kda = new KitDataAccess(context);
+                if(kits != null && kits.size() > 0)
+                {
+                    for (String s : kits) {
+                        try {
+                            kda.insert(s);
+                        } catch (Exception e) {
+                            errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
+                        }
+                    }
+                }
                 break;
             case PRAZOS :
                 PrazoDataAccess pda = new PrazoDataAccess(context);
@@ -320,6 +684,7 @@ public class ManipularArquivos
                             pda.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -333,6 +698,7 @@ public class ManipularArquivos
                             tda.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -346,6 +712,7 @@ public class ManipularArquivos
                             eda.inserir(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -359,6 +726,7 @@ public class ManipularArquivos
                             cgda.insert(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }
@@ -372,6 +740,7 @@ public class ManipularArquivos
                             cpda.insert(s);
                         } catch (Exception e) {
                             errosIserir.add(e.getMessage());
+                            errosIserir.add(s);
                         }
                     }
                 }

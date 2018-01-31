@@ -30,4 +30,25 @@ public class Gravosos
     public int getDias() { return dias; }
 
     public void setDias(int dias) { this.dias = dias; }
+
+    @Override
+    public String toString() {
+        return "Gravosos{" +
+                "item=" + item +
+                ", quantidade=" + quantidade +
+                ", fabricacao='" + fabricacao + '\'' +
+                ", validade='" + validade + '\'' +
+                ", dias=" + dias +
+                '}';
+    }
+
+    public String toDisplay() {
+        return  item.getCodigo() + " " + item.getReferencia() + " " + item.getDescricao() +
+                "\n Qtd.:" + quantidade +
+                " Fab.:'" + fabricacao +
+                " Val.:" + validade +
+                " Dias:" + dias +
+                '}';
+    }
+
 }

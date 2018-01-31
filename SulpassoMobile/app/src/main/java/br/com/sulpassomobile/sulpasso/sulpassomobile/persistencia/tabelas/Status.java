@@ -7,7 +7,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.persistencia.database.Types
  */
 public class Status
 {
-    public static final String TABELA = "Cidade";
+    public static final String TABELA = "Status";
     public static final String PEDIDO = "Pedido";
     public static final String DATA = "Data";
     public static final String NOTA = "Nota";

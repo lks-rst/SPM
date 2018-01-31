@@ -26,7 +26,7 @@ import br.com.sulpassomobile.sulpasso.sulpassomobile.views.fragments.ResumoFragm
 
 /*
     Todo: Ajustar a forma de transação entre as telas (swipe);
-    Todo: Criar o fragmento com as dados adicionais do cliente;
+    Todo: Criar o fragmento com os dados adicionais do cliente;
     Todo: Buscar as configurações de abertura do pedido;
     Todo: Criar um fragmento para pre pedido (devera ser utilizado tanto para a consulta interna no
         pedido quanto para uma possivel consulta externa);
@@ -181,14 +181,7 @@ public class Pedido extends AppCompatActivity
         }
     }
 
-    public void finalizar(View v)
-    {
-        if(this.controlePedido.finalizarPedido() == 1)
-        {
-//            onDestroy();
-            finish();
-        }
-    }
+    public void finalizar(View v) { if(this.controlePedido.finalizarPedido() == 1) { finish(); } }
 /******************************END OF BUTTON CLICKS AT THE UI**************************************/
 /*********************************METHODS FOR DATA ACCESS******************************************/
     public ArrayList<String> listarClientes(int tipo, String dados)
@@ -321,6 +314,8 @@ public class Pedido extends AppCompatActivity
 
     public Boolean alteraValor(String campo) { return this.controlePedido.alteraValor(campo); }
 
+    public Boolean alteraValorFim(int campo) { return this.controlePedido.alteraValorFim(campo); }
+
     public String getValor() { return this.controlePedido.getValor(); }
 
     public String getQtdMinimaVenda() { return this.controlePedido.getQtdMinimaVenda(); }
@@ -362,10 +357,10 @@ public class Pedido extends AppCompatActivity
         this.exibirTotalPedido();
     }
 
-    public String indicarFretePedido(String frete)
+    public void indicarFretePedido(String frete)
     {
         this.controlePedido.setFrete(frete);
-        return String.valueOf(this.controlePedido.recalcularTotalPedido());
+        this.exibirTotalPedido();
     }
 
     public void exibirTotalPedido()
@@ -409,8 +404,7 @@ public class Pedido extends AppCompatActivity
 
     public void salvarPedido() { /*****/ }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
-
-/*******n************************End the Overridin**************************************************/
+/*******************************End the Overridin**************************************************/
 /******************************Methods to make class services direct ******************************/
     /**
      * Calback para interceptar os movimentos na tela
@@ -531,7 +525,6 @@ public class Pedido extends AppCompatActivity
         }
     }
 
-
     /**
      * Diplaying fragment view for selected nav drawer list item
      */
@@ -579,7 +572,8 @@ public class Pedido extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
                         .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-            } else
+            }
+            else
             {
                 fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
             }
