@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <!--
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_vertical_margin"
+        android:background="#a10505" />
+
+    <TextView
+        android:text="Medium Text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:textSize="30sp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center_vertical|center_horizontal"
+        android:id="@+id/dpp_cliente" />
+    -->
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_vertical_margin"
+        android:background="#a10505" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.85"
+        android:id="@+id/dpp_lista"/>
+</LinearLayout>
