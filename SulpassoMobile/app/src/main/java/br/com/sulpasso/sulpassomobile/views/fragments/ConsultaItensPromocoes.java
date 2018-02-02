@@ -67,15 +67,12 @@ public class ConsultaItensPromocoes extends Fragment
     {
         this.consulta.setSearchType(3);
 
-        ((ListView) (getActivity().findViewById(R.id.liFcipPromocoes))).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                this.consulta.buscarPromocoes()
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                this.consulta.buscarPromocoes());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFcipPromocoes))).setAdapter(adapter);
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/

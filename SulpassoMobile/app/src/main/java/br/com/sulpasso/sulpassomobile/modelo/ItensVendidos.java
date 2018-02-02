@@ -1,5 +1,6 @@
 package br.com.sulpasso.sulpassomobile.modelo;
 
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
 /**
@@ -75,14 +76,15 @@ public class ItensVendidos
             '}';
     }
 
-    public String toDisplay() {
+    public String toDisplay()
+    {
         ManipulacaoStrings ms = new ManipulacaoStrings();
 
         return /*item +*/
-            " - V.:" + ms.comEsquerda(String.valueOf(valorTabela), "0", 8) +
-            " - Q.:" + ms.comEsquerda(String.valueOf(quantidade), "0", 6) +
+            " - V.:" + ms.comEsquerda(Formatacao.format2d(valorTabela), "0", 8) +
+            " - Q.:" + ms.comEsquerda(Formatacao.format2d(quantidade), "0", 8) +
             /*" - " + descontoCG +*/
-            " - T.:" + ms.comEsquerda(String.valueOf(total), "0", 8);
+            " - T.:" + ms.comEsquerda(Formatacao.format2d(total), "0", 8);
     }
 
     @Override

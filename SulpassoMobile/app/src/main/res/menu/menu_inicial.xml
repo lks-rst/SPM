@@ -48,9 +48,12 @@
         android:showAsAction="never"
         android:title="@string/menu_inicial_at">
     </item>
+
+    <!--
     <item
         android:id="@+id/inicial_sair"
         android:showAsAction="never"
         android:title="@string/menu_inicial_s">
     </item>
+    -->
 </menu>

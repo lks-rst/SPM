@@ -24,16 +24,24 @@
                 android:gravity="center"
                 android:orientation="horizontal" >
 
+                <!--
                 <TextView
                     style="@style/rootView.fragdesenv.frame.textos"
                     android:text="@string/apresentacao_1" />
+                -->
 
                 <TextView
                     style="@style/rootView.fragdesenv.frame.textos.negrito"
                     android:textStyle="bold"
                     android:text="@string/apresentacao_2" />
+
+
+                <TextView
+                    style="@style/rootView.fragdesenv.frame.textos"
+                    android:text="@string/contato_fone" />
             </LinearLayout>
 
+            <!--
             <TextView
                 style="@style/rootView.fragdesenv.frame.textos"
                 android:text="@string/contato_fone" />
@@ -41,8 +49,28 @@
             <TextView
                 style="@style/rootView.fragdesenv.frame.textos"
                 android:text="@string/contato_email" />
+            -->
+
+            <LinearLayout
+                style="@style/rootView.fragdesenv"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/fidTxtValidade"
+                    style="@style/rootView.fragdesenv.frame.textos"
+                    android:text="@string/validade_data"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_marginLeft="50dp"
+                    android:id="@+id/fidTxtVersao"
+                    style="@style/rootView.fragdesenv.frame.textos"
+                    android:text="@string/versao"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
 
+        <!--
         <FrameLayout style="@style/rootView.fragdesenv.frame" >
 
             <ImageView
@@ -51,8 +79,10 @@
                 android:contentDescription="@string/action_settings"
                 android:src="@drawable/btn_sulpasso" />
         </FrameLayout>
+        -->
     </LinearLayout>
 
+    <!--
     <LinearLayout
         style="@style/rootView.fragdesenv"
         android:orientation="horizontal" >
@@ -61,14 +91,15 @@
             android:id="@+id/fidTxtValidade"
             style="@style/rootView.fragdesenv.frame.textos"
             android:text="@string/validade_data"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_marginLeft="50dp"
             android:id="@+id/fidTxtVersao"
             style="@style/rootView.fragdesenv.frame.textos"
             android:text="@string/versao"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
     </LinearLayout>
+    -->
 
 </LinearLayout>

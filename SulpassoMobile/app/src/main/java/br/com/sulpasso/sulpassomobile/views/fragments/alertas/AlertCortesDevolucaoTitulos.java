@@ -41,15 +41,12 @@ public class AlertCortesDevolucaoTitulos extends DialogFragment
 
         View view = inflater.inflate(R.layout.alert_cortes_devolucao_titulos, container);
 
-        ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                callback.buscarItens()
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                callback.buscarItens());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapter);
 
         detalhes = callback.buscarDetalhes();
 

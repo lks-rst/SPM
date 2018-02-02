@@ -52,40 +52,30 @@ public class ConsultaPedidosLista extends Fragment
      */
     private void setUpLayout()
     {
-        ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(
-                new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                        android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                        ((ConsultasPedidos) getActivity()).getControle().listarPedidos(0, "")));
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                ((ConsultasPedidos) getActivity()).getControle().listarPedidos(0, ""));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
 
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemClickListener(clickPedido);
     }
 
-
     public void listarItens(ArrayList<String> lista) throws GenercicException
     {
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(),
+                R.layout.spinner_item, lista);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
         if(getActivity().findViewById(R.id.frame_itens).getVisibility() == View.VISIBLE)
         {
-            ((ListView) getActivity().findViewById(R.id.liAcpItens)).setAdapter
-            (
-                new ArrayAdapter<String>
-                (
-                    getActivity().getApplicationContext(),
-                    android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                    lista
-                )
-            );
+            ((ListView) getActivity().findViewById(R.id.liAcpItens)).setAdapter(adapter);
         }
         else
         {
-            ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter
-            (
-                new ArrayAdapter<String>
-                (
-                    getActivity().getApplicationContext(),
-                    android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                    lista
-                )
-            );
+            ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
         }
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
@@ -98,15 +88,12 @@ public class ConsultaPedidosLista extends Fragment
             getActivity().findViewById(R.id.frame_pedidos).setVisibility(View.GONE);
             getActivity().findViewById(R.id.frame_itens).setVisibility(View.VISIBLE);
 
-            ((ListView) getActivity().findViewById(R.id.liAcpItens)).setAdapter
-            (
-                new ArrayAdapter<String>
-                (
-                    getActivity().getApplicationContext(),
-                    android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                    ((ConsultasPedidos) getActivity()).getControle().listarItens(position)
-                )
-            );
+            ArrayAdapter adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(),R.layout.spinner_item,
+                    ((ConsultasPedidos) getActivity()).getControle().listarItens(position));
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+            ((ListView) getActivity().findViewById(R.id.liAcpItens)).setAdapter(adapter);
         }
     };
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/

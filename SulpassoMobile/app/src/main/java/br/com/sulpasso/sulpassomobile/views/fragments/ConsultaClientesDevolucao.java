@@ -79,15 +79,12 @@ public class ConsultaClientesDevolucao extends Fragment implements AlertCortesDe
     {
         ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setOnItemClickListener(selecionadoCliente);
 
-        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                ((ConsultasClientes) getActivity()).buscarListaDevolucao()
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                ((ConsultasClientes) getActivity()).buscarListaDevolucao());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter(adapter);
     }
 
     private void apresentarDialog()

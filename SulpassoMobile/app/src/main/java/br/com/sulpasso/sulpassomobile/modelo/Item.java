@@ -1,5 +1,7 @@
 package br.com.sulpasso.sulpassomobile.modelo;
 
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
+
 /**
  * Created by Lucas on 02/08/2016.
  */
@@ -135,6 +137,10 @@ public class Item
 
     public String toDisplay()
     {
-        return codigo + " - " + referencia + " - " + descricao + " - " + complemento;
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        return ms.comEsquerda(String.valueOf(codigo), " ", 10) + " - " +
+                ms.comDireita(referencia, " ", 10) + " - " +
+                ms.comDireita(descricao, " ", 25) + " - " +
+                ms.comDireita(complemento, " ", 15);
     }
 }

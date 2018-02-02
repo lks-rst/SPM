@@ -5,9 +5,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
-import br.com.sulpasso.sulpassomobile.controle.CadastrarClientes;
 import br.com.sulpasso.sulpassomobile.controle.TelaInicial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
@@ -31,7 +32,6 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosResumo;
-import br.com.sulpasso.sulpassomobile.views.fragments.IncialDesenvolvedor;
 
 public class Inicial extends AppCompatActivity
 {
@@ -189,9 +189,11 @@ public class Inicial extends AppCompatActivity
                     this.mensagem("Preços desatualizados.\nAtualize os dados antes de prosseguir.");
                 }
                 break;
+            /*
             case R.id.inicial_sair :
                 onDestroy();
                 break;
+            */
             default:
                 break;
         }
@@ -607,16 +609,38 @@ public class Inicial extends AppCompatActivity
         return retorno;
     }
 
+    /*****
+     https://stackoverflow.com/questions/5015094/how-to-determine-device-screen-size-category-small-normal-large-xlarge-usin
+    *****/
     public String desenvolvedor(int campo)
     {
         String retorno = "";
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int density = metrics.densityDpi;
+        int size = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
+        int mask = getResources().getConfiguration().screenLayout;
+
         switch (campo)
         {
             case R.id.fidTxtValidade:
-                retorno = "Validade: " + this.controle.validade();
+                if(size <= Configuration.SCREENLAYOUT_SIZE_NORMAL)
+                {
+                    retorno = this.controle.validade();
+                }
+                else
+                {
+                    retorno = "Validade: " + this.controle.validade();
+                }
+
                 break;
             case R.id.fidTxtVersao:
                 retorno = this.controle.versao();
+
+                if(size <= Configuration.SCREENLAYOUT_SIZE_NORMAL)
+                {
+                    retorno = retorno.substring(7);
+                }
                 break;
             default:
                 retorno = "";
@@ -633,5 +657,7 @@ public class Inicial extends AppCompatActivity
         TODO: Atualizar validade ao terminar de carregar pw
 
         TODO: Alterar Transação entre telas do sistema, utilizar swipe (de alguma forma)
+
+        TODO: Criar uma classe para retornar os adapters "padrão" de apenas uma local;
      */
 }
