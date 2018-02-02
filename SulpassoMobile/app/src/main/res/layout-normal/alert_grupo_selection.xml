@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnrAlertGrupo" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_vertical_margin"
+        android:background="#a10505" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnrAlertSub" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_vertical_margin"
+        android:background="#a10505" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnrAlertDivsao" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_vertical_margin"
+        android:background="#a10505" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            style="@style/texts.labels.bigger"
+            android:text="@string/generic_confirmar"
+            android:id="@+id/btnAlertConfirmar" />
+
+        <Button
+            style="@style/texts.labels.bigger"
+            android:text="@string/generic_cancelar"
+            android:id="@+id/btnAlertCancelar" />
+    </LinearLayout>
+</LinearLayout>

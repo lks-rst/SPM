@@ -77,15 +77,12 @@ public class ConsultaClientesCorte extends Fragment implements AlertCortesDevolu
 
     public void listarItens() throws GenercicException
     {
-        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                ((ConsultasClientes) getActivity()).buscarListaCorte()
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                ((ConsultasClientes) getActivity()).buscarListaCorte());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter(adapter);
 
         ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setOnItemClickListener(selecionadoCliente);
     }

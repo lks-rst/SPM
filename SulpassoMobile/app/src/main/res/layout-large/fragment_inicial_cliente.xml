@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    style="@style/rootView.fragdesenv"
     android:layout_height="match_parent">
+
+    <FrameLayout style="@style/rootView.fragEmp.frame" >
+
+        <ImageView
+            android:id="@+id/imgFicLogo"
+            style="@style/rootView.fragEmp.frame.imagens"
+            android:contentDescription="@string/apresentacao_1"
+            android:src="@drawable/btn_sulpasso" />
+    </FrameLayout>
+
+    <LinearLayout
+        style="@style/rootView.fragEmp.frame"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/txtFicNome"
+            style="@style/rootView.fragEmp.frame.textos.negrito"
+            android:text="@string/apresentacao_1" />
+
+        <TextView
+            android:id="@+id/txtFicSecond"
+            style="@style/rootView.fragEmp.frame.textos"
+            android:text="@string/apresentacao_1" />
+
+        <TextView
+            android:id="@+id/txtFicFone"
+            style="@style/rootView.fragEmp.frame.textos"
+            android:text="@string/apresentacao_1" />
+
+        <TextView
+            android:id="@+id/txtFicMail"
+            style="@style/rootView.fragEmp.frame.textos"
+            android:text="@string/apresentacao_1" />
+
+        <TextView
+            android:id="@+id/txtFicWeb"
+            style="@style/rootView.fragEmp.frame.textos"
+            android:text="@string/apresentacao_1" />
+
+        <TextView
+            android:id="@+id/txtFicVendedor"
+            style="@style/rootView.fragEmp.frame.textos"
+            android:text="" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -155,9 +155,9 @@ public class FtpConnect
             try { version = Integer.valueOf(Build.VERSION.SDK); }
             catch (Exception ev){ version = 3; }
 
-            if(version == 19)
+            if(version >= 19)
             {
-                f = new File("/storage/emulated/0//MobileVenda/" + arquivo_origem);
+                f = new File("/storage/emulated/0/MobileVenda/" + arquivo_origem);
             }
             else
             {

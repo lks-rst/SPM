@@ -11,12 +11,14 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" >
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -31,11 +33,13 @@
                     android:inputType="none"
                     android:enabled="false"
                     android:focusable="false"
+                    android:textSize="12dp"
                     android:ems="10"
                     android:id="@+id/ffpEdtCliente" />
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -50,16 +54,13 @@
                     android:inputType="none"
                     android:enabled="false"
                     android:focusable="false"
+                    android:textSize="12dp"
                     android:ems="10"
                     android:id="@+id/ffpEdtCidade" />
             </LinearLayout>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
             <LinearLayout
+                android:visibility="gone"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:background="@color/bgColorSoft"
@@ -86,6 +87,12 @@
                     android:text="@string/lbl_tabela" />
             </LinearLayout>
 
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/ffpSpnrNaturezas"
+                android:layout_gravity="center" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:background="@color/bgColorSoft"
@@ -94,35 +101,24 @@
 
                 <Spinner
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.45"
-                    android:id="@+id/ffpSpnrNaturezas"
-                    android:layout_gravity="center" />
-
-                <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.35"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.7"
                     android:id="@+id/ffpSpnrPrazos"
                     android:layout_gravity="center" />
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.20"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.30"
                     android:inputType="number"
                     android:ems="10"
                     android:id="@+id/ffpEdtTab"
                     android:layout_gravity="center"
                     android:enabled="false"
                     android:clickable="false"
+                    android:textSize="14dp"
                     android:hint="@string/str_flex" />
             </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -131,10 +127,11 @@
                 <EditText
                     android:id="@+id/ffpEdtObsCpd"
                     android:layout_width="match_parent"
-                    android:layout_height="119dp"
+                    android:layout_height="80dp"
                     android:inputType="textMultiLine"
                     android:hint="@string/hnt_obs_pedido"
                     android:imeActionId="@+id/ffpEdtObsCpd"
+                    android:textSize="14dp"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified" />
             </android.support.design.widget.TextInputLayout>
@@ -147,18 +144,14 @@
                 <EditText
                     android:id="@+id/ffpEdtObsNfe"
                     android:layout_width="match_parent"
-                    android:layout_height="119dp"
+                    android:layout_height="80dp"
                     android:hint="@string/hnt_obs_nota"
                     android:imeActionId="@+id/ffpEdtObsCpd"
+                    android:textSize="14dp"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -230,21 +223,19 @@
 
             <Spinner
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:id="@+id/ffpSpnrJustificativa" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
-            <!-- Remover esse botão e desenvolver a operaçao no menu -->
+            <!-- TODO: Remover esse botão e desenvolver a operaçao no menu -->
             <Button
                 style="@style/texts.labels.bigger"
                 android:text="Salvar Pedido"
                 android:onClick="finalizar" />
         </LinearLayout>
+
+
     </ScrollView>
+
 </RelativeLayout>

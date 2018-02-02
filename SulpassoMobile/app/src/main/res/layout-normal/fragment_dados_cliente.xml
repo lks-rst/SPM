@@ -6,330 +6,327 @@
     android:padding="@dimen/activity_horizontal_margin">
     <!--
         TODO: Verificar qual estilo de layout é melhor apresentado e verificar configuração de cores
-    -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" >
 
-        <LinearLayout
-            android:orientation="vertical" android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Spinner
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.9"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcSpnrClientes" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.1"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcTxtStatus"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:visibility="gone"
-                    android:layout_gravity="center" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_height="75dp"
-                android:id="@+id/fdcSpnrNaturezas" />
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_height="75dp"
-                android:id="@+id/fdcSpnrPrazos" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:ems="10"
-                    android:id="@+id/fdcEdtPrazo"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="@string/str_prazo"
-                    android:enabled="false"
-                    android:clickable="false" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.30"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/fdcEdtTabela"
-                    android:layout_gravity="center_horizontal"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:hint="@string/str_tab" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.30"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/fdcEdtDca"
-                    android:layout_gravity="center_horizontal"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:hint="@string/str_flex" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/texts.labels"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    android:text="@string/lbl_cidade"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_weight="0.5"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtCidade" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_estado"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_weight="0.2"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtUf" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.2"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_end"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="0.85"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtEnd" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.18"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_fone"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_weight="0.35"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtFone" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_cel"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="0.35"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:id="@+id/fdcEdtCel" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.2"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_ultima"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="0.85"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:id="@+id/fdcEdtUltima" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.15"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_meta"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_weight="0.35"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtMeta" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.25"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_realizado"
-                    android:id="@+id/fdcTxtRealizado"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="0.25"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtReal" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="0.1"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtPercentual" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="0.2"
-                    style="@style/texts.labels"
-                    android:text="@string/lbl_credito"
-                    android:gravity="center_vertical|right" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="0.85"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtLimite" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:ems="10"
-                    android:id="@+id/fdcEdtQuantidade"
-                    android:layout_gravity="center_horizontal"
-                    android:hint="@string/str_qtd"
-                    android:enabled="false"
-                    android:clickable="false" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.30"
-                    android:inputType="number"
-                    android:ems="10"
-                    android:id="@+id/fdcEdtMedia"
-                    android:layout_gravity="center_horizontal"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:hint="@string/str_media" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
-            <Button
-                style="@style/texts.labels"
-                android:text="Confirmar Escolha Cliente"
-                android:id="@+id/button"
-                android:onClick="selecionarCliente" />
-
-        </LinearLayout>
     </ScrollView>
+
+    -->
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="35dp"
+                android:id="@+id/fdcSpnrClientes" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.1"
+                android:layout_height="wrap_content"
+                android:id="@+id/fdcTxtStatus"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_height="35dp"
+            android:id="@+id/fdcSpnrNaturezas" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_height="35dp"
+            android:id="@+id/fdcSpnrPrazos" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:ems="10"
+                android:id="@+id/fdcEdtPrazo"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/str_prazo"
+                android:enabled="false"
+                android:textSize="12dp"
+                android:clickable="false" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/fdcEdtTabela"
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:clickable="false"
+                android:textSize="12dp"
+                android:hint="@string/str_tab" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/fdcEdtDca"
+                android:layout_gravity="center_horizontal"
+                android:enabled="false"
+                android:clickable="false"
+                android:textSize="12dp"
+                android:hint="@string/str_flex" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/textsSmall.labels"
+                android:layout_width="0dp"
+                android:layout_weight="0.15"
+                android:text="@string/lbl_cidade"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:enabled="false"
+                android:clickable="false"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:id="@+id/fdcEdtCidade" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.15"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_estado"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:enabled="false"
+                android:clickable="false"
+                android:layout_weight="0.2"
+                android:textSize="13dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/fdcEdtUf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_end"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.85"
+                android:enabled="false"
+                android:clickable="false"
+                android:textSize="13dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/fdcEdtEnd" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.18"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_fone"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:enabled="false"
+                android:clickable="false"
+                android:layout_weight="0.35"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:id="@+id/fdcEdtFone" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.15"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_cel"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.35"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textSize="13dp"
+                android:clickable="false"
+                android:id="@+id/fdcEdtCel" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_ultima"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.85"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:clickable="false"
+                android:textSize="13dp"
+                android:id="@+id/fdcEdtUltima" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.15"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_meta"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:enabled="false"
+                android:clickable="false"
+                android:layout_weight="0.35"
+                android:textSize="13dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/fdcEdtMeta" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_realizado"
+                android:id="@+id/fdcTxtRealizado"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:enabled="false"
+                android:textSize="13dp"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:id="@+id/fdcEdtReal" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.1"
+                android:enabled="false"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:id="@+id/fdcEdtPercentual" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                style="@style/textsSmall.labels"
+                android:text="@string/lbl_credito"
+                android:gravity="center_vertical|right" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="0.85"
+                android:enabled="false"
+                android:clickable="false"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:id="@+id/fdcEdtLimite" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:ems="10"
+                android:id="@+id/fdcEdtQuantidade"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/str_qtd"
+                android:textSize="13dp"
+                android:enabled="false"
+                android:clickable="false" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.30"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/fdcEdtMedia"
+                android:layout_gravity="center_horizontal"
+                android:textSize="13dp"
+                android:enabled="false"
+                android:clickable="false"
+                android:hint="@string/str_media" />
+        </LinearLayout>
+
+        <Button
+            style="@style/textsSmall.labels"
+            android:text="Confirmar Escolha Cliente"
+            android:id="@+id/button"
+            android:layout_height="40dp"
+            android:onClick="selecionarCliente" />
+
+    </LinearLayout>
 </RelativeLayout>

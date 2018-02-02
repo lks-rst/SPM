@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/acdt_li_itens" />
+
+    <LinearLayout
+        android:id="@+id/acdt_li_t1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal">
+
+        <EditText
+            android:hint="QUANTIDADE"
+            android:id="@+id/acdt_edt_qtd"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:enabled="false"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="TOTAL"
+            android:id="@+id/acdt_edt_total"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:enabled="false"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/acdt_li_t2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal">
+
+        <EditText
+            android:hint="VENCIDOS"
+            android:id="@+id/acdt_edt_vencdos"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:enabled="false"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="NAO VENCIDOS"
+            android:id="@+id/acdt_edt_nVencidos"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:enabled="false"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

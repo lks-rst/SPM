@@ -72,15 +72,12 @@ public class ConsultaClientesAniversarios extends Fragment
 
     public void listarItens() throws GenercicException
     {
-        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                ((ConsultasClientes) getActivity()).buscarListaClientes()
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                ((ConsultasClientes) getActivity()).buscarListaClientes());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter(adapter);
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/

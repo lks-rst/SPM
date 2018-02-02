@@ -82,15 +82,12 @@ public class ConsultaClientesPrePedido extends Fragment implements DetalhesPrepe
 
     public void listarItens() throws GenercicException
     {
-        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                ((ConsultasClientes) getActivity()).buscarListaPrePedido()
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                ((ConsultasClientes) getActivity()).buscarListaPrePedido());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFcclSimples))).setAdapter(adapter);
     }
 
     private void apresentarDialog()

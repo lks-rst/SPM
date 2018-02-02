@@ -81,17 +81,14 @@ public class ConsultaClientesPositivacao extends Fragment
 
     public void listarItens() throws GenercicException
     {
-        ((ListView) (getActivity().findViewById(R.id.liFccpClientes))).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
                 ((ConsultasClientes) getActivity()).buscarListaPositivacao(
-                ((CheckBox) getActivity().findViewById(R.id.semana)).isChecked(),
-                ((CheckBox) getActivity().findViewById(R.id.positivados)).isChecked())
-            )
-        );
+                        ((CheckBox) getActivity().findViewById(R.id.semana)).isChecked(),
+                        ((CheckBox) getActivity().findViewById(R.id.positivados)).isChecked()));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFccpClientes))).setAdapter(adapter);
 
         ((EditText) getActivity().findViewById(R.id.n_clientes)).
                 setText(((ConsultasClientes) getActivity()).totalPositivacao());

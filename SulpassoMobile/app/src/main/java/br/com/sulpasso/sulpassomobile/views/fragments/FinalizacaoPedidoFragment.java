@@ -95,12 +95,10 @@ public class FinalizacaoPedidoFragment extends Fragment
         this.ffpSpnrPrazos = (Spinner) (getActivity().findViewById(R.id.ffpSpnrPrazos));
         this.ffpSpnrJustificativa = (Spinner) (getActivity().findViewById(R.id.ffpSpnrJustificativa));
 
-        this.ffpSpnrNaturezas.setAdapter
-        (
-            new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item
-                ,((Pedido) getActivity()).listarNaturezas(false))
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item, ((Pedido) getActivity()).listarNaturezas(false));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.ffpSpnrNaturezas.setAdapter(adapter);
 
         this.ffpSpnrNaturezas.setSelection(((Pedido) getActivity()).buscarNatureza());
 
@@ -155,10 +153,12 @@ public class FinalizacaoPedidoFragment extends Fragment
 
     public void ajustarPrazos(int posicao)
     {
-        this.ffpSpnrPrazos.setAdapter(
-            new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                ((Pedido) getActivity()).listarPrazos(posicao)));
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                ((Pedido) getActivity()).listarPrazos(posicao));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        this.ffpSpnrPrazos.setAdapter(adapter);
 
         this.ffpSpnrPrazos.setSelection(((Pedido) getActivity()).buscarPrazo());
         this.ffpSpnrPrazos.setOnItemSelectedListener(selectingData);
