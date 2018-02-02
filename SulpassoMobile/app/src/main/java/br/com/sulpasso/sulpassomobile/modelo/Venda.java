@@ -2,6 +2,7 @@ package br.com.sulpasso.sulpassomobile.modelo;
 
 import java.util.ArrayList;
 
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
 /**
@@ -115,14 +116,14 @@ public class Venda
         ManipulacaoStrings ms = new ManipulacaoStrings();
 
         return " " +
-                ms.comEsquerda(String.valueOf(codigo), "0", 4) +
-                " - " + ms.comEsquerda(String.valueOf(cliente.getCodigoCliente()), "0", 7) +
-                " - " + ms.comDireita(cliente.getFantasia().trim(), " ", 20) +
-                " - " + data +
-                " - V.: " + ms.comEsquerda(String.valueOf(valor), "0", 8) +
-                " - D.:" + desconto; //+
-                //" - " + itens +
-                //'}';
+            ms.comEsquerda(String.valueOf(codigo), "0", 4) +
+            " - " + ms.comEsquerda(String.valueOf(cliente.getCodigoCliente()), "0", 7) +
+            " - " + ms.comDireita(cliente.getRazao().trim(), " ", 20) +
+            " - " + data +
+            " - V.: " + ms.comEsquerda(Formatacao.format2d(valor), "0", 8) +
+            " - D.:" + Formatacao.format2d(desconto); //+
+            //" - " + itens +
+            //'}';
     }
     /*
 

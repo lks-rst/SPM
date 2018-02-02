@@ -50,15 +50,11 @@ public class DetalhesPrepedido extends DialogFragment
                 this.itens.add(iv.toDisplay());
             }
 
-            ((ListView) view.findViewById(R.id.dpp_lista)).setAdapter
-            (
-                new ArrayAdapter<String>
-                (
-                    getActivity().getApplicationContext(),
-                    android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                    itens
-                )
-            );
+            ArrayAdapter adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(), R.layout.spinner_item,
+                    itens);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            ((ListView) view.findViewById(R.id.dpp_lista)).setAdapter(adapter);
 
             ((ListView) view.findViewById(R.id.dpp_lista)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

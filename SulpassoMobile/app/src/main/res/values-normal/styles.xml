@@ -172,6 +172,4 @@
         <item name="android:textSize">@dimen/tamanho_fonte_razao_cliente_inicial</item>
         <item name="android:textStyle">bold</item>
     </style>
-
-
 </resources>

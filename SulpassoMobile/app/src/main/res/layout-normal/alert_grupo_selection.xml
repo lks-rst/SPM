@@ -8,28 +8,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/spnrAlertGrupo" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_vertical_margin"
-        android:background="#a10505" />
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spnrAlertSub" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_vertical_margin"
-        android:background="#a10505" />
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spnrAlertDivsao" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_vertical_margin"
-        android:background="#a10505" />
 
     <LinearLayout
         android:orientation="horizontal"

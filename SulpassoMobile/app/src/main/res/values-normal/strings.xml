@@ -155,8 +155,8 @@
 
     <!-- String detalhes do Item -->
     <string name="tlt_detalhes">DETALHES DO ITEM</string>
-    <string name="lbl_comp">Complemento</string>
-    <string name="lbl_ref">Referência</string>
+    <string name="lbl_comp">Comp.:</string>
+    <string name="lbl_ref">Refe.:</string>
     <!-- END -->
     <!-- END -->
 

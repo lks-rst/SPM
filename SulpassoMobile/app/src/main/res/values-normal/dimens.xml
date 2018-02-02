@@ -26,7 +26,7 @@
     <!-- FRAG_EMP -->
     <dimen name="altura_logo_cliente_inicial">150dp</dimen>
     <dimen name="largura_logo_cliente_inicial">200dp</dimen>
-    <dimen name="tamanho_fonte_razao_cliente_inicial">15dp</dimen>
+    <dimen name="tamanho_fonte_razao_cliente_inicial">13dp</dimen>
     <dimen name="tamanho_fonte_info_cliente_inicial">11dp</dimen>
 
 </resources>

@@ -46,6 +46,7 @@ public class AplicarDescontoCampanhas extends DialogFragment implements View.OnC
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.alert_desconto_campanhas, container);
+
         this.acceptButton = (Button) view.findViewById(R.id.btnAlertConfirmar);
         this.cancelButton = (Button) view.findViewById(R.id.btnAlertCancelar);
         this.mEditText = (EditText) view.findViewById(R.id.edtAlertValor);

@@ -169,14 +169,14 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
     public void listarItens() throws GenercicException
     {
         this.fcipLiItens.setAdapter
+        (
+            new ArrayAdapter<String>
             (
-                new ArrayAdapter<String>
-                    (
-                        getActivity().getApplicationContext(),
-                        R.layout.default_list_item,
-                        consulta.buscarItens()
-                    )
-            );
+                getActivity().getApplicationContext(),
+                R.layout.default_list_item,
+                consulta.buscarItens()
+            )
+        );
     }
 
     public void ajustarLayout() { /*****/ }

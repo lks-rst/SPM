@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical" 
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TableLayout
@@ -43,14 +44,12 @@
                 android:id="@+id/edt_abc_peso1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:enabled="false" />
 
             <EditText
                 android:id="@+id/edt_abc_peso2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:enabled="false" />
         </TableRow>
 
@@ -67,14 +66,12 @@
                 android:id="@+id/edt_abc_fat1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:enabled="false" />
 
             <EditText
                 android:id="@+id/edt_abc_fat2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:enabled="false" />
         </TableRow>
 
@@ -85,20 +82,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ems="5"
                 android:text="Contribuiçao: " />
 
             <EditText
                 android:id="@+id/edt_abc_cont1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:ems="6"
                 android:enabled="false" />
 
             <EditText
                 android:id="@+id/edt_abc_cont2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:ems="6"
                 android:enabled="false" />
         </TableRow>
 
@@ -111,14 +109,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:ems="10"
                 android:enabled="false" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:ems="10"
                 android:enabled="false" />
         </TableRow>
     </TableLayout>

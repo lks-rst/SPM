@@ -8,6 +8,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
 /**
  * Created by Lucas on 02/08/2016.
@@ -69,10 +70,13 @@ public class ConsultarPedidos
     private ArrayList<String> exibirItens(ArrayList<ItensVendidos> itens)
     {
         ArrayList<String> retorno = new ArrayList<>();
+        ManipulacaoStrings ms = new ManipulacaoStrings();
 
         for(ItensVendidos item : itens)
         {
-            retorno.add(item.getItem() + " - " + vda.recuperarDescricao(item.getItem()) + item.toDisplay());
+            retorno.add(ms.comEsquerda(String.valueOf(item.getItem()), " ", 10) + " - " +
+                ms.comEsquerda(vda.recuperarDescricao(item.getItem()), " ", 20) +
+                item.toDisplay());
         }
 
         return retorno;

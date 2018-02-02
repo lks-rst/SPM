@@ -63,15 +63,12 @@ public class ConsultaItensMinimos extends Fragment
     {
         this.consulta.setSearchTypeMain(0);
 
-        ((ListView) (getActivity().findViewById(R.id.liFcimProdutos))).setAdapter
-                (
-                        new ArrayAdapter<String>
-                                (
-                                        getActivity().getApplicationContext(),
-                                        android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                                        this.consulta.loadData()
-                                )
-                );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                this.consulta.loadData());
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) (getActivity().findViewById(R.id.liFcimProdutos))).setAdapter(adapter);
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/

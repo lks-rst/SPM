@@ -19,7 +19,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
             android:text="@string/str_alterar"
             android:id="@+id/btnAlterarItem"
@@ -28,7 +28,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
             android:text="@string/str_excluir"
             android:id="@+id/btnExcluirItem"

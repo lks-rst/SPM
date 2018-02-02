@@ -63,25 +63,19 @@ public class ConsultaItensDetalhesFragment extends DialogFragment
         ((EditText) view.findViewById(R.id.edtAlertEstoque)).setText("Estoque");
         ((EditText) view.findViewById(R.id.edtAlertAplicacao)).setText("Aplicação do item");
 
-        ((ListView) view.findViewById(R.id.liAlertPromocoes)).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                this.callback.buscarPromocoes(i.getCodigo())
-            )
-        );
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                this.callback.buscarPromocoes(i.getCodigo()));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
-        ((ListView) view.findViewById(R.id.liAlertTabelas)).setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
-                this.callback.buscarTabelas(i.getCodigo())
-            )
-        );
+        ((ListView) view.findViewById(R.id.liAlertPromocoes)).setAdapter(adapter);
+
+        ArrayAdapter adapter2 = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item,
+                this.callback.buscarTabelas(i.getCodigo()));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        ((ListView) view.findViewById(R.id.liAlertTabelas)).setAdapter(adapter2);
 
         getDialog().setTitle(R.string.tlt_detalhes);
         return view;
