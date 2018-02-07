@@ -338,6 +338,15 @@ public class ItemDataAccess
             item.setQuantidadeCaixa(
                     c.getInt(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
+            item.setFaixa(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
+            item.setPeso(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO)));
+            item.setPesoCd(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
 
             item.setContribuicao(
                     c.getFloat(c.getColumnIndex(
@@ -816,6 +825,15 @@ public class ItemDataAccess
             item.setQuantidadeCaixa(
                     c.getInt(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
+            item.setFaixa(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
+            item.setPeso(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO)));
+            item.setPesoCd(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
 
             lista.add(item);
             c.moveToNext();

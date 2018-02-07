@@ -1841,7 +1841,6 @@ public class ConfiguradorDataAccess
         ConfiguradorVendas conta = new ConfiguradorVendas();
 
         try {
-
             conta.setGerenciarVisitas(c.getInt(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.GERENCIARVISITAS)) == 1);
             conta.setVenderDevedores(c.getInt(c.getColumnIndex(

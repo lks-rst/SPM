@@ -45,15 +45,27 @@ public class Kit
     }
 
     public String toDisplay() {
-        return "Kit{" +
-                "kit='" + kit + '\'' +
-                ", itens=" + itens +
-                ", descricao='" + descricao + '\'' +
-                ", quantidade=" + quantidade +
-                ", valor=" + valor +
-                '}';
+        StringBuilder sb = new StringBuilder();
+
+        sb.delete(0, sb.toString().length());
+
+        sb.append(this.kit);
+        sb.append("\n");
+        for(Item i : this.itens)
+        {
+            sb.append(" - ");
+            sb.append(i.getReferencia());
+            sb.append(" - ");
+            sb.append(i.getDescricao());
+            sb.append(" - ");
+            sb.append(i.getComplemento());
+            sb.append(" - ");
+            sb.append(i.getDescricao());
+            sb.append("\n");
+        }
+        sb.append(" Valor: ");
+        sb.append(this.valor);
+
+        return sb.toString();
     }
-    /*
-        Todo: Verificar a forma de apresentação on display;
-     */
 }

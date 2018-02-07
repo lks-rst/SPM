@@ -21,9 +21,6 @@ import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 /**
  * Created by Lucas on 15/08/2016.
  */
-/*
-    TODO: Verificar se remove a parte de busca e insercao dos itens vendidos dessa classe para uma especializada
- */
 public class VendaDataAccess
 {
     private Context ctx;

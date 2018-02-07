@@ -5,7 +5,6 @@
     style="@style/rootView.fragdesenv"
     android:padding="@dimen/activity_horizontal_margin">
     <!--
-        TODO: Verificar qual estilo de layout é melhor apresentado e verificar configuração de cores
 
     <ScrollView
         android:layout_width="match_parent"

@@ -92,17 +92,81 @@ public class Inicial extends AppCompatActivity
             }
         }).start();
 */
-
-//        inserirDadosHardCoded();
-//        listDataHardCoded();
-//        ((TextView) findViewById(R.id.vendas)).setText(this.listDataHardCoded());
     }
 
     @Override
-    protected void onRestart() { super.onRestart(); }
+    protected void onRestart()
+    {
+        super.onRestart();
+
+        try { this.controle = new TelaInicial(getApplicationContext()); }
+        catch (Exception e) { }
+
+        if(this.controle == null)
+        {
+            Intent atualizar = new Intent(getApplicationContext(), br.com.sulpasso.sulpassomobile.views.Atualizacao.class);
+            startActivityForResult(atualizar, REQUEST_CONFIG);
+        }
+        else
+        {
+            if(validar_data_sistema(4))
+            {
+                if (this.controle.controleAcesso())
+                {
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivityForResult(i, REQUEST_LOGIN);
+                }
+                else
+                {
+                    this.fragmentoCentral();
+
+                    this.indicarAcesso();
+                }
+            }
+            else
+            {
+                this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
+                finish();
+            }
+        }
+    }
 
     @Override
-    protected void onResume() { super.onResume(); }
+    protected void onResume()
+    {
+        super.onResume();
+
+        try { this.controle = new TelaInicial(getApplicationContext()); }
+        catch (Exception e) { }
+
+        if(this.controle == null)
+        {
+            Intent atualizar = new Intent(getApplicationContext(), br.com.sulpasso.sulpassomobile.views.Atualizacao.class);
+            startActivityForResult(atualizar, REQUEST_CONFIG);
+        }
+        else
+        {
+            if(validar_data_sistema(4))
+            {
+                if (this.controle.controleAcesso())
+                {
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivityForResult(i, REQUEST_LOGIN);
+                }
+                else
+                {
+                    this.fragmentoCentral();
+
+                    this.indicarAcesso();
+                }
+            }
+            else
+            {
+                this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
+                finish();
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -650,11 +714,7 @@ public class Inicial extends AppCompatActivity
     }
 
     /*
-        TODO: Ajustar Layout para telas pequenas
-
         TODO: Adicionar opção para enviar arquivo de erros para o supervisor (terceiro email cadastrado)
-
-        TODO: Atualizar validade ao terminar de carregar pw
 
         TODO: Alterar Transação entre telas do sistema, utilizar swipe (de alguma forma)
 

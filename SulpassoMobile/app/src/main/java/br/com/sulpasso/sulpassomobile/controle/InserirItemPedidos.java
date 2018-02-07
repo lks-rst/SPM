@@ -81,10 +81,20 @@ public class InserirItemPedidos
 
     public float calcularTotal()
     {
-        return (this.valor
+        if(this.item.getUnidade().equals("KG") && !this.item.getUnidadeVenda().equals("KG"))
+        {
+            return ((this.valor
                 - (this.valor * (this.desconto / 100))
                 + (this.valor * (this.acrescimo / 100)))
-                * this.quantidade ;
+                * this.quantidade) * this.item.getFaixa();
+        }
+        else
+        {
+            return (this.valor
+                - (this.valor * (this.desconto / 100))
+                + (this.valor * (this.acrescimo / 100)))
+                * this.quantidade;
+        }
     }
 
     public float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo)
