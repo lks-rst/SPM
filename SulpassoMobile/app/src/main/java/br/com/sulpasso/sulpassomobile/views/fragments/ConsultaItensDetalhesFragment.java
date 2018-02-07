@@ -23,7 +23,6 @@ public class ConsultaItensDetalhesFragment extends DialogFragment
     /*
         TODO: Verificar as promoções;
         TODO: Vincular a busca do item a busca das aplicações para passar a informaçao correta;
-        TODO: Alterar a cor do texto das listas;
      */
     private ConsultaItensDetalhes callback;
 

@@ -41,7 +41,6 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ResumoFragment;
 
 /*
     Todo: Criar o fragmento com os dados adicionais do cliente;
-    TOdo: Verificar as outras formas de venda (diretas e trocas) ao menos dois pedidos em cada.
 */
 
 public class Pedido extends AppCompatActivity

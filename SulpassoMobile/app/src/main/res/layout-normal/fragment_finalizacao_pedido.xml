@@ -228,13 +228,11 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:id="@+id/ffpSpnrJustificativa" />
 
-            <!-- TODO: Remover esse botão e desenvolver a operaçao no menu -->
             <Button
                 style="@style/texts.labels.bigger"
                 android:text="Salvar Pedido"
                 android:onClick="finalizar" />
         </LinearLayout>
-
 
     </ScrollView>
 

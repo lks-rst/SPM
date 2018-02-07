@@ -334,7 +334,6 @@
                     android:id="@+id/fdEdtCnt" />
             </LinearLayout>
 
-            <!-- TODO: Remover esse botões e ativar os efeitos atraves do menu -->
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

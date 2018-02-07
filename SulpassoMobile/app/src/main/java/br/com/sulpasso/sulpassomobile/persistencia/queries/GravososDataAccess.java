@@ -163,9 +163,6 @@ public class GravososDataAccess
         for(int i = 0; i < c.getCount(); i++)
         {
             Gravosos gravoso = new Gravosos();
-            /*
-                TODO: Fazer join com a tabela de Itens;
-             */
 
             Item item = new Item();
             item.setCodigo(c.getInt(0));
