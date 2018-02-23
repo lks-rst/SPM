@@ -302,8 +302,8 @@
 
     <string name="menu_atualizacao_vendas">Enviar Vendas</string>
     <string name="menu_atualizacao_clientes">Enviar Clientes</string>
-    <string name="menu_atualizacao_full">Atualizar Sistema</string>
-    <string name="menu_atualizacao_config">Configurar Sistemas</string>
+    <string name="menu_atualizacao_full">Atualizar Dados</string>
+    <string name="menu_atualizacao_config">Atualizar Configurações</string>
     <!-- END -->
 
     <!-- String da tela de atualização -->

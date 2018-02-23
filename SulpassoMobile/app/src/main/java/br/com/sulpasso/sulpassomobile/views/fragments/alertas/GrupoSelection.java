@@ -93,6 +93,8 @@ public class GrupoSelection extends DialogFragment implements View.OnClickListen
         dAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.divSpinner.setAdapter(dAdapter);
 
+        this.acceptButton.setVisibility(View.GONE);
+
         this.grupoSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
@@ -108,6 +110,8 @@ public class GrupoSelection extends DialogFragment implements View.OnClickListen
                             callback.carregarSubGrupos());
                     sAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                     subSpinner.setAdapter(sAdapter);
+
+                    acceptButton.setVisibility(View.VISIBLE);
                 }
                 else { /*****/ }
             }
