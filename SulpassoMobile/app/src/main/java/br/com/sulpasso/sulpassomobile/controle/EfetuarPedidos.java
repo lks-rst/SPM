@@ -522,6 +522,8 @@ public abstract class EfetuarPedidos
         this.controleProdutos.setGrupo(this.grupo);
         this.subGrupo = 0;
         this.divisao = 0;
+        this.controleProdutos.setSubGrupo(this.subGrupo);
+        this.controleProdutos.setDivisao(this.divisao);
     }
 
     public final void indicarSubGrupo(int posicao)
@@ -529,6 +531,7 @@ public abstract class EfetuarPedidos
         this.subGrupo = this.sGrupos.get(posicao -1).getSubGrupo();
         this.controleProdutos.setSubGrupo(this.subGrupo);
         this.divisao = 0;
+        this.controleProdutos.setDivisao(this.divisao);
     }
 
     public final void indicarDivisao(int posicao)

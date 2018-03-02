@@ -288,7 +288,7 @@ public class ListaItensFragment extends Fragment implements
             new ArrayAdapter<String>
             (
                 getActivity().getApplicationContext(),
-                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+                R.layout.default_list_item,
                 ((Pedido) getActivity()).listarItens(4, "")
             )
         );

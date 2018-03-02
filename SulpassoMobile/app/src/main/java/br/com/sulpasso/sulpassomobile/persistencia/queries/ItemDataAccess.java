@@ -477,9 +477,8 @@ public class ItemDataAccess
                     this.sBuilder.append(divisao);
                 }
             }
-
-            this.sBuilder.append("';");
         }
+        this.sBuilder.append("');");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

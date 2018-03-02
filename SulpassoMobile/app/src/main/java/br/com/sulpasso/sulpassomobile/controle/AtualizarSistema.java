@@ -203,7 +203,7 @@ public class AtualizarSistema
         sequencia = cda.buscarSequencias(1);
         usuario = cda.buscarCodigoUsuario();
 
-        nomeArquivo = ms.comEsquerda("" + usuario, "0", 4) + ms.comEsquerda("" + sequencia, "0", 3)+ ".ped" ;
+        nomeArquivo = ms.comEsquerda("" + usuario, "0", 4) + ms.comEsquerda("" + sequencia, "0", 4)+ ".ped" ;
 
         this.arquivos.setNomeArquivo(nomeArquivo);
         this.arquivos.escreverVendas(this.listaVendas);
@@ -513,7 +513,7 @@ public class AtualizarSistema
         sequencia = cda.buscarSequencias(1);
         usuario = cda.buscarCodigoUsuario();
 
-        nomeArquivo = ms.comEsquerda("" + usuario, "0", 4) + ms.comEsquerda("" + sequencia, "0", 3)+ ".ped" ;
+        nomeArquivo = ms.comEsquerda("" + usuario, "0", 4) + ms.comEsquerda("" + sequencia, "0", 4)+ ".ped" ;
 
 
         if(server.getConectionType() == 0)
@@ -542,11 +542,6 @@ public class AtualizarSistema
         {
 
         }
-        /*
-        this.arquivos.setNomeArquivo(nomeArquivo);
-
-        this.arquivos.VerificarArquivo();
-        */
     }
 
     private void sendClients()
