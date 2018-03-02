@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/texts.labels.bigger"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Lucas Pinheir Rosseti"
+        android:id="@+id/lblFamMeta" />
+
+    <TextView
+        style="@style/texts.labels.bigger"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="01/01/2017"
+        android:id="@+id/lblPesMeta" />
+
+    <TextView
+        style="@style/texts.labels.bigger"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:gravity="right|center_vertical"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="31/01/2017"
+        android:id="@+id/lblCliMeta" />
+
+    <TextView
+        style="@style/texts.labels.bigger"
+        android:layout_width="0dp"
+        android:layout_weight="0.2"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:gravity="right|center_vertical"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="31/01/2017"
+        android:id="@+id/lblContMeta" />
+
+</LinearLayout>

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -159,10 +158,10 @@ public class DigitacaoItemFragment extends Fragment
                 .setClickable(((Pedido) getActivity()).temPromocao());
 
         ((getActivity().findViewById(R.id.fdBtnValorTabela)))
-                .setVisibility(((((Pedido) getActivity()).alteraValor("v"))) ? View.VISIBLE : View.GONE);
+                .setVisibility(((((Pedido) getActivity()).alteraValor("v"))) ? View.VISIBLE : View.VISIBLE);
         ((getActivity().findViewById(R.id.fdBtnMinimos)))
                 .setVisibility(((((Pedido) getActivity()).temValorMinimo())) ? View.VISIBLE : View.GONE);
-        ((Button) (getActivity().findViewById(R.id.fdBtnPromocoes)))
+        ((getActivity().findViewById(R.id.fdBtnPromocoes)))
                 .setVisibility(((((Pedido) getActivity()).temPromocao())) ? View.VISIBLE : View.GONE);
 
         ((EditText) (getActivity().findViewById(R.id.fdEdtCnt))).setText(

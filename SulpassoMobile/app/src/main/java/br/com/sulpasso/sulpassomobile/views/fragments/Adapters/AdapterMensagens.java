@@ -1,4 +1,4 @@
-package br.com.sulpasso.sulpassomobile.controle.Adapters;
+package br.com.sulpasso.sulpassomobile.views.fragments.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

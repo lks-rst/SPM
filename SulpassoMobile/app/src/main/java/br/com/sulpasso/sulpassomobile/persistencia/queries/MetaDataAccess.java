@@ -34,6 +34,54 @@ public class MetaDataAccess
 
     public Boolean delete() throws GenercicException { return this.apagar(null); }
 
+    public ArrayList getAll() throws GenercicException { return this.searchAll(); }
+
+    public int getDiasUteis()
+    {
+        int dias = 25;
+        /*
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Meta meta = new Meta();
+
+            meta.setFamilia(c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.FAMILIA)));
+            meta.setRealizado_c(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.CLIENTE_R)));
+            meta.setMeta_c(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.CLIENTE_M)));
+            meta.setRealizado_v(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.VOLUME_R)));
+            meta.setMeta_v(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.VOLUME_M)));
+            meta.setRealizado_co(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.CONTRIBUICAO_R)));
+            meta.setMeta_co(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.CONTRIBUICAO_M)));
+            meta.setRealizado_f(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.FATURAMENTO_R)));
+            meta.setMeta_f(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Meta.FATURAMENTO_M)));
+
+            c.moveToNext();
+        }
+
+        if (c.getCount() > 0){
+            c.moveToFirst();
+            dias = c.getInt(0);
+        }
+        */
+        return dias;
+    }
+
     private Meta dataConverter(String data)
     {
         Meta meta = new Meta();
@@ -154,6 +202,7 @@ public class MetaDataAccess
 
         return lista;
     }
+
     private Boolean apagar(Meta d)  throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());

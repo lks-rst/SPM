@@ -1235,102 +1235,102 @@ public class ConfiguradorDataAccess
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.GERENCIARVISITAS);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getGerenciarVisitas());
+            this.sBuilder.append(conta.getGerenciarVisitas() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VENDERDEVEDORES);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getVenderDevedores());
+            this.sBuilder.append(conta.getVenderDevedores() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ALTERANATUREZAINICIO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getAlteraNaturezaInicio());
+            this.sBuilder.append(conta.getAlteraNaturezaInicio() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ALTERANATUREZAFIM);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getAlteraNaturezaFim());
+            this.sBuilder.append(conta.getAlteraNaturezaFim() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ALTERAPRAZOINICIO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getAlteraPrazoInicio());
+            this.sBuilder.append(conta.getAlteraPrazoInicio() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ALTERAPRAZOFIM);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getAlteraPrazoFim());
+            this.sBuilder.append(conta.getAlteraPrazoFim() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.RECALCULARPRECO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getRecalcularPreco());
+            this.sBuilder.append(conta.getRecalcularPreco() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ALTERAPRECOS);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getAlteraPrecos());
+            this.sBuilder.append(conta.getAlteraPrecos() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.LIMITECREDITO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getLimiteCredito());
+            this.sBuilder.append(conta.getLimiteCredito() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.FLEXGERAL);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getTipoFlex());
+            this.sBuilder.append(conta.getTipoFlex() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.FLEXVENDA);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getFlexVenda());
+            this.sBuilder.append(conta.getFlexVenda() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.FLEXITEM);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getFlexItem());
+            this.sBuilder.append(conta.getFlexItem() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CONTROLAESTOQUE);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getControlaEstoque());
+            this.sBuilder.append(conta.getControlaEstoque() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.DESCONTOGRUPO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getDescontoGrupo());
+            this.sBuilder.append(conta.getDescontoGrupo() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.FRETE);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getFrete());
+            this.sBuilder.append(conta.getFrete() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.SOLICITASENHA);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getSolicitaSenha());
+            this.sBuilder.append(conta.getSolicitaSenha() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ESPECIALALTERAVALOR);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getEspecialAlteraValor());
+            this.sBuilder.append(conta.getEspecialAlteraValor() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOPRAZO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getMinimoPrazo());
+            this.sBuilder.append(conta.getMinimoPrazo() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CONTROLAGPS);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getControlaGps());
+            this.sBuilder.append(conta.getControlaGps() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TIPODESCONTO);
             this.sBuilder.append(" = '");
-            this.sBuilder.append(conta.getDescontoPecentual());
+            this.sBuilder.append(conta.getDescontoPecentual() ? 1 : 0);
             this.sBuilder.append("', ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VALIDADE);
