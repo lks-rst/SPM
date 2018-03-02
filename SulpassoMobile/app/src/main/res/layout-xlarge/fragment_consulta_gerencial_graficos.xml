@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_graficos"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Total de Pedidos"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="50dp" >
+
+            <TextView
+                android:id="@+id/graficos_total_pedidos_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="50dp" >
+
+            <TextView
+                android:id="@+id/graficos_total_pedidos_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_total_pedidos_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Clientes Movimentados"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_clientes_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_clientes_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_clientes_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Pedido Médio"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_ped_med_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_ped_med_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_ped_med_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Média Itens por Pedido"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_med_itens_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_med_itens_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_med_itens_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Frequencia de Compras"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_frequencia_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_frequencia_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_frequencia_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Acelerador (med. itens + frequencia)"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_acelerador_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_acelerador_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_acelerador_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Preço Médio"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/Tomato"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_preco_medio_1"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#F5DEB3"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_preco_medio_2"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#DDA0DD"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/graficos_preco_medio_3"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#BADA55"
+                android:singleLine="true"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <!--
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/linhas_separacao_altura"
+            android:background="@color/cinsa"
+            android:paddingLeft="@dimen/padding_left" />
+        -->
+
+    </LinearLayout>
+
+</ScrollView>

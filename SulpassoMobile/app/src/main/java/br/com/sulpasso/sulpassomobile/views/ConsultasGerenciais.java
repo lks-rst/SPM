@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.ConsultaGerencial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
+import br.com.sulpasso.sulpassomobile.modelo.Meta;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesAbc;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesAniversarios;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesCorte;
@@ -22,7 +25,10 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesDevolucao;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesPositivacao;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesPrePedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesTitulos;
+import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialGraficos;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
+import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMetas;
+import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialPlanoVisitas;
 
 /**
  * Created by Lucas on 16/11/2016 - 11:34 as part of the project SulpassoMobile.
@@ -92,16 +98,20 @@ public class ConsultasGerenciais extends AppCompatActivity
                 title += fragTitles[0];
                 break;
             case R.id.consulta_gerencial_meta :
-                fragment = new ConsultaClientesAbc();
-                title += fragTitles[1];
+                fragment = new ConsultaGerencialMetas();
+                title += fragTitles[1] + " - IDEAL: " + this.buscarMetaIdeal();
                 break;
             case R.id.consulta_gerencial_grafico :
-                fragment = new ConsultaClientesTitulos();
+                this.controle.criarGraficos();
+                fragment = new ConsultaGerencialGraficos();
                 title += fragTitles[2];
                 break;
             case R.id.consulta_gerencial_plano :
-                fragment = new ConsultaClientesDevolucao();
+                Toast.makeText(getApplicationContext(), "Consulta temporariamente desativada", Toast.LENGTH_LONG).show();
+
+                fragment = new ConsultaGerencialPlanoVisitas();
                 title += fragTitles[3];
+
                 break;
 
             default:
@@ -131,8 +141,20 @@ public class ConsultasGerenciais extends AppCompatActivity
 
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/
-    public ArrayList<Mensagem> buscarListaMensagens()
+    public ArrayList<Mensagem> buscarListaMensagens() { return this.controle.buscarMensagens(); }
+
+    public int percentualGrafico(int campo, int mes)
     {
-        return this.controle.buscarMensagens();
+        DisplayMetrics dm = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int max = dm.widthPixels;
+
+        return this.controle.percentualGrafico(campo, mes, max);
     }
+
+    public ArrayList<Meta> buscarListaMetas() { return this.controle.buscarListaMetas(); }
+
+    public float buscarMetaIdeal() { return this.controle.buscarMetaIdeal(); }
+
+    public String buscarMeta(int posicao, int campo, int tipo) { return this.controle.buscarMeta(posicao, campo, tipo); }
 }

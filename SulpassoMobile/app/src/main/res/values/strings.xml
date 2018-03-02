@@ -173,6 +173,47 @@
     <string name="n_positivados">NÃO POSITIVADOS</string>
     <!-- END -->
     <!-- END -->
+
+
+    <!-- Strings das telas de gerencial -->
+    <!-- Strings consulta de Metas -->
+    <string name="meta">META</string>
+    <string name="real">REALIZADO</string>
+    <string name="percent">%</string>
+    <string name="peso">PESO</string>
+    <string name="cli">CLIENTE</string>
+    <string name="fat">FATURAMENTO</string>
+    <string name="contri">CONTRIBUIÇÃO</string>
+    <string name="familia">FAMILIA</string>
+    <string name="vda">VENDA</string>
+    <string name="comis">COMISSÃO</string>
+    <!-- END -->
+
+    <!-- Strings consulta de Gráficos
+    <string name="meta">META</string>
+
+    <string name="real">REALIZADO</string>
+
+    <string name="percent">%</string>
+
+    <string name="peso">PESO</string>
+
+    <string name="cli">CLIENTE</string>
+
+    <string name="fat">FATURAMENTO</string>
+
+    <string name="contri">CONTRIBUIÇÃO</string>
+
+    <string name="familia">FAMILIA</string>
+
+    <string name="vda">VENDA</string>
+
+    <string name="comis">COMISSÃO</string>
+    -->
+    <!-- END -->
+
+    <!-- END -->
+
     <!-- END -->
 
     <!-- Strings de titulos -->

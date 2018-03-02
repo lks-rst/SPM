@@ -221,7 +221,7 @@ public class InserirItemPedidos
 
     private Boolean verificarQuantidade()
     {
-        if(quantidade % Integer.parseInt(this.buscarDadosVendaItem(3)) == 0)
+        if(this.quantidade > 0 && this.quantidade % Integer.parseInt(this.buscarDadosVendaItem(3)) == 0)
             return true;
         else
             return false;

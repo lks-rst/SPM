@@ -50,4 +50,26 @@ public class Meta
     public float getRealizado_f() { return realizado_f; }
 
     public void setRealizado_f(float realizado_f) { this.realizado_f = realizado_f; }
+
+    @Override
+    public String toString() {
+        return "Meta{" +
+                "familia='" + familia + '\'' +
+                ", meta_c=" + meta_c +
+                ", realizado_c=" + realizado_c +
+                ", meta_v=" + meta_v +
+                ", realizado_v=" + realizado_v +
+                ", meta_co=" + meta_co +
+                ", realizado_co=" + realizado_co +
+                ", meta_f=" + meta_f +
+                ", realizado_f=" + realizado_f +
+                '}';
+    }
+
+    public String toDisplay()
+    {
+        return familia + "-" +  realizado_c + "-" + realizado_v + "-" +
+                realizado_co + "-" + realizado_f;
+    }
+
 }

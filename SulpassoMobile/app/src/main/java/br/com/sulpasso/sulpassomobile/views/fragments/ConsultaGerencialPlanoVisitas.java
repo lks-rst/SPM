@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.views.fragments.Adapters.AdapterMensagens;
@@ -14,11 +13,11 @@ import br.com.sulpasso.sulpassomobile.views.ConsultasGerenciais;
 import br.com.sulpasso.sulpassomobile.views.Inicial;
 
 /**
- * Created by Lucas on 20/03/2017 - 09:29 as part of the project SulpassoMobile.
+ * Created by Lucas on 27/02/2018 - 10:50 as part of the project SulpassoMobile.
  */
-public class ConsultaGerencialMensagem extends Fragment
+public class ConsultaGerencialPlanoVisitas extends Fragment
 {
-    public ConsultaGerencialMensagem(){}
+    public ConsultaGerencialPlanoVisitas(){}
     /**********************************FRAGMENT LIFE CYCLE*********************************************/
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -30,7 +29,7 @@ public class ConsultaGerencialMensagem extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.fragment_consulta_gerencial_mensagens, /*container, false*/null);
+        return inflater.inflate(R.layout.fragment_consulta_gerencial_plano_visitas, /*container, false*/null);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class ConsultaGerencialMensagem extends Fragment
             adapter = new AdapterMensagens(getActivity().getApplicationContext(), ((Inicial) getActivity()).buscarListaMensagens());
         }
 
-        ((ListView) (getActivity().findViewById(R.id.liFcgMensagem))).setAdapter(adapter);
+//        ((ListView) (getActivity().findViewById(R.id.liFcgMensagem))).setAdapter(adapter);
 
         /*
 

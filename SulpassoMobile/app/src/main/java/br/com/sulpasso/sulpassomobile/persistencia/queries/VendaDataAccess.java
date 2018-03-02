@@ -702,4 +702,100 @@ public class VendaDataAccess
 
         return retorno;
     }
+
+    public float totalPedidos(String sqlWhere)
+    {
+        float retorno = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT count(*) AS total");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(sqlWhere);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        if(c.getCount() > 0) { retorno = c.getFloat(c.getColumnIndex("total")); }
+
+        return retorno;
+    }
+
+    public float valorPedidos(String sqlWhere)
+    {
+        float retorno = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT SUM(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TOTAL);
+        this.sBuilder.append(") AS total");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(sqlWhere);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        if(c.getCount() > 0) { retorno = c.getFloat(c.getColumnIndex("total")); }
+
+        return retorno;
+    }
+
+    public float mediaItens(String sqlWhere)
+    {
+        float retorno = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT count(*)");
+        this.sBuilder.append(" AS total");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(sqlWhere);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CODIGO);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        if(c.getCount() > 0) { retorno = c.getFloat(c.getColumnIndex("total")); }
+
+        return retorno;
+    }
+
+    public float totalClientes(String sqlWhere)
+    {
+        float retorno = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT count(distinct ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE);
+        this.sBuilder.append(") AS total");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(sqlWhere);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        if(c.getCount() > 0) { retorno = c.getFloat(c.getColumnIndex("total")); }
+
+        return retorno;
+    }
 }

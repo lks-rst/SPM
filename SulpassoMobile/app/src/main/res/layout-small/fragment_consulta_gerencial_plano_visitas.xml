@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <!--
+        <TextView
+            android:id="@+id/preco_minimo_titulo_tela"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Plano de Visitas"
+            android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+            android:textStyle="bold" />
+        -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Data Inicial:"
+            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/plano_visita_txt_data"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="22/10/2013"
+            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+    </LinearLayout>
+
+    <!--
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/linhas_separacao_altura"
+        android:layout_marginTop="@dimen/margem_superior"
+        android:background="@color/cinsa" />
+    -->
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center" >
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="Clientes"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="Posit."
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="%"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="F. Dia"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="Just."
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="N. Posit."
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="Faturamento"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:text="Volume"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SEGUNDA:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="SEGUNDA:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_seg"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TERÇA:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="TERÇA:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_ter"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QUARTA:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="QUARTA:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_qua"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QUINTA:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="QUINTA:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_qui"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SEXTA:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="SEXTA:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_sex"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SABADO:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="SABADO:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_sab"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="S VISITA:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="SEM VISITA" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_sv"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TOTAL:" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:text="TOTAL:" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_nr_cli_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_pos_cli_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_perc_cli_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_posf_cli_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vis_cli_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_npos_cli_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center" >
+
+                                <EditText
+                                    android:id="@+id/plano_visita_val_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+
+                                <EditText
+                                    android:id="@+id/plano_visita_vol_total"
+                                    android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                            <!--
+                            <TextView
+                                android:id="@+id/textView1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="@dimen/linhas_separacao_altura"
+                                android:layout_marginTop="@dimen/margem_superior"
+                                android:background="@color/cinsa" />
+                            -->
+                        </LinearLayout>
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+
+</LinearLayout>

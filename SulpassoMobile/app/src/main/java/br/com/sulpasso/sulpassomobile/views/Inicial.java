@@ -39,11 +39,15 @@ public class Inicial extends AppCompatActivity
     private final int REQUEST_LOGIN = 0;
     private final int REQUEST_CONFIG = 1;
 
+    private boolean acessoConfirmado;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial);
+
+        this.acessoConfirmado = false;
 
         try { this.controle = new TelaInicial(getApplicationContext()); }
         catch (Exception e) { }
@@ -111,16 +115,25 @@ public class Inicial extends AppCompatActivity
         {
             if(validar_data_sistema(4))
             {
-                if (this.controle.controleAcesso())
-                {
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivityForResult(i, REQUEST_LOGIN);
-                }
-                else
+                if(this.acessoConfirmado)
                 {
                     this.fragmentoCentral();
 
                     this.indicarAcesso();
+                }
+                else
+                {
+                    if (this.controle.controleAcesso())
+                    {
+                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivityForResult(i, REQUEST_LOGIN);
+                    }
+                    else
+                    {
+                        this.fragmentoCentral();
+
+                        this.indicarAcesso();
+                    }
                 }
             }
             else
@@ -148,16 +161,25 @@ public class Inicial extends AppCompatActivity
         {
             if(validar_data_sistema(4))
             {
-                if (this.controle.controleAcesso())
-                {
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivityForResult(i, REQUEST_LOGIN);
-                }
-                else
+                if(this.acessoConfirmado)
                 {
                     this.fragmentoCentral();
 
                     this.indicarAcesso();
+                }
+                else
+                {
+                    if (this.controle.controleAcesso())
+                    {
+                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivityForResult(i, REQUEST_LOGIN);
+                    }
+                    else
+                    {
+                        this.fragmentoCentral();
+
+                        this.indicarAcesso();
+                    }
                 }
             }
             else
@@ -274,6 +296,8 @@ public class Inicial extends AppCompatActivity
             {
                 Toast.makeText(Inicial.this, "BEM VINDO", Toast.LENGTH_LONG).show();
 
+                this.acessoConfirmado = true;
+
                 this.fragmentoCentral();
 
                 this.indicarAcesso();
@@ -301,7 +325,7 @@ public class Inicial extends AppCompatActivity
         switch (this.controle.fragmentoCentral())
         {
             /*
-                TODO: Criar frgments consultas METAS, GRAFICOS, PRODUTOS FOCO, PLANO VISITAS, POSITIVACAO
+                TODO: Criar frgments consultas PRODUTOS FOCO
              */
             case 0:
                 fragment = new ConsultaGerencialMensagem();

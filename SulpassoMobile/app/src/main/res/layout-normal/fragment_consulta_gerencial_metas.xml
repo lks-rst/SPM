@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/padding_esquerda" >
+
+    <ListView
+        android:id="@+id/liFcgMetas"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_above="@+id/metas_tabela_valores"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="@dimen/margem_superior" >
+    </ListView>
+
+    <!--
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/metas_tabela_valores"
+        android:layout_alignParentLeft="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+            <ListView
+                android:id="@+id/metas_lista_metas"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/metas_tabela_valores"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView2"
+                android:layout_marginTop="@dimen/margem_superior" >
+            </ListView>
+        </LinearLayout>
+    </HorizontalScrollView>
+    -->
+
+    <TableLayout
+        android:id="@+id/metas_tabela_valores"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/margem_superior" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/meta"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/real"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/percent"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/peso"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <EditText
+                android:id="@+id/edFcgPesom"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgPesor"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgPesop"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/cli"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <EditText
+                android:id="@+id/edFcgClim"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgClir"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgClip"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/fat"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <EditText
+                android:id="@+id/edFcgFatm"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgFatr"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgFatp"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/contri"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <EditText
+                android:id="@+id/edFcgContm"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgContr"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgContp"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/Black" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/vda"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/comis"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/contri"
+                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/metas_layout_comissao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/edFcgVda"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:gravity="center"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgComis"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:gravity="center"
+                android:textColor="@color/Black" />
+
+            <EditText
+                android:id="@+id/edFcgContrib"
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:gravity="center"
+                android:textColor="@color/Black" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
