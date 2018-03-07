@@ -20,6 +20,7 @@ public class ConsultaGerencial
 {
     private Context ctx;
     private Graficos graficos;
+    private PlanoVisitas planoVisitas;
 
     ArrayList<Meta> metas = new ArrayList<>();
 
@@ -41,6 +42,12 @@ public class ConsultaGerencial
     {
         this.graficos = new Graficos(this.ctx);
         this.graficos.gerarGraficos();
+    }
+
+    public ArrayList<String> criarPlano(String data)
+    {
+        this.planoVisitas = new PlanoVisitas(this.ctx);
+        return this.planoVisitas.gerarPlano(data);
     }
 
     public ArrayList<Mensagem> buscarMensagens()
