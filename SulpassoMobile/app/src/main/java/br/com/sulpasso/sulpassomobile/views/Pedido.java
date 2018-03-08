@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -402,6 +401,8 @@ public class Pedido extends AppCompatActivity
     public String getQtdCaixa() { return this.controlePedido.getQtdCaixa(); }
 
     public String getValorUnitario() { return this.controlePedido.getValorUnitario(); }
+
+    public String getEstoque() { return this.controlePedido.getEstoque(); }
 
     public String getMarkup() { return this.controlePedido.getMarkup(); }
 

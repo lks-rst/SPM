@@ -149,6 +149,8 @@ public abstract class EfetuarPedidos
 
     public abstract String getValorUnitario();
 
+    public abstract String getEstoque();
+
     public abstract String getMarkup();
 
     public abstract String calcularTotal();

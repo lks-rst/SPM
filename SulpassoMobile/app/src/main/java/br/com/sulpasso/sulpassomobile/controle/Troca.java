@@ -124,6 +124,8 @@ public class Troca extends EfetuarPedidos {
         return null;
     }
 
+    public String getEstoque() { return super.controleDigitacao.getEstoque(); }
+
     @Override
     public String getMarkup() {
         return null;

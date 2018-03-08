@@ -79,6 +79,8 @@ public class InserirItemPedidos
 
     public String getValorUnitario() { return this.buscarDadosVendaItem(8); }
 
+    public String getEstoque() { return this.buscarDadosVendaItem(9); }
+
     public float calcularTotal()
     {
         if(this.item.getUnidade().equals("KG") && !this.item.getUnidadeVenda().equals("KG"))
@@ -121,6 +123,13 @@ public class InserirItemPedidos
         diferenca = minimo - this.valor;
 
         return diferenca;
+    }
+
+    public boolean valorMaximo(Context ctx)
+    {
+        float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
+
+        return (this.valor < (tabela * 2));
     }
 
     public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context)
@@ -191,6 +200,8 @@ public class InserirItemPedidos
                 catch (Exception e){ unitario = valor; }
 
                 return String.valueOf(unitario);
+            case 9 :
+                return this.dadosVendaItem.get("ESTOQUE");
             default :
                 return "--";
         }

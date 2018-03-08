@@ -104,6 +104,8 @@ public class DigitacaoItemFragment extends Fragment
                 .setText(((Pedido) getActivity()).getCodigoBarras());
         ((EditText) (getActivity().findViewById(R.id.fdEdtQtdCaixa)))
                 .setText(((Pedido) getActivity()).getQtdCaixa());
+        ((EditText) (getActivity().findViewById(R.id.fdEdtEstoque)))
+                .setText(((Pedido) getActivity()).getEstoque());
         ((EditText) (getActivity().findViewById(R.id.fdEdtUnitario)))
                 .setText(((Pedido) getActivity()).getValorUnitario());
         ((EditText) (getActivity().findViewById(R.id.fdEdtMkp)))

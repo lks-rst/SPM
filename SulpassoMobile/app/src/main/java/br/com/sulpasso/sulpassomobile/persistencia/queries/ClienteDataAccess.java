@@ -14,6 +14,8 @@ import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpasso.sulpassomobile.modelo.Cidade;
 import br.com.sulpasso.sulpassomobile.modelo.Cliente;
 import br.com.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
+import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item;
+import br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaCliente;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
@@ -1197,5 +1199,325 @@ public class ClienteDataAccess
         }
 
         return clientes;
+    }
+
+    public float buscarPlanoClientesDia(int dia)
+    {
+        float nr_clientes = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(") FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA);
+
+        if(dia == 0)
+        {
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(dia);
+            this.sBuilder.append("';");
+        }
+        else
+        {
+            this.sBuilder.append(" LIKE '%");
+            this.sBuilder.append(dia);
+            this.sBuilder.append("%';");
+        }
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { nr_clientes = c.getInt(0); }
+        catch (Exception e) { nr_clientes = 0; }
+
+        return nr_clientes;
+    }
+
+    public float buscarPlanoClientesPositivadosDia(int dia, String data)
+    {
+        float nr_clientes = 0;
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String semana = "" + (today.getDay());
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT( DISTINCT (c.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(")) FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" AS c, ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" AS p WHERE ");
+        this.sBuilder.append(" DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") = DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '-");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday ");
+        this.sBuilder.append(dia -1);
+        this.sBuilder.append("') AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA);
+
+        if(dia == 0)
+        {
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(dia);
+            this.sBuilder.append("' AND p.");
+        }
+        else
+        {
+            this.sBuilder.append(" LIKE '%");
+            this.sBuilder.append(dia);
+            this.sBuilder.append("%' AND p.");
+        }
+
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE);
+        this.sBuilder.append(" = c.");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(";");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { nr_clientes = c.getInt(0); }
+        catch (Exception e) { nr_clientes = 0; }
+
+        return nr_clientes;
+    }
+
+    public float buscarPlanoForaDia(int dia, String data)
+    {
+        float nr_clientes = 0;
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String semana = "" + (today.getDay());
+
+        if (Integer.parseInt(semana) == 1){ semana = "2"; }
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT( DISTINCT (c.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(")) FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" AS c, ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" AS p WHERE ");
+        this.sBuilder.append(" DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") = DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '-");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday ");
+        this.sBuilder.append(dia -1);
+        this.sBuilder.append("') AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA);
+        this.sBuilder.append(" NOT LIKE '%");
+        this.sBuilder.append(dia);
+        this.sBuilder.append("%' AND p.");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE);
+        this.sBuilder.append(" = c.");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(" AND DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") > DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '-");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday 0') AND DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") < DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '+");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday 0')");
+        this.sBuilder.append(";");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { nr_clientes = c.getInt(0); }
+        catch (Exception e) { nr_clientes = 0; }
+
+        return nr_clientes;
+    }
+
+    public float buscarPlanoClientesVisitadosDia(int dia, String data)
+    {
+        float nr_clientes = 0;
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String semana = "" + (today.getDay());
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT( DISTINCT (c.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(")) FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" AS c, ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.TABELA);
+        this.sBuilder.append(" AS v WHERE ");
+        this.sBuilder.append(" DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.DATA);
+        this.sBuilder.append(") = DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '-");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday ");
+        this.sBuilder.append(dia -1);
+        this.sBuilder.append("') AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA);
+
+        if(dia == 0)
+        {
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(dia);
+            this.sBuilder.append("' AND v.");
+        }
+        else
+        {
+            this.sBuilder.append(" LIKE '%");
+            this.sBuilder.append(dia);
+            this.sBuilder.append("%' AND v.");
+        }
+
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.CLIENTE);
+        this.sBuilder.append(" = c.");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.PEDIDO);
+        this.sBuilder.append(" = 0;");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { nr_clientes = c.getInt(0); }
+        catch (Exception e) { nr_clientes = 0; }
+
+        return nr_clientes;
+    }
+
+    public float buscarValorTotalPedidosDia(int dia, String data)
+    {
+        float nr_clientes = 0;
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String semana = "" + (today.getDay());
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT SUM(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TOTAL);
+        this.sBuilder.append(") FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(" DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") = DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '-");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday ");
+        this.sBuilder.append(dia -1);
+        this.sBuilder.append("');");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { nr_clientes = c.getInt(0); }
+        catch (Exception e) { nr_clientes = 0; }
+
+        return nr_clientes;
+    }
+
+    public float buscarVolumePedidosDia(int dia, String data)
+    {
+        float nr_clientes = 0;
+
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+        String semana = "" + (today.getDay());
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT iv.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" AS i, ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" AS iv, ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" AS p WHERE ");
+        this.sBuilder.append(" DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") = DATE ('");
+        this.sBuilder.append(data);
+        this.sBuilder.append("', '-");
+        this.sBuilder.append(semana);
+        this.sBuilder.append(" day', 'weekday ");
+        this.sBuilder.append(dia -1);
+        this.sBuilder.append("') AND iv.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(" = i.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" AND iv.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = p.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CODIGO);
+        this.sBuilder.append(";");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try
+        {
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                nr_clientes += (c.getFloat(c.getColumnIndex(ItensVendidos.QUANTIDADE)) *
+                        c.getFloat(c.getColumnIndex(Item.PESO)));
+                c.moveToNext();
+            }
+        }
+        catch (Exception e) { nr_clientes = 0; }
+
+        return nr_clientes;
     }
 }

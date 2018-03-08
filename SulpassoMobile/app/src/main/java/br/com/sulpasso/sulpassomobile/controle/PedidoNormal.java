@@ -206,6 +206,8 @@ public class PedidoNormal extends EfetuarPedidos {
 
     public String getQtdCaixa() { return super.controleDigitacao.getQtdCaixa(); }
 
+    public String getEstoque() { return super.controleDigitacao.getEstoque(); }
+
     public String getValorUnitario() { return super.controleDigitacao.getValorUnitario(); }
 
     public String getMarkup() { return super.controleConfiguracao.getMarkup(); }
@@ -612,21 +614,25 @@ public class PedidoNormal extends EfetuarPedidos {
 
     protected Boolean finalizarItem()
     {
-        if(super.controleConfiguracao.formaDesconto() == 0)
+        if(super.controleDigitacao.valorMaximo(super.context))
         {
-            if (super.controleConfiguracao.contribuicaoIdeal())
-                return true;
+            if(super.controleConfiguracao.formaDesconto() == 0)
+            {
+                if (super.controleConfiguracao.contribuicaoIdeal())
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;
+            {
+                float saldo = super.controleConfiguracao.getSaldoAtual();
+                if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
+                    return true;
+                else
+                    return false;
+            }
         }
-        else
-        {
-            float saldo = super.controleConfiguracao.getSaldoAtual();
-            if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
-                return true;
-            else
-                return false;
-        }
+        else { return false; }
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/

@@ -1,30 +1,30 @@
 package br.com.sulpasso.sulpassomobile.views;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.PhoneNumberUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.ConsultaGerencial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.modelo.Meta;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesAbc;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesAniversarios;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesCorte;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesDevolucao;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesPositivacao;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesPrePedido;
-import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaClientesTitulos;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialGraficos;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMetas;
@@ -138,7 +138,52 @@ public class ConsultasGerenciais extends AppCompatActivity
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
+    public void alterar_data(View v) { showDialog(0); };
 
+    @Override
+    protected Dialog onCreateDialog(int id)
+    {
+        Calendar calendario = Calendar.getInstance();
+        int ano = calendario.get(Calendar.YEAR);
+        int mes = calendario.get(Calendar.MONTH);
+        int dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+        switch (id)
+        {
+            case 0:
+                return new DatePickerDialog(this, select_date, ano, mes, dia);
+        }
+
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener select_date = new DatePickerDialog.OnDateSetListener()
+    {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+        {
+            ManipulacaoStrings ms = new ManipulacaoStrings();
+            String data = ms.comEsquerda(String.valueOf(dayOfMonth), "0", 2) + "/" +
+                    ms.comEsquerda(String.valueOf(monthOfYear+1), "0", 2) + "/" + String.valueOf(year);
+
+            Toast.makeText(getApplicationContext(), "Nova data selecionada == " + data, Toast.LENGTH_LONG).show();
+
+            FragmentManager fragmentManager = getFragmentManager();
+            ConsultaGerencialPlanoVisitas fragment;
+
+            try
+            {
+                fragment = (ConsultaGerencialPlanoVisitas) fragmentManager.findFragmentById(R.id.frame_consultas);
+
+                if (fragment != null) { fragment.indcarNovaData(data); }
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(getApplicationContext(),
+                        "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/
     public ArrayList<Mensagem> buscarListaMensagens() { return this.controle.buscarMensagens(); }
@@ -157,4 +202,32 @@ public class ConsultasGerenciais extends AppCompatActivity
     public float buscarMetaIdeal() { return this.controle.buscarMetaIdeal(); }
 
     public String buscarMeta(int posicao, int campo, int tipo) { return this.controle.buscarMeta(posicao, campo, tipo); }
+
+    public String buscarDataAtual()
+    {
+        Date data_ = new Date();
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        return sf.format(data_);
+    }
+
+    public void buscarPlanoVisitas(String data)
+    {
+        ArrayList<String> plano = this.controle.criarPlano(data);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        ConsultaGerencialPlanoVisitas fragment;
+
+        try
+        {
+            fragment = (ConsultaGerencialPlanoVisitas) fragmentManager.findFragmentById(R.id.frame_consultas);
+
+            if (fragment != null) { fragment.apresentarPlano(plano); }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+    }
 }
