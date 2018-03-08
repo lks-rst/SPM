@@ -30,6 +30,8 @@ public class Item
     private float custo;
     private String tvd;
 
+    private float estoque;
+
     public Integer getCodigo() { return codigo; }
 
     public void setCodigo(Integer codigo) { this.codigo = codigo; }
@@ -110,9 +112,12 @@ public class Item
 
     public void setTvd(String tvd) { this.tvd = tvd; }
 
+    public float getEstoque() { return estoque; }
+
+    public void setEstoque(float estoque) { this.estoque = estoque; }
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Item{" +
                 "codigo=" + codigo +
                 ", barras='" + barras + '\'' +
@@ -132,6 +137,9 @@ public class Item
                 ", grupo=" + grupo +
                 ", subGrupo=" + subGrupo +
                 ", divisao=" + divisao +
+                ", custo=" + custo +
+                ", tvd='" + tvd + '\'' +
+                ", estoque=" + estoque +
                 '}';
     }
 

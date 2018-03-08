@@ -1149,6 +1149,25 @@ public class ItemDataAccess
 
         saleMap.put("PROMOCAO", String.valueOf(promos > 0 ? true : false));
 
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+        this.sBuilder.append(" WHERE (");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(codigo);
+        this.sBuilder.append(");");
+
+        float est = 0;
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        est = c.getInt(0);
+
+        saleMap.put("ESTOQUE", String.valueOf(est));
+
         return saleMap;
     }
 

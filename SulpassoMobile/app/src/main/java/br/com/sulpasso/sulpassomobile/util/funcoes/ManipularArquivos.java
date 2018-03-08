@@ -1381,7 +1381,7 @@ public class ManipularArquivos
                 builder.append(ms.comEsquerda("" + desdobramentos[2], "0", 3));
                 builder.append(ms.comEsquerda("" + desdobramentos[3], "0", 3));
                 builder.append(ms.dataVisual(v.getData()).replace("/", "-") + v.getHora());
-                builder.append(ms.comEsquerda(("" + v.getDesconto()).replace(".", "").replace(",", ""), "0", 6));
+                builder.append(ms.comEsquerda((Formatacao.format2d(v.getDesconto())).replace(".", "").replace(",", ""), "0", 6));
                 /*
                 builder.append(ms.comEsquerda(("" + Formatacao.format3(v.getDesconto(), 2)).replace(".", "").replace(",", ""), "0", 6));
                  */
@@ -1405,8 +1405,7 @@ public class ManipularArquivos
                 ArrayList<ItensVendidos> itens = v.getItens();
                 for(ItensVendidos i : itens)
                 {
-                    if(i.getValorLiquido() < i.getValorTabela() && (i.getDescontoCG() == 0)/* &&
-                            (i.getFlag_desconto_campanha() == 1) */)
+                    if(i.getValorLiquido() < i.getValorTabela() && (i.getDescontoCG() == 0)/* && (i.getFlag_desconto_campanha() == 1) */)
                     {
                         float desconto = ((i.getValorTabela() - i.getValorLiquido()) / i.getValorTabela()) * 100;
                         i.setDescontoCG(desconto);
@@ -1419,9 +1418,9 @@ public class ManipularArquivos
                     builder.append(ms.comDireita("" + i.getItem(), " ", 10));
                     //builder.append(ms.comEsquerda(("" + /*(int)*/Formatacao.format2d(i.getEstoque())).replace(".", ""), "0", 6) +
                     builder.append(ms.comEsquerda(("" + (int)i.getQuantidade()).replace(".", ""), "0", 4));
-                    builder.append(ms.comEsquerda(("" + i.getValorLiquido()).replace(".", "").replace(",", ""), "0", 9));
-                    builder.append(ms.comEsquerda(("" + i.getValorTabela()).replace(".", "").replace(",", ""), "0", 9));
-                    builder.append(ms.comEsquerda(("" + i.getDesconto()).replace(".", ""), "0", 6));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorLiquido())).replace(".", "").replace(",", ""), "0", 9));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorTabela())).replace(".", "").replace(",", ""), "0", 9));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getDesconto())).replace(".", ""), "0", 6));
                     builder.append(ms.comDireita("0", " ", 3));
                     builder.append(ms.comEsquerda(("0").replace(".", ""), "0", 4));
                     builder.append(ms.comEsquerda(("0").replace(".", ""), "0", 9));
@@ -1433,8 +1432,8 @@ public class ManipularArquivos
                     builder.append(ms.comDireita("" + i.getSenha_desc(), "0", 1));
                     */
                     builder.append(ms.comEsquerda("" + i.getItem(), "0", 6));
-                    builder.append(ms.comEsquerda(("" +  i.getDescontoCG()).replace(".", "").replace(",", ""), "0", 5));
-                    builder.append(ms.comEsquerda(("" + i.getValorDigitado()).replace(".", "").replace(",", ""), "0", 9));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getDescontoCG())).replace(".", "").replace(",", ""), "0", 5));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorDigitado())).replace(".", "").replace(",", ""), "0", 9));
                     builder.append(ms.comDireita("0", "0", 1));
                     builder.append(ms.comEsquerda("0", "0", 9));
                     builder.append(ms.comEsquerda("", "0", 6));
