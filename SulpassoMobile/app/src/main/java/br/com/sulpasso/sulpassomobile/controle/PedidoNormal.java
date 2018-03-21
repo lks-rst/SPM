@@ -670,4 +670,10 @@ public class PedidoNormal extends EfetuarPedidos {
 
         return retorno;
     }
+
+    @Override
+    public void buscarVenda(int codVenda)
+    {
+
+    }
 }

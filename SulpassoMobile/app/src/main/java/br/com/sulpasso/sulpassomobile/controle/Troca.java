@@ -229,4 +229,9 @@ public class Troca extends EfetuarPedidos {
     public float calcularPpc(float valor, float markup, float desconto) {
         return 0;
     }
+
+    @Override
+    public void buscarVenda(int codVenda) {
+
+    }
 }

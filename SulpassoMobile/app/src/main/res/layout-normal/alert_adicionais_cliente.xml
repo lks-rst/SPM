@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_esquerda"
+        android:layout_marginTop="@dimen/margem_superior" >
+<!--
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_fantasia"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_fantasia"
+                android:layout_width="@dimen/campos_com_40_caracteres"
+                android:layout_height="wrap_content"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_bairro"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_bairro"
+                android:layout_width="@dimen/campos_com_10_caracteres"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_cnpj"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_cnpj"
+                android:layout_width="@dimen/campos_com_10_caracteres"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_cod"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/digitacao_pedidos_adicionais_edt_cod"
+                    android:layout_width="@dimen/campos_com_15_caracteres"
+                    android:layout_height="wrap_content"
+                    android:ems="10" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_ie"
+                    android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/digitacao_pedidos_adicionais_edt_ie"
+                    android:layout_width="@dimen/campos_com_15_caracteres"
+                    android:layout_height="wrap_content"
+                    android:ems="10" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_banco"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_banco"
+                android:layout_width="@dimen/campos_com_10_caracteres"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_cep"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_cep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_aniversario"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/digitacao_pedidos_adicionais_edt_aniver"
+                    android:layout_width="@dimen/campos_com_14_caracteres"
+                    android:layout_height="wrap_content"
+                    android:ems="10" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_roteiro"
+                    android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/digitacao_pedidos_adicionais_edt_rota"
+                    android:layout_width="@dimen/campos_com_14_caracteres"
+                    android:layout_height="wrap_content"
+                    android:ems="10" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_mail"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_email"
+                android:layout_width="@dimen/campos_com_10_caracteres"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_contato"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/digitacao_pedidos_adicionais_edt_contato"
+                android:layout_width="@dimen/campos_com_10_caracteres"
+                android:layout_height="wrap_content"
+                android:enabled="false" />
+        </TableRow>
+-->
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="@string/str_visita"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:id="@+id/digitacao_pedidos_adicionais_cbx_segunda"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Segunda" />
+
+                    <CheckBox
+                        android:id="@+id/digitacao_pedidos_adicionais_cbx_terca"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Terça" />
+
+                    <CheckBox
+                        android:id="@+id/digitacao_pedidos_adicionais_cbx_quarta"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Quarta" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <CheckBox
+                        android:id="@+id/digitacao_pedidos_adicionais_cbx_quinta"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Quinta" />
+
+                    <CheckBox
+                        android:id="@+id/digitacao_pedidos_adicionais_cbx_sexta"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Sexta" />
+
+                    <CheckBox
+                        android:id="@+id/digitacao_pedidos_adicionais_cbx_sabado"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Sábado" />
+                </LinearLayout>
+            </LinearLayout>
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                android:layout_height="wrap_content"
+                android:text="Mensagem:"
+                android:textSize="@dimen/tamanho_fonte_razao_cliente_inicial"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/digitacao_pedidos_adicionais_edt_mensagem"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
