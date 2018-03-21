@@ -27,4 +27,15 @@
         android:showAsAction="ifRoom"
         android:title="@string/menu_consulta_enviados">
     </item>
+
+    <item
+        android:id="@+id/consulta_pedidos_reenviar"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_reenvio">
+    </item>
+    <item
+        android:id="@+id/consulta_pedidos_copia"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_copia">
+    </item>
 </menu>

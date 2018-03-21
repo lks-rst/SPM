@@ -87,6 +87,9 @@ public class DadosClienteFragment extends Fragment
     {
         super.onResume();
         this.setUpLayout();
+
+        this.activity.verificarVenda();
+
         this.fdcSpnrClientes.setSelection(this.activity.restoreClient());
         this.bloquearClicks();
     }
@@ -356,7 +359,7 @@ public class DadosClienteFragment extends Fragment
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /**************************************************************************************************/
 
-private class Android_Gesture_Detector implements GestureDetector.OnGestureListener,
+    private class Android_Gesture_Detector implements GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener
     {
         @Override

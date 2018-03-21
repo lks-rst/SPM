@@ -14,11 +14,12 @@ import java.util.ArrayList;
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.views.ConsultasPedidos;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.MenuPedidoNaoEnviado;
 
 /**
  * Created by Lucas on 03/01/2017 - 14:45 as part of the project SulpassoMobile.
  */
-public class ConsultaPedidosLista extends Fragment
+public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnviado.CallbackMenuPedidoNaoEnviado
 {
 /**********************************FRAGMENT LIFE CYCLE*********************************************/
     @Override
@@ -60,6 +61,7 @@ public class ConsultaPedidosLista extends Fragment
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
 
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemClickListener(clickPedido);
+        ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemLongClickListener(alterarExcluir);
     }
 
     public void listarItens(ArrayList<String> lista) throws GenercicException
@@ -96,8 +98,38 @@ public class ConsultaPedidosLista extends Fragment
             ((ListView) getActivity().findViewById(R.id.liAcpItens)).setAdapter(adapter);
         }
     };
+
+    private AdapterView.OnItemLongClickListener alterarExcluir = new AdapterView.OnItemLongClickListener()
+    {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+        {
+//            ((ConsultasPedidos) getActivity()).menu_pedido_nao_enviado(position);
+            apresentarAcoes(position);
+
+            return false;
+        }
+    };
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/
+    private void apresentarAcoes(int posicao)
+    {
+        ((ConsultasPedidos) getActivity()).indicarPosicaoPedido(posicao);
+        MenuPedidoNaoEnviado dialog = new MenuPedidoNaoEnviado();
+        dialog.setTargetFragment(this, 1); //request code
+        dialog.show(getFragmentManager(), "DIALOG");
+    }
+
+    @Override
+    public void indicarAcao(int acao)
+    {
+        ((ConsultasPedidos) getActivity()).direcionarAcao(acao);
+    }
+
+    @Override
+    public int getPedido() {
+        return 0;
+    }
 
 /*********************************END OF ITERFACES METHODS*****************************************/
 /**************************************************************************************************/

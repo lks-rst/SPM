@@ -57,31 +57,50 @@ public class Pedido extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido);
-        Intent call = getIntent();
-
-        int tipoVenda = call.getIntExtra("TIPOVENDA", -1);
-        String direta = call.getStringExtra("DIRETA");
 
         // load slide menu items
         fragTitles = getResources().getStringArray(R.array.fragTitles);
 
-        // on first time display view for first nav item
-        if (savedInstanceState == null)
-        {
-            if(tipoVenda == TipoVenda.NORMAL.getValue())
-                this.controlePedido = new PedidoNormal(getApplicationContext(), "PD");
-            else if(tipoVenda == TipoVenda.DIRETA.getValue())
-                this.controlePedido = new VendaDireta(getApplicationContext(), direta);
-            else if(tipoVenda == TipoVenda.TROCA.getValue())
-                this.controlePedido = new Troca(getApplicationContext(), "TR");
-            else if(tipoVenda == TipoVenda.ALTERACAO.getValue())
-                this.controlePedido = new AlteracaoPedidos(getApplicationContext(), direta);
+        Intent call = getIntent();
+        boolean alteracao = call.getBooleanExtra("ALTERACAO", false);
 
-            /*
-            Toast.makeText(getApplicationContext(), "Tipo de controle de vendas aberto: \n" +
-                    this.controlePedido.getClass(), Toast.LENGTH_LONG).show();
-            */
-            displayView(0);
+        if(alteracao)
+        {
+            int pedido = call.getIntExtra("CODIGO", -1);
+
+            if(pedido > 0)
+            {
+                if (savedInstanceState == null)
+                {
+                    this.controlePedido = new AlteracaoPedidos(getApplicationContext(), "");
+                    this.controlePedido.buscarVenda(pedido);
+                    displayView(0);
+                }
+            }
+            else
+            {
+                onDestroy();
+            }
+        }
+        else
+        {
+            int tipoVenda = call.getIntExtra("TIPOVENDA", -1);
+            String direta = call.getStringExtra("DIRETA");
+
+            // on first time display view for first nav item
+            if (savedInstanceState == null)
+            {
+                if(tipoVenda == TipoVenda.NORMAL.getValue())
+                    this.controlePedido = new PedidoNormal(getApplicationContext(), "PD");
+                else if(tipoVenda == TipoVenda.DIRETA.getValue())
+                    this.controlePedido = new VendaDireta(getApplicationContext(), direta);
+                else if(tipoVenda == TipoVenda.TROCA.getValue())
+                    this.controlePedido = new Troca(getApplicationContext(), "TR");
+                else if(tipoVenda == TipoVenda.ALTERACAO.getValue())
+                    this.controlePedido = new AlteracaoPedidos(getApplicationContext(), direta);
+
+                displayView(0);
+            }
         }
 
         fragmentsContainer = findViewById(R.id.frame_container);
@@ -259,6 +278,15 @@ public class Pedido extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(),
                     "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void verificarVenda()
+    {
+        if(this.controlePedido.getClass() == AlteracaoPedidos.class)
+        {
+            this.controlePedido.restoreClient();
+            this.selecionarCliente(0);
         }
     }
 

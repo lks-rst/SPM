@@ -23,6 +23,7 @@ public class Venda
     public static final String BANCO = "PedidosBanco";
     public static final String TIPO = "PedidosTipo";
     public static final String NATUREZA = "PedidosNatureza";
+    public static final String EXCLUIDO = "PedidoValido";
 
     public static String CriarTabela()
     {
@@ -77,7 +78,26 @@ public class Venda
         builder.append(",");
         builder.append(NATUREZA);
         builder.append(Types.INTEIRO);
+        builder.append(",");
+        builder.append(EXCLUIDO);
+        builder.append(Types.INTEIRO);
         builder.append(");");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(EXCLUIDO);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0;");
 
         stmt = builder.toString();
         return stmt;

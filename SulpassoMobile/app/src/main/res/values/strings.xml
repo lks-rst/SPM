@@ -100,6 +100,30 @@
     <string name="lbl_cidade">Cidade: </string><!-- Também usada na finalização do pedido -->
     <!-- END -->
 
+    <!-- Strings da tela adicionais clientes -->
+    <string name="str_fantasia">Nome fatasia: </string>
+    <string name="str_bairro">Bairro: </string>
+    <string name="str_cnpj">CNPJ: </string>
+    <string name="str_cod">Código: </string>
+    <string name="str_ie">I.E.: </string>
+
+    <string name="str_banco">Banco: </string>
+    <string name="str_cep">CEP: </string>
+    <string name="str_aniversario">Aniversário: </string>
+    <string name="str_roteiro">Roteiro: </string>
+    <string name="str_mail">Email: </string>
+
+    <string name="str_contato">Contato: </string>
+    <string name="str_visita">Dia Visita: </string>
+    <string name="str_seg">Segunda: </string>
+    <string name="str_ter">Terça: </string>
+    <string name="str_qua">Quarta: </string>
+    <string name="str_qui">Quinta: </string>
+    <string name="str_sex">Sexta: </string>
+    <string name="str_sab">Sábado: </string>
+    <string name="str_msg">Mensage: </string>
+    <!-- END -->
+
     <!-- Strings da tela de busca itens -->
     <string name="str_busca">Digite o item de busca </string>
     <string name="btn_serach">Pesq.: </string>
@@ -318,6 +342,10 @@
 
     <string name="menu_consulta_todos">Todos</string>
     <string name="menu_consulta_enviados">Enviados</string>
+
+    <string name="menu_consulta_copia">Cópia Pedidos</string>
+    <string name="menu_consulta_reenvio">Reenvio Pedidos</string>
+
     <string name="menu_consulta_nao">Não Enviados</string>
     <string name="menu_consulta_direta">Vendas Diretas</string>
     <string name="menu_consulta_resumo">Resumo Dia</string>

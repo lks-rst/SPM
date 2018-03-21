@@ -20,6 +20,8 @@ public class ConsultarPedidos
     private ArrayList<Venda> todas;
     private VendaDataAccess vda;
 
+    private int posicaoPedido;
+
     public ConsultarPedidos(Context ctx)
     {
         this.vda = new VendaDataAccess(ctx);
@@ -27,30 +29,22 @@ public class ConsultarPedidos
 
     public ArrayList<String> listarPedidos(int tipo, String data)
     {
+        this.naoEnviadas = null;
+        this.enviadas = null;
+        this.todas = null;
+
         switch (tipo)
         {
             case 0 :
-                this.naoEnviadas = null;
-                this.enviadas = null;
-                this.todas = null;
                 this.buscarTodos(data);
                 return this.listarTodosPedidos();
             case 1 :
-                this.naoEnviadas = null;
-                this.enviadas = null;
-                this.todas = null;
                 this.buscarEnviados(data);
                 return this.listarPedidosEnviados();
             case 2 :
-                this.naoEnviadas = null;
-                this.enviadas = null;
-                this.todas = null;
                 this.buscarNaoEnviados(data);
                 return this.listarPedidosNaoEnviados();
             default :
-                this.naoEnviadas = null;
-                this.enviadas = null;
-                this.todas = null;
                 this.buscarTodos(data);
                 return this.listarTodosPedidos();
         }
@@ -65,6 +59,67 @@ public class ConsultarPedidos
                 return exibirItens(naoEnviadas.get(posicao).getItens());
         else
             return exibirItens(enviadas.get(posicao).getItens());
+    }
+
+    public void reenvioPedidos(int inicio, int fim)
+    {
+
+    }
+
+    public void copiaPedidos(int inicio, int fim)
+    {
+
+    }
+
+    public boolean excluirPedido()
+    {
+        int cod = 0;
+
+        switch (this.tipoBusca())
+        {
+            case 0:
+                cod = this.todas.get(this.posicaoPedido).getCodigo();
+                break;
+            case 1:
+                break;
+            case 2:
+                cod = this.naoEnviadas.get(this.posicaoPedido).getCodigo();
+                break;
+        }
+
+        try { this.vda.excluirPedido(cod); }
+        catch (GenercicException e) { cod = 0; }
+
+        return cod > 0;
+    }
+
+    public int alterarPedido()
+    {
+        int cod = 0;
+
+        switch (this.tipoBusca())
+        {
+            case 0:
+                cod = this.todas.get(this.posicaoPedido).getCodigo();
+                break;
+            case 1:
+                break;
+            case 2:
+                cod = this.naoEnviadas.get(this.posicaoPedido).getCodigo();
+                break;
+        }
+
+        return cod;
+    }
+
+    public int tipoBusca()
+    {
+        if(this.naoEnviadas != null)
+            return 1;
+        else if(this.naoEnviadas != null)
+            return 2;
+        else
+            return 0;
     }
 
     private ArrayList<String> exibirItens(ArrayList<ItensVendidos> itens)
@@ -135,4 +190,8 @@ public class ConsultarPedidos
         try { this.todas = (ArrayList<Venda>) this.vda.getAll(); }
         catch (GenercicException e) { this.todas = new ArrayList<>(); }
     }
+
+    public int getPosicaoPedido() { return posicaoPedido; }
+
+    public void setPosicaoPedido(int posicaoPedido) { this.posicaoPedido = posicaoPedido; }
 }

@@ -192,6 +192,8 @@ public abstract class EfetuarPedidos
     public abstract ArrayList<String> listarCidades();
 
     public abstract float calcularPpc(float valor, float markup, float desconto);
+
+    public abstract void buscarVenda(int codVenda);
 /**************************************************************************************************/
 /****************************************FINAL METHODS*********************************************/
 /**************************************************************************************************/
