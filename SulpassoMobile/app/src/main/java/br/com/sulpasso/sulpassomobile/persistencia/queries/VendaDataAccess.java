@@ -445,8 +445,9 @@ public class VendaDataAccess
 
     private Boolean inserirVenda(Venda venda) throws InsertionExeption
     {
+        /* https://stackoverflow.com/questions/418898/sqlite-upsert-not-insert-or-replace */
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("Insert into ");
+        this.sBuilder.append("Insert OR REPLACE into ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
         this.sBuilder.append("(");

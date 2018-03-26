@@ -222,7 +222,7 @@ public class PedidoNormal extends EfetuarPedidos {
         int posicao = -1;
 
         ItensVendidos item = super.controleDigitacao.confirmarItem(
-                super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context);
+                super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha);
 
         if(item != null)
         {

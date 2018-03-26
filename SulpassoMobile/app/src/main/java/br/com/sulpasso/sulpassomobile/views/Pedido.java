@@ -32,6 +32,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
+import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.views.fragments.DadosClienteFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.DigitacaoItemFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.FinalizacaoPedidoFragment;
@@ -51,6 +52,11 @@ public class Pedido extends AppCompatActivity
     private EfetuarPedidos controlePedido;
 
     private String[] fragTitles;
+
+
+    private SenhaLiberacao sl;
+    private String chave;
+    private String senha;
 /**********************************ACTIVITY LIFE CICLE*********************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -187,6 +193,7 @@ public class Pedido extends AppCompatActivity
         if(this.controlePedido.confirmarItem())
         {
             getFragmentManager().popBackStackImmediate();
+            EfetuarPedidos.senha = false;
             int ret = -1;
             ret = this.controlePedido.verificarTabloides();
             if(ret != -1)
@@ -194,6 +201,13 @@ public class Pedido extends AppCompatActivity
                 aplicarDescontoTabloide(ret);
                 Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
             }
+        }
+        else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique."))
+        {
+            Toast.makeText(getApplicationContext(), "Solicitar Senha", Toast.LENGTH_LONG).show();
+            this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
+            this.chave = sl.getChave();
+            solicitarSenha(this.chave);
         }
     }
 
@@ -563,7 +577,7 @@ public class Pedido extends AppCompatActivity
 
     public PrePedido detalharPrePedido() { return this.controlePedido.detalharPrePedido(); }
 
-    public boolean inserDePrePedido() { return this.controlePedido.inserDePrePedido(); }
+    public boolean insereDePrePedido() { return this.controlePedido.insereDePrePedido(); }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
 /************************************End the Overridin*********************************************/
 /******************************Methods to make class services direct ******************************/
@@ -891,5 +905,63 @@ public class Pedido extends AppCompatActivity
             Toast.makeText(getApplicationContext(),
                     "Erro ao carregar dados", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void solicitarSenha(final String chave)
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Liberação de Preços");
+        alert.setMessage("Para que seja possível efetuar a venda com esse valor é necessário que se digite a senha.\nChave de acesso: " + chave);
+        alert.setCancelable(false);
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+        alert.setView(input);
+
+        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                senha = input.getText().toString();
+                Proseguir();
+            }
+        });
+        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which) { /*****/ }
+        });
+        alert.show();
+    }
+
+    private void Proseguir()
+    {
+        boolean liberado;
+
+        liberado = sl.verificaChavePedido(senha);
+
+        if (liberado)
+        {
+            EfetuarPedidos.senha = true;
+
+            if(this.controlePedido.confirmarItem())
+            {
+                getFragmentManager().popBackStackImmediate();
+                EfetuarPedidos.senha = false;
+                int ret = -1;
+                ret = this.controlePedido.verificarTabloides();
+                if(ret != -1)
+                {
+                    aplicarDescontoTabloide(ret);
+                    Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
+                }
+            }
+            else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique."))
+            {
+                Toast.makeText(getApplicationContext(), "Solicitar Senha", Toast.LENGTH_LONG).show();
+            }
+        }
+        else { /*****/ }
     }
 }
