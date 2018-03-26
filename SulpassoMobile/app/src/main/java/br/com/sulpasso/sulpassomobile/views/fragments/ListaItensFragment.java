@@ -212,7 +212,7 @@ public class ListaItensFragment extends Fragment implements
 
     private void apresentarDialog()
     {
-        if(((Pedido) getActivity()).inserDePrePedido())
+        if(((Pedido) getActivity()).insereDePrePedido())
         {
             DetalhesPrePedidoValores dialog = new DetalhesPrePedidoValores();
             dialog.setTargetFragment(this, 1); //request code

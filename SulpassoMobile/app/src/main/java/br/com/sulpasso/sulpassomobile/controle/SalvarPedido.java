@@ -58,8 +58,11 @@ public class SalvarPedido
 
         try
         {
-            venda.setCodigo(vda.buscarCodigo());
-            v.setPed(vda.buscarCodigo());
+            if(venda.getCodigo() <= 0 || venda.getCodigo() == null)
+            {
+                venda.setCodigo(vda.buscarCodigo());
+                v.setPed(vda.buscarCodigo());
+            }
 
             vda.insert(venda);
             vida.insert(v);

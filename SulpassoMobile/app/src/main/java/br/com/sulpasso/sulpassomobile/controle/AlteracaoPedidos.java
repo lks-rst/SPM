@@ -1,6 +1,7 @@
 package br.com.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -8,13 +9,18 @@ import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
+import br.com.sulpasso.sulpassomobile.modelo.Item;
+import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.modelo.Natureza;
 import br.com.sulpasso.sulpassomobile.modelo.Prazo;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
+import br.com.sulpasso.sulpassomobile.modelo.Promocao;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ClienteDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.PrePedidoDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
 
 /**
@@ -35,6 +41,8 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
         super.codigoNatureza = super.venda.getNatureza();
         super.codigoPrazo = super.venda.getPrazo().getCodigo();
+
+        super.itensVendidos = super.venda.getItens();
 
         return lista;
     }
@@ -107,92 +115,194 @@ public class AlteracaoPedidos extends EfetuarPedidos
         }
     }
 
-    @Override
-    public Boolean temValorMinimo() {
-        return null;
+    public Boolean temValorMinimo()
+    {
+        return super.controleDigitacao.temMinimo();
+    }
+
+    public Boolean temPromocao()
+    {
+        return super.controleDigitacao.temPromocao();
+    }
+
+    public void buscarPromocoes()
+    {
+
+        PromocaoDataAccess pda = new PromocaoDataAccess(super.context);
+        ArrayList<Promocao> promocoes = new ArrayList<>();
+        try { promocoes = pda.buscarPromocao(super.controleDigitacao.getItem().getCodigo()); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        ArrayList<String> lista = new ArrayList<>();
+
+        if(promocoes.size() > 0)
+            for (Promocao p : promocoes)
+                lista.add(p.toDisplay());
+        else
+            lista.add(super.context.getString(R.string.sem_promocoes));
+
+        Toast.makeText(super.context
+                ,"Valores promocionais encontrados para o item:\n" + lista.toString()
+                , Toast.LENGTH_LONG).show();
+    }
+
+    public String buscarMinimoTabela()
+    {
+        Toast.makeText(super.context
+                ,"Valor minimo encontrado para o item: " + super.controleDigitacao.buscarMinimo()
+                , Toast.LENGTH_LONG).show();
+
+        return super.controleDigitacao.buscarMinimo();
     }
 
     @Override
-    public Boolean temPromocao() {
-        return null;
+    public Boolean alteraValor(String campo)
+    {
+        return super.controleConfiguracao.alteraValor(campo);
     }
 
     @Override
-    public void buscarPromocoes() { /*****/ }
-
-    @Override
-    public String buscarMinimoTabela() {
-        return null;
+    public Boolean alteraValorFim(int campo)
+    {
+        return super.controleConfiguracao.alteraValorFim(campo);
     }
 
-    @Override
-    public Boolean alteraValor(String campo) {
-        return null;
-    }
+    public String getValor() { return super.controleDigitacao.getValor(); }
 
-    @Override
-    public Boolean alteraValorFim(int campo) {
-        return null;
-    }
+    public String getQtdMinimaVenda() { return super.controleDigitacao.getQtdMinimaVenda(); }
 
-    @Override
-    public String getValor() {
-        return null;
-    }
+    public String getUnidade() { return super.controleDigitacao.getUnidade(); }
 
-    @Override
-    public String getQtdMinimaVenda() {
-        return null;
-    }
+    public String getUnidadeVenda() { return super.controleDigitacao.getUnidadeVenda(); }
 
-    @Override
-    public String getUnidade() {
-        return null;
-    }
+    public String getCodigoBarras() { return super.controleDigitacao.getCodigoBarras(); }
 
-    @Override
-    public String getUnidadeVenda() {
-        return null;
-    }
-
-    @Override
-    public String getCodigoBarras() {
-        return null;
-    }
-
-    @Override
-    public String getQtdCaixa() {
-        return null;
-    }
-
-    @Override
-    public String getValorUnitario() {
-        return null;
-    }
+    public String getQtdCaixa() { return super.controleDigitacao.getQtdCaixa(); }
 
     public String getEstoque() { return super.controleDigitacao.getEstoque(); }
 
+    public String getValorUnitario() { return super.controleDigitacao.getValorUnitario(); }
+
     @Override
-    public String getMarkup() {
-        return null;
+    public String getMarkup() { return super.controleConfiguracao.getMarkup(); }
+
+    public String calcularTotal() { return String.valueOf(super.controleDigitacao.calcularTotal()); }
+
+    @Override
+    public void setQuantidade(String quantidade) { super.controleDigitacao.setQuantidade(Float.parseFloat(quantidade)); }
+
+    @Override
+    public Boolean confirmarItem()
+    {
+        Boolean alteracao = false;
+        int posicao = -1;
+
+        ItensVendidos item = super.controleDigitacao.confirmarItem(
+                super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha);
+
+        if(item != null)
+        {
+            if(this.finalizarItem())
+            {
+                for (ItensVendidos i : super.itensVendidos)
+                {
+                    if (item.equals(i))
+                    {
+                        alteracao = true;
+                        posicao = super.itensVendidos.indexOf(i);
+                    }
+                }
+
+                if (alteracao)
+                {
+                    if(super.itensVendidos.get(posicao).getFlex() > 0)
+                    {
+                        super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
+                                (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                    }
+
+                    super.itensVendidos.set(posicao, item);
+                    /*
+                    TODO: Ajustar as quantidades das campanhas relacionadas ao item;
+                    TODO: Verificar os descontos das campanhas alteradas;
+                     */
+                    Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
+                }
+                else { super.itensVendidos.add(item); }
+
+                try
+                {
+                    if(super.itensVendidos.get(posicao).getFlex() > 0)
+                    {
+                        super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                    }
+                }
+                catch (Exception exeption)
+                {
+                    if(super.itensVendidos.get(0).getFlex() > 0)
+                    {
+                        super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
+                    }
+                }
+
+                return true;
+            }
+            else return false;
+        }
+        else return false;
     }
 
     @Override
-    public String calcularTotal() {
-        return null;
-    }
+    public int finalizarPedido()
+    {
+        NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
 
-    @Override
-    public void setQuantidade(String quantidade) { /*****/ }
+        if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
+                , super.controleConfiguracao.pedidoMinimo()))
+        {
+            if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
+            {
+                super.venda.setItens(super.itensVendidos);
+                super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
+                super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
+                super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
+                super.venda.setData(super.dataSistema());
+                super.venda.setHora(super.horaSistema());
+                super.venda.setNatureza(super.codigoNatureza);
+                super.venda.setBanco(super.controleClientes.getBancoCliente());
 
-    @Override
-    public Boolean confirmarItem() {
-        return null;
-    }
+                super.venda.setTipo(super.strTipoVenda);
 
-    @Override
-    public int finalizarPedido() {
-        return 0;
+                Prazo p = new Prazo();
+                p.setCodigo(super.codigoPrazo);
+                super.venda.setPrazo(p);
+
+                if(super.controleSalvar.salvarPedido(super.context, super.venda))
+                {
+                    super.controleSalvar.atualizarSaldo(super.context, super.controleConfiguracao.getSaldoAtual());
+                    return 1;
+                }
+                else
+                {
+                    Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+                    return 0;
+                }
+            }
+            else
+            {
+                Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                        , Toast.LENGTH_LONG).show();
+                return 0;
+            }
+        }
+        else
+        {
+            Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                    , Toast.LENGTH_LONG).show();
+            return 0;
+        }
     }
 
     @Override
@@ -259,19 +369,153 @@ public class AlteracaoPedidos extends EfetuarPedidos
     }
 
     @Override
-    public int verificarTabloides() {
-        return 0;
+    public int verificarTabloides()
+    {
+        int codigo = super.itensVendidos.get(super.itensVendidos.size() - 1).getItem();
+        Item produto = null;
+        try { produto = super.controleProdutos.getItemCodigo(codigo); }
+        catch (GenercicException e)
+        {
+            produto = null;
+            e.printStackTrace();
+        }
+
+        if(produto == null)
+            return -1;
+
+        int posicaoGrupo = -1;
+
+        if(super.campanhaGrupos != null && super.campanhaGrupos.size() > 0)
+        {
+            for(CampanhaGrupo c : super.campanhaGrupos)
+            {
+                if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() ==
+                        produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
+                        (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() ==
+                                produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
+                        (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() ==
+                                0 && c.getGrupo().getDivisao() == 0))
+                {
+                    posicaoGrupo = super.campanhaGrupos.indexOf(c);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            super.campanhaGrupos = new ArrayList<>();
+            ConsultaMinimosGravososKitsCampanhas campanhas = new ConsultaMinimosGravososKitsCampanhas(super.context);
+            try
+            {
+                CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
+
+                if(camp == null)
+                    posicaoGrupo = -1;
+                else
+                {
+                    super.campanhaGrupos.add(camp);
+                    posicaoGrupo = 0;
+                }
+            }
+            catch (GenercicException e)
+            {
+                e.printStackTrace();
+                posicaoGrupo = -1;
+            }
+        }
+
+        if(posicaoGrupo != -1)
+        {
+            super.campanhaGrupos.get(posicaoGrupo).setQuantidadeVendida(
+                    super.campanhaGrupos.get(posicaoGrupo).getQuantidadeVendida() +
+                            (int) super.itensVendidos.get(super.itensVendidos.size() -1).getQuantidade());
+
+            if(super.campanhaGrupos.get(posicaoGrupo).getQuantidadeVendida() >= super.campanhaGrupos.get(posicaoGrupo).getQuantidade())
+            {
+                if(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado() > 0)
+                {
+                    super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado());
+
+                    super.itensVendidos.get(super.itensVendidos.size() - 1).setValorLiquido(
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() -
+                                    ((super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() *
+                                            super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado()) / 100));
+
+                    super.itensVendidos.get(super.itensVendidos.size() - 1).setTotal(super.calcularTotal
+                            (
+                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade(),
+                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado(),
+                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getDesconto(),
+                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCG(),
+                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0
+                            ));
+
+                    return -1;
+                }
+                else
+                    return posicaoGrupo;
+            }
+            else
+                return -1;
+        }
+        else { return -1; }
     }
 
     @Override
-    public int aplicarDescontoTabloide(float percentual, int posicao) {
-        return 0;
+    public int aplicarDescontoTabloide(float percentual, int posicao)
+    {
+        if(percentual >= 0)
+        {
+            if (super.campanhaGrupos.get(posicao).getDesconto() >= percentual)
+            {
+                super.campanhaGrupos.get(posicao).setDescontoAplicado(percentual);
+
+                for(int i = 0; i < super.itensVendidos.size(); i++)
+                {
+                    Item produto = null;
+                    try { produto = super.controleProdutos.getItemCodigo(super.itensVendidos.get(i).getItem()); }
+                    catch (GenercicException e) { e.printStackTrace(); }
+
+                    if((super.campanhaGrupos.get(posicao).getGrupo().getGrupo() == produto.getGrupo() &&
+                            super.campanhaGrupos.get(posicao).getGrupo().getSubGrupo() == produto.getSubGrupo() &&
+                            super.campanhaGrupos.get(posicao).getGrupo().getDivisao() == produto.getDivisao()) ||
+                            (super.campanhaGrupos.get(posicao).getGrupo().getGrupo() == produto.getGrupo() &&
+                                    super.campanhaGrupos.get(posicao).getGrupo().getSubGrupo() == produto.getSubGrupo() &&
+                                    super.campanhaGrupos.get(posicao).getGrupo().getDivisao() == 0) ||
+                            (super.campanhaGrupos.get(posicao).getGrupo().getGrupo() == produto.getGrupo() &&
+                                    super.campanhaGrupos.get(posicao).getGrupo().getSubGrupo() == 0 &&
+                                    super.campanhaGrupos.get(posicao).getGrupo().getDivisao() == 0))
+                    {
+                        super.itensVendidos.get(i).setDescontoCG(percentual);
+                        super.itensVendidos.get(i).setValorLiquido(super.itensVendidos.get(i)
+                                .getValorDigitado() - ((super.itensVendidos.get(i).getValorDigitado() * percentual) / 100));
+                        super.itensVendidos.get(i).setTotal(super.calcularTotal(
+                                super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
+                                super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),
+                                super.itensVendidos.get(i).getDescontoCP(), 0));
+                        /*
+                        super.itensVendidos.get(i).setTotal(
+                            super.itensVendidos.get(i).getValorLiquido() * super.itensVendidos.get(i).getQuantidade());
+                         */
+                    }
+                }
+                return -1;
+            }
+            else
+            {
+                Toast.makeText(context, "Desconto acima do permitido", Toast.LENGTH_LONG).show();
+                return posicao;
+            }
+        }
+        else
+        {
+            Toast.makeText(context, "Desconto não pode ser zero (0)!", Toast.LENGTH_LONG).show();
+            return posicao;
+        }
     }
 
     @Override
-    public ArrayList<CampanhaGrupo> getCampanhaGrupos() {
-        return null;
-    }
+    public ArrayList<CampanhaGrupo> getCampanhaGrupos() { return campanhaGrupos; }
 
     @Override
     protected void getNaturezasList(Boolean especial) throws GenercicException
@@ -366,19 +610,46 @@ public class AlteracaoPedidos extends EfetuarPedidos
     }
 
     @Override
-    public boolean verificarPrepedido() { return false; }
+    public boolean verificarPrepedido()
+    {
+        boolean retorno = false;
 
-    @Override
-    public PrePedido detalharPrePedido() { return null; }
+        PrePedidoDataAccess pda = new PrePedidoDataAccess(super.context);
+        try { retorno = pda.getClienteByCod(super.venda.getCliente().getCodigoCliente()); }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            retorno = false;
+        }
 
-    @Override
-    public ArrayList<String> listarCidades() {
-        return null;
+        return retorno;
     }
 
     @Override
-    public float calcularPpc(float valor, float markup, float desconto) {
-        return 0;
+    public PrePedido detalharPrePedido()
+    {
+        PrePedido retorno = null;
+
+        ArrayList<PrePedido> pp = new ArrayList<>();
+
+        PrePedidoDataAccess pda = new PrePedidoDataAccess(super.context);
+        try { pp = pda.getByData(super.venda.getCliente().getCodigoCliente()); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        retorno =  pp.get(0);
+
+        super.prePedido = retorno;
+
+        return retorno;
+    }
+
+    @Override
+    public ArrayList<String> listarCidades() { return super.controleClientes.listarCidades(); }
+
+    @Override
+    public float calcularPpc(float valor, float markup, float desconto)
+    {
+        return valor + (valor * (markup / 100));
     }
 
     @Override

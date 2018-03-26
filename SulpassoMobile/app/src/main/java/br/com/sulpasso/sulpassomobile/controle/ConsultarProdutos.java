@@ -121,7 +121,6 @@ public class ConsultarProdutos
         retorno.add("SELECIONE UM ITEM");
         */
 
-
         if(this.searchType == TiposBuscaItens.GRAVOSOS)
         {
             this.listar(tabela);

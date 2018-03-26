@@ -63,6 +63,10 @@ public class InserirItemPedidos
         return Boolean.parseBoolean(this.dadosVendaItem.get("PROMOCAO"));
     }
 
+    public float getValorDigitado() { return this.valor; }
+
+    public float getQuantidadeDigitado() { return this.quantidade; }
+
     public String getValor() { return this.buscarDadosVendaItem(1); }
 
     public String buscarMinimo() { return this.buscarDadosVendaItem(2); }
@@ -132,44 +136,64 @@ public class InserirItemPedidos
         return (this.valor < (tabela * 2));
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha)
     {
-        if(this.verificarQuantidade())
-            if(this.verificarDesconto(desconto, percentual, context))
-                if(this.verificarValor(desconto, percentual, context))
-                {
-                    ItensVendidos item = new ItensVendidos();
-                    item.setItem(this.item.getCodigo());
-                    item.setQuantidade(this.quantidade);
-                    item.setValorTabela(Float.parseFloat(this.getValor()));
-                    item.setValorLiquido(this.valor);
-                    item.setValorDigitado(this.valor);
-                    item.setDesconto(this.desconto);
-                    item.setTotal(this.calcularTotal());
-                    item.setFlex(this.diferencaFlex(context));
+        if(!senha)
+        {
+            if(this.verificarQuantidade())
+                if(this.verificarDesconto(desconto, percentual, context))
+                    if(this.verificarValor(desconto, percentual, context))
+                    {
+                        ItensVendidos item = new ItensVendidos();
+                        item.setItem(this.item.getCodigo());
+                        item.setQuantidade(this.quantidade);
+                        item.setValorTabela(Float.parseFloat(this.getValor()));
+                        item.setValorLiquido(this.valor);
+                        item.setValorDigitado(this.valor);
+                        item.setDesconto(this.desconto);
+                        item.setTotal(this.calcularTotal());
+                        item.setFlex(this.diferencaFlex(context));
 
-                    EfetuarPedidos.erro = false;
-                    EfetuarPedidos.strErro = " ";
+                        EfetuarPedidos.erro = false;
+                        EfetuarPedidos.strErro = " ";
 
-                    return item;
-                }
+                        return item;
+                    }
+                    else
+                    {
+                        EfetuarPedidos.erro = true;
+                        EfetuarPedidos.strErro = "Valor abaixo do permitido!\nPor favor verifique.";
+                        return null;
+                    }
                 else
                 {
                     EfetuarPedidos.erro = true;
-                    EfetuarPedidos.strErro = "Valor abaixo do permitido!\nPor favor verifique.";
+                    EfetuarPedidos.strErro = "Desconto acima do permitido!\nPor favor verifique.";
                     return null;
                 }
             else
             {
                 EfetuarPedidos.erro = true;
-                EfetuarPedidos.strErro = "Desconto acima do permitido!\nPor favor verifique.";
+                EfetuarPedidos.strErro = "Verifique a quantidade digitada!\nPor favor verifique.";
                 return null;
             }
+        }
         else
         {
-            EfetuarPedidos.erro = true;
-            EfetuarPedidos.strErro = "Verifique a quantidade digitada!\nPor favor verifique.";
-            return null;
+            ItensVendidos item = new ItensVendidos();
+            item.setItem(this.item.getCodigo());
+            item.setQuantidade(this.quantidade);
+            item.setValorTabela(Float.parseFloat(this.getValor()));
+            item.setValorLiquido(this.valor);
+            item.setValorDigitado(this.valor);
+            item.setDesconto(this.desconto);
+            item.setTotal(this.calcularTotal());
+            item.setFlex(this.diferencaFlex(context));
+
+            EfetuarPedidos.erro = false;
+            EfetuarPedidos.strErro = " ";
+
+            return item;
         }
     }
 

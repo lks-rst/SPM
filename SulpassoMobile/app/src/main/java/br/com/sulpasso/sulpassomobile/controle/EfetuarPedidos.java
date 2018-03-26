@@ -21,6 +21,7 @@ import br.com.sulpasso.sulpassomobile.modelo.PrePedidoItem;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.CidadeDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.GrupoDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
@@ -32,6 +33,7 @@ public abstract class EfetuarPedidos
 {
     public static boolean erro = false;
     public static String strErro = "";
+    public static boolean senha = false;
 
     protected int codigoNatureza;
     protected int codigoPrazo;
@@ -350,6 +352,14 @@ public abstract class EfetuarPedidos
                 (posicao, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
     }
 
+    public final void selecionarItemPre(int posicao)
+    {
+        this.controleDigitacao.setItem(this.converterItem(this.prePedido.getItensVendidos().get(posicao)));
+        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVendaPre
+                (this.prePedido.getItensVendidos().get(posicao).getItem(), this.tabela,
+                        this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+    }
+
     public void alterarItem(int posicao)
     {
         int codigo = this.itensVendidos.get(posicao).getItem();
@@ -371,14 +381,6 @@ public abstract class EfetuarPedidos
         int newP = this.controleProdutos.getItemPosicao(codigo);
 
         return this.controleProdutos.getItem(newP).getDescricao();
-    }
-
-    public final void selecionarItemPre(int posicao)
-    {
-        this.controleDigitacao.setItem(this.converterItem(this.prePedido.getItensVendidos().get(posicao)));
-        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVendaPre
-                    (this.prePedido.getItensVendidos().get(posicao).getItem(), this.tabela,
-                    this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
     }
 
     public final int restoreClient() { return this.controleClientes.restoreClient(); }
@@ -544,9 +546,9 @@ public abstract class EfetuarPedidos
         this.controleProdutos.setDivisao(this.divisao);
     }
 
-    public final boolean inserDePrePedido()
+    public final boolean insereDePrePedido()
     {
-        return true;
+        return false;
     }
 
     public final int getCitCod(int position)
@@ -600,6 +602,16 @@ public abstract class EfetuarPedidos
         return this.controleConfiguracao.getConfigUsr().getTipoBusca();
     }
 
+    public float buscarValorItemDigitando()
+    {
+        return this.controleDigitacao.getValorDigitado();
+    }
+
+    public float buscarQuantidadeItemDigitando()
+    {
+        return this.controleDigitacao.getQuantidadeDigitado();
+    }
+
     public void selecionarCliente() { /*****/ }
 
     public void selecionarNatureza() { /*****/ }
@@ -619,11 +631,20 @@ public abstract class EfetuarPedidos
         Item retorno;
 
         retorno = new Item();
+/*
 
         retorno.setCodigo(item.getItem());
         retorno.setDescricao(item.getDescricao());
         retorno.setReferencia("");
         retorno.setComplemento("");
+*/
+
+        ItemDataAccess ida = new ItemDataAccess(this.context);
+        try {
+            retorno = ida.buscarItemCodigo(item.getItem());
+        } catch (GenercicException e) {
+            e.printStackTrace();
+        }
 
         return retorno;
     }

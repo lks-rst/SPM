@@ -129,7 +129,6 @@ public class DigitacaoItemFragment extends Fragment
         ((EditText) (getActivity().findViewById(R.id.fdEdtMkp)))
                 .addTextChangedListener(alteracaoMkp);
 
-
         /******************************************************************************************/
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setText(((Pedido) getActivity()).getValor());
@@ -174,13 +173,16 @@ public class DigitacaoItemFragment extends Fragment
             (((Pedido) getActivity()).calcularPpc(
                 ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString(),
                 ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).getText().toString(), "0")));
-
     }
 
     private void exibirTotal()
     {
         ((TextView) (getActivity().findViewById(R.id.fdEdtTotal)))
                 .setText(((Pedido) getActivity()).calcularTotalItem());
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtCnt))).setText(
+            (((Pedido) getActivity()).calculoContribuicao(Float.parseFloat(
+            ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString()))));
     }
 /**************************************************************************************************/
 /*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/
