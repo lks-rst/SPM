@@ -382,6 +382,7 @@ public class ManipularArquivos
         Scanner strem_leitura = null;
         int nr_total_linhas_arquivo = -1;
         int nr_total_linhas_encontrado = 0;
+        boolean finalStatus = false;
 
         try
         {
@@ -399,11 +400,16 @@ public class ManipularArquivos
                     {
                         nr_total_linhas_arquivo = Integer.parseInt(s.substring(2).trim());
 
-                        if (nr_total_linhas_arquivo == (nr_total_linhas_encontrado - 1)){ return true; }
+                        if (nr_total_linhas_arquivo == (nr_total_linhas_encontrado - 1))
+                        {
+                            finalStatus = true;
+                            break;
+                        }
                         else
                         {
                             this.addStringErro("Arquivo de dados inválido.");
-                            return false;
+                            finalStatus = false;
+                            break;
                         }
                     }
                 }
@@ -415,10 +421,8 @@ public class ManipularArquivos
 
             strem_leitura.close();
             arquivo_leitura.close();
-            return false;
-            /*
-            TODO: acrescentar uma flag de finalização no arquivo e retornar para o fluxo principal apenas de um ponto do arquivo
-             */
+
+            return finalStatus;
         }
         catch (FileNotFoundException e)
         {
@@ -1159,10 +1163,13 @@ public class ManipularArquivos
                 {
                     for (String s : comissao)
                     {
-                        try {
+                        try
+                        {
+                            comissaoda.updateVenda(s.substring(2, 12).trim());
                             comissaoda.updateComissao(s.substring(12, 22).trim());
                             comissaoda.updateContribuicao(s.substring(22).trim());
-                        } catch (Exception e) {
+                        } catch (Exception e)
+                        {
                             this.addStringErro(e.getMessage());
                             this.addStringErro(s);
                         }
@@ -1330,7 +1337,16 @@ public class ManipularArquivos
 
     public void excluirArquivosLocal()
     {
-        File pasta = new File(Environment.getExternalStorageDirectory() + "/MobileVenda");
+        int version;
+        File pasta;
+
+        try { version = Integer.valueOf(Build.VERSION.SDK); }
+        catch (Exception ev){ version = 3; }
+
+        if(version == 19) { pasta = new File("/storage/emulated/0//MobileVenda"); }
+        else { pasta = new File("sdcard/MobileVenda"); }
+
+//        File pasta = new File(Environment.getExternalStorageDirectory() + "/MobileVenda");
         String[] arqs_sd = pasta.list();
 
         for (int i = 0; i < arqs_sd.length; i++)

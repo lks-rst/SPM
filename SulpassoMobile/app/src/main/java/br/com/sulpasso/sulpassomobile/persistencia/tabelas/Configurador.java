@@ -100,6 +100,8 @@ public class Configurador
     public static final String PESQUISAGERAL = "PesquisaGeral";
     public static final String TELAINICIAL = "TelaInicial";
 
+    public static final String VENDA = "TotalVendas";
+
     public static String CriarTabela()
     {
         String stmt;
@@ -182,6 +184,9 @@ public class Configurador
         builder.append(Types.FLOAT);
         builder.append(",");
         builder.append(CONTRIBUICAO);
+        builder.append(Types.FLOAT);
+        builder.append(",");
+        builder.append(VENDA);
         builder.append(Types.FLOAT);
         builder.append(",");
         builder.append(LOGIN);
@@ -365,6 +370,22 @@ public class Configurador
         builder.append(TELAINICIAL);
         builder.append(Types.INTEIRO);
         builder.append(");");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(VENDA);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0;");
 
         stmt = builder.toString();
         return stmt;

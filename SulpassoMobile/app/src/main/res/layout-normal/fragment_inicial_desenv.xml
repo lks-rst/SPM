@@ -35,7 +35,6 @@
                     android:textStyle="bold"
                     android:text="@string/apresentacao_2" />
 
-
                 <TextView
                     style="@style/rootView.fragdesenv.frame.textos"
                     android:text="@string/contato_fone" />

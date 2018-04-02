@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.views.ConsultasPedidos;
+import br.com.sulpasso.sulpassomobile.views.fragments.Adapters.AdapterPedidos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.MenuPedidoNaoEnviado;
 
 /**
@@ -53,10 +54,17 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
      */
     private void setUpLayout()
     {
+        /*
         ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(), R.layout.spinner_item,
                 ((ConsultasPedidos) getActivity()).getControle().listarPedidos(0, ""));
+
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        */
+
+        AdapterPedidos adapter = new AdapterPedidos(
+            getActivity().getApplicationContext(),
+            ((ConsultasPedidos) getActivity()).getControle().listarPedidosV(0, ""));
 
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
 

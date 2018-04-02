@@ -235,9 +235,10 @@ public class DigitacaoItemFragment extends Fragment
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
             if(s.toString().length() > 0 && s.toString().indexOf('.') != (s.toString().length() - 1))
+            {
                 ((Pedido) getActivity()).digitarValor(s.toString());
-
-            exibirTotal();
+                exibirTotal();
+            }
         }
 
         @Override

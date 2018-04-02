@@ -8,10 +8,6 @@ import org.json.JSONObject;
  */
 public class ConfiguradorVendas
 {
-    /*
-        TODO: Mover validade para o configurador de horarios;
-        TODO: Criar campo referente a utilização de flex ou de contribuição;
-     */
     private Boolean gerenciarVisitas;
     private Boolean venderDevedores;
     private Boolean alteraNaturezaInicio;

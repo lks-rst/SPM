@@ -768,12 +768,14 @@ public class Atualizacao extends AppCompatActivity
         empresa.setHint("DIGITE O NOME DA EMPRESA");
         empresa.setBackgroundResource(R.color.White);
         empresa.setTextColor(Color.BLACK);
+        empresa.setHintTextColor(getResources().getColor(R.color.colorAccent));
 
         final EditText usuario = new EditText(getApplicationContext());
         usuario.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
         usuario.setHint("DIGITE O CÓDIGO DO USUÁRIO");
         usuario.setBackgroundResource(R.color.White);
         usuario.setTextColor(Color.BLACK);
+        usuario.setHintTextColor(getResources().getColor(R.color.colorAccent));
 
         ln.addView(empresa);
         ln.addView(usuario);

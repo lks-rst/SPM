@@ -39,6 +39,8 @@ public class ConfiguradorDataAccess
 
     public ConfiguradorUsuario getUsuario() throws GenercicException { return this.searchUsuario(); }
 
+    public float getMeta(int tipo) throws GenercicException { return this.searchMetaTotal(tipo); }
+
     public ConfiguradorVendas getVenda() throws GenercicException { return this.searchVenda(); }
 
     public ConfiguradorHorarios getHorario() throws GenercicException { return this.searchHorarios(); }
@@ -1762,6 +1764,42 @@ public class ConfiguradorDataAccess
         return conta;
     }
 
+    private float searchMetaTotal(int tipo) throws ReadExeption
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+
+        if(tipo == 0)
+        {
+            this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VENDA);
+        }
+        else if(tipo == 1)
+        {
+            this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.COMISSAO);
+        }
+        else
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CONTRIBUICAO);
+        }
+
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        float meta = 0;
+
+        meta = c.getFloat(0);
+
+        return meta;
+    }
+
     private ConfiguradorVendas searchVenda() throws ReadExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
@@ -2342,6 +2380,23 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(" SET ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.COMISSAO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(Float.parseFloat(s) / 100);
+        this.sBuilder.append("';");
+
+        try { this.db.execSQL(this.sBuilder.toString()); }
+        catch (Exception exception) { throw new UpdateExeption(exception.getMessage()); }
+    }
+
+    public void updateVenda(String s) throws UpdateExeption
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("UPDATE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
+        this.sBuilder.append(" SET ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VENDA);
         this.sBuilder.append(" = '");
         this.sBuilder.append(Float.parseFloat(s) / 100);
         this.sBuilder.append("';");

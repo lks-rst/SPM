@@ -50,6 +50,29 @@ public class ConsultarPedidos
         }
     }
 
+    public ArrayList<Venda> listarPedidosV(int tipo, String data)
+    {
+        this.naoEnviadas = null;
+        this.enviadas = null;
+        this.todas = null;
+
+        switch (tipo)
+        {
+            case 0 :
+                this.buscarTodos(data);
+                return this.todas;
+            case 1 :
+                this.buscarEnviados(data);
+                return this.enviadas;
+            case 2 :
+                this.buscarNaoEnviados(data);
+                return this.naoEnviadas;
+            default :
+                this.buscarTodos(data);
+                return this.todas;
+        }
+    }
+
     public ArrayList<String> listarItens(int posicao)
     {
         if(enviadas == null)

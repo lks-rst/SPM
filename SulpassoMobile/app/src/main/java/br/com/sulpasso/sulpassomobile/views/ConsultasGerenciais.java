@@ -24,6 +24,7 @@ import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.ConsultaGerencial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.modelo.Meta;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialGraficos;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
@@ -200,6 +201,11 @@ public class ConsultasGerenciais extends AppCompatActivity
     public ArrayList<Meta> buscarListaMetas() { return this.controle.buscarListaMetas(); }
 
     public float buscarMetaIdeal() { return this.controle.buscarMetaIdeal(); }
+
+    public String buscarMetaTotal(int tipo)
+    {
+        return Formatacao.format2d(this.controle.buscarMetaTotal(tipo));
+    }
 
     public String buscarMeta(int posicao, int campo, int tipo) { return this.controle.buscarMeta(posicao, campo, tipo); }
 

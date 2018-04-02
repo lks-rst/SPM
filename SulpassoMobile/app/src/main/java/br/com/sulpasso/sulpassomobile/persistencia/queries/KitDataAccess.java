@@ -110,27 +110,50 @@ public class KitDataAccess
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
-        /*
-            TODO: Verificar melhor forma de fazer a união dos kits;
-         */
         c.moveToFirst();
         for(int i = 0; i < c.getCount(); i++)
         {
             Kit kit = new Kit();
-            Item item = new Item();
-            item.setCodigo(c.getInt(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.ITEM)));
-            ArrayList<Item> itens = new ArrayList<>();
 
             kit.setKit(c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.KIT)));
-            kit.setItens(itens);
             kit.setDescricao(c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.DESC)));
             kit.setQuantidade(c.getFloat(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.QUANTIDADE)));
             kit.setValor(c.getFloat(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.VALOR)));
+
+            ArrayList itens = new ArrayList();
+
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT * FROM ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+            this.sBuilder.append(" = ");
+            this.sBuilder.append(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.ITEM)));
+
+            Cursor cI = this.db.rawQuery(this.sBuilder.toString(), null);
+
+            cI.moveToFirst();
+            for(int j = 0; j < c.getCount(); j++)
+            {
+                Item item = new Item();
+                item.setCodigo(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.ITEM)));
+                item.setDescricao(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
+                item.setReferencia(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
+
+                itens.add(item);
+                cI.moveToNext();
+            }
+            kit.setItens(itens);
 
             lista.add(kit);
             c.moveToNext();
