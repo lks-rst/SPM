@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -78,6 +79,12 @@ public class ConsultaGerencialMetas extends Fragment
         ((ListView) (getActivity().findViewById(R.id.liFcgMetas))).setAdapter(adapter);
 
         ((ListView) (getActivity().findViewById(R.id.liFcgMetas))).setOnItemClickListener(exibirMetas);
+
+        ((EditText) (getActivity().findViewById(R.id.edFcgVda))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(0));
+
+        ((EditText) (getActivity().findViewById(R.id.edFcgComis))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(1));
+
+        ((EditText) (getActivity().findViewById(R.id.edFcgContrib))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(2));
 /*
 
         ((ListView) (getActivity().findViewById(R.id.liFcgMetas))).setAdapter

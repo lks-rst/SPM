@@ -9,6 +9,7 @@ import java.util.Date;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.modelo.Meta;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.ConfiguradorDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.MensagemDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.MetaDataAccess;
 import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
@@ -105,6 +106,18 @@ public class ConsultaGerencial
         float percentual_ = percentual * 100;
 
         return percentual_;
+    }
+
+    public float buscarMetaTotal(int tipo)
+    {
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.ctx);
+
+        float meta = 0;
+
+        try { meta = cda.getMeta(tipo); }
+        catch (Exception ex) { meta = 0; }
+
+        return meta;
     }
 
     public String buscarMeta(int posicao, int campo, int tipo)

@@ -8,9 +8,6 @@ import org.json.JSONObject;
  */
 public class ConfiguradorTelas
 {
-    /*
-        TODO: Acrescentar o controle de usuário a esta tela;
-     */
     private Boolean efetuaTroca;
     private Boolean vendasDireta;
     private Boolean mixIdeal;

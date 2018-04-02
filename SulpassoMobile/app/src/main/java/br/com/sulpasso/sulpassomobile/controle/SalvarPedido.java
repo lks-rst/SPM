@@ -58,7 +58,16 @@ public class SalvarPedido
 
         try
         {
-            if(venda.getCodigo() <= 0 || venda.getCodigo() == null)
+
+            try
+            {
+                if(venda.getCodigo() <= 0)
+                {
+                    venda.setCodigo(vda.buscarCodigo());
+                    v.setPed(vda.buscarCodigo());
+                }
+            }
+            catch (Exception ex)
             {
                 venda.setCodigo(vda.buscarCodigo());
                 v.setPed(vda.buscarCodigo());

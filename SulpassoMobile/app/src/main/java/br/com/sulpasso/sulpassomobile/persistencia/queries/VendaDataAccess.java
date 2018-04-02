@@ -108,6 +108,9 @@ public class VendaDataAccess
             venda.setObservacaoNota(
                 c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.OBSERVACAONOTA)));
+            venda.setEnviado(
+                c.getInt(c.getColumnIndex(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO)));
 
             int codPrazo = c.getInt(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.PRAZO));
@@ -495,6 +498,9 @@ public class VendaDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.NATUREZA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
         this.sBuilder.append(") VALUES ('");
         this.sBuilder.append(venda.getCodigo());
         this.sBuilder.append("', '");
@@ -525,7 +531,7 @@ public class VendaDataAccess
         this.sBuilder.append(venda.getTipo());
         this.sBuilder.append("', '");
         this.sBuilder.append(venda.getNatureza());
-        this.sBuilder.append("');");
+        this.sBuilder.append("', '0');");
 
         try
         {
@@ -584,6 +590,9 @@ public class VendaDataAccess
             venda.setDesconto(
                     c.getDouble(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DESCONTO)));
+            venda.setEnviado(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO)));
 
             this.sBuilder.delete(0, this.sBuilder.length());
             this.sBuilder.append("SELECT ");

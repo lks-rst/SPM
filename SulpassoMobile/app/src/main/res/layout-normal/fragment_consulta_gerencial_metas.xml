@@ -11,7 +11,7 @@
         android:id="@+id/liFcgMetas"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_weight="0.45"
         android:layout_above="@+id/metas_tabela_valores"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView2"
@@ -211,10 +211,10 @@
     </TableLayout>
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
+        android:layout_weight="0.15"
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
