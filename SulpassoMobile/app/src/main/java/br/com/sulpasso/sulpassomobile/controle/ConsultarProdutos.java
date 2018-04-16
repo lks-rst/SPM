@@ -11,13 +11,6 @@ import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
 
-
-/*
-    TODO: Criar função para busca do percentual maximo de desconto em um item (configuração do item).
-    TODO: Criar função para busca do valor minimo possivel de venda do item.
-    TODO: Unir a busca de dados de venda de um item em uma unica função (está com uma para os itens normais e uma para os itens de pre pedido).
-*/
-
 /**
  * Created by Lucas on 01/08/2016.
  */
@@ -130,7 +123,7 @@ public class ConsultarProdutos
                 retorno.add(i.toDisplay());
             }
         }
-        else // TODO: Remover esse else (acredito que tudo seja resolvido no próximo
+        else
         if(this.searchType == TiposBuscaItens.MIX)
         {
             this.listar(tabela);

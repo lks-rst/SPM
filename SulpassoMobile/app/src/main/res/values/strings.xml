@@ -101,6 +101,8 @@
     <!-- END -->
 
     <!-- Strings da tela adicionais clientes -->
+    <string name="tlt_titulo_detalhes">DADOS ADICIONAIS CLIENTES</string>
+
     <string name="str_fantasia">Nome fatasia: </string>
     <string name="str_bairro">Bairro: </string>
     <string name="str_cnpj">CNPJ: </string>
@@ -167,6 +169,8 @@
     <string name="tlt_alterar_excluir">ALTERAR OU EXCLUÍR O ITEM</string>
 
     <string name="tlt_senha_pedidos">SENHA DE LIBERAÇÃO</string>
+
+    <string name="tlt_datas_pedidos">ESCOLHA A DATA DOS PEDIDOS</string>
     <!-- END -->
 
     <!-- END -->

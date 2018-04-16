@@ -95,10 +95,9 @@ public class AtualizarSistema
                 this.escreverVendas();
                 return true;
             case 11 :
-                this.sendSells(1);
-                return true;
+                return this.sendSells(1);
             case 12 :
-                this.atualizarVendas();
+                this.atualizarVendas(true);
                 return true;
             case 13 :
                 carregarClientes();
@@ -117,6 +116,9 @@ public class AtualizarSistema
                 return true;
             case 20 :
                 return downloadConfiguracao();
+            case 21 :
+                this.atualizarVendas(false);
+                return true;
             default:
                 return true;
         }
@@ -181,15 +183,24 @@ public class AtualizarSistema
         this.arquivos.escreverClientes(this.listaNovos);
     }
 
-    private void atualizarVendas()
+    private void atualizarVendas(boolean ok)
     {
         VendaDataAccess vda = new VendaDataAccess(this.context);
-        try { vda.atualizarVendas(); }
-        catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
 
-        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
-        try { cda.atualizarSequencias(1); }
-        catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+        if(ok)
+        {
+            try { vda.atualizarVendas(1); }
+            catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+
+            ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+            try { cda.atualizarSequencias(1); }
+            catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+        }
+        else
+        {
+            try { vda.atualizarVendas(2); }
+            catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+        }
     }
 
     private void escreverVendas()
@@ -498,8 +509,10 @@ public class AtualizarSistema
         return true;
     }
 
-    private void sendSells(int tipo)
+    private boolean sendSells(int tipo)
     {
+        boolean status = false;
+
         ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
         ManipulacaoStrings ms = new ManipulacaoStrings();
         ConfiguradorConexao server = new ConfiguradorConexao();
@@ -521,27 +534,31 @@ public class AtualizarSistema
             FtpConnect conect = new FtpConnect(server);
 
             ArrayList<String> arqs_pw = new ArrayList<String>();
-            Boolean status = false;
+
             if(conect.Conectar())
             {
                 if(conect.MudarDiretorio(server.getUploadFolder()))
                 {
-                    conect.Mandar(nomeArquivo, nomeArquivo);
+                    status = conect.Mandar(nomeArquivo, nomeArquivo);
                 }
                 else
                 {
                     arquivos.addStringErro("Erro ao mudar de diretorio. Pasta de pedidos não encontrada no servidor");
+                    status = false;
                 }
             }
             else
             {
                 arquivos.addStringErro("Erro ao conectar com o servidor.");
+                status = false;
             }
         }
         else if(server.getConectionType() == 10)
         {
-
+            status = true;
         }
+
+        return status;
     }
 
     private void sendClients()

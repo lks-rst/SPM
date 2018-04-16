@@ -249,6 +249,7 @@ public class PedidoNormal extends EfetuarPedidos {
                     /*
                     TODO: Ajustar as quantidades das campanhas relacionadas ao item;
                     TODO: Verificar os descontos das campanhas alteradas;
+                    TODO: Replicar as alterações para os demais tipos de pedido;
                      */
                     Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
                 }
@@ -385,6 +386,47 @@ public class PedidoNormal extends EfetuarPedidos {
             case R.id.fdcEdtCidade :
                 retorno = super.buscarCidade(super.venda.getCliente().getCodigoCidade());
                 break;
+
+            case R.id.aacEdtFant :
+                retorno = super.venda.getCliente().getFantasia();
+                break;
+            case R.id.aacEdtBairro :
+                retorno = super.venda.getCliente().getBairro();
+                break;
+            case R.id.aacEdtCnpj :
+                retorno = super.venda.getCliente().getCgc();
+                break;
+            case R.id.aacEdtCod :
+                retorno = String.valueOf(super.venda.getCliente().getCodigoCliente());
+                break;
+            case R.id.aacEdtIe :
+                retorno = super.venda.getCliente().getIe();
+                break;
+            case R.id.aacEdtBanco :
+                retorno = super.buscarBanco(super.venda.getCliente().getBanco());
+                break;
+            case R.id.aacEdtCep :
+                retorno = super.venda.getCliente().getCep();
+                break;
+            case R.id.aacEdtAniv :
+                retorno = "--";
+                break;
+            case R.id.aacEdtRota :
+                retorno = String.valueOf(super.venda.getCliente().getRoteiro());
+                break;
+            case R.id.aacEdtMail :
+                retorno = super.venda.getCliente().getEmail();
+                break;
+            case R.id.aacEdtContact :
+                retorno = super.venda.getCliente().getContato();
+                break;
+            case R.id.aacEdtMsg :
+                retorno = super.venda.getCliente().getMensagem();
+                break;
+            case R.id.aacCbxSeg :
+                retorno = String.valueOf(super.venda.getCliente().getVisita());
+                break;
+
             default:
                 retorno = "--";
         }

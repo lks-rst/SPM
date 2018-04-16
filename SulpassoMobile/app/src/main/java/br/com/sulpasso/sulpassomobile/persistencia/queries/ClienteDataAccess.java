@@ -724,6 +724,13 @@ public class ClienteDataAccess
                     c.getString(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TIPO)));
 
+            cliente.setContato(
+                c.getString(c.getColumnIndex(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CONTATO)));
+            cliente.setMensagem(
+                c.getString(c.getColumnIndex(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.MENSAGEM)));
+
             lista.add(cliente);
             c.moveToNext();
         }

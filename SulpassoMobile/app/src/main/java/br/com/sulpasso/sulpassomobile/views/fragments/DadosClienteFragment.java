@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesCliente;
 
 /*
     Todo: Verificar se o cliente possui títulos abertos, e apresentar estes caso haja;
@@ -30,7 +31,7 @@ import br.com.sulpasso.sulpassomobile.views.Pedido;
 /**
  * Created by Lucas on 17/08/2016.
  */
-public class DadosClienteFragment extends Fragment
+public class DadosClienteFragment extends Fragment implements AlertDetalhesCliente.Callback
 {
     private GestureDetector gestureDetector;
 
@@ -203,6 +204,8 @@ public class DadosClienteFragment extends Fragment
                 .setText(activity.buscarDadosCliente(R.id.fdcEdtMedia));
         ((EditText) (getActivity().findViewById(R.id.fdcEdtDca)))
                 .setText(activity.buscarDadosVenda(R.id.fdcEdtDca));
+
+        ((getActivity().findViewById(R.id.fdcBtnDetalhes))).setVisibility(View.VISIBLE);
     }
 
     public void ajustarPrazos(int posicao)
@@ -265,6 +268,9 @@ public class DadosClienteFragment extends Fragment
         //http://pt.broculos.net/2013/09/how-to-change-spinner-text-size-color.html#.WYIjmVGQy01
         activity.listarClientes(0);
 
+        ((getActivity().findViewById(R.id.fdcBtnDetalhes))).setOnClickListener(detalhes);
+
+        ((getActivity().findViewById(R.id.fdcBtnDetalhes))).setVisibility(View.GONE);
         /*
         this.fdcSpnrClientes.setAdapter( new ArrayAdapter<String>(
             getActivity().getApplicationContext(),
@@ -298,6 +304,13 @@ public class DadosClienteFragment extends Fragment
                 android.support.design.R.layout.support_simple_spinner_dropdown_item,
                 new ArrayList<String>()));
     }
+
+    private void apresentarDetalhes()
+    {
+        AlertDetalhesCliente dialog = new AlertDetalhesCliente();
+        dialog.setTargetFragment(this, 1); //request code
+        dialog.show(getFragmentManager(), "DIALOG");
+    }
 /**************************************************************************************************/
 /*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/
 /**************************************************************************************************/
@@ -313,8 +326,8 @@ public class DadosClienteFragment extends Fragment
                 case R.id.fdcSpnrClientes :
                     if(position > 0)
                     {
-                        activity.selecionarCliente(position - 1);
                         ((EditText) getActivity().findViewById(R.id.fdcEdtTabela)).setText("");
+                        activity.selecionarCliente(position - 1);
                     }
                 break;
                 case R.id.fdcSpnrNaturezas :
@@ -355,10 +368,28 @@ public class DadosClienteFragment extends Fragment
         @Override
         public void onNothingSelected(AdapterView<?> parent) { /******/ }
     };
+
+    private View.OnClickListener detalhes = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            apresentarDetalhes();
+        }
+    };
 /**************************************************************************************************/
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /**************************************************************************************************/
+/**************************************************************************************************/
+/*****************************************INTERFACES METHODS***************************************/
+/**************************************************************************************************/
 
+    @Override
+    public ArrayList<String> buscarCliente() { return this.activity.buscarAdicionais(); }
+
+/**************************************************************************************************/
+/************************************END OF INTERFACES METHODS*************************************/
+/**************************************************************************************************/
     private class Android_Gesture_Detector implements GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener
     {

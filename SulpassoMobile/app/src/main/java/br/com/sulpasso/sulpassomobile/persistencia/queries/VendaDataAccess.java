@@ -57,10 +57,25 @@ public class VendaDataAccess
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO);
         this.sBuilder.append(" = ");
 
-        if(searchType == 1) { this.sBuilder.append(0); }
+        if(searchType == 1)
+        {
+            this.sBuilder.append(0);
+
+            this.sBuilder.append(" OR ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO);
+            this.sBuilder.append(" = 2 ");
+        }
         else { this.sBuilder.append(1); }
 
         this.sBuilder.append(" AND ");
+
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(this.searchData);
+        this.sBuilder.append("' AND ");
+
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
         this.sBuilder.append(" = 0;");
@@ -133,46 +148,51 @@ public class VendaDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE)));
 
             Cursor cursor = this.db.rawQuery(this.sBuilder.toString(), null);
-            cursor.moveToFirst();
 
-            Cliente cliente = new Cliente();
-            cliente.setRazao(cursor.getString(cursor.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
-            cliente.setFantasia(cursor.getString(cursor.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
-            cliente.setCodigoCliente(c.getInt(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE)));
-
-            venda.setCliente(cliente);
-
-            this.sBuilder.delete(0, this.sBuilder.length());
-            this.sBuilder.append("SELECT ");
-            this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
-            this.sBuilder.append(" FROM ");
-            this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
-            this.sBuilder.append(" WHERE ");
-            this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.CODIGO);
-            this.sBuilder.append(" = ");
-            this.sBuilder.append(codPrazo);
-
-            Cursor cursorPrazos = this.db.rawQuery(this.sBuilder.toString(), null);
-            cursorPrazos.moveToFirst();
-
-            Prazo p = new Prazo();
-            p.setCodigo(codPrazo);
-
-            if(cursorPrazos.getCount() > 0)
+            if(cursor.getCount() > 0)
             {
-                p.setDesdobramento(cursorPrazos.getString(cursorPrazos.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO)));
-            }
-            else { p.setDesdobramento("000-000-000-000"); }
-            venda.setPrazo(p);
+                cursor.moveToFirst();
 
-            lista.add(venda);
+                Cliente cliente = new Cliente();
+                cliente.setRazao(cursor.getString(cursor.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
+                cliente.setFantasia(cursor.getString(cursor.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
+                cliente.setCodigoCliente(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE)));
+
+                venda.setCliente(cliente);
+
+                this.sBuilder.delete(0, this.sBuilder.length());
+                this.sBuilder.append("SELECT ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
+                this.sBuilder.append(" FROM ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
+                this.sBuilder.append(" WHERE ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.CODIGO);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(codPrazo);
+
+                Cursor cursorPrazos = this.db.rawQuery(this.sBuilder.toString(), null);
+                cursorPrazos.moveToFirst();
+
+                Prazo p = new Prazo();
+                p.setCodigo(codPrazo);
+
+                if(cursorPrazos.getCount() > 0)
+                {
+                    p.setDesdobramento(cursorPrazos.getString(cursorPrazos.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO)));
+                }
+                else { p.setDesdobramento("000-000-000-000"); }
+                venda.setPrazo(p);
+
+                lista.add(venda);
+            }
+
             c.moveToNext();
         }
 
@@ -565,6 +585,11 @@ public class VendaDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
         this.sBuilder.append(" WHERE ");
         this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(this.searchData);
+        this.sBuilder.append("' AND ");
+        this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
         this.sBuilder.append(" = 0;");
 
@@ -859,7 +884,7 @@ public class VendaDataAccess
         catch (Exception exception) { return 1; }
     }
 
-    public void atualizarVendas() throws GenercicException
+    public void atualizarVendas(int to) throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("UPDATE ");
@@ -869,7 +894,7 @@ public class VendaDataAccess
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO);
         this.sBuilder.append(" = '");
-        this.sBuilder.append(1);
+        this.sBuilder.append(to);
         this.sBuilder.append("' WHERE ");
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO);
@@ -1097,6 +1122,7 @@ public class VendaDataAccess
                 item.setTotal(cc.getFloat(cc.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
 
                 itens.add(item);
+                cc.moveToNext();
             }
 
             v.setItens(itens);

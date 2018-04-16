@@ -1164,7 +1164,8 @@ public class ItemDataAccess
         c = this.db.rawQuery(this.sBuilder.toString(), null);
         c.moveToFirst();
 
-        est = c.getInt(0);
+        try { est = c.getInt(0); }
+        catch (Exception e) { /*****/ }
 
         saleMap.put("ESTOQUE", String.valueOf(est));
 

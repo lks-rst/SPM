@@ -28,6 +28,7 @@ public class CadastrarClientes
     {
         this.cda = new ClienteNovoDataAccess(ctx);
         this.cliente = new ClienteNovo();
+        this.tipo = 1;
     }
 
     public int getTipo() { return tipo; }
