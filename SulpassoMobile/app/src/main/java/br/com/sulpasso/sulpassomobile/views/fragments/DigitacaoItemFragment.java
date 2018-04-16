@@ -18,8 +18,6 @@ import br.com.sulpasso.sulpassomobile.views.Pedido;
 
 /*
     Todo: Criar função para verificação do saldo / contribuição;
-    Todo: Criar função de solicitação de senha;
-    Todo: Carregar PPC na inicialização do fragmento;
     Todo: Carregar contribuição;
  */
 

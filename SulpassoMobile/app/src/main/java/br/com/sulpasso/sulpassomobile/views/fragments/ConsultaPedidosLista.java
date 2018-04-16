@@ -13,14 +13,16 @@ import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.views.ConsultasPedidos;
 import br.com.sulpasso.sulpassomobile.views.fragments.Adapters.AdapterPedidos;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDataPedidos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.MenuPedidoNaoEnviado;
 
 /**
  * Created by Lucas on 03/01/2017 - 14:45 as part of the project SulpassoMobile.
  */
-public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnviado.CallbackMenuPedidoNaoEnviado
+public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnviado.CallbackMenuPedidoNaoEnviado, AlertDataPedidos.AlterarData
 {
 /**********************************FRAGMENT LIFE CYCLE*********************************************/
     @Override
@@ -70,14 +72,21 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
 
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemClickListener(clickPedido);
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemLongClickListener(alterarExcluir);
+
+        ((getActivity().findViewById(R.id.fcpBtnData))).setOnClickListener(alterDate);
     }
 
-    public void listarItens(ArrayList<String> lista) throws GenercicException
+    public void listarItens(ArrayList<Venda> lista) throws GenercicException
     {
+        /*
         ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(),
                 R.layout.spinner_item, lista);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        */
+
+        AdapterPedidos adapter = new AdapterPedidos(
+                getActivity().getApplicationContext(), lista);
 
         if(getActivity().findViewById(R.id.frame_itens).getVisibility() == View.VISIBLE)
         {
@@ -87,6 +96,13 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         {
             ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
         }
+    }
+
+    private void selecionarData()
+    {
+        AlertDataPedidos dialog = new AlertDataPedidos();
+        dialog.setTargetFragment(this, 1); //request code
+        dialog.show(getFragmentManager(), "DIALOG");
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
@@ -118,6 +134,15 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
             return false;
         }
     };
+
+    private View.OnClickListener alterDate = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            selecionarData();
+        }
+    };
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/
     private void apresentarAcoes(int posicao)
@@ -129,16 +154,18 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
     }
 
     @Override
-    public void indicarAcao(int acao)
-    {
-        ((ConsultasPedidos) getActivity()).direcionarAcao(acao);
-    }
+    public void indicarAcao(int acao) { ((ConsultasPedidos) getActivity()).direcionarAcao(acao); }
 
     @Override
     public int getPedido() {
         return 0;
     }
 
+    @Override
+    public void indicarNovaData(String data)
+    {
+        ((ConsultasPedidos) getActivity()).buscarPedidosData(data);
+    }
 /*********************************END OF ITERFACES METHODS*****************************************/
 /**************************************************************************************************/
 

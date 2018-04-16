@@ -39,10 +39,6 @@ import br.com.sulpasso.sulpassomobile.views.fragments.FinalizacaoPedidoFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ListaItensFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ResumoFragment;
 
-/*
-    Todo: Criar o fragmento com os dados adicionais do cliente;
-*/
-
 public class Pedido extends AppCompatActivity
 {
     private GestureDetector gestureDetector;
@@ -328,6 +324,28 @@ public class Pedido extends AppCompatActivity
     {
         return this.controlePedido.buscarDadosCliente(campo);
     }
+
+    public ArrayList<String> buscarAdicionais()
+    {
+        ArrayList<String> adicionais = new ArrayList<>();
+
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtFant));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtBairro));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtCnpj));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtCod));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtIe));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtBanco));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtCep));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtAniv));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtRota));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtMail));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtContact));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacEdtMsg));
+        adicionais.add(this.controlePedido.buscarDadosCliente(R.id.aacCbxSeg));
+
+        return adicionais;
+    }
+
 
     public String buscarDadosVenda(int campo)
     {

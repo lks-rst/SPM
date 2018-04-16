@@ -60,8 +60,8 @@ public class AdapterPedidos extends BaseAdapter
 
         ManipulacaoStrings ms = new ManipulacaoStrings();
 
-        holder.codPedido.setText(String.valueOf(mensagem.getCodigo()));
-        holder.cliente.setText(mensagem.getCliente().getRazao());
+        //holder.codPedido.setText(String.valueOf(mensagem.getCodigo()));
+        holder.cliente.setText(String.valueOf(mensagem.getCodigo()) + " - " + mensagem.getCliente().getRazao());
         holder.data.setText(ms.dataVisual(mensagem.getData()));
         holder.valor.setText(Formatacao.format2d(mensagem.getValor()));
         holder.desconto.setText(Formatacao.format2d(mensagem.getDesconto()));
@@ -74,13 +74,21 @@ public class AdapterPedidos extends BaseAdapter
             holder.valor.setBackgroundColor(Color.RED);
             holder.desconto.setBackgroundColor(Color.RED);
         }
-        else
+        else if(mensagem.getEnviado() == 1)
         {
             holder.codPedido.setBackgroundColor(Color.BLUE);
             holder.cliente.setBackgroundColor(Color.BLUE);
             holder.data.setBackgroundColor(Color.BLUE);
             holder.valor.setBackgroundColor(Color.BLUE);
             holder.desconto.setBackgroundColor(Color.BLUE);
+        }
+        else
+        {
+            holder.codPedido.setBackgroundColor(Color.YELLOW);
+            holder.cliente.setBackgroundColor(Color.YELLOW);
+            holder.data.setBackgroundColor(Color.YELLOW);
+            holder.valor.setBackgroundColor(Color.YELLOW);
+            holder.desconto.setBackgroundColor(Color.YELLOW);
         }
 
         return convertView;

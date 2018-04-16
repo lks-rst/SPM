@@ -297,6 +297,13 @@ public class CadastroClientes extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
+
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
     /**
@@ -782,6 +789,7 @@ public class CadastroClientes extends AppCompatActivity
                 edt_cnpj.setText("11111111111111");
                 edt_ie.setEnabled(false);
                 edt_cnpj.setEnabled(false);
+                controle.setTipo(1);
             }
             else
             {
@@ -789,6 +797,7 @@ public class CadastroClientes extends AppCompatActivity
                 edt_cnpj.setText("");
                 edt_ie.setEnabled(true);
                 edt_cnpj.setEnabled(true);
+                controle.setTipo(0);
             }
         }
     };
@@ -877,7 +886,7 @@ public class CadastroClientes extends AppCompatActivity
         {
             Toast t;
 
-            if(edt_razao.getText().length() < 5)
+            if(edt_razao.getText().length() < 10)
             {
                 t = Toast.makeText(getApplicationContext(), "Campo Razao Social e de preenchimento obrigatorio e deve conter no minimo 10 caracteres", Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
@@ -886,7 +895,7 @@ public class CadastroClientes extends AppCompatActivity
                 edt_razao.requestFocus();
             } else
             {
-                if(edt_fantasia.getText().length() < 5)
+                if(edt_fantasia.getText().length() < 10)
                 {
                     t = Toast.makeText(getApplicationContext(), "Campo Nome Fantazia e de preenchimento obrigatorio e deve conter no minimo 10 caracteres", Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);

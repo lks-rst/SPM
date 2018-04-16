@@ -9,6 +9,7 @@ import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpasso.sulpassomobile.modelo.Banco;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
 import br.com.sulpasso.sulpassomobile.modelo.Grupo;
@@ -19,6 +20,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Prazo;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedidoItem;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.BancoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.CidadeDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.GrupoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
@@ -203,6 +205,16 @@ public abstract class EfetuarPedidos
     {
         CidadeDataAccess cda = new CidadeDataAccess(this.context);
         try { return cda.getByData(codigo).getNome(); }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    protected final String buscarBanco(int codigo)
+    {
+        BancoDataAccess bda = new BancoDataAccess(this.context);
+        try { return ((Banco) bda.getByData(codigo).get(0)).getBanco(); }
         catch (GenercicException e)
         {
             e.printStackTrace();

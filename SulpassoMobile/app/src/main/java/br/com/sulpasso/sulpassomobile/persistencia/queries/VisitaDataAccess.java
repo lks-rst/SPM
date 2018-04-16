@@ -48,7 +48,7 @@ public class VisitaDataAccess
     private Boolean inserirVisita(Visita visita) throws InsertionExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("Insert into ");
+        this.sBuilder.append("Insert or replace into ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.TABELA);
         this.sBuilder.append("(");

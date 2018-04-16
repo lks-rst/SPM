@@ -3,6 +3,7 @@ package br.com.sulpasso.sulpassomobile.controle;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
@@ -21,6 +22,7 @@ public class ConsultarPedidos
     private VendaDataAccess vda;
 
     private int posicaoPedido;
+    private int tipoBusca;
 
     public ConsultarPedidos(Context ctx)
     {
@@ -56,6 +58,22 @@ public class ConsultarPedidos
         this.enviadas = null;
         this.todas = null;
 
+        this.setTipoBusca(tipo);
+
+        if(data.length() < 10)
+        {
+
+            Calendar calendario = Calendar.getInstance();
+            int year = calendario.get(Calendar.YEAR);
+            int month = (calendario.get(Calendar.MONTH) + 1);
+            int day = calendario.get(Calendar.DAY_OF_MONTH);
+
+            ManipulacaoStrings ms = new ManipulacaoStrings();
+            data = ms.comEsquerda(String.valueOf(day), "0" , 2) + "/" + ms.comEsquerda(String.valueOf(month), "0" , 2) + "/" + year;
+            data = ms.dataBanco(data);
+
+        }
+
         switch (tipo)
         {
             case 0 :
@@ -71,6 +89,11 @@ public class ConsultarPedidos
                 this.buscarTodos(data);
                 return this.todas;
         }
+    }
+
+    public ArrayList<Venda> listarPedidosV(String data)
+    {
+        return this.listarPedidosV(this.tipoBusca, data);
     }
 
     public ArrayList<String> listarItens(int posicao)
@@ -210,6 +233,8 @@ public class ConsultarPedidos
 
     private void buscarTodos(String data)
     {
+        this.vda.setSearchData(data);
+
         try { this.todas = (ArrayList<Venda>) this.vda.getAll(); }
         catch (GenercicException e) { this.todas = new ArrayList<>(); }
     }
@@ -217,4 +242,8 @@ public class ConsultarPedidos
     public int getPosicaoPedido() { return posicaoPedido; }
 
     public void setPosicaoPedido(int posicaoPedido) { this.posicaoPedido = posicaoPedido; }
+
+    public int getTipoBusca() { return tipoBusca; }
+
+    public void setTipoBusca(int tipoBusca) { this.tipoBusca = tipoBusca; }
 }

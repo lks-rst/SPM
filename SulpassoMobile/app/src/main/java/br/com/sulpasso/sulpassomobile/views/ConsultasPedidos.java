@@ -99,7 +99,7 @@ public class ConsultasPedidos extends AppCompatActivity
                     findViewById(R.id.frame_itens).setVisibility(View.GONE);
 
                     try {
-                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidos(0, ""));
+                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(0, ""));
                     } catch (GenercicException e) {
                         e.printStackTrace();
                     }
@@ -127,7 +127,7 @@ public class ConsultasPedidos extends AppCompatActivity
                     findViewById(R.id.frame_itens).setVisibility(View.GONE);
 
                     try {
-                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidos(2, ""));
+                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(2, ""));
                     } catch (GenercicException e) {
                         e.printStackTrace();
                     }
@@ -156,7 +156,7 @@ public class ConsultasPedidos extends AppCompatActivity
 
                     try
                     {
-                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidos(1, ""));
+                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(1, ""));
                     }
                     catch (GenercicException e) { e.printStackTrace(); }
                 }
@@ -265,7 +265,7 @@ public class ConsultasPedidos extends AppCompatActivity
                         try
                         {
                             ((ConsultaPedidosLista) fragment).listarItens(
-                                    this.controle.listarPedidos(this.controle.tipoBusca(), ""));
+                                    this.controle.listarPedidosV(this.controle.tipoBusca(), ""));
                         }
                         catch (GenercicException e) { e.printStackTrace(); }
                     }
@@ -394,6 +394,35 @@ public class ConsultasPedidos extends AppCompatActivity
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/
     public ConsultarPedidos getControle() { return controle; }
+
+    public void buscarPedidosData(String data)
+    {
+        FragmentManager fragmentManager;
+        Fragment fragment = null;
+        fragmentManager = getFragmentManager();
+
+        try
+        {
+            fragment = (ConsultaPedidosLista) fragmentManager.findFragmentById(R.id.frame_consultas);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+
+        if (fragment == null) { displayView(R.layout.fragment_consulta_pedidos_lista); }
+        else
+        {
+            findViewById(R.id.frame_pedidos).setVisibility(View.VISIBLE);
+            findViewById(R.id.frame_itens).setVisibility(View.GONE);
+
+            try {
+                ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(data));
+            } catch (GenercicException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 /*********************************END OF ITERFACES METHODS*****************************************/
 /**************************************************************************************************/
     @Override

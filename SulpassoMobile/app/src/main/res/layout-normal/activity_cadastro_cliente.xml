@@ -152,12 +152,12 @@
 
                         <EditText
                             android:id="@+id/cadastro_cliente_formulario_edt_ie"
-                            android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                            android:layout_width="151dp"
                             android:layout_height="wrap_content"
                             android:singleLine="true" />
 
                         <TextView
-                            android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                            android:layout_width="41dp"
                             android:layout_height="wrap_content"
                             android:text="UF"
                             android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
@@ -426,8 +426,8 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/cadastro_cliente_formulario_edt_representante"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:id="@+id/altura_logo_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -445,7 +445,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_cpf"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:singleLine="true" />
@@ -464,7 +464,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_rg"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -483,7 +483,7 @@
 
                     <Spinner
                         android:id="@+id/cadastro_cliente_formulario_spnr_natureza"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content" />
                 </TableRow>
 
@@ -501,7 +501,7 @@
 
                     <Spinner
                         android:id="@+id/cadastro_cliente_formulario_spnr_banco"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content" />
                 </TableRow>
 
@@ -518,7 +518,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_potencial"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:singleLine="true" />
@@ -541,7 +541,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                        android:layout_width="75dp"
                         android:layout_height="wrap_content"
                         android:text="VISITA"
                         android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
@@ -578,7 +578,7 @@
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:layout_width="@dimen/largura_logo_sulpasso_inicial"
+                        android:layout_width="75dp"
                         android:layout_height="wrap_content"
                         android:text="ROTA"
                         android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
@@ -626,7 +626,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com1"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -644,7 +644,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com1_fone"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -662,7 +662,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com2"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -680,7 +680,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com2_fone"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -698,7 +698,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com3"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -716,7 +716,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com3_fone"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -734,7 +734,7 @@
 
                     <EditText
                         android:id="@+id/cadastro_cliente_formulario_edt_com3_data"
-                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:layout_width="@dimen/altura_logo_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -761,7 +761,6 @@
                 android:layout_height="@dimen/margem_superior"
                 android:layout_marginTop="@dimen/margem_superior"
                 android:background="@color/cinza" />
-
             <Button
                 android:id="@+id/cadastro_cliente_formulario_btn_salvar"
                 android:layout_width="80dp"

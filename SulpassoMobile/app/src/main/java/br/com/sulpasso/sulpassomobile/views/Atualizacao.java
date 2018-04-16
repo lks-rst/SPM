@@ -485,6 +485,8 @@ public class Atualizacao extends AppCompatActivity
                             percentualAtualizacao = 100;
                             controleAtualizacao.criarArquivoErros();
                             publishProgress();
+
+                            controleAtualizacao.atualizar(21);
                         }
                     }
                     else
