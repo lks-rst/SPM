@@ -119,6 +119,48 @@ public class ClienteDataAccess
         return cidades;
     }
 
+    public boolean clientePossuiTitulos(int cliente)
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT(*)");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ContasReceber.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(cliente);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { return c.getInt(0) >= 1; }
+        catch (Exception ex) { return false; }
+    }
+
+    public boolean clientePossuiDevolucoes(int cliente)
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT(*)");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(cliente);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { return c.getInt(0) >= 1; }
+        catch (Exception ex) { return false; }
+    }
+
     private Boolean insertCliente(Cliente cliente) throws InsertionExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());

@@ -100,6 +100,7 @@ public class PedidoNormal extends EfetuarPedidos {
         super.venda.setCliente(super.controleClientes.getCliente(posicao));
         super.codigoNatureza = super.controleClientes.getCliente(posicao).getNatureza();
         super.codigoPrazo = super.controleClientes.getCliente(posicao).getPrazo();
+        super.venda.setCodigoCliente(super.venda.getCliente().getCodigoCliente());
 
         return super.controleClientes.getCliente(posicao).toString();
     }
