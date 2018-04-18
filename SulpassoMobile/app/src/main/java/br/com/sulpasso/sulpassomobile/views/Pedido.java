@@ -596,6 +596,16 @@ public class Pedido extends AppCompatActivity
     public PrePedido detalharPrePedido() { return this.controlePedido.detalharPrePedido(); }
 
     public boolean insereDePrePedido() { return this.controlePedido.insereDePrePedido(); }
+
+    public boolean verificarTitulos() { return this.controlePedido.verificarTitulos(); }
+
+    public boolean verificarDevolucoes() { return this.controlePedido.verificarDevolucoes(); }
+
+    public ArrayList<String> buscarItens(){ return this.controlePedido.buscarTitulosItens(); }
+
+    public int buscarTipo(){ return this.controlePedido.verificarTipo(); }
+
+    public ArrayList<String> buscarDetalhes() { return this.controlePedido.buscarDetalhes(); }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
 /************************************End the Overridin*********************************************/
 /******************************Methods to make class services direct ******************************/

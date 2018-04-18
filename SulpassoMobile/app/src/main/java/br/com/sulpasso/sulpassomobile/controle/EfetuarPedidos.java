@@ -12,6 +12,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Banco;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
+import br.com.sulpasso.sulpassomobile.modelo.ContasReceber;
 import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
@@ -22,6 +23,8 @@ import br.com.sulpasso.sulpassomobile.modelo.PrePedidoItem;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.BancoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.CidadeDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.ContasReceberDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.DevolucaoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.GrupoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
@@ -56,6 +59,9 @@ public abstract class EfetuarPedidos
     protected ArrayList<CampanhaGrupo> campanhaGrupos;
     protected ArrayList<CampanhaProduto> campanhaProdutos;
 
+    private ArrayList<ContasReceber> contas;
+    protected ArrayList<ItensVendidos> itensDevolvidos;
+
     protected Context context;
 
     protected boolean isReturnedFromDialog = false;
@@ -74,6 +80,8 @@ public abstract class EfetuarPedidos
     protected PrePedido prePedido;
 
     private GrupoDataAccess gda;
+
+    private boolean titulosExibidos = false;
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/
@@ -366,10 +374,14 @@ public abstract class EfetuarPedidos
 
     public final void selecionarItemPre(int posicao)
     {
+        int posicaoLista = this.controleProdutos.getItemPosicao(this.prePedido.getItensVendidos().get(posicao).getItem());
+        this.selecionarItem(posicaoLista);
+        /*
         this.controleDigitacao.setItem(this.converterItem(this.prePedido.getItensVendidos().get(posicao)));
         this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVendaPre
-                (this.prePedido.getItensVendidos().get(posicao).getItem(), this.tabela,
-                        this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+            (this.prePedido.getItensVendidos().get(posicao).getItem(), this.tabela,
+            this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+        */
     }
 
     public void alterarItem(int posicao)
@@ -592,6 +604,154 @@ public abstract class EfetuarPedidos
         pCont = (cont * 100)/preco;
 
         return pCont;
+    }
+
+    public boolean verificarTitulos()
+    {
+        boolean possui = this.controleClientes.possuiTitulos(this.venda.getCliente().getCodigoCliente());
+
+        ContasReceberDataAccess crda = new ContasReceberDataAccess(this.context);
+
+        try
+        {
+            this.contas = crda.getByData(this.venda.getCodigoCliente());
+
+        }
+        catch (GenercicException e) { /*****/ }
+
+        return  possui;
+    }
+
+    public boolean verificarDevolucoes()
+    {
+        boolean possui = this.controleClientes.possuiDevolucoes(this.venda.getCliente().getCodigoCliente());
+
+        DevolucaoDataAccess dda = new DevolucaoDataAccess(this.context);
+
+        try
+        {
+            this.itensDevolvidos = dda.getByData(this.venda.getCodigoCliente());
+
+        }
+        catch (GenercicException e) { /*****/ }
+
+        return  possui;
+    }
+
+    public ArrayList<String> buscarTitulosItens()
+    {
+       if(this.verificarTipo() == 3)
+       {
+           String str_ret = "";
+           ArrayList<String> ret = new ArrayList<>();
+
+           try
+           {
+
+               for(ContasReceber c : this.contas)
+               {
+                   str_ret = c.getDocumento() + " - " + c.getEmissao() + " - " + c.getVencimento() + " - " +
+                           c.getValor() + " - " + c.getTipo();
+
+                   ret.add(str_ret);
+               }
+           }
+           catch (Exception e) { ret.add("Não foram encontrados itens para exibição"); }
+
+
+           return ret;
+       }
+        else
+       {
+           String str_ret = "";
+           ArrayList<String> ret = new ArrayList<>();
+
+           ItemDataAccess ida = new ItemDataAccess(this.context);
+           ManipulacaoStrings ms = new ManipulacaoStrings();
+
+           for(ItensVendidos i : this.itensDevolvidos)
+           {
+               Item it;
+               str_ret = "";
+               str_ret += i.getItem();
+
+               try
+               {
+                   it = ida.buscarItemCodigo(i.getItem());
+
+                   str_ret += " - " + ms.comDireita(it.getReferencia(), " ", 10).trim() + " . " +
+                           ms.comDireita(it.getDescricao(), " ", 25).trim() + " . " +
+                           ms.comDireita(it.getComplemento(), " ", 15).trim() + " - ";
+               }
+               catch (GenercicException e) { str_ret += " -  .  .  - "; }
+
+               str_ret += i.getQuantidade();
+
+               ret.add(str_ret);
+           }
+
+           return ret;
+       }
+    }
+
+    public int verificarTipo()
+    {
+        ArrayList<String> detalhes = new ArrayList<>();
+
+        int tipo = 3;
+
+        try
+        {
+            if(this.contas.size() <= 0 || this.titulosExibidos == true){ tipo = 2; }
+        } catch (Exception e ) { tipo = 2; }
+
+
+        return tipo;
+    }
+
+    public ArrayList<String> buscarDetalhes()
+    {
+        ArrayList<String> detalhes = new ArrayList<>();
+
+        int tipo = this.verificarTipo();
+
+        switch (tipo)
+        {
+            case 2:/*DEVOLUÇÕES*/
+                float valorDevolvido = 0;
+                detalhes.add(this.venda.getCliente().getRazao());
+                detalhes.add("Qtd.: " + String.valueOf(this.itensDevolvidos.size()));
+
+                for(int i = 0; i < this.itensDevolvidos.size(); i++)
+                    valorDevolvido += this.itensDevolvidos.get(i).getValorLiquido();
+
+                detalhes.add("Valor: " + String.valueOf(valorDevolvido));
+                break;
+            case 3:/*TITULOS*/
+                float total = 0;
+                float naoVencidos = 0;
+                float vencidos = 0;
+                detalhes.add(this.venda.getCliente().getRazao());
+                detalhes.add("Qtd.: " + String.valueOf(this.contas.size()));
+
+                for(ContasReceber c : this.contas)
+                {
+                    total += c.getValor();
+                    Date dVencimento = new Date(c.getVencimento());
+                    Date dHoje = new Date();
+                    int comp = dVencimento.compareTo(dHoje);
+
+                    if (comp == 1) { naoVencidos += c.getValor(); }
+                    else { vencidos += c.getValor(); }
+                }
+
+                detalhes.add("Valor total: " + String.valueOf(total));
+                detalhes.add("N. Vencidos: " + String.valueOf(naoVencidos));
+                detalhes.add("Vencidos: " + String.valueOf(vencidos));
+                break;
+        }
+
+        return detalhes;
     }
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/

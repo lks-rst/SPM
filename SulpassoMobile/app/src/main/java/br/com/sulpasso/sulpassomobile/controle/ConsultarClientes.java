@@ -171,6 +171,10 @@ public class ConsultarClientes
         return this.cidades.get(position).getCodigo();
     }
 
+    public boolean possuiTitulos(int cliente) { return this.verificarTitulos(cliente); }
+
+    public boolean possuiDevolucoes(int cliente) { return this.verificarDevolucoes(cliente); }
+
     private void listarClientes() throws GenercicException
     {
         TiposBuscaCliente tb = TiposBuscaCliente.getTipoFromInt(tipoBusca);
@@ -215,4 +219,8 @@ public class ConsultarClientes
     private void listarTodos() throws GenercicException { this.lista = this.cda.getAll(); }
 
     private int dataToInt() { return Integer.parseInt(this.dadosBusca); }
+
+    private boolean verificarTitulos(int cliente) { return this.cda.clientePossuiTitulos(cliente); }
+
+    private boolean verificarDevolucoes(int cliente) { return this.cda.clientePossuiDevolucoes(cliente); }
 }

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertCortesDevolucaoTitulos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesCliente;
 
 /*
@@ -31,7 +32,7 @@ import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesClien
 /**
  * Created by Lucas on 17/08/2016.
  */
-public class DadosClienteFragment extends Fragment implements AlertDetalhesCliente.Callback
+public class DadosClienteFragment extends Fragment implements AlertDetalhesCliente.Callback, AlertCortesDevolucaoTitulos.Callback
 {
     private GestureDetector gestureDetector;
 
@@ -163,6 +164,20 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                 getActivity().getApplicationContext(), R.layout.spinner_item, activity.listarNaturezas(!ESPECIAL));
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.fdcSpnrNaturezas.setAdapter(adapter);
+
+        if(this.activity.verificarTitulos())
+        {
+            AlertCortesDevolucaoTitulos dialog = new AlertCortesDevolucaoTitulos();
+            dialog.setTargetFragment(this, 1); //request code
+            dialog.show(getFragmentManager(), "DIALOG");
+        }
+
+        if(this.activity.verificarDevolucoes())
+        {
+            AlertCortesDevolucaoTitulos dialog = new AlertCortesDevolucaoTitulos();
+            dialog.setTargetFragment(this, 1); //request code
+            dialog.show(getFragmentManager(), "DIALOG");
+        }
 
         /*
         this.fdcSpnrNaturezas.setAdapter(
@@ -383,10 +398,20 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
 /**************************************************************************************************/
 /*****************************************INTERFACES METHODS***************************************/
 /**************************************************************************************************/
-
     @Override
     public ArrayList<String> buscarCliente() { return this.activity.buscarAdicionais(); }
 
+    @Override
+    public int buscarTipo() { return ((Pedido) getActivity()).buscarTipo(); }
+
+    @Override
+    public ArrayList<String> buscarItens() { return ((Pedido) getActivity()).buscarItens(); }
+
+    @Override
+    public ArrayList<String> buscarDetalhes()
+    {
+        return ((Pedido) getActivity()).buscarDetalhes();
+    }
 /**************************************************************************************************/
 /************************************END OF INTERFACES METHODS*************************************/
 /**************************************************************************************************/

@@ -352,7 +352,6 @@ public class ListaItensFragment extends Fragment implements
     @Override
     public void exibirDescricaoProduto(int posicao)
     {
-        Toast.makeText(getActivity().getApplicationContext(), "CHAMADO PELA ALERT DE PRE_PEDIDO --- \n", Toast.LENGTH_LONG).show();
         ((Pedido) getActivity()).selecionarItemPre(posicao);
     }
 /*********************************END OF ITERFACES METHODS*****************************************/

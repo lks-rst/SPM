@@ -693,6 +693,9 @@ public class VendaDataAccess
                 item.setTotal(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
+                item.setValorDigitado(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
 
                 itens.add(item);
                 c.moveToNext();

@@ -81,7 +81,7 @@ public class ItensVendidos
         ManipulacaoStrings ms = new ManipulacaoStrings();
 
         return /*item +*/
-            " - V.:" + ms.comEsquerda(Formatacao.format2d(valorTabela), "0", 8) +
+            " - V.:" + ms.comEsquerda(Formatacao.format2d(valorDigitado), "0", 8) +
             " - Q.:" + ms.comEsquerda(Formatacao.format2d(quantidade), "0", 8) +
             /*" - " + descontoCG +*/
             " - T.:" + ms.comEsquerda(Formatacao.format2d(total), "0", 8);

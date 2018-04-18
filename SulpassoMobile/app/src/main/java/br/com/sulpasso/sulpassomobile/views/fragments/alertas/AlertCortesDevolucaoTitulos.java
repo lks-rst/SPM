@@ -58,7 +58,7 @@ public class AlertCortesDevolucaoTitulos extends DialogFragment
             if (callback.buscarTipo() == 2)
             {
                 view.findViewById(R.id.acdt_li_t1).setVisibility(View.VISIBLE);
-                getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_corte) + " -- " + detalhes.get(0));
+                getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_devoucao) + " -- " + detalhes.get(0));
             } else
             {
                 ((EditText) view.findViewById(R.id.acdt_edt_vencdos)).setText(detalhes.get(3));
@@ -67,7 +67,7 @@ public class AlertCortesDevolucaoTitulos extends DialogFragment
                 view.findViewById(R.id.acdt_li_t1).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.acdt_li_t2).setVisibility(View.VISIBLE);
 
-                getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_corte) + " -- " + detalhes.get(0));
+                getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_titulos) + " -- " + detalhes.get(0));
             }
         }
         else { getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_corte) + " -- " + detalhes.get(0)); }
