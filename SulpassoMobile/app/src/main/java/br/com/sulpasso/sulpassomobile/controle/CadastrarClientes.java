@@ -37,9 +37,9 @@ public class CadastrarClientes
 
     public void setCliente(ClienteNovo cliente) { this.cliente = cliente; }
 
-    public boolean validarDocumento(String data)
+    public boolean validarDocumento(String data, int t)
     {
-        if (this.getTipo() == 1)
+        if (t == 1)
             return this.validar_cgc(data);
         else
             return this.validar_cpf(data);

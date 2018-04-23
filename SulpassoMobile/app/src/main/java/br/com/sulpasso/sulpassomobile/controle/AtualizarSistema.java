@@ -224,7 +224,7 @@ public class AtualizarSistema
     {
         VendaDataAccess vda = new VendaDataAccess(this.context);
         vda.setSearchType(1);
-        try { this.listaVendas = (ArrayList<Venda>) vda.getByData(); }
+        try { this.listaVendas = (ArrayList<Venda>) vda.getByDataEnviar(); }
         catch (GenercicException e)
         {
             this.arquivos.addStringErro(e.getMessage());

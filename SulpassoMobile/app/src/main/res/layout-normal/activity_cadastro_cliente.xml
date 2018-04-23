@@ -426,8 +426,8 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/altura_logo_cliente_inicial"
-                        android:layout_width="@dimen/altura_logo_cliente_inicial"
+                        android:id="@+id/cadastro_cliente_formulario_edt_representante"
+                        android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
                         android:layout_height="wrap_content"
                         android:singleLine="true" />
                 </TableRow>
@@ -751,7 +751,7 @@
 
             <EditText
                 android:id="@+id/cadastro_cliente_formulario_edt_obs"
-                android:layout_width="@dimen/tamanho_fonte_info_cliente_inicial"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:ems="10"
                 android:inputType="textMultiLine" />
