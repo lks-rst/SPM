@@ -1309,7 +1309,8 @@ public class ClienteDataAccess
         this.sBuilder.append(" DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") = DATE ('");
-        this.sBuilder.append(data);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '-");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday ");
@@ -1369,7 +1370,8 @@ public class ClienteDataAccess
         this.sBuilder.append(" DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") = DATE ('");
-        this.sBuilder.append(data);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '-");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday ");
@@ -1392,7 +1394,8 @@ public class ClienteDataAccess
         this.sBuilder.append(" day', 'weekday 0') AND DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") < DATE ('");
-        this.sBuilder.append(data);
+        ms = new ManipulacaoStrings();
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '+");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday 0')");
@@ -1429,7 +1432,8 @@ public class ClienteDataAccess
         this.sBuilder.append(" DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.DATA);
         this.sBuilder.append(") = DATE ('");
-        this.sBuilder.append(data);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '-");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday ");
@@ -1486,7 +1490,8 @@ public class ClienteDataAccess
         this.sBuilder.append(" DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") = DATE ('");
-        this.sBuilder.append(data);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '-");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday ");
@@ -1534,7 +1539,8 @@ public class ClienteDataAccess
         this.sBuilder.append(" DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") = DATE ('");
-        this.sBuilder.append(data);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '-");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday ");

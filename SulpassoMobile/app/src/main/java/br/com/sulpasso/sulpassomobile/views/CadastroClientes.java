@@ -362,7 +362,12 @@ public class CadastroClientes extends AppCompatActivity
         alert.setPositiveButton("SIM", new DialogInterface.OnClickListener()
         {
             @Override
-            public void onClick(DialogInterface dialog, int which) { onDestroy(); }
+            public void onClick(DialogInterface dialog, int which)
+            {
+                finish();
+//                moveTaskToBack(true);
+//                onDestroy();
+            }
         });
 
         alert.setNegativeButton("NAO", new DialogInterface.OnClickListener()
@@ -454,19 +459,20 @@ public class CadastroClientes extends AppCompatActivity
         try
         {
             this.controle.salvarCadastro();
-            Toast.makeText(getApplicationContext(), "Cadastro de cliente salvo com sucesso." +
-                "\nAcesse a tela de atualização para enviar as informações a emrpesa.",
-                Toast.LENGTH_LONG).show();
 
-            onDestroy();
+            Toast t = Toast.makeText(getApplicationContext(), "Cadastro de cliente salvo com sucesso." +
+                    "\nAcesse a tela de atualização para enviar as informações a emrpesa.", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
             finish();
-            //this.limparCampos();
         }
         catch (Exception e)
         {
-            Toast.makeText(getApplicationContext(), "O cadastro não pode ser salvo." +
-                    "\nVerifique as informações e tente novamente.",
-                    Toast.LENGTH_LONG).show();
+            Toast t = Toast.makeText(getApplicationContext(), "O cadastro não pode ser salvo." +
+                    "\nVerifique as informações e tente novamente.", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
         }
     }
 
@@ -789,7 +795,7 @@ public class CadastroClientes extends AppCompatActivity
                 edt_cnpj.setText("11111111111111");
                 edt_ie.setEnabled(false);
                 edt_cnpj.setEnabled(false);
-                controle.setTipo(1);
+                controle.setTipo(0);
             }
             else
             {
@@ -797,7 +803,7 @@ public class CadastroClientes extends AppCompatActivity
                 edt_cnpj.setText("");
                 edt_ie.setEnabled(true);
                 edt_cnpj.setEnabled(true);
-                controle.setTipo(0);
+                controle.setTipo(1);
             }
         }
     };
@@ -905,7 +911,7 @@ public class CadastroClientes extends AppCompatActivity
                 } else
                 {
                     if((tipo_pessoa.getCheckedRadioButtonId() == R.id.cadastro_cliente_formulario_rb_juridica &&
-                            !controle.validarDocumento(edt_cnpj.getText().toString())))
+                            !controle.validarDocumento(edt_cnpj.getText().toString(), 1)))
                     {
                         t = Toast.makeText(getApplicationContext(), "Cnpj invalido", Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
@@ -1041,7 +1047,7 @@ public class CadastroClientes extends AppCompatActivity
                                                                                 edt_representante.requestFocus();
                                                                             } else
                                                                             {
-                                                                                if(edt_cpf.getText().length() < 11 || !controle.validarDocumento(edt_cpf.getText().toString()))
+                                                                                if(edt_cpf.getText().length() < 11 || !controle.validarDocumento(edt_cpf.getText().toString(), 0))
                                                                                 {
                                                                                     t = Toast.makeText(getApplicationContext(), "Cpf do representante invalido", Toast.LENGTH_LONG);
                                                                                     t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);

@@ -108,11 +108,8 @@ public class ConsultasGerenciais extends AppCompatActivity
                 title += fragTitles[2];
                 break;
             case R.id.consulta_gerencial_plano :
-                Toast.makeText(getApplicationContext(), "Consulta temporariamente desativada", Toast.LENGTH_LONG).show();
-
                 fragment = new ConsultaGerencialPlanoVisitas();
                 title += fragTitles[3];
-
                 break;
 
             default:

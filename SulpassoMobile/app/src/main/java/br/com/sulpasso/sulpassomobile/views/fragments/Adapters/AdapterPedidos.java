@@ -53,6 +53,7 @@ public class AdapterPedidos extends BaseAdapter
             holder.data = (TextView) convertView.findViewById(R.id.lblVdaData);
             holder.valor = (TextView) convertView.findViewById(R.id.lblVdaValor);
             holder.desconto = (TextView) convertView.findViewById(R.id.lblVdaDesc);
+            holder.observacao = (TextView) convertView.findViewById(R.id.lblVdaObs);
 
             convertView.setTag(holder);
         }
@@ -65,6 +66,7 @@ public class AdapterPedidos extends BaseAdapter
         holder.data.setText(ms.dataVisual(mensagem.getData()));
         holder.valor.setText(Formatacao.format2d(mensagem.getValor()));
         holder.desconto.setText(Formatacao.format2d(mensagem.getDesconto()));
+        holder.observacao.setText(mensagem.getObservacao());
 
         if(mensagem.getEnviado() == 0)
         {
@@ -73,6 +75,7 @@ public class AdapterPedidos extends BaseAdapter
             holder.data.setBackgroundColor(Color.RED);
             holder.valor.setBackgroundColor(Color.RED);
             holder.desconto.setBackgroundColor(Color.RED);
+            holder.observacao.setBackgroundColor(Color.RED);
         }
         else if(mensagem.getEnviado() == 1)
         {
@@ -81,6 +84,7 @@ public class AdapterPedidos extends BaseAdapter
             holder.data.setBackgroundColor(Color.BLUE);
             holder.valor.setBackgroundColor(Color.BLUE);
             holder.desconto.setBackgroundColor(Color.BLUE);
+            holder.observacao.setBackgroundColor(Color.BLUE);
         }
         else
         {
@@ -89,6 +93,7 @@ public class AdapterPedidos extends BaseAdapter
             holder.data.setBackgroundColor(Color.YELLOW);
             holder.valor.setBackgroundColor(Color.YELLOW);
             holder.desconto.setBackgroundColor(Color.YELLOW);
+            holder.observacao.setBackgroundColor(Color.YELLOW);
         }
 
         return convertView;
@@ -102,5 +107,6 @@ public class AdapterPedidos extends BaseAdapter
         private TextView data;
         private TextView valor;
         private TextView desconto;
+        private TextView observacao;
     }
 }
