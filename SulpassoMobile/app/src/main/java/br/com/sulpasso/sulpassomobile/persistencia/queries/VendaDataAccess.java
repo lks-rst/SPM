@@ -731,7 +731,10 @@ public class VendaDataAccess
         this.sBuilder.append("', '");
         this.sBuilder.append(venda.getHora());
         this.sBuilder.append("', '");
-        this.sBuilder.append(venda.getData());
+
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+
+        this.sBuilder.append(ms.dataBanco(venda.getData()));
         this.sBuilder.append("', '");
         this.sBuilder.append(0);
         this.sBuilder.append("', '");

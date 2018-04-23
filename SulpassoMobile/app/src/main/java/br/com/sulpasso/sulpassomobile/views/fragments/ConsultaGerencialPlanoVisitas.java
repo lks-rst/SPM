@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -154,7 +153,6 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         @Override
         public void afterTextChanged(Editable arg0)
         {
-            Toast.makeText(getActivity().getApplicationContext(), "Novo valora da data exibido pelo fragmento >>> " + arg0.toString(), Toast.LENGTH_LONG).show();
             ((ConsultasGerenciais) getActivity()).buscarPlanoVisitas(arg0.toString());
         }
     };
