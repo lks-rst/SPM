@@ -252,7 +252,7 @@ public class PedidoNormal extends EfetuarPedidos {
                     TODO: Verificar os descontos das campanhas alteradas;
                     TODO: Replicar as alterações para os demais tipos de pedido;
                      */
-                    Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Item " + item.getItem() + " alterado!", Toast.LENGTH_LONG).show();
                 }
                 else { super.itensVendidos.add(item); }
 
@@ -664,18 +664,33 @@ public class PedidoNormal extends EfetuarPedidos {
                 if (super.controleConfiguracao.contribuicaoIdeal())
                     return true;
                 else
+                {
+                    EfetuarPedidos.erro = true;
+                    EfetuarPedidos.strErro = "Contribuição atual não permite desconto!\nPor favor verifique.";
                     return false;
+                }
             }
             else
             {
                 float saldo = super.controleConfiguracao.getSaldoAtual();
                 if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
+                {
                     return true;
+                }
                 else
+                {
+                    EfetuarPedidos.erro = true;
+                    EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
                     return false;
+                }
             }
         }
-        else { return false; }
+        else
+        {
+            EfetuarPedidos.erro = true;
+            EfetuarPedidos.strErro = "Valor acima do permitido!\nPor favor verifique.";
+            return false;
+        }
     }
 /**************************************************************************************************/
 /*****************************                                        *****************************/

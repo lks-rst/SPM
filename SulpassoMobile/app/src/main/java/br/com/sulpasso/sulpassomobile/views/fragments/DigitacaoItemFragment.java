@@ -16,11 +16,6 @@ import android.widget.TextView;
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 
-/*
-    Todo: Criar função para verificação do saldo / contribuição;
-    Todo: Carregar contribuição;
- */
-
 /**
  * Created by Lucas on 17/08/2016.
  */

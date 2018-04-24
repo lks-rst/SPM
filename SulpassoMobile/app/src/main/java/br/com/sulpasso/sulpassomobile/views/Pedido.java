@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -197,13 +198,25 @@ public class Pedido extends AppCompatActivity
                 aplicarDescontoTabloide(ret);
                 Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
             }
+
+            Toast t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
         }
-        else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique."))
+        else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique.") ||
+                EfetuarPedidos.strErro.equalsIgnoreCase("Saldo insuficiente!\nPor favor verifique.") ||
+                EfetuarPedidos.strErro.equalsIgnoreCase("Contribuição atual não permite desconto!\nPor favor verifique."))
         {
             Toast.makeText(getApplicationContext(), "Solicitar Senha", Toast.LENGTH_LONG).show();
             this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
             this.chave = sl.getChave();
             solicitarSenha(this.chave);
+        }
+        else
+        {
+            Toast t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
         }
     }
 
