@@ -52,9 +52,13 @@ public class GrupoBloqueadoClienteDataAccess
         ArrayList<Grupo> grupos = new ArrayList<>();
 
         c.setCodigoCliente(Integer.parseInt(data.substring(2, 9).trim()));
-        g.setGrupo(Integer.parseInt(data.substring(9, 12).trim()));
+        g.setGrupo(Integer.parseInt(data.substring(9, 13).trim()));
+        g.setSubGrupo(0);
+        g.setDivisao(0);
+        /*
         g.setSubGrupo(Integer.parseInt(data.substring(12, 15).trim()));
         g.setDivisao(Integer.parseInt(data.substring(15, 18).trim()));
+        */
         grupos.add(g);
 
         grupoBloqueadoCliente.setCliente(c);

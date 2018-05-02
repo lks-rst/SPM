@@ -107,6 +107,51 @@ public class ConsultarProdutos
         return retorno;
     }
 
+    public ArrayList<String> buscarItens(int tabela, int cliente) throws GenercicException
+    {
+        ArrayList<String> retorno = new ArrayList<>();
+        /*
+        retorno.add("SELECIONE UM ITEM");
+        */
+
+        if(this.searchType == TiposBuscaItens.GRAVOSOS)
+        {
+            this.listar(tabela);
+
+            this.removerRestricoes(cliente);
+
+            for(Gravosos i : this.gravosos)
+            {
+                retorno.add(i.toDisplay());
+            }
+        }
+        else
+        if(this.searchType == TiposBuscaItens.MIX)
+        {
+            this.listar(tabela);
+
+            this.removerRestricoes(cliente);
+
+            for(Item i : this.lista)
+            {
+                retorno.add(i.toDisplay());
+            }
+        }
+        else
+        {
+            this.listar(tabela);
+
+            this.removerRestricoes(cliente);
+
+            for(Item i : this.lista)
+            {
+                retorno.add(i.toDisplay());
+            }
+        }
+
+        return retorno;
+    }
+
     public ArrayList<String> buscarItens(int tabela) throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();
@@ -209,5 +254,63 @@ public class ConsultarProdutos
     private HashMap<String, String>  getDadosVenda(int codigo, int tabela, int minimo)
     {
         return this.ida.dadosVenda(codigo, tabela, minimo);
+    }
+
+    private void removerRestricoes(int cliente)
+    {
+        ArrayList itensrestritos = this.ida.verificarRestricoes(cliente);
+        boolean encontrado;
+
+        if(this.searchType == TiposBuscaItens.GRAVOSOS)
+        {
+            if(itensrestritos.size() > 0)
+            {
+                ArrayList<Gravosos> gravososRestritos = new ArrayList<>();
+
+                for(Gravosos g : this.gravosos)
+                {
+                    encontrado = false;
+                    for(int i = 0; i < itensrestritos.size(); i++)
+                    {
+                        if(g.getItem().getCodigo() == itensrestritos.get(i))
+                        {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+
+                    if(!encontrado)
+                        gravososRestritos.add(g);
+                }
+
+                this.gravosos = gravososRestritos;
+            }
+        }
+        else
+        {
+            if(itensrestritos.size() > 0)
+            {
+                ArrayList<Item> listaRestritos = new ArrayList<>();
+
+                for(Item it : this.lista)
+                {
+                    encontrado = false;
+                    for(int i = 0; i < itensrestritos.size(); i++)
+                    {
+                        int val = (int) itensrestritos.get(i);
+                        if(it.getCodigo() == val)
+                        {
+                            encontrado = true;
+                            break;
+                        }
+                    }
+
+                    if(encontrado)
+                        listaRestritos.add(it);
+                }
+
+                this.lista = listaRestritos;
+            }
+        }
     }
 }
