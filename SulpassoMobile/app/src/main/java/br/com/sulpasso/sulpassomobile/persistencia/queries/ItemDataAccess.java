@@ -441,7 +441,7 @@ public class ItemDataAccess
             this.sBuilder.append("SELECT * FROM ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
-            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(" WHERE (");
 
             int grupo = 0;
             int subGrupo = -1;

@@ -177,7 +177,7 @@ public class AtualizarSistema
         sequencia = cda.buscarSequencias(2);
         usuario = cda.buscarCodigoUsuario();
 
-        nomeArquivo = ms.comEsquerda("" + usuario, "0", 4) + ms.comEsquerda("" + sequencia, "0", 3)+ ".cli" ;
+        nomeArquivo = ms.comEsquerda("" + usuario, "0", 4) + ms.comEsquerda("" + sequencia, "0", 4)+ ".cli" ;
 
         this.arquivos.setNomeArquivo(nomeArquivo);
         this.arquivos.escreverClientes(this.listaNovos);

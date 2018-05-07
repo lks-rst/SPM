@@ -152,6 +152,12 @@ public class Pedido extends AppCompatActivity
     }
 
     @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
 //        Inflate the menu; this adds items to the action bar if it is present.
@@ -619,6 +625,11 @@ public class Pedido extends AppCompatActivity
     public int buscarTipo(){ return this.controlePedido.verificarTipo(); }
 
     public ArrayList<String> buscarDetalhes() { return this.controlePedido.buscarDetalhes(); }
+
+    public int getTipoBusca()
+    {
+        return this.controlePedido.tipoConsultaItens;
+    }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
 /************************************End the Overridin*********************************************/
 /******************************Methods to make class services direct ******************************/

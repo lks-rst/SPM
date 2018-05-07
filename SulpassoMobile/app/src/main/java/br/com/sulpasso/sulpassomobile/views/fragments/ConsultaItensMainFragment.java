@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.controle.ConfigurarSistema;
 import br.com.sulpasso.sulpassomobile.controle.ConsultaProdutosMain;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
@@ -48,6 +49,19 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
         setHasOptionsMenu(true);
 
         consulta = new ConsultaProdutosMain(getActivity().getApplicationContext());
+
+        ConfigurarSistema controleConfiguracao = new ConfigurarSistema(getActivity().getApplicationContext());
+
+        try
+        {
+            controleConfiguracao.carregarConfiguracoesVenda();
+            this.consulta.setSearchType(controleConfiguracao.getConfigUsr().getTipoBusca());
+        }
+        catch (GenercicException exeption)
+        {
+            exeption.printStackTrace();
+            System.out.println("Erro ao carregar os dados de configuração de venda");
+        }
     }
 
     @Override
@@ -127,11 +141,14 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
                 break;
         }
 
-        try { this.listarItens(); }
-        catch (GenercicException e)
+        if( item.getItemId() != R.id.itens_grupo)
         {
-            e.printStackTrace();
-            Toast.makeText(getActivity().getApplicationContext(), "Erro ao buscar os itens", Toast.LENGTH_LONG).show();
+            try { this.listarItens(); }
+            catch (GenercicException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(getActivity().getApplicationContext(), "Erro ao buscar os itens", Toast.LENGTH_LONG).show();
+            }
         }
 
         ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).setText("");
@@ -161,9 +178,25 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
         ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).addTextChangedListener(search);
 
         ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).setText("");
-        ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).setHint(
-                getActivity().getResources().getString(R.string.str_busca) + " " +
-                        getActivity().getResources().getString(R.string.hnt_descAny));
+
+        String hint = getActivity().getResources().getString(R.string.str_busca) + " ";
+        switch (this.consulta.getSearchType())
+        {
+            case 1:
+                hint +=  getActivity().getResources().getString(R.string.hnt_descIni);
+                break;
+            case 2:
+                hint +=  getActivity().getResources().getString(R.string.hnt_descAny);
+                break;
+            case 3:
+                hint +=  getActivity().getResources().getString(R.string.hnt_ref);
+                break;
+            default:
+                hint +=  getActivity().getResources().getString(R.string.hnt_descIni);
+                break;
+        }
+
+        ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).setHint(hint);
     }
 
     public void listarItens() throws GenercicException

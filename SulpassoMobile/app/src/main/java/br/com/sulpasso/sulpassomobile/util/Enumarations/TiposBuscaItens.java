@@ -5,7 +5,7 @@ package br.com.sulpasso.sulpassomobile.util.Enumarations;
  */
 public enum TiposBuscaItens
 {
-    DESC_ANY(2), DESC_INI(1), REF(3), GRUPO(4), GRAVOSOS(5), TODOS(0), MIX(6);
+    DESC_ANY(2), DESC_INI(1), REF(3), GRUPO(4), GRAVOSOS(5), TODOS(0), MIX(6), PRE(7), FAIL(-1);
 
     private int value;
 
@@ -17,6 +17,8 @@ public enum TiposBuscaItens
     {
         switch (valor)
         {
+            case -1 :
+                return FAIL;
             case 0 :
                 return TODOS;
             case 1 :
@@ -31,6 +33,8 @@ public enum TiposBuscaItens
                 return GRAVOSOS;
             case 6 :
                 return MIX;
+            case 7 :
+                return PRE;
             default:
                 return TODOS;
         }

@@ -128,12 +128,13 @@
                     android:id="@+id/ffpEdtObsCpd"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:inputType="textMultiLine"
                     android:hint="@string/hnt_obs_pedido"
                     android:imeActionId="@+id/ffpEdtObsCpd"
                     android:textSize="14dp"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified" />
+                    android:imeOptions="actionNext"
+                    android:maxLength="114"
+                    android:inputType="textAutoCorrect|textMultiLine" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -149,8 +150,9 @@
                     android:imeActionId="@+id/ffpEdtObsCpd"
                     android:textSize="14dp"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textMultiLine" />
+                    android:imeOptions="actionNext"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
