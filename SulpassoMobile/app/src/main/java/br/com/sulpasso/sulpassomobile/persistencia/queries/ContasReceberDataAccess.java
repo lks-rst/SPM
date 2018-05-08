@@ -53,8 +53,8 @@ public class ContasReceberDataAccess
         conta.setDocumento(data.substring(9, 21).trim());
         conta.setEmissao(data.substring(21, 31).trim());
         conta.setVencimento(data.substring(31, 41).trim());
-        conta.setValor(Float.parseFloat(data.substring(41, 49).trim()) / 100);
-        conta.setTipo(data.substring(49, 51).trim());
+        conta.setValor(Float.parseFloat(data.substring(41, 51).trim()) / 100);
+        conta.setTipo(data.substring(51, 53).trim());
 
         return conta;
     }
