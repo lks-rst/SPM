@@ -30,6 +30,8 @@ public class GrupoDataAccess
 
     public ArrayList<Grupo> getAll() throws GenercicException { return this.searchAll(); }
 
+    public ArrayList<Grupo> getAllCliente(int cliente) throws GenercicException { return this.searchAllCliente(cliente); }
+
     public ArrayList<Grupo> getAll(int grupo) throws GenercicException { return this.searchAll(grupo); }
 
     public ArrayList<Grupo> getAll(int grupo, int subGrupo) throws GenercicException { return this.searchAll(grupo, subGrupo); }
@@ -166,6 +168,145 @@ public class GrupoDataAccess
         this.sBuilder.append(0);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            Grupo grupo = new Grupo();
+
+            grupo.setGrupo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO)));
+            grupo.setSubGrupo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB)));
+            grupo.setDivisao(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV)));
+            grupo.setDescricao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DESC)));
+
+
+            lista.add(grupo);
+            c.moveToNext();
+        }
+
+        return lista;
+    }
+
+    private ArrayList searchAllCliente(int cli) throws ReadExeption
+    {
+        ArrayList ret = new ArrayList<>();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.GRUPO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.TABELA);
+        this.sBuilder.append(" WHERE (");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(cli);
+        this.sBuilder.append(")");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        StringBuilder sbRestricoes;
+        sbRestricoes = new StringBuilder();
+
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            int codGrupo = c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.GRUPO));
+
+            if (codGrupo != 0)
+            {
+                if (i == 0)
+                {
+                    sbRestricoes.append(" WHERE ");
+                }
+                /*
+                else if (i == 1)
+                {
+                    sbRestricoes.append(" AND ");
+                }
+                */
+                else
+                {
+                    sbRestricoes.append(" OR ");
+                }
+
+                sbRestricoes.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+                sbRestricoes.append(" = ");
+                sbRestricoes.append(codGrupo);
+
+                sbRestricoes.append(" AND ");
+                sbRestricoes.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+                sbRestricoes.append(" = ");
+                sbRestricoes.append(0);
+                sbRestricoes.append(" AND ");
+                sbRestricoes.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+                sbRestricoes.append(" = ");
+                sbRestricoes.append(0);
+            }
+            else
+            {
+                sbRestricoes.append(" WHERE ");
+                sbRestricoes.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+                sbRestricoes.append(" <> ");
+                sbRestricoes.append(0);
+
+                sbRestricoes.append(" AND ");
+                sbRestricoes.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+                sbRestricoes.append(" = ");
+                sbRestricoes.append(0);
+                sbRestricoes.append(" AND ");
+                sbRestricoes.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+                sbRestricoes.append(" = ");
+                sbRestricoes.append(0);
+            }
+
+            c.moveToNext();
+        }
+
+        ArrayList lista = new ArrayList();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.TABELA);
+        this.sBuilder.append(sbRestricoes);
+        /*
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(g);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+        this.sBuilder.append(" <> ");
+        this.sBuilder.append(0);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(0);
+        */
+
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
         for(int i = 0; i < c.getCount(); i++)

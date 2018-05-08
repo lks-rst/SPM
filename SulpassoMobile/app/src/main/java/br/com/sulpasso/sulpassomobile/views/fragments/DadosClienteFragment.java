@@ -24,11 +24,6 @@ import br.com.sulpasso.sulpassomobile.views.Pedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertCortesDevolucaoTitulos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesCliente;
 
-/*
-    Todo: Verificar se o cliente possui títulos abertos, e apresentar estes caso haja;
-    Todo: Verificar se o cliente possui devoluções e apresentar as mesmas caso haja;
- */
-
 /**
  * Created by Lucas on 17/08/2016.
  */

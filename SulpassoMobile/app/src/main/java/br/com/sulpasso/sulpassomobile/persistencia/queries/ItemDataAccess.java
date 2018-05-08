@@ -1198,4 +1198,59 @@ public class ItemDataAccess
         }
         catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
     }
+
+    public ArrayList verificarRestricoes(int client)
+    {
+        ArrayList ret = new ArrayList<>();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.GRUPO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.TABELA);
+        this.sBuilder.append(" WHERE (");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.CLIENTE);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(client);
+        this.sBuilder.append(")");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+        for(int i = 0; i < c.getCount(); i++)
+        {
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+            this.sBuilder.append(" FROM ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+            this.sBuilder.append(" WHERE (");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
+            this.sBuilder.append(" = ");
+            this.sBuilder.append(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.GRUPO)));
+            this.sBuilder.append(")");
+
+
+            Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+
+            d.moveToFirst();
+            for(int j = 0; j < d.getCount(); j++)
+            {
+                ret.add(d.getInt((d.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO))));
+                d.moveToNext();
+            }
+
+            c.moveToNext();
+        }
+
+        return ret;
+    }
 }

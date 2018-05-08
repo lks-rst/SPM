@@ -345,7 +345,7 @@ public abstract class EfetuarPedidos
 
     public final ArrayList<String> listarItens() throws GenercicException
     {
-        return this.controleProdutos.buscarItens(this.tabela);
+        return this.controleProdutos.buscarItens(this.tabela, this.venda.getCliente().getCodigoCliente());
     }
 
     public final ArrayList<String> listarResumo() throws GenercicException
@@ -792,7 +792,11 @@ public abstract class EfetuarPedidos
 
     public void aplicarDesconto(float desconto) { /*****/ }
 
-    private void buscarGrupos() throws GenercicException { this.grupos = this.gda.getAll(); }
+    private void buscarGrupos() throws GenercicException
+    {
+
+        this.grupos = this.gda.getAllCliente(this.venda.getCliente().getCodigoCliente());
+    }
 
     private void buscarSubGrupos() throws GenercicException { this.sGrupos = this.gda.getAll(this.grupo); }
 

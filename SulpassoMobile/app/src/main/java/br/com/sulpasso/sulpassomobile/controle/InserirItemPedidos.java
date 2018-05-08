@@ -9,6 +9,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.modelo.Promocao;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 
 /**
  * Created by Lucas on 01/08/2016.
@@ -103,16 +104,6 @@ public class InserirItemPedidos
         }
     }
 
-    public float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo)
-    {
-        return (valor
-                - (valor * (desconto / 100))
-                - (valor * (grupo/ 100))
-                - (valor * (produtos / 100))
-                + (valor * (acrescimo / 100)))
-                * quantidade ;
-    }
-
     public float diferencaFlex(Context ctx)
     {
         float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
@@ -155,14 +146,13 @@ public class InserirItemPedidos
                         item.setFlex(this.diferencaFlex(context));
 
                         EfetuarPedidos.erro = false;
-                        EfetuarPedidos.strErro = " ";
+                        EfetuarPedidos.strErro = "Valor de flex gerado " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
 
                         return item;
                     }
                     else
                     {
                         EfetuarPedidos.erro = true;
-                        EfetuarPedidos.strErro = "Valor abaixo do permitido!\nPor favor verifique.";
                         return null;
                     }
                 else
@@ -174,7 +164,7 @@ public class InserirItemPedidos
             else
             {
                 EfetuarPedidos.erro = true;
-                EfetuarPedidos.strErro = "Verifique a quantidade digitada!\nPor favor verifique.";
+                EfetuarPedidos.strErro = "Verifique a quantidade digitada!";
                 return null;
             }
         }
@@ -191,7 +181,7 @@ public class InserirItemPedidos
             item.setFlex(this.diferencaFlex(context));
 
             EfetuarPedidos.erro = false;
-            EfetuarPedidos.strErro = " ";
+            EfetuarPedidos.strErro = "";
 
             return item;
         }
@@ -231,27 +221,37 @@ public class InserirItemPedidos
         }
     }
 
-    private Boolean verificarValor(float desconto, boolean percentual, Context context) {
-        if(percentual)
-            return true;
-        else
+    private Boolean verificarValor(float desconto, boolean percentual, Context context)
+    {
+        if(this.valorMaximo(context))
         {
-            float valordesconto;
-            float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
-            float minimoPromocional = this.verificarPromocoes(context);
-            float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
-
-            minimo = minimoPromocional > 0 ?
-                    (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
-            minimo = (minimo > 0 && minimo < tabela) ? minimo : tabela;
-
-            valordesconto = minimo - (minimo * desconto / 100);
-
-            if(this.valor >= valordesconto)
+            if(percentual)
                 return true;
             else
-                return this.verificarPromocoes(context, this.valor);
+            {
+                float valordesconto;
+                float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
+                float minimoPromocional = this.verificarPromocoes(context);
+                float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
+
+                minimo = minimoPromocional > 0 ?
+                        (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
+                minimo = (minimo > 0 && minimo < tabela) ? minimo : tabela;
+
+                valordesconto = minimo - (minimo * desconto / 100);
+
+                if(this.valor >= valordesconto)
+                    return true;
+                else
+                    return this.verificarPromocoes(context, this.valor);
+            }
         }
+        else
+        {
+            EfetuarPedidos.strErro = "Valor acima do permitido!";
+            return false;
+        }
+
     }
 
     private Boolean verificarQuantidade()
@@ -293,7 +293,19 @@ public class InserirItemPedidos
         try { p = pda.buscarPromocao(this.item.getCodigo(), this.quantidade); }
         catch (GenercicException e) { e.printStackTrace(); }
 
-        if(p != null) { return p.getValor() <= valor; }
-        else { return false; }
+        if(p != null)
+        {
+            if(p.getValor() <= valor){ return false; }
+            else
+            {
+                EfetuarPedidos.strErro = "Valor abaixo do permitido!\nPor favor verifique.";
+                return false;
+            }
+        }
+        else
+        {
+            EfetuarPedidos.strErro = "Valor abaixo do permitido!\nPor favor verifique.";
+            return false;
+        }
     }
 }
