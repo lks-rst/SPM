@@ -3,6 +3,8 @@ package br.com.sulpasso.sulpassomobile.controle;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import org.jetbrains.annotations.Contract;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +41,9 @@ public abstract class EfetuarPedidos
     public static boolean erro = false;
     public static String strErro = "";
     public static boolean senha = false;
+
+    public int tipoConsultaItens = -1;
+    public String parametrosBuscaItens = "";
 
     protected int codigoNatureza;
     protected int codigoPrazo;
@@ -421,6 +426,7 @@ public abstract class EfetuarPedidos
         return this.listaNaturezas.get(position).getPrazo();
     }
 
+    @NonNull
     @org.jetbrains.annotations.Contract(pure = true)
     protected final String getConfiguracaoVendaItem() { return "Configuracao de venda dos itens"; }
 
@@ -467,8 +473,10 @@ public abstract class EfetuarPedidos
         return nova_data;
     }
 
+    @NonNull
     protected final Boolean clientIsClicable() { return this.itensVendidos.size() <= 0; }
 
+    @Contract(pure = true)
     protected final float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo)
     {
         return (valor
@@ -570,6 +578,7 @@ public abstract class EfetuarPedidos
         this.controleProdutos.setDivisao(this.divisao);
     }
 
+    @Contract(value = " -> false", pure = true)
     public final boolean insereDePrePedido()
     {
         return false;
@@ -759,9 +768,10 @@ public abstract class EfetuarPedidos
     public void buscarTipoCliente() { this.controleProdutos.setSearchData(this.venda.getCliente().getTipo()); }
 
     public void setSearchType(TiposBuscaItens type)
-{
-    this.controleProdutos.setSearchType(type);
-}
+    {
+        this.controleProdutos.setSearchType(type);
+        this.tipoConsultaItens = type.getValue();
+    }
 
     public void setSearchData(String data)
     {
@@ -770,8 +780,16 @@ public abstract class EfetuarPedidos
 
     public int buscarConsultaAbertura()
     {
-        this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()));
-        return this.controleConfiguracao.getConfigUsr().getTipoBusca();
+        if(tipoConsultaItens == -1)
+        {
+            this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()));
+            return this.controleConfiguracao.getConfigUsr().getTipoBusca();
+        }
+        else
+        {
+            this.setSearchType(TiposBuscaItens.getTipoFromInt(tipoConsultaItens));
+            return tipoConsultaItens;
+        }
     }
 
     public float buscarValorItemDigitando()

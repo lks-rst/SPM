@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertCortesDevolucaoTitulos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesCliente;
@@ -338,6 +339,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                     {
                         ((EditText) getActivity().findViewById(R.id.fdcEdtTabela)).setText("");
                         activity.selecionarCliente(position - 1);
+                        activity.setSearchType(TiposBuscaItens.FAIL);
                     }
                 break;
                 case R.id.fdcSpnrNaturezas :

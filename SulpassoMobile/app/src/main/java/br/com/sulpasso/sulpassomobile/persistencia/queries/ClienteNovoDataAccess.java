@@ -776,10 +776,10 @@ public class ClienteNovoDataAccess {
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.AREA, cliente.getArea());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL1, cliente.getComercial1());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL1_FONE, cliente.getComercial1_fone());
-        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL1, cliente.getComercial2());
-        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL1_FONE, cliente.getComercial2_fone());
-        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL1, cliente.getComercial3());
-        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL1_FONE, cliente.getComercial3_fone());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL2, cliente.getComercial2());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL2_FONE, cliente.getComercial2_fone());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL3, cliente.getComercial3());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL3_FONE, cliente.getComercial3_fone());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL_ABERTURA, cliente.getComercial_abertura());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.DATA, cliente.getData());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO, 0);

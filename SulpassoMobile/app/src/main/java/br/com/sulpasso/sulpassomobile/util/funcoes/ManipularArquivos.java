@@ -1578,7 +1578,7 @@ public class ManipularArquivos
                 line_count++;
             }
 
-            osw.append("9" + ms.comEsquerda(("" + line_count), "0", 6));
+            osw.append("9" + ms.comEsquerda(("" + line_count), "0", 3));
 
             osw.close();
             fOut.close();

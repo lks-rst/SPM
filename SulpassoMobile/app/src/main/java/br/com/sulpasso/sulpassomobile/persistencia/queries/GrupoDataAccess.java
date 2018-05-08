@@ -197,8 +197,6 @@ public class GrupoDataAccess
 
     private ArrayList searchAllCliente(int cli) throws ReadExeption
     {
-        ArrayList ret = new ArrayList<>();
-
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT ");
         this.sBuilder.append(
@@ -220,65 +218,81 @@ public class GrupoDataAccess
         StringBuilder sbRestricoes;
         sbRestricoes = new StringBuilder();
 
-        for(int i = 0; i < c.getCount(); i++)
+        if(c.getCount() > 0)
         {
-            int codGrupo = c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.GRUPO));
-
-            if (codGrupo != 0)
+            for(int i = 0; i < c.getCount(); i++)
             {
-                if (i == 0)
+                int codGrupo = c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente.GRUPO));
+
+                if (codGrupo != 0)
                 {
-                    sbRestricoes.append(" WHERE ");
-                }
-                /*
-                else if (i == 1)
-                {
+                    if (i == 0)
+                    {
+                        sbRestricoes.append(" WHERE ");
+                    }
+                    else
+                    {
+                        sbRestricoes.append(" OR ");
+                    }
+
+                    sbRestricoes.append(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+                    sbRestricoes.append(" = ");
+                    sbRestricoes.append(codGrupo);
+
                     sbRestricoes.append(" AND ");
+                    sbRestricoes.append(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+                    sbRestricoes.append(" = ");
+                    sbRestricoes.append(0);
+                    sbRestricoes.append(" AND ");
+                    sbRestricoes.append(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+                    sbRestricoes.append(" = ");
+                    sbRestricoes.append(0);
                 }
-                */
                 else
                 {
-                    sbRestricoes.append(" OR ");
+                    sbRestricoes.append(" WHERE ");
+                    sbRestricoes.append(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+                    sbRestricoes.append(" <> ");
+                    sbRestricoes.append(0);
+
+                    sbRestricoes.append(" AND ");
+                    sbRestricoes.append(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+                    sbRestricoes.append(" = ");
+                    sbRestricoes.append(0);
+                    sbRestricoes.append(" AND ");
+                    sbRestricoes.append(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+                    sbRestricoes.append(" = ");
+                    sbRestricoes.append(0);
                 }
 
-                sbRestricoes.append(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
-                sbRestricoes.append(" = ");
-                sbRestricoes.append(codGrupo);
-
-                sbRestricoes.append(" AND ");
-                sbRestricoes.append(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
-                sbRestricoes.append(" = ");
-                sbRestricoes.append(0);
-                sbRestricoes.append(" AND ");
-                sbRestricoes.append(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
-                sbRestricoes.append(" = ");
-                sbRestricoes.append(0);
+                c.moveToNext();
             }
-            else
-            {
-                sbRestricoes.append(" WHERE ");
-                sbRestricoes.append(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
-                sbRestricoes.append(" <> ");
-                sbRestricoes.append(0);
+        }
+        else
+        {
+            sbRestricoes.append(" WHERE ");
+            sbRestricoes.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+            sbRestricoes.append(" <> ");
+            sbRestricoes.append(0);
 
-                sbRestricoes.append(" AND ");
-                sbRestricoes.append(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
-                sbRestricoes.append(" = ");
-                sbRestricoes.append(0);
-                sbRestricoes.append(" AND ");
-                sbRestricoes.append(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
-                sbRestricoes.append(" = ");
-                sbRestricoes.append(0);
-            }
-
-            c.moveToNext();
+            sbRestricoes.append(" AND ");
+            sbRestricoes.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+            sbRestricoes.append(" = ");
+            sbRestricoes.append(0);
+            sbRestricoes.append(" AND ");
+            sbRestricoes.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+            sbRestricoes.append(" = ");
+            sbRestricoes.append(0);
         }
 
         ArrayList lista = new ArrayList();

@@ -111,6 +111,9 @@ public class ClienteDataAccess
             cidade.setUf(
                 c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
+            cidade.setCep(
+                c.getString(c.getColumnIndex(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
 
             cidades.add(cidade);
             c.moveToNext();

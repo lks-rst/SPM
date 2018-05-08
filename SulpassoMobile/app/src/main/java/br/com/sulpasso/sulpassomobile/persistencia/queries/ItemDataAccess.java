@@ -266,12 +266,43 @@ public class ItemDataAccess
     {
         ArrayList lista = new ArrayList();
 
+        /*
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
         this.sBuilder.append(" WHERE ");
+        */
 
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(" ON (");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(") WHERE (");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(tabela);
+        this.sBuilder.append(") AND ");
 
         switch (this.searchType)
         {
@@ -292,6 +323,13 @@ public class ItemDataAccess
             case 3:
                 this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA);
+                this.sBuilder.append(" LIKE ('");
+                this.sBuilder.append(this.searchData);
+                this.sBuilder.append("%')");
+                break;
+            default:
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
                 this.sBuilder.append(" LIKE ('");
                 this.sBuilder.append(this.searchData);
                 this.sBuilder.append("%')");
@@ -441,7 +479,7 @@ public class ItemDataAccess
             this.sBuilder.append("SELECT * FROM ");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
-            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(" WHERE (");
 
             int grupo = 0;
             int subGrupo = -1;

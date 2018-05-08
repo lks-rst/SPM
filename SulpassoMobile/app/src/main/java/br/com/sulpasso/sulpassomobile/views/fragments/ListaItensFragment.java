@@ -60,7 +60,6 @@ public class ListaItensFragment extends Fragment implements
     public void onStart()
     {
         super.onStart();
-        this.setUpLayout();
     }
 
     @Override
@@ -117,14 +116,8 @@ public class ListaItensFragment extends Fragment implements
                 break;
 
             case R.id.itens_pre_pedido:
-                boolean pre = ((Pedido) getActivity()).buscarPrePedidos();
-
-                if (pre) { apresentarDialog(); }
-                else
-                {
-                    ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setHint(
-                        "Não encontrado o pre pedido");
-                }
+                ((Pedido) getActivity()).setSearchType(TiposBuscaItens.PRE);
+                this.manipulacaoPrePedido();
                 break;
             case R.id.itens_gravosos:
                 ((Pedido) getActivity()).setSearchType(TiposBuscaItens.GRAVOSOS);
@@ -157,6 +150,14 @@ public class ListaItensFragment extends Fragment implements
         */
         return false;
     }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        this.setUpLayout();
+    }
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
     /**
@@ -180,6 +181,9 @@ public class ListaItensFragment extends Fragment implements
                 break;
             case 3 :
                 hint += getActivity().getResources().getString(R.string.hnt_ref);
+                break;
+            case 7 :
+                this.manipulacaoPrePedido();
                 break;
             default :
                 break;
@@ -223,6 +227,18 @@ public class ListaItensFragment extends Fragment implements
             DetalhesPrepedido dialog = new DetalhesPrepedido();
             dialog.setTargetFragment(this, 1); //request code
             dialog.show(getFragmentManager(), "DIALOG");
+        }
+    }
+
+    private void manipulacaoPrePedido()
+    {
+        boolean pre = ((Pedido) getActivity()).buscarPrePedidos();
+
+        if (pre) { apresentarDialog(); }
+        else
+        {
+            ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setHint(
+                    "Não encontrado o pre pedido");
         }
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
