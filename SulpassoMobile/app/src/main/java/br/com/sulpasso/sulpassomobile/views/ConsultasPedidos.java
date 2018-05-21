@@ -548,7 +548,17 @@ public class ConsultasPedidos extends AppCompatActivity
                     {
                         if(conect.MudarDiretorio(server.getUploadFolder()))
                         {
-                            conect.Mandar(nomeArquivo, nomeArquivo);
+                            VendaDataAccess vda = new VendaDataAccess(getApplicationContext());
+
+                            if(conect.Mandar(nomeArquivo, nomeArquivo))
+                            {
+                                try { vda.atualizarVendas(inicio, fim, 1); }
+                                catch (GenercicException e) { /*****/ }
+
+                                try { cda.atualizarSequencias(1); }
+                                catch (GenercicException e) { /*****/ }
+                            }
+                            else { /*****/ }
                         }
                         else
                         {

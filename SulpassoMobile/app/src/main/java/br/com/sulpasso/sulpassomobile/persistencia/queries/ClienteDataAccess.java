@@ -58,6 +58,8 @@ public class ClienteDataAccess
                 return searchByData(this.searchType, this.searchData);
             case CIDADE :
                 return searchByData(this.searchType, this.sarchConverte());
+            case CODIGO :
+                return searchByData(this.searchType, this.sarchConverte());
             case VISITA :
                 return searchVisitDay();
             default:
@@ -531,30 +533,41 @@ public class ClienteDataAccess
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CIDADE);
                 this.sBuilder.append(" = '");
                 this.sBuilder.append(data);
-                this.sBuilder.append("';");
+                this.sBuilder.append("' ");
                 break;
             case RAZAO :
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
                 this.sBuilder.append(" LIKE ('%");
                 this.sBuilder.append(data);
-                this.sBuilder.append("%');");
+                this.sBuilder.append("%') ");
                 break;
             case FANTASIA :
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA);
                 this.sBuilder.append(" LIKE ('%");
                 this.sBuilder.append(data);
-                this.sBuilder.append("%');");
+                this.sBuilder.append("%') ");
+                break;
+            case CODIGO :
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+                this.sBuilder.append(" = '");
+                this.sBuilder.append(data);
+                this.sBuilder.append("' ");
                 break;
             default:
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CIDADE);
                 this.sBuilder.append(" = '");
                 this.sBuilder.append(data);
-                this.sBuilder.append("';");
+                this.sBuilder.append("' ");
                 break;
         }
+
+        this.sBuilder.append(" ORDER BY ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

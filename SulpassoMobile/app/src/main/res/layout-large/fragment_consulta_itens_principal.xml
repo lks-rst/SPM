@@ -33,13 +33,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
                     android:id="@+id/fcipSpnrFiltro" />
-                -->
 
                 <Button
                     style="@style/texts.labels.bigger"
                     android:layout_width="0dp"
                     android:layout_weight="0.2"
                     android:text="@string/btn_serach" />
+                -->
             </LinearLayout>
 
             <Space

@@ -266,43 +266,45 @@ public class ItemDataAccess
     {
         ArrayList lista = new ArrayList();
 
-        /*
-        this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT * FROM ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
-        this.sBuilder.append(" WHERE ");
-        */
-
-
-        this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT * FROM ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
-        this.sBuilder.append(" JOIN ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
-        this.sBuilder.append(" ON (");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
-        this.sBuilder.append(".");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
-        this.sBuilder.append(" = ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
-        this.sBuilder.append(".");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
-        this.sBuilder.append(") WHERE (");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
-        this.sBuilder.append(".");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO);
-        this.sBuilder.append(" = ");
-        this.sBuilder.append(tabela);
-        this.sBuilder.append(") AND ");
+        if(tabela == -1)
+        {
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT * FROM ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+            this.sBuilder.append(" WHERE ");
+        }
+        else
+        {
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT * FROM ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+            this.sBuilder.append(" JOIN ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+            this.sBuilder.append(" ON (");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+            this.sBuilder.append(".");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRODUTO);
+            this.sBuilder.append(" = ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+            this.sBuilder.append(".");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+            this.sBuilder.append(") WHERE (");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+            this.sBuilder.append(".");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.CODIGO);
+            this.sBuilder.append(" = ");
+            this.sBuilder.append(tabela);
+            this.sBuilder.append(") AND ");
+        }
 
         switch (this.searchType)
         {

@@ -199,7 +199,6 @@ public class FtpConnect
 
             if (arquivo.exists())
             {
-                System.out.println("EXISTE O ARQUIVO PARA ENVIAR");
                 FileInputStream origem = new FileInputStream(arquivo);
                 cliente.setFileTransferMode(org.apache.commons.net.ftp.FTP.BINARY_FILE_TYPE);
                 cliente.setFileType(org.apache.commons.net.ftp.FTPClient.BINARY_FILE_TYPE);
@@ -207,11 +206,7 @@ public class FtpConnect
                 origem.close();
                 return status;
             }
-            else
-            {
-                System.out.println("NAO EXISTE O ARQUIVO PARA ENVIAR");
-                return false;
-            }
+            else { return false; }
         }
         catch (Exception e)
         {

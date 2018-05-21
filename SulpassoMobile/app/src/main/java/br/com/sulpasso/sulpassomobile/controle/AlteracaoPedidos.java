@@ -37,7 +37,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
     @Override
     public ArrayList<String> listarCLientes(int tipo, String dados) throws GenercicException
     {
-        ArrayList<String> lista = super.controleClientes.exibirLista(2, super.venda.getCliente().getRazao());
+        ArrayList<String> lista = super.controleClientes.exibirLista(6, super.venda.getCliente().getCodigoCliente().toString());
 
         super.codigoNatureza = super.venda.getNatureza();
         super.codigoPrazo = super.venda.getPrazo().getCodigo();

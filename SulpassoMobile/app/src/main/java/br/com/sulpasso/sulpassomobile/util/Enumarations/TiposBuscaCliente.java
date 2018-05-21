@@ -5,7 +5,7 @@ package br.com.sulpasso.sulpassomobile.util.Enumarations;
  */
 public enum TiposBuscaCliente
 {
-    RAZAO(2), FANTASIA(1), CIDADE(3), AGENDA(4), VISITA(5), TODOS(0);
+    TODOS(0), FANTASIA(1), RAZAO(2), CIDADE(3), AGENDA(4), VISITA(5), CODIGO(6);
 
     private int value;
 
@@ -29,6 +29,8 @@ public enum TiposBuscaCliente
                 return AGENDA;
             case 5 :
                 return VISITA;
+            case 6 :
+                return CODIGO;
             default:
                 return TODOS;
         }

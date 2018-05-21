@@ -112,7 +112,10 @@ public class AtualizarSistema
                 criarArquivoClientes();
                 return true;
             case 17 :
-                atualizarClientes();
+                atualizarClientes(true);
+                return true;
+            case 18 :
+                atualizarClientes(false);
                 return true;
             case 20 :
                 return downloadConfiguracao();
@@ -153,17 +156,25 @@ public class AtualizarSistema
         }
     }
 
-    private void atualizarClientes()
+    private void atualizarClientes(boolean ok)
     {
         ClienteNovoDataAccess cnda = new ClienteNovoDataAccess(this.context);
         VendaDataAccess vda = new VendaDataAccess(this.context);
 
-        try { cnda.atualizarClientes(); }
-        catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+        if(ok)
+        {
+            try { cnda.atualizarClientes(1); }
+            catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
 
-        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
-        try { cda.atualizarSequencias(2); }
-        catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+            ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+            try { cda.atualizarSequencias(2); }
+            catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+        }
+        else
+        {
+            try { cnda.atualizarClientes(2); }
+            catch (GenercicException e) { this.arquivos.addStringErro(e.getMessage()); }
+        }
     }
 
     private void criarArquivoClientes()
