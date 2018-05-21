@@ -1152,7 +1152,7 @@ public class ClienteNovoDataAccess {
         catch (Exception exception) { return 1; }
     }
 
-    public void atualizarClientes() throws GenercicException
+    public void atualizarClientes(int to) throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("UPDATE ");
@@ -1162,12 +1162,17 @@ public class ClienteNovoDataAccess {
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
         this.sBuilder.append(" = '");
-        this.sBuilder.append(1);
+        this.sBuilder.append(to);
         this.sBuilder.append("' WHERE ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
         this.sBuilder.append(" = '");
         this.sBuilder.append(0);
+        this.sBuilder.append("' OR ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(2);
         this.sBuilder.append("';");
 
         try { db.execSQL(this.sBuilder.toString()); }

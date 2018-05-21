@@ -495,6 +495,8 @@ public class Atualizacao extends AppCompatActivity
                         percentualAtualizacao = 100;
                         controleAtualizacao.criarArquivoErros();
                         publishProgress();
+
+                        controleAtualizacao.atualizar(21);
                     }
                 }
                 else
@@ -503,6 +505,8 @@ public class Atualizacao extends AppCompatActivity
                     percentualAtualizacao = 100;
                     controleAtualizacao.criarArquivoErros();
                     publishProgress();
+
+                    controleAtualizacao.atualizar(21);
                 }
             }
             else
@@ -591,6 +595,8 @@ public class Atualizacao extends AppCompatActivity
                             percentualAtualizacao = 100;
                             controleAtualizacao.criarArquivoErros();
                             publishProgress();
+
+                            controleAtualizacao.atualizar(18);
                         }
                     }
                     else
@@ -599,6 +605,8 @@ public class Atualizacao extends AppCompatActivity
                         percentualAtualizacao = 100;
                         controleAtualizacao.criarArquivoErros();
                         publishProgress();
+
+                        controleAtualizacao.atualizar(18);
                     }
                 }
                 else
@@ -607,6 +615,8 @@ public class Atualizacao extends AppCompatActivity
                     percentualAtualizacao = 100;
                     controleAtualizacao.criarArquivoErros();
                     publishProgress();
+
+                    controleAtualizacao.atualizar(18);
                 }
             }
             else
