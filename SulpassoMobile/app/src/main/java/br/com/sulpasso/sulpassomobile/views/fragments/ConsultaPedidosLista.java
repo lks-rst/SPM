@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -73,6 +74,15 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemClickListener(clickPedido);
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setOnItemLongClickListener(alterarExcluir);
 
+        ((EditText)  getActivity().findViewById(R.id.edtQtdPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(1));
+        ((EditText)  getActivity().findViewById(R.id.edtTotPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(2));
+        ((EditText)  getActivity().findViewById(R.id.edtVolPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(3));
+        ((EditText)  getActivity().findViewById(R.id.edtContPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(4));
+
         ((getActivity().findViewById(R.id.fcpBtnData))).setOnClickListener(alterDate);
     }
 
@@ -96,6 +106,15 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         {
             ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
         }
+
+        ((EditText)  getActivity().findViewById(R.id.edtQtdPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(1));
+        ((EditText)  getActivity().findViewById(R.id.edtTotPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(2));
+        ((EditText)  getActivity().findViewById(R.id.edtVolPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(3));
+        ((EditText)  getActivity().findViewById(R.id.edtContPed)).setText(
+                ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(4));
     }
 
     private void selecionarData()

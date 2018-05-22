@@ -56,13 +56,13 @@ public class PrePedidoDataAccess
 
         PrePedidoItem i = new PrePedidoItem();
         i.setItem(Integer.parseInt(data.substring(9, 16).trim()));
-        i.setQuantidade(Float.parseFloat(data.substring(16, 20).trim()) / 100);
-        i.setValorDigitado(Float.parseFloat(data.substring(30, 36).trim()) / 100);
+        i.setQuantidade(Float.parseFloat(data.substring(16, 22).trim()) / 100);
+        i.setValorDigitado(Float.parseFloat(data.substring(32, 40).trim()) / 100);
 
         ArrayList<PrePedidoItem> itens = new ArrayList<>();
         itens.add(i);
 
-        pre.setData(data.substring(20, 30).trim());
+        pre.setData(data.substring(22, 32).trim());
         pre.setCliente(c);
         pre.setItensPrePedido(itens);
 
