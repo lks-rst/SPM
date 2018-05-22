@@ -9,6 +9,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
 /**
@@ -246,4 +247,51 @@ public class ConsultarPedidos
     public int getTipoBusca() { return tipoBusca; }
 
     public void setTipoBusca(int tipoBusca) { this.tipoBusca = tipoBusca; }
+
+    public String totalizadorVendas(int tipo)
+    {
+        int quantidade = 0;
+        float total = 0;
+        float volume = 0;
+        float contribuicao = 0;
+
+        switch (this.tipoBusca)
+        {
+            case 0:
+                quantidade = this.todas.size();
+                for(Venda v : this.todas)
+                {
+                    total += v.getValor();
+                }
+                break;
+            case 1:
+                quantidade = this.enviadas.size();
+                for(Venda v : this.enviadas)
+                {
+                    total += v.getValor();
+                }
+                break;
+            case 2:
+                quantidade = this.naoEnviadas.size();
+                for(Venda v : this.naoEnviadas)
+                {
+                    total += v.getValor();
+                }
+                break;
+        }
+
+        switch (tipo)
+        {
+            case 1:
+                return Formatacao.format2d(quantidade);
+            case 2:
+                return Formatacao.format2d(total);
+            case 3:
+                return Formatacao.format2d(volume);
+            case 4:
+                return Formatacao.format2d(contribuicao);
+            default:
+                return Formatacao.format2d(quantidade);
+        }
+    }
 }
