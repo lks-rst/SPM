@@ -25,7 +25,6 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
                     android:clickable="false"
                     android:enabled="false"
                     android:textColor="@color/Black"
@@ -95,6 +94,7 @@
                     android:id="@+id/fdEdtQtdVda" />
 
                 <TextView
+                    android:id="@+id/fdLblQtdCaixa"
                     style="@style/texts.labels"
                     android:text="@string/lbl_qtd_caixa" />
 

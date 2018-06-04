@@ -95,8 +95,21 @@ public class DigitacaoItemFragment extends Fragment
                 .setText(((Pedido) getActivity()).getQtdMinimaVenda());
         ((EditText) (getActivity().findViewById(R.id.fdEdtBarras)))
                 .setText(((Pedido) getActivity()).getCodigoBarras());
-        ((EditText) (getActivity().findViewById(R.id.fdEdtQtdCaixa)))
-                .setText(((Pedido) getActivity()).getQtdCaixa());
+
+        String qtdCx = ((Pedido) getActivity()).getQtdCaixa();
+        float fQtdCx = 0;
+
+        try { fQtdCx = Float.parseFloat(qtdCx); }
+        catch (Exception e) { fQtdCx = 1; }
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtQtdCaixa))).setText(qtdCx);
+
+        if(fQtdCx <= 1)
+        {
+            (getActivity().findViewById(R.id.fdEdtQtdCaixa)).setVisibility(View.GONE);
+            (getActivity().findViewById(R.id.fdLblQtdCaixa)).setVisibility(View.GONE);
+        }
+
         ((EditText) (getActivity().findViewById(R.id.fdEdtEstoque)))
                 .setText(((Pedido) getActivity()).getEstoque());
         ((EditText) (getActivity().findViewById(R.id.fdEdtUnitario)))

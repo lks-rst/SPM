@@ -738,10 +738,6 @@ public class Inicial extends AppCompatActivity
     }
 
     /*
-        TODO: Adicionar opção para enviar arquivo de erros para o supervisor (terceiro email cadastrado)
-
         TODO: Alterar Transação entre telas do sistema, utilizar swipe (de alguma forma)
-
-        TODO: Criar uma classe para retornar os adapters "padrão" de apenas uma local;
      */
 }

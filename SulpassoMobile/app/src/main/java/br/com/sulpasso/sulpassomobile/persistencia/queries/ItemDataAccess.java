@@ -472,7 +472,6 @@ public class ItemDataAccess
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
                     this.sBuilder.append(" = '");
                     this.sBuilder.append(divisao);
-                    this.sBuilder.append("');");
                 }
             }
         }

@@ -28,7 +28,6 @@ import br.com.sulpasso.sulpassomobile.views.fragments.alertas.DetalhesPrepedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.GrupoSelection;
 
 /*
-    Todo: Montar forma de ordenação dos itens (fora do configurador [isso não existe no sistema é mesmo necessário?]);
     Todo: Verificar o filtro Mix;
     Todo: Criar campo de configuração apra inserção direta de prepedido;
  */
