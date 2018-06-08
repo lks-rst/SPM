@@ -324,9 +324,6 @@ public class Inicial extends AppCompatActivity
         Fragment fragment = null;
         switch (this.controle.fragmentoCentral())
         {
-            /*
-                TODO: Criar frgments consultas PRODUTOS FOCO
-             */
             case 0:
                 fragment = new ConsultaGerencialMensagem();
                 break;

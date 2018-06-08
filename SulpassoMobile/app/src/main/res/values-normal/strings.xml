@@ -225,6 +225,7 @@
         <item><b>#</b>CAMPANHA PRODUTOS</item>
         <item><b>#</b>CAMPANHA GRUPOS</item>
         <item><b>#</b>DETLHES ITENS</item>
+        <item><b>#</b>PRODUTOS FOCO</item>
     </string-array>
     <!-- END -->
 
@@ -300,6 +301,7 @@
     <string name="menu_inicial_co_geral">Gerencial</string>
 
     <string name="menu_consulta_todos">Todos</string>
+    <string name="menu_consulta_mais">Mais Opções</string>
     <string name="menu_consulta_enviados">Enviados</string>
     <string name="menu_consulta_nao">Não Enviados</string>
     <string name="menu_consulta_direta">Vendas Diretas</string>

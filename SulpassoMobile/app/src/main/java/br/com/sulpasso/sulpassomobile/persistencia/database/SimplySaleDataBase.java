@@ -21,6 +21,7 @@ import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Corte;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.CurvaAbc;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Devolucao;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque;
+import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Gravosos;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.GrupoBloqueadoCliente;
@@ -53,7 +54,7 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
 {
     private List<String> scriptSQLCreate;
     private static final String DB_NAME = "simplySale.db";
-    private static final int DB_VERSION = 14;
+    private static final int DB_VERSION = 15;
 
     public SimplySaleDataBase(Context context)
     {
@@ -98,6 +99,7 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
         this.scriptSQLCreate.add(Configurador.CriarTabela());
         this.scriptSQLCreate.add(ClienteNovo.CriarTabela());
         this.scriptSQLCreate.add(Visita.CriarTabela());
+        this.scriptSQLCreate.add(Foco.CriarTabela());
     }
 
     /**
@@ -133,5 +135,8 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
 
         if(oldVersion <= 13)
             db.execSQL(Configurador.AlterarTabela());
+
+        if(oldVersion <= 14)
+            db.execSQL(Foco.CriarTabela());
     }
 }

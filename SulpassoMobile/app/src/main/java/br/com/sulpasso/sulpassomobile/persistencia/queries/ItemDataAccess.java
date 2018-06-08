@@ -10,6 +10,7 @@ import java.util.HashMap;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.exeption.InsertionExeption;
 import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
+import br.com.sulpasso.sulpassomobile.modelo.Foco;
 import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
@@ -149,6 +150,25 @@ public class ItemDataAccess
                 ms.comDireita(c.getString(c.getColumnIndex("COMP")), " ", 15).trim());
 
         return ret;
+    }
+
+    public void insertFoco(ArrayList<Foco> itens) { for(Foco f : itens) { this.inserirFoco(f); } }
+
+    private void inserirFoco(Foco f)
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("Insert or replace into ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.TABELA);
+        this.sBuilder.append("(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.CODIGO);
+        this.sBuilder.append(") VALUES ('");
+        this.sBuilder.append(f.getCodigo());
+        this.sBuilder.append("');");
+
+        try { this.db.execSQL(this.sBuilder.toString()); }
+        catch (Exception e) { /*****/ }
     }
 
     private Boolean insert(Item item) throws InsertionExeption
@@ -1224,7 +1244,7 @@ public class ItemDataAccess
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
             this.sBuilder.append(" = '");
-            d.getCodigo();
+            this.sBuilder.append(d.getCodigo());
             this.sBuilder.append("'");
         }
 
@@ -1291,5 +1311,275 @@ public class ItemDataAccess
         }
 
         return ret;
+    }
+
+    public ArrayList<Foco> buscarFoco(String inicio, String fim)
+    {
+        ArrayList ret = new ArrayList<>();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT f.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.CODIGO);
+        this.sBuilder.append(", i.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA);
+        this.sBuilder.append(", i.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        this.sBuilder.append(", i.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.TABELA);
+        this.sBuilder.append(" AS f ");
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" AS i ");
+        this.sBuilder.append(" ON f.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.CODIGO);
+        this.sBuilder.append(" = i.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        for(int j = 0; j < c.getCount(); j++)
+        {
+            Foco f = new Foco();
+            f.setCodigo(c.getInt(0));
+            f.setReferencia(c.getString(1));
+            f.setDescricao(c.getString(2));
+            f.setComplemento(c.getString(3));
+
+            f.setClientes(buscarNrClientesFoco(f.getCodigo(), inicio, fim));
+            f.setValor(valorValorFoco(f.getCodigo(), inicio, fim));
+            f.setVolume(buscarVolumeFoco(f.getCodigo(), inicio, fim));
+            f.setContribuicao(valorContribuicaoFoco(f.getCodigo(), inicio, fim));
+
+            ret.add(f);
+            c.moveToNext();
+        }
+
+        return ret;
+    }
+
+    public boolean removerItem(int codigo)
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("DELETE FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Foco.CODIGO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(codigo);
+        this.sBuilder.append("'");
+        this.sBuilder.append(";");
+
+        try
+        {
+            this.db.execSQL(this.sBuilder.toString());
+            return true;
+        }
+        catch (Exception e) { return false; }
+    }
+
+    private int buscarNrClientesFoco(int produto, String inicio, String fim)
+    {
+        int valor = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT COUNT(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(") FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CODIGO);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(produto);
+        this.sBuilder.append("' AND date(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") BETWEEN ('");
+        this.sBuilder.append(inicio);
+        this.sBuilder.append("') AND ('");
+        this.sBuilder.append(fim);
+        this.sBuilder.append("');");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { valor = (int) c.getFloat(0); }
+        catch (Exception e) { valor = 0; }
+
+        return valor;
+    }
+
+    private float valorValorFoco(int produto, String inicio, String fim)
+    {
+        float valor = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT SUM(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL);
+        this.sBuilder.append(") FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CODIGO);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(produto);
+        this.sBuilder.append("' AND date(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") BETWEEN ('");
+        this.sBuilder.append(inicio);
+        this.sBuilder.append("') AND ('");
+        this.sBuilder.append(fim);
+        this.sBuilder.append("');");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { valor = c.getFloat(0); }
+        catch (Exception e) { valor = 0; }
+
+        return valor;
+    }
+
+    private float buscarVolumeFoco(int produto, String inicio, String fim)
+    {
+        float volume = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT SUM(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE);
+        this.sBuilder.append("), ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CODIGO);
+
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(produto);
+        this.sBuilder.append("' AND date(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") BETWEEN ('");
+        this.sBuilder.append(inicio);
+        this.sBuilder.append("') AND ('");
+        this.sBuilder.append(fim);
+        this.sBuilder.append("');");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { volume = c.getInt(0) * c.getFloat(1); }
+        catch (Exception e) { volume = 0; }
+
+        return volume;
+    }
+
+    private float valorContribuicaoFoco(int produto, String inicio, String fim)
+    {
+        /*
+        float valor = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT SUM(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL);
+        this.sBuilder.append(") FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" ON ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CODIGO);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(produto);
+        this.sBuilder.append("' AND date(");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") BETWEEN ('");
+        this.sBuilder.append(inicio);
+        this.sBuilder.append("') AND ('");
+        this.sBuilder.append(fim);
+        this.sBuilder.append("');");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { valor = c.getFloat(0); }
+        catch (Exception e) { valor = 0; }
+
+        return valor;
+        */
+        return 0;
     }
 }
