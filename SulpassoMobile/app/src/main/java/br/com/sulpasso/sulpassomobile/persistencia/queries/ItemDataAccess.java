@@ -154,6 +154,38 @@ public class ItemDataAccess
 
     public void insertFoco(ArrayList<Foco> itens) { for(Foco f : itens) { this.inserirFoco(f); } }
 
+    public Boolean updateItem(String item) throws InsertionExeption
+    {
+        int codigoItem;
+        String aplicacao;
+
+        codigoItem = Integer.parseInt(item.substring(0, 7));
+        aplicacao = (item.substring(7)).trim();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("UPDATE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" SET ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(aplicacao);
+        this.sBuilder.append("' WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(codigoItem);
+        this.sBuilder.append(";");
+
+        try
+        {
+            this.db.execSQL(this.sBuilder.toString());
+            return true;
+        }
+        catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
+    }
+
     private void inserirFoco(Foco f)
     {
         this.sBuilder.delete(0, this.sBuilder.length());
@@ -414,6 +446,36 @@ public class ItemDataAccess
             item.setCusto(
                     c.getFloat(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CUSTO)));
+            item.setAplicacao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
+
+
+
+            StringBuilder sb = new StringBuilder();
+            sb.delete(0, this.sBuilder.length());
+            sb.append("SELECT * FROM ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" WHERE ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" = ");
+            sb.append(item.getCodigo());
+
+            Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+            d.moveToFirst();
+
+
+            try {
+                item.setEstoque(
+                    d.getFloat(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
+            }
+            catch (Exception x) { item.setEstoque(0); }
+
 
             lista.add(item);
             c.moveToNext();
@@ -586,6 +648,36 @@ public class ItemDataAccess
             item.setCusto(
                     c.getFloat(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CUSTO)));
+            item.setAplicacao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
+
+
+
+            StringBuilder sb = new StringBuilder();
+            sb.delete(0, this.sBuilder.length());
+            sb.append("SELECT * FROM ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" WHERE ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" = ");
+            sb.append(item.getCodigo());
+
+            Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+            d.moveToFirst();
+
+
+            try {
+                item.setEstoque(
+                        d.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
+            }
+            catch (Exception x) { item.setEstoque(0); }
+
 
             lista.add(item);
             c.moveToNext();
@@ -736,6 +828,36 @@ public class ItemDataAccess
             item.setQuantidadeCaixa(
                     c.getInt(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
+            item.setAplicacao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
+
+
+
+            StringBuilder sb = new StringBuilder();
+            sb.delete(0, this.sBuilder.length());
+            sb.append("SELECT * FROM ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" WHERE ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" = ");
+            sb.append(item.getCodigo());
+
+            Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+            d.moveToFirst();
+
+
+            try {
+                item.setEstoque(
+                        d.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
+            }
+            catch (Exception x) { item.setEstoque(0); }
+
 
             lista.add(item);
             c.moveToNext();
@@ -956,6 +1078,36 @@ public class ItemDataAccess
             item.setCusto(
                     c.getFloat(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CUSTO)));
+            item.setAplicacao(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
+
+
+
+            StringBuilder sb = new StringBuilder();
+            sb.delete(0, this.sBuilder.length());
+            sb.append("SELECT * FROM ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" WHERE ");
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
+            sb.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
+            sb.append(" = ");
+            sb.append(item.getCodigo());
+
+            Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+            d.moveToFirst();
+
+
+            try {
+                item.setEstoque(
+                        d.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
+            }
+            catch (Exception x) { item.setEstoque(0); }
+
 
             lista.add(item);
             c.moveToNext();

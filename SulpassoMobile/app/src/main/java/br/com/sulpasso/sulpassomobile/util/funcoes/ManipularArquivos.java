@@ -99,6 +99,8 @@ public class ManipularArquivos
     private ArrayList<String> saldo = null;
     private ArrayList<String> comissao = null;
 
+    private ArrayList<String> aplicacao = null;
+
     private ArrayList<String> errosIserir = null;
 
     private Context context;
@@ -324,6 +326,10 @@ public class ManipularArquivos
                     case COMISSAO :
                         if(comissao == null) { comissao = new ArrayList<>(); }
                         comissao.add(s);
+                        break;
+                    case APLICACAO :
+                        if(aplicacao == null) { aplicacao = new ArrayList<>(); }
+                        aplicacao.add(s);
                         break;
                     default:
                         break;
@@ -1169,6 +1175,21 @@ public class ManipularArquivos
                             comissaoda.updateComissao(s.substring(12, 22).trim());
                             comissaoda.updateContribuicao(s.substring(22).trim());
                         } catch (Exception e)
+                        {
+                            this.addStringErro(e.getMessage());
+                            this.addStringErro(s);
+                        }
+                    }
+                }
+                break;
+            case APLICACAO :
+                ItemDataAccess ida2 = new ItemDataAccess(context);
+                if(aplicacao != null && aplicacao.size() > 0)
+                {
+                    for (String s : aplicacao)
+                    {
+                        try { ida2.updateItem(s.substring(2).trim()); }
+                        catch (Exception e)
                         {
                             this.addStringErro(e.getMessage());
                             this.addStringErro(s);

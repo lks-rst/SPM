@@ -54,7 +54,7 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
 {
     private List<String> scriptSQLCreate;
     private static final String DB_NAME = "simplySale.db";
-    private static final int DB_VERSION = 15;
+    private static final int DB_VERSION = 16;
 
     public SimplySaleDataBase(Context context)
     {
@@ -138,5 +138,8 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
 
         if(oldVersion <= 14)
             db.execSQL(Foco.CriarTabela());
+
+        if(oldVersion <= 15)
+            db.execSQL(Item.AlterarTabela2());
     }
 }

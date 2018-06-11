@@ -153,7 +153,7 @@ public class EstoqueDataAccess
         Estoque e = new Estoque();
 
         e.setCodigoProduto(Integer.parseInt(estoque.substring(2, 9)));
-        e.setEstoque(Double.parseDouble(estoque.substring(9, 22)) / 100);
+        e.setEstoque(Double.parseDouble(estoque.substring(9, 22).trim()) / 100);
         e.setLoja(Integer.parseInt(estoque.substring(22)));
 
         return e;

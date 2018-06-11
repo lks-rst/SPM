@@ -17,9 +17,6 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
  */
 public class ConsultaItensPromocoes extends Fragment
 {
-    /*
-        TODO: Criar um agrupamento do retorno pelo item da promoção;
-     */
     private ConsultaPromocoes consulta;
 
     public ConsultaItensPromocoes(){}

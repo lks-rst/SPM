@@ -1,4 +1,4 @@
-package br.com.sulpasso.sulpassomobile.views.fragments;
+package br.com.sulpasso.sulpassomobile.views.fragments.alertas;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -20,10 +20,6 @@ import br.com.sulpasso.sulpassomobile.modelo.Item;
  */
 public class ConsultaItensDetalhesFragment extends DialogFragment
 {
-    /*
-        TODO: Verificar as promoções;
-        TODO: Vincular a busca do item a busca das aplicações para passar a informaçao correta;
-     */
     private ConsultaItensDetalhes callback;
 
     public static interface ConsultaItensDetalhes
@@ -56,11 +52,11 @@ public class ConsultaItensDetalhesFragment extends DialogFragment
         ((EditText) view.findViewById(R.id.edtAlertComplemento)).setText(i.getComplemento());
         ((EditText) view.findViewById(R.id.edtAlertUnidade)).setText(i.getUnidade());
         ((EditText) view.findViewById(R.id.edtAlertUniVenda)).setText(i.getUnidadeVenda());
-        ((EditText) view.findViewById(R.id.edtAlertCaixa)).setText(i.getQuantidadeCaixa() + "");
-        ((EditText) view.findViewById(R.id.edtAlertQuantidade)).setText(i.getMinimoVenda() + "");
+        ((EditText) view.findViewById(R.id.edtAlertCaixa)).setText(String.valueOf(i.getQuantidadeCaixa()));
+        ((EditText) view.findViewById(R.id.edtAlertQuantidade)).setText(String.valueOf(i.getMinimoVenda()));
         ((EditText) view.findViewById(R.id.edtAlertBarras)).setText(i.getBarras());
-        ((EditText) view.findViewById(R.id.edtAlertEstoque)).setText("Estoque");
-        ((EditText) view.findViewById(R.id.edtAlertAplicacao)).setText("Aplicação do item");
+        ((EditText) view.findViewById(R.id.edtAlertEstoque)).setText(String.valueOf(i.getEstoque()));
+        ((EditText) view.findViewById(R.id.edtAlertAplicacao)).setText(i.getAplicacao());
 
         ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(), R.layout.spinner_item,
