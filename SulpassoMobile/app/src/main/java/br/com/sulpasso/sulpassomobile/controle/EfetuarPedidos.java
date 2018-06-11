@@ -407,9 +407,13 @@ public abstract class EfetuarPedidos
     public String getDescricaoItem(int posicao)
     {
         int codigo = this.itensVendidos.get(posicao).getItem();
-        int newP = this.controleProdutos.getItemPosicao(codigo);
+        //int newP = this.controleProdutos.getItemPosicao(codigo);
 
-        return this.controleProdutos.getItem(newP).getDescricao();
+        String[] separated = this.controleProdutos.getItemStr(codigo).split(" . ");
+
+        return separated[1].trim();
+
+        //return this.controleProdutos.getItem(newP).getDescricao();
     }
 
     public final int restoreClient() { return this.controleClientes.restoreClient(); }
