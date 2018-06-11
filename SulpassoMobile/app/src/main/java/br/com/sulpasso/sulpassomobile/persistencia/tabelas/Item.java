@@ -31,6 +31,8 @@ public class Item
     public static final String CUSTO = "Custo";
     public static final String ESTOQUE = "Estoque";
 
+    public static final String APLICACAO = "Aplicacao";
+
     public static String CriarTabela()
     {
         String stmt;
@@ -99,6 +101,9 @@ public class Item
         builder.append(",");
         builder.append(ESTOQUE);
         builder.append(Types.FLOAT);
+        builder.append(",");
+        builder.append(APLICACAO);
+        builder.append(Types.CHAR);
 
         builder.append(");");
 
@@ -114,9 +119,22 @@ public class Item
         builder.append("ALTER TABLE ");
         builder.append(TABELA);
         builder.append(" ADD COLUMN ");
-        builder.append(ESTOQUE);
-        builder.append(Types.FLOAT);
-        builder.append(" DEFAULT 0;");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela2()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(APLICACAO);
+        builder.append(Types.CHAR);
+        builder.append(" DEFAULT '-';");
 
         stmt = builder.toString();
         return stmt;

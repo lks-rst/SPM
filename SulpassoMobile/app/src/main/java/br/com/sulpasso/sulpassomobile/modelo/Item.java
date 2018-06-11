@@ -32,6 +32,8 @@ public class Item
 
     private float estoque;
 
+    private String aplicacao;
+
     public Integer getCodigo() { return codigo; }
 
     public void setCodigo(Integer codigo) { this.codigo = codigo; }
@@ -116,6 +118,10 @@ public class Item
 
     public void setEstoque(float estoque) { this.estoque = estoque; }
 
+    public String getAplicacao() { return aplicacao; }
+
+    public void setAplicacao(String aplicacao) { this.aplicacao = aplicacao; }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -140,6 +146,7 @@ public class Item
                 ", custo=" + custo +
                 ", tvd='" + tvd + '\'' +
                 ", estoque=" + estoque +
+                ", aplicacao='" + aplicacao + '\'' +
                 '}';
     }
 

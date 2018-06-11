@@ -33,6 +33,6 @@ public class Preco
 
     public String toDisplay()
     {
-        return "Preço{ Tab.:" +  tabelaPrecos + " Val.: " + preco + '}';
+        return "Tab.:" +  tabelaPrecos + " Val.: " + preco;
     }
 }

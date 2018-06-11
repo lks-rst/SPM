@@ -33,6 +33,6 @@ public class Promocao
 
     public String toDisplay()
     {
-        return "Promocao{" + quantidade + " - " + valor + "}";
+        return "Q." + quantidade + "   V. " + valor;
     }
 }

@@ -18,6 +18,7 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMainFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMinimos;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensPromocoes;
+import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaProdutosFoco;
 
 /**
  * Created by Lucas on 16/11/2016 - 11:33 as part of the project SulpassoMobile.
@@ -108,7 +109,6 @@ public class ConsultasItens extends AppCompatActivity
                 if (fragment == null) { displayView(R.layout.fragment_consulta_itens_principal); }
                 break;
             case R.id.consulta_itens_gravosos :
-
                 fragmentManager = getFragmentManager();
 
                 try
@@ -151,6 +151,18 @@ public class ConsultasItens extends AppCompatActivity
                 if (fragment == null) { displayView(R.layout.fragment_consulta_itens_minimos); }
                 break;
             case R.id.consulta_itens_foco :
+                fragmentManager = getFragmentManager();
+
+                try
+                {
+                    fragment = (ConsultaItensMinimos) fragmentManager.findFragmentById(R.id.frame_consultas);
+                }
+                catch (Exception e)
+                {
+                    //Toast.makeText(getApplicationContext(), "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+                }
+
+                if (fragment == null) { displayView(R.layout.fragment_consulta_itens_foco); }
                 break;
             default:
                 break;
@@ -222,7 +234,9 @@ public class ConsultasItens extends AppCompatActivity
                 fragment = new ConsultaItensCampanhaGrupos();
                 title += fragTitles[6];
                 break;
-            case 5:
+            case R.layout.fragment_consulta_itens_foco :
+                fragment = new ConsultaProdutosFoco();
+                title += fragTitles[8];
                 break;
             default:
                 Toast.makeText(this, "Clicado na posição -1", Toast.LENGTH_LONG).show();

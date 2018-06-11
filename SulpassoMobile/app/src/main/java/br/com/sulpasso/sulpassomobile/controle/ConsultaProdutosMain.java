@@ -188,6 +188,7 @@ public class ConsultaProdutosMain
 
         precos = pda.buscarRestrito();
 
+        lista.add("Preços:");
         for(Preco p : precos)
         {
             lista.add(p.toDisplay());
@@ -207,9 +208,10 @@ public class ConsultaProdutosMain
 
         promocoes = pda.buscarPromocao(item);
 
+        lista.add("Promoções:");
         for(Promocao p : promocoes)
         {
-            lista.add(p.toString());
+            lista.add(p.toDisplay());
         }
 
         return lista;

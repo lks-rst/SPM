@@ -24,6 +24,7 @@ import br.com.sulpasso.sulpassomobile.controle.ConfigurarSistema;
 import br.com.sulpasso.sulpassomobile.controle.ConsultaProdutosMain;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.ConsultaItensDetalhesFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.GrupoSelection;
 
 /**
