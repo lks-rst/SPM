@@ -134,20 +134,20 @@ public class KitDataAccess
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
             this.sBuilder.append(" = ");
-            this.sBuilder.append(c.getFloat(c.getColumnIndex(
+            this.sBuilder.append(c.getInt(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.ITEM)));
 
             Cursor cI = this.db.rawQuery(this.sBuilder.toString(), null);
 
             cI.moveToFirst();
-            for(int j = 0; j < c.getCount(); j++)
+            for(int j = 0; j < cI.getCount(); j++)
             {
                 Item item = new Item();
-                item.setCodigo(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.ITEM)));
-                item.setDescricao(c.getString(c.getColumnIndex(
+                item.setCodigo(cI.getInt(cI.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO)));
+                item.setDescricao(cI.getString(cI.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
-                item.setReferencia(c.getString(c.getColumnIndex(
+                item.setReferencia(cI.getString(cI.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
 
                 itens.add(item);

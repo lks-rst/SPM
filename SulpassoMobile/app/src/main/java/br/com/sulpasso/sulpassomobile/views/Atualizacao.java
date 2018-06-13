@@ -132,6 +132,11 @@ public class Atualizacao extends AppCompatActivity
                     this.baixarAtualizacao = true;
                     new Pedidos().execute();    
                 }
+                else if(this.verificarItensNovos(1) > 0)
+                {
+                    this.baixarAtualizacao = true;
+                    new Clientes().execute();
+                }
                 else { new Atualizar().execute(); }
                 
                 break;
@@ -534,7 +539,14 @@ public class Atualizacao extends AppCompatActivity
             ignore = false;
 
             if(baixarAtualizacao)
-                new Atualizar().execute();
+            {
+                if(verificarItensNovos(1) > 0)
+                {
+                    baixarAtualizacao = true;
+                    new Clientes().execute();
+                }
+                else { new Atualizar().execute(); }
+            }
         }
     }
 
@@ -639,9 +651,13 @@ public class Atualizacao extends AppCompatActivity
         @Override
         protected void onPostExecute(Void result)
         {
-            controleAtualizacao.verificarErros();
+            if(baixarAtualizacao) { new Atualizar().execute(); }
+            else
+            {
+                controleAtualizacao.verificarErros();
 
-            ignore = false;
+                ignore = false;
+            }
         }
     }
 

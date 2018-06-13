@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/inicial_consultas"
         android:showAsAction="always"
-        android:id="@+id/itens_desc_ini"
-        android:title="@string/menu_itens_descI">
-    </item>
-    <item
-        android:showAsAction="always"
-        android:id="@+id/itens_ref"
-        android:title="@string/menu_itens_r">
-    </item>
-    <item
-        android:showAsAction="always"
-        android:id="@+id/itens_grupo"
-        android:title="@string/menu_itens_g">
-    </item>
-    <!--
-    <item
-        android:showAsAction="always"
-        android:id="@+id/itens_s_grupo"
-        android:title="@string/menu_itens_s">
-    </item>
+        android:title="@string/menu_consulta_filtros_itens">
 
-    <item
-        android:id="@+id/itens_divisao"
-        android:title="@string/menu_itens_d">
-    </item>
-    -->
-    <item
-        android:id="@+id/itens_desc_any"
-        android:title="@string/menu_itens_desc">
-    </item>
+        <menu>
+            <item
+                android:showAsAction="always"
+                android:id="@+id/itens_desc_ini"
+                android:title="@string/menu_itens_descI">
+            </item>
+            <item
+                android:showAsAction="always"
+                android:id="@+id/itens_ref"
+                android:title="@string/menu_itens_r">
+            </item>
+            <item
+                android:showAsAction="always"
+                android:id="@+id/itens_grupo"
+                android:title="@string/menu_itens_g">
+            </item>
+            <!--
+            <item
+                android:showAsAction="always"
+                android:id="@+id/itens_s_grupo"
+                android:title="@string/menu_itens_s">
+            </item>
 
+            <item
+                android:id="@+id/itens_divisao"
+                android:title="@string/menu_itens_d">
+            </item>
+            -->
+            <item
+                android:id="@+id/itens_desc_any"
+                android:title="@string/menu_itens_desc">
+            </item>
+
+        </menu>
+
+    </item>
 </menu>

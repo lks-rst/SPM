@@ -139,7 +139,7 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
                 break;
             */
             default:
-                break;
+                return false;
         }
 
         if( item.getItemId() != R.id.itens_grupo)
@@ -152,7 +152,8 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
             }
         }
 
-        ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).setText("");
+        try { ((EditText) (getActivity().findViewById(R.id.fcipEdtSearch))).setText(""); }
+        catch (Exception ex) { /*****/ }
 
         return false;
     }

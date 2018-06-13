@@ -348,11 +348,11 @@
     <string name="menu_inicial_co_geral">Gerencial</string>
 
     <string name="menu_consulta_todos">Todos</string>
+    <string name="menu_consulta_mais">Mais Opções</string>
+    <string name="menu_consulta_filtros_itens">Opções Filtros</string>
     <string name="menu_consulta_enviados">Enviados</string>
-
     <string name="menu_consulta_copia">Cópia Pedidos</string>
     <string name="menu_consulta_reenvio">Reenvio Pedidos</string>
-
     <string name="menu_consulta_nao">Não Enviados</string>
     <string name="menu_consulta_direta">Vendas Diretas</string>
     <string name="menu_consulta_resumo">Resumo Dia</string>
