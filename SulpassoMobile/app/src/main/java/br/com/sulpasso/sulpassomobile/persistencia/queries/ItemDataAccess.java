@@ -468,7 +468,7 @@ public class ItemDataAccess
             try {
                 Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
                 d.moveToFirst();
-
+              
                 item.setEstoque(
                     d.getFloat(c.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
