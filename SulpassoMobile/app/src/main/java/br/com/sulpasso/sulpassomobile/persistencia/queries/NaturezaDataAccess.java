@@ -203,6 +203,12 @@ public class NaturezaDataAccess
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(br.com.sulpasso
                 .sulpassomobile.persistencia.tabelas.Natureza.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(br.com.sulpasso
+                .sulpassomobile.persistencia.tabelas.Natureza.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(codigo);
+
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

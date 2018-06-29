@@ -17,6 +17,7 @@ public class Configurador
     public static final String CIDADE = "CidadeEmpresa";
     public static final String EMAIL = "EmailEmpresa";
     public static final String SITE = "SiteEmpresa";
+    public static final String ENVIADO_EMAIL = "SiteEmpresa";
     /* Strings de referencia da parte do usuario no configurador */
     public static final String CODIGO_USUARIO = "CodigoUsuario";
     public static final String NOME_USUARIO = "NomeUsuario";
@@ -129,6 +130,9 @@ public class Configurador
         builder.append(Types.CHAR);
         builder.append(",");
         builder.append(SITE);
+        builder.append(Types.CHAR);
+        builder.append(",");
+        builder.append(ENVIADO_EMAIL);
         builder.append(Types.CHAR);
 
         builder.append(",");
@@ -386,6 +390,22 @@ public class Configurador
         builder.append(VENDA);
         builder.append(Types.FLOAT);
         builder.append(" DEFAULT 0;");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela2()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(ENVIADO_EMAIL);
+        builder.append(Types.CHAR);
+        builder.append(" DEFAULT '2018-06-13';");
 
         stmt = builder.toString();
         return stmt;
