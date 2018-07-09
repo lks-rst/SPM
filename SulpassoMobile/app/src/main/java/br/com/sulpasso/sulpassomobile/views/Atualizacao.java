@@ -129,13 +129,26 @@ public class Atualizacao extends AppCompatActivity
                 
                 if(this.verificarItensNovos(0) > 0)
                 {
-                    this.baixarAtualizacao = true;
-                    new Pedidos().execute();    
+                    /*this.baixarAtualizacao = true;
+                    new Pedidos().execute(); */
+
+                    t = Toast.makeText(getApplicationContext(),
+                            "ATENÇÃO!\nExistem pedidos abertos, utilize o menu referente a essa opção antes de atualizar o sistema.",
+                            Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+
                 }
                 else if(this.verificarItensNovos(1) > 0)
                 {
-                    this.baixarAtualizacao = true;
-                    new Clientes().execute();
+                    /*this.baixarAtualizacao = true;
+                    new Clientes().execute();*/
+
+                    t = Toast.makeText(getApplicationContext(),
+                            "ATENÇÃO!\nExistem cadastros de clientes não enviados, utilize o menu referente a essa opção antes de atualizar o sistema.",
+                            Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
                 }
                 else { new Atualizar().execute(); }
                 
@@ -329,12 +342,12 @@ public class Atualizacao extends AppCompatActivity
                 "PRE_PEDIDO_CD", "CLIENTES", "SALDO_FLEX", "TIPO_VENDA", "METAS", "CIDADE", "TIPOLOGIA",
                 "CTAS_RECEBER", "VALIDADE", "PRODUTO", "MIX", "PROMOCOES", "GRAVOSOS", "MENSAGENS",
                 "BANCO", "GRUPO", "NATUREZA", "", "KIT", "TOTALIZADORES", "", "TABELA_CLIENTE", "",
-                "ATIVIDADE", "PRAZOS", "", "", "", "", "TABELA_PRECOS", "", "", "", "", "", "", "", "",
-                "", "ESTOQUE", "CORTE", "STATUS", "DESC_GRUPO", "DESC_CAMP", "APLICACAO",
-                "CADASTRO_EMPRESA", "OLHO_IMPOSTOS", "TRANSPORTADORA", "", "", "", "", "", "", "", "",
-                "", "", "", "", "", "", "", "", "", "RESTRICAO_CLIENTE", "", "", "", "", "", "", "", "",
-                "", "", "", "", "", "", "", "", "", "", "", "", "RESTRICAO_GRUPO", "", "", "", "", "",
-                "", "", "", "", "MENSAGENS_MSG"};
+                "ATIVIDADE", "PRAZOS", "", "", "", "", "TABELA_PRECOS", "", "", "", "", "", "", "",
+                "", "", "ESTOQUE", "CORTE", "STATUS", "DESC_GRUPO", "DESC_CAMP", "APLICACAO",
+                "CADASTRO_EMPRESA", "OLHO_IMPOSTOS", "TRANSPORTADORA", "", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "", "", "", "RESTRICAO_CLIENTE", "", "", "", "", "", "",
+                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "RESTRICAO_GRUPO", "", "",
+                "", "", "", "", "", "", "", "MENSAGENS_MSG"};
 
         @Override
         protected void onPreExecute()
@@ -538,7 +551,7 @@ public class Atualizacao extends AppCompatActivity
 
             ignore = false;
 
-            if(baixarAtualizacao)
+            /*if(baixarAtualizacao)
             {
                 if(verificarItensNovos(1) > 0)
                 {
@@ -546,7 +559,7 @@ public class Atualizacao extends AppCompatActivity
                     new Clientes().execute();
                 }
                 else { new Atualizar().execute(); }
-            }
+            }*/
         }
     }
 
@@ -816,8 +829,13 @@ public class Atualizacao extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which)
             {
                 String emp = empresa.getText().toString().toUpperCase();
-                int usr = Integer.parseInt(usuario.getText().toString());
-                configurarSistema(emp, usr);
+                int usr;
+                try
+                {
+                    usr = Integer.parseInt(usuario.getText().toString());
+                    configurarSistema(emp, usr);
+                }
+                catch (Exception e){ Toast.makeText(getApplicationContext(), "INSIRA O CÓDIGO DO USUÁRIO", Toast.LENGTH_LONG).show(); }
             }
         });
 

@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:id="@+id/flibEdtSearch"
-                android:hint="@string/str_busca" />
+                android:hint="@string/str_busca"
+                android:singleLine="true" />
 
             <Button
                 android:layout_width="0dp"
