@@ -425,6 +425,11 @@ public class Pedido extends AppCompatActivity
             Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<String> listarResumo()

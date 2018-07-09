@@ -17,7 +17,7 @@ public class Configurador
     public static final String CIDADE = "CidadeEmpresa";
     public static final String EMAIL = "EmailEmpresa";
     public static final String SITE = "SiteEmpresa";
-    public static final String ENVIADO_EMAIL = "SiteEmpresa";
+    public static final String ENVIADO_EMAIL = "EmailEnviado";
     /* Strings de referencia da parte do usuario no configurador */
     public static final String CODIGO_USUARIO = "CodigoUsuario";
     public static final String NOME_USUARIO = "NomeUsuario";
