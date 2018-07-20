@@ -144,6 +144,8 @@ public class InserirItemPedidos
                         item.setDesconto(this.desconto);
                         item.setTotal(this.calcularTotal());
                         item.setFlex(this.diferencaFlex(context));
+                        item.setDigitadoSenha(false);
+                        item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
 
                         EfetuarPedidos.erro = false;
                         EfetuarPedidos.strErro = "Valor de flex gerado " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
@@ -179,6 +181,8 @@ public class InserirItemPedidos
             item.setDesconto(this.desconto);
             item.setTotal(this.calcularTotal());
             item.setFlex(this.diferencaFlex(context));
+            item.setDigitadoSenha(true);
+            item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
 
             EfetuarPedidos.erro = false;
             EfetuarPedidos.strErro = "";

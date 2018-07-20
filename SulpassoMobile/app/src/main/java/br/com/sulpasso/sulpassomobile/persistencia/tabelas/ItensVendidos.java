@@ -20,6 +20,11 @@ public class ItensVendidos
     public static final String FLEX = "Flex";
     public static final String TOTAL = "Total";
 
+    public static final String SENHA = "DigitadoSenha";
+    public static final String CAMPANHAS = "DescontoCampanhas";
+    public static final String MINIMO = "ValorTabelaMinima";
+    public static final String QUANTIDADE_ESPECIFICA = "QuantidadeEspecifica";
+
     public static String CriarTabela()
     {
         String stmt;
@@ -61,11 +66,88 @@ public class ItensVendidos
         builder.append(TOTAL);
         builder.append(Types.FLOAT_NOT_NULL);
         builder.append(", ");
+        builder.append(SENHA);
+        builder.append(Types.INTEIRO);
+        builder.append(" DEFAULT 0, ");
+        builder.append(CAMPANHAS);
+        builder.append(Types.INTEIRO);
+        builder.append(" DEFAULT 0, ");
+        builder.append(MINIMO);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0, ");
+        builder.append(QUANTIDADE_ESPECIFICA);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0, ");
+
         builder.append(Types.PRIMARY_KEY_MULT);
         builder.append(ITEM);
         builder.append(", ");
         builder.append(PEDIDO);
         builder.append("));");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(SENHA);
+        builder.append(Types.INTEIRO);
+        builder.append(" DEFAULT 0;");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela2()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(CAMPANHAS);
+        builder.append(Types.INTEIRO);
+        builder.append(" DEFAULT 0;");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela3()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(MINIMO);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0;");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela4()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(QUANTIDADE_ESPECIFICA);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0;");
 
         stmt = builder.toString();
         return stmt;

@@ -195,7 +195,27 @@ public class FtpConnect
     {
         try
         {
-            File arquivo = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/" + arquivo_origem);
+            int version;
+
+            try { version = Integer.valueOf(Build.VERSION.SDK); }
+            catch (Exception ev){ version = 3; }
+
+            File arquivo;
+
+            /*
+            TODO: Talvez tenha que remover se der erro
+            esse trecho foi modificado para verificar se não era ele causando problema no envio dos pedidos e clientes
+             */
+            if(version >= 19)
+            {
+                arquivo = new File("/storage/emulated/0//MobileVenda/" + arquivo_origem);
+            }
+            else
+            {
+                arquivo = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/" + arquivo_origem);
+            }
+
+//            File arquivo = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/" + arquivo_origem);
 
             if (arquivo.exists())
             {

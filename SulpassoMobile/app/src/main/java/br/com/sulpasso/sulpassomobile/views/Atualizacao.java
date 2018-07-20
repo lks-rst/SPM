@@ -322,7 +322,7 @@ public class Atualizacao extends AppCompatActivity
         {
             if(sem_internet)
             {
-                confirmar_baixa_sem_internet( "Download Nao executado.\nDeseja executar um arquivo baixado manualmente?", "Sem conexao.", 2);
+                confirmar_baixa_sem_internet( "Você não possui atualizações disponíveis ou o servidor não pode ser localizado.\nPodemos tentar executar um arquivo transferido manualmente?\nCaso tenha dúvidas entre em contato com seu supervisor.", "Download não executado.", 2);
             }
             else
             {
@@ -867,14 +867,25 @@ public class Atualizacao extends AppCompatActivity
         }
 //        arquivo = getExternalFilesDir("MobileVenda");
 
-        if (arquivo.exists())
+        try
         {
-            this.controleAtualizacao = new AtualizarSistema(getApplicationContext());
-            this.usr = usuario;
-            this.empresa = empresa;
-            new Configurar().execute();
+            if (arquivo.exists())
+            {
+                this.controleAtualizacao = new AtualizarSistema(getApplicationContext());
+                this.usr = usuario;
+                this.empresa = empresa;
+                new Configurar().execute();
+            }
+            else
+            {
+                String s = "ATENÇÃO!\nNão há permissão para escrita de arquivos ou a pasta do sistema não foi criada corretamente.\nPor favor, varifique e reinicie o sistema.";
+
+                Toast t = Toast.makeText(this, s, Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+            }
         }
-        else
+        catch (Exception e)
         {
             String s = "ATENÇÃO!\nNão há permissão para escrita de arquivos ou a pasta do sistema não foi criada corretamente.\nPor favor, varifique e reinicie o sistema.";
 

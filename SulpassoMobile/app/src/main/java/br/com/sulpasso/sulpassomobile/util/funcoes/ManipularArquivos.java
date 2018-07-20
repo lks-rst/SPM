@@ -1461,24 +1461,19 @@ public class ManipularArquivos
                     builder.append(ms.comDireita("0", " ", 3));
                     builder.append(ms.comEsquerda(("0").replace(".", ""), "0", 4));
                     builder.append(ms.comEsquerda(("0").replace(".", ""), "0", 9));
-                    builder.append(ms.comDireita("0", "0", 1));
+                    builder.append(ms.comDireita((i.isDigitadoSenha() ? "1" : "0"), "0", 1));
                     /*
                     builder.append(ms.comDireita("" + i.getIcm(), " ", 3));
                     builder.append(ms.comEsquerda(("" + i.getAliq()).replace(".", ""), "0", 4));
                     builder.append(ms.comEsquerda(("" + i.getBase()).replace(".", ""), "0", 9));
-                    builder.append(ms.comDireita("" + i.getSenha_desc(), "0", 1));
                     */
                     builder.append(ms.comEsquerda("" + i.getItem(), "0", 6));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getDescontoCG())).replace(".", "").replace(",", ""), "0", 5));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorDigitado())).replace(".", "").replace(",", ""), "0", 9));
-                    builder.append(ms.comDireita("0", "0", 1));
-                    builder.append(ms.comEsquerda("0", "0", 9));
-                    builder.append(ms.comEsquerda("", "0", 6));
-                    /*
-                    builder.append(ms.comDireita("" + i.getFlag_desconto_campanha(), "0", 1));
-                    builder.append(ms.comEsquerda(("" + Formatacao.format3(i.getValor_50(), 2)).replace(".", "").replace(",", ""), "0", 9));
-                    builder.append(ms.comEsquerda(("" + Formatacao.format3(i.getQtd_belem(), 2)).replace(".", "").replace(",", ""), "0", 6));
-                    */
+                    builder.append(ms.comDireita((i.isDescontoCampanha() ? "1" : "0"), "0", 1));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorMinimo())).replace(".", "").replace(",", ""), "0", 9));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getQuantidadeEspecifica())).replace(".", "").replace(",", ""), "0", 6));
+
                     osw.append(builder.toString());
                     osw.append("\n");
                     line_count++;
