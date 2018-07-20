@@ -423,6 +423,21 @@ public class VendaDataAccess
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
 
+                item.setDigitadoSenha(
+                        (c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA))
+                            == 1) ? true : false);
+                item.setDescontoCampanha(
+                        (c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.CAMPANHAS))
+                                == 1) ? true : false);
+                item.setValorMinimo(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.MINIMO)));
+                item.setQuantidadeEspecifica(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE_ESPECIFICA)));
+
                 itens.add(item);
                 c.moveToNext();
             }
@@ -943,6 +958,20 @@ public class VendaDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL);
+
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.CAMPANHAS);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.MINIMO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE_ESPECIFICA);
+
         this.sBuilder.append(") VALUES ");
 
         boolean first = true;
@@ -975,6 +1004,16 @@ public class VendaDataAccess
             this.sBuilder.append(i.getFlex());
             this.sBuilder.append("', '");
             this.sBuilder.append(i.getTotal());
+
+            this.sBuilder.append("', '");
+            this.sBuilder.append(i.isDigitadoSenha() ? 1 : 0);
+            this.sBuilder.append("', '");
+            this.sBuilder.append(i.isDescontoCampanha() ? 1 : 0);
+            this.sBuilder.append("', '");
+            this.sBuilder.append(i.getValorMinimo());
+            this.sBuilder.append("', '");
+            this.sBuilder.append(i.getQuantidadeEspecifica());
+
             this.sBuilder.append("')");
             first = false;
         }
@@ -986,7 +1025,11 @@ public class VendaDataAccess
             this.db.execSQL(this.sBuilder.toString());
             return true;
         }
-        catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
+        catch (Exception e)
+        {
+            String s = e.getMessage();
+            throw new InsertionExeption(e.getMessage());
+        }
     }
 
     private void removeItem(int codigo) throws GenercicException

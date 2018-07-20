@@ -18,6 +18,10 @@ public class ItensVendidos
     private float valorLiquido;
     private float flex;
     private float total;
+    private boolean digitadoSenha;
+    private boolean descontoCampanha;
+    private float valorMinimo;
+    private float quantidadeEspecifica;
 
     public int getItem() { return item; }
 
@@ -58,6 +62,22 @@ public class ItensVendidos
     public float getTotal() { return total; }
 
     public void setTotal(float total) { this.total = total; }
+
+    public boolean isDigitadoSenha() { return digitadoSenha; }
+
+    public void setDigitadoSenha(boolean digitadoSenha) { this.digitadoSenha = digitadoSenha; }
+
+    public float getValorMinimo() { return valorMinimo; }
+
+    public void setValorMinimo(float valorMinimo) { this.valorMinimo = valorMinimo; }
+
+    public boolean isDescontoCampanha() { return descontoCampanha; }
+
+    public void setDescontoCampanha(boolean descontoCampanha) { this.descontoCampanha = descontoCampanha; }
+
+    public float getQuantidadeEspecifica() { return quantidadeEspecifica; }
+
+    public void setQuantidadeEspecifica(float quantidadeEspecifica) { this.quantidadeEspecifica = quantidadeEspecifica; }
 
     @Override
     public String toString()

@@ -493,6 +493,9 @@ public abstract class EfetuarPedidos
 
     public final void addObs(String s, int tipo)
     {
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        s = ms.removeCaracteresEspeciais(s);
+
         if(tipo == 1)
         {
             this.venda.setObservacao(s);

@@ -75,6 +75,40 @@ public class ManipulacaoStrings
         return nova_data;
     }
 
+    public String removeCaracteresEspeciais(String origem)
+    {
+        String retorno = "";
+
+//        retorno =  Normalizer.normalize(origem, Normalizer.Form.NFD).replaceAll("[^a-zA-Z]", "");
+
+        retorno =  this.removeSpecialCharacters(origem);
+
+        return retorno;
+    }
+
+    private boolean isSpecialCharacter(int b)
+    {
+        if((b > 31 && b <= 47 ) || (b >= 58 && b <= 64) || (b >= 91 && b <= 96) || (b >= 123 && b <= 126) || b > 126)
+            return true;
+
+        return false;
+    }
+
+    public String removeSpecialCharacters(String a)
+    {
+        StringBuffer s=new StringBuffer(a);
+
+        int lenvar=s.length();
+        String myString="";
+
+        for(int i=0; i < lenvar; i++)
+        {
+            if(!isSpecialCharacter(s.charAt(i))) { myString+=s.charAt(i); }
+        }
+
+        return myString;
+    }
+
     public static String trata (String passa)
     {
         passa = passa.replaceAll("[ÂÀÁÄÃ]","A");
@@ -97,4 +131,5 @@ public class ManipulacaoStrings
 
         return passa;
     }
+
 }
