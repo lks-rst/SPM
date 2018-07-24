@@ -3,18 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/rootView.fragdesenv"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:padding="@dimen/activity_horizontal_margin"
+    android:id="@+id/relMainListRes">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:id="@+id/scrMainListRes">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="750dp">
+            android:layout_height="750dp"
+            android:id="@+id/llMainListRes">
 
             <Button
                 style="@style/texts.labels.bigger"
@@ -33,8 +36,10 @@
                     android:layout_weight="0.65"
                     android:layout_height="wrap_content"
                     android:inputType="none|textLongMessage"
-                    android:enabled="false"
-                    android:focusable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:maxLines="1"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:id="@+id/flirEdtCliente" />
@@ -45,8 +50,10 @@
                     android:maxLines="1"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:enabled="false"
-                    android:focusable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:id="@+id/flirEdtCidade"/>
             </LinearLayout>
 
@@ -62,8 +69,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:inputType="none"
-                    android:enabled="false"
-                    android:focusable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:id="@+id/flirEdtNaturesa"/>
 
                 <EditText
@@ -81,8 +90,10 @@
                     android:layout_weight="0.15"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:enabled="false"
-                    android:focusable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:id="@+id/flirEdtTipo"/>
             </LinearLayout>
 
@@ -110,8 +121,10 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:enabled="false"
-                    android:clickable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:layout_weight="0.25"
                     android:hint="@string/str_itens"
                     android:layout_height="wrap_content"
@@ -122,8 +135,10 @@
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="0.25"
-                    android:enabled="false"
-                    android:clickable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:hint="@string/str_valor"
@@ -135,8 +150,10 @@
                     android:layout_weight="0.25"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:enabled="false"
-                    android:clickable="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:hint="@string/str_volume"
                     android:id="@+id/flirEdtVolume"
                     android:layout_gravity="center_horizontal"
@@ -147,9 +164,11 @@
                     android:layout_weight="0.25"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:enabled="false"
+                    android:enabled="true"
+                    android:editable="false"
+                    android:clickable="true"
+                    android:focusableInTouchMode="false"
                     android:hint="@string/str_contribuicao"
-                    android:clickable="false"
                     android:id="@+id/flirEdtCont"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical|center_horizontal" />

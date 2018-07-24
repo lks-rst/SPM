@@ -3,7 +3,8 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     style="@style/rootView.fragdesenv"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:padding="@dimen/activity_horizontal_margin"
+    android:id="@+id/llMainCliDataRel">
     <!--
 
     <ScrollView
@@ -18,7 +19,8 @@
     -->
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/llMainCliData">
 
         <LinearLayout
             android:orientation="horizontal"
