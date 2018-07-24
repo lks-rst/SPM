@@ -31,6 +31,7 @@ import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesClien
 public class DadosClienteFragment extends Fragment implements AlertDetalhesCliente.Callback, AlertCortesDevolucaoTitulos.Callback
 {
     private GestureDetector gestureDetector;
+    View.OnTouchListener gestureListener;
 
     private Pedido activity;
     private Spinner fdcSpnrClientes;
@@ -66,6 +67,15 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         Android_Gesture_Detector android_gesture_detector = new Android_Gesture_Detector();
         // Create a GestureDetector
         gestureDetector = new GestureDetector(getActivity().getApplicationContext(), android_gesture_detector);
+
+        gestureListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (gestureDetector.onTouchEvent(event)) {
+                    return true;
+                }
+                return false;
+            }
+        };
     }
 
     @Override
@@ -288,6 +298,30 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                 R.layout.spinner_item,
                 activity.listarClientes(0, "")));
         */
+
+
+        //TODO: Verificar (está relacionado ao item cadastrado como à fazer na tela inial)
+        /*TEM QUE ACRESCENTAR ESSE ITEM PARA TODOS OS COMPONENTES DA TELA PARA QUE NÃO IMPORTA ONDE SEJA ACIONADO O MOVIMENTO A RESPOSTA SEJA IGUAL*/
+        /*AINDA PRECISO VERIFICAR OS RETORNOS SE DEVEM MESMO SER TRUE OU PODE SER FALSE*/
+        (getActivity().findViewById(R.id.llMainCliData)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.srvRollMain)).setOnTouchListener(gestureListener);
+
+        this.fdcSpnrClientes.setOnTouchListener(gestureListener);
+        this.fdcSpnrNaturezas.setOnTouchListener(gestureListener);
+        this.fdcSpnrPrazos.setOnTouchListener(gestureListener);
+
+        (getActivity().findViewById(R.id.fdcEdtCidade)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtUf)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtEnd)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtFone)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtCel)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtUltima)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtMeta)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtReal)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtLimite)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtQuantidade)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtMedia)).setOnTouchListener(gestureListener);
+        (getActivity().findViewById(R.id.fdcEdtDca)).setOnTouchListener(gestureListener);
     }
 
     private void limparCampos()
@@ -416,22 +450,22 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         GestureDetector.OnDoubleTapListener
     {
         @Override
-        public boolean onDown(MotionEvent e) { return true; }
+        public boolean onDown(MotionEvent e) { return false; }
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) { return true; }
+        public boolean onSingleTapConfirmed(MotionEvent e) { return false; }
 
         @Override
-        public boolean onSingleTapUp(MotionEvent e) { return true; }
+        public boolean onSingleTapUp(MotionEvent e) { return false; }
 
         @Override
         public void onShowPress(MotionEvent e) { Log.d("Gesture ", " onShowPress"); }
 
         @Override
-        public boolean onDoubleTap(MotionEvent e) { return true; }
+        public boolean onDoubleTap(MotionEvent e) { return false; }
 
         @Override
-        public boolean onDoubleTapEvent(MotionEvent e) { return true; }
+        public boolean onDoubleTapEvent(MotionEvent e) { return false; }
 
         @Override
         public void onLongPress(MotionEvent e) { Log.d("Gesture ", " onLongPress"); }
@@ -471,41 +505,31 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                     */
             }
 
-            return true;
+            return false;
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
         {
-            if (e1.getX() < e2.getX())
+            if(Math.abs(velocityX) > Math.abs(velocityY))
             {
-                Log.d("Gesture ", "Left to Right swipe: " + e1.getX() + " - " + e2.getX());
-                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
-                Log.d("Gesture ", "Left to Right swipe: " + e1.getX() + " - " + e2.getX());
-                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
-
-                if (e2.getX() - e1.getX() > 25)
+                if (e1.getX() < e2.getX()) //Left to Right swipe
                 {
-    //                displayView(1);
+                    if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
+                        apresentarDetalhes();
                 }
+                if (e1.getX() > e2.getX()) { activity.alterarFragmento(1); } //Right to Left swipe
             }
-            if (e1.getX() > e2.getX())
+            else
             {
-                Log.d("Gesture ", "Right to Left swipe: " + e1.getX() + " - " + e2.getX());
-                Log.d("Speed ", String.valueOf(velocityX) + " pixels/second");
+                if (e1.getY() < e2.getY()) //Up to Down swipe
+                {
+                    if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
+                        apresentarDetalhes();
+                }
+                if (e1.getY() > e2.getY()) { activity.alterarFragmento(1); } //Down to Up swipe
+            }
 
-    //            displayView(0);
-            }
-            if (e1.getY() < e2.getY())
-            {
-                Log.d("Gesture ", "Up to Down swipe: " + e1.getX() + " - " + e2.getX());
-                Log.d("Speed ", String.valueOf(velocityY) + " pixels/second");
-            }
-            if (e1.getY() > e2.getY())
-            {
-                Log.d("Gesture ", "Down to Up swipe: " + e1.getX() + " - " + e2.getX());
-                Log.d("Speed ", String.valueOf(velocityY) + " pixels/second");
-            }
             return true;
         }
     }

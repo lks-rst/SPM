@@ -50,7 +50,6 @@ public class Pedido extends AppCompatActivity
 
     private String[] fragTitles;
 
-
     private SenhaLiberacao sl;
     private String chave;
     private String senha;
@@ -276,6 +275,8 @@ public class Pedido extends AppCompatActivity
         return String.valueOf(this.controlePedido.calcularPpc(
             Float.parseFloat(valor), Float.parseFloat(markup),  Float.parseFloat(desconto)));
     }
+
+    public void alterarFragmento(int position) { this.displayView(position); }
 /******************************END OF BUTTON CLICKS AT THE UI**************************************/
 /*********************************METHODS FOR DATA ACCESS******************************************/
     public void listarClientes(int tipo, String dados) { this.buscar_clientes(tipo); }
@@ -364,7 +365,6 @@ public class Pedido extends AppCompatActivity
 
         return adicionais;
     }
-
 
     public String buscarDadosVenda(int campo)
     {
