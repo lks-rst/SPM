@@ -106,9 +106,14 @@ public class ResumoFragment extends Fragment implements AlterarExcluir.Callback
         ((EditText) getActivity().findViewById(R.id.flirEdtVolume)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtVolume));
         ((EditText) getActivity().findViewById(R.id.flirEdtCont)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCont));
 
-        (getActivity().findViewById(R.id.llMainListRes)).setOnTouchListener(gestureListener);
-        (getActivity().findViewById(R.id.scrMainListRes)).setOnTouchListener(gestureListener);
-        (getActivity().findViewById(R.id.relMainListRes)).setOnTouchListener(gestureListener);
+
+        try{ (getActivity().findViewById(R.id.scrListItem)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ (getActivity().findViewById(R.id.scrMainListRes)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ (getActivity().findViewById(R.id.llMainListRes)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+
 
         (getActivity().findViewById(R.id.flirLiItens)).setOnTouchListener(gestureListener);
         (getActivity().findViewById(R.id.flirEdtItens)).setOnTouchListener(gestureListener);

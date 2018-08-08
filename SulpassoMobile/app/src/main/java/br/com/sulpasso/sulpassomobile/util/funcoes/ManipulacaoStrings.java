@@ -88,10 +88,17 @@ public class ManipulacaoStrings
 
     private boolean isSpecialCharacter(int b)
     {
-        if((b > 31 && b <= 47 ) || (b >= 58 && b <= 64) || (b >= 91 && b <= 96) || (b >= 123 && b <= 126) || b > 126)
-            return true;
-
-        return false;
+        if(b == 32 )
+        {
+                return false;
+        }
+        else
+        {
+            if((b > 31 && b <= 47 ) || (b >= 58 && b <= 64) || (b >= 91 && b <= 96) || (b >= 123 && b <= 126) || b > 126)
+                return true;
+            else
+                return false;
+        }
     }
 
     public String removeSpecialCharacters(String a)

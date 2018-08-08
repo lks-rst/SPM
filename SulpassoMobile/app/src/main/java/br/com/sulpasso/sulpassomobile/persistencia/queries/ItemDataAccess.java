@@ -785,7 +785,7 @@ public class ItemDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mix.TIPOLOGIA);
         this.sBuilder.append(" = ");
-        this.sBuilder.append(this.searchData);
+        this.sBuilder.append(Integer.parseInt(this.searchData));
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

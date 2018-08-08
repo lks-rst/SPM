@@ -239,6 +239,7 @@ public class ConsultasPedidos extends AppCompatActivity
                     startActivity(i);
                 }
                 break;
+
             case 1:
                 if(this.controle.excluirPedido())
                 {
@@ -271,6 +272,7 @@ public class ConsultasPedidos extends AppCompatActivity
                     }
                 }
                 break;
+
             default:
                 break;
         }

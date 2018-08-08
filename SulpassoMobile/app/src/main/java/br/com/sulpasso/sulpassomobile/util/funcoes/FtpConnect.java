@@ -208,7 +208,7 @@ public class FtpConnect
              */
             if(version >= 19)
             {
-                arquivo = new File("/storage/emulated/0//MobileVenda/" + arquivo_origem);
+                arquivo = new File("/storage/emulated/0/MobileVenda/" + arquivo_origem);
             }
             else
             {

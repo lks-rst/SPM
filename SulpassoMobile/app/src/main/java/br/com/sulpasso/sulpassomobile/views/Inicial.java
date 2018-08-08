@@ -1,8 +1,10 @@
 package br.com.sulpasso.sulpassomobile.views;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -28,6 +30,7 @@ import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.TelaInicial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
+import br.com.sulpasso.sulpassomobile.util.services.Email;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
@@ -48,6 +51,7 @@ public class Inicial extends AppCompatActivity
         setContentView(R.layout.activity_inicial);
 
         this.acessoConfirmado = false;
+        this.serviceIntialize();
 
         try { this.controle = new TelaInicial(getApplicationContext()); }
         catch (Exception e) { }
@@ -113,6 +117,7 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
+            this.serviceIntialize();
             if(validar_data_sistema(4))
             {
                 if(this.acessoConfirmado)
@@ -159,6 +164,7 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
+            this.serviceIntialize();
             if(validar_data_sistema(4))
             {
                 if(this.acessoConfirmado)
@@ -659,11 +665,30 @@ public class Inicial extends AppCompatActivity
 
         alert.show();
     }
-/**************************************************************************************************/
-/********************************END OF ACTIVITY LIFE CICLE****************************************/
-/**************************************************************************************************/
-/*********************************ACTIVITY ACCESS METHODS******************************************/
-/**************************************************************************************************/
+
+    private void serviceIntialize()
+    {
+        Intent _service = new Intent(this, Email.class);
+        boolean running = false;
+
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        {
+            if(Email.class.getName().equals(service.service.getClassName()))
+            {
+                running = true;
+                break;
+            }
+        }
+
+        if (running){ Toast.makeText(this, "Running", Toast.LENGTH_LONG).show(); }
+        else
+        {
+            startService(_service);
+            Toast.makeText(this, "Staring", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public String dadosEmpresaCliente(int campo)
     {
         String retorno = "";
@@ -733,8 +758,7 @@ public class Inicial extends AppCompatActivity
         }
         return retorno;
     }
-
-    /*
-        TODO: Alterar Transação entre telas do sistema, utilizar swipe (de alguma forma)
-     */
+/**************************************************************************************************/
+/******************************END ACTIVITY ACCESS METHODS*****************************************/
+/**************************************************************************************************/
 }

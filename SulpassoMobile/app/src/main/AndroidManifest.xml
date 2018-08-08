@@ -60,6 +60,8 @@
         <activity android:name=".views.CadastroClientes"
             android:screenOrientation="portrait"
             android:icon="@drawable/btn_sulpasso" />
+
+        <service android:name=".util.services.Email" />
     </application>
 
 </manifest>

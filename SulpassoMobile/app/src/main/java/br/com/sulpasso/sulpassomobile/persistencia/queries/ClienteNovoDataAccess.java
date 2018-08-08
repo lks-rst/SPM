@@ -1037,7 +1037,19 @@ public class ClienteNovoDataAccess {
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
 
         this.sBuilder.append(" = '");
-        this.sBuilder.append(this.searchType);
+//        this.sBuilder.append(this.searchType);
+
+        if(searchType == 0)
+        {
+            this.sBuilder.append("0'");
+
+            this.sBuilder.append(" OR ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
+            this.sBuilder.append(" = '2");
+        }
+        else { this.sBuilder.append("1"); }
+
         this.sBuilder.append("';");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);

@@ -31,7 +31,6 @@ import br.com.sulpasso.sulpassomobile.views.fragments.alertas.DetalhesPrepedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.GrupoSelection;
 
 /*
-    Todo: Verificar o filtro Mix;
     Todo: Criar campo de configuração apra inserção direta de prepedido;
  */
 
@@ -217,12 +216,14 @@ public class ListaItensFragment extends Fragment implements
                 .setText(String.valueOf(((Pedido) getActivity()).itensVendidos()));
         */
 
-        //TODO: Verificar (está relacionado ao item cadastrado como à fazer na tela inial)
-        /*TEM QUE ACRESCENTAR ESSE ITEM PARA TODOS OS COMPONENTES DA TELA PARA QUE NÃO IMPORTA ONDE SEJA ACIONADO O MOVIMENTO A RESPOSTA SEJA IGUAL*/
-        /*AINDA PRECISO VERIFICAR OS RETORNOS SE DEVEM MESMO SER TRUE OU PODE SER FALSE*/
-        (getActivity().findViewById(R.id.llMainListItem)).setOnTouchListener(gestureListener);
-        (getActivity().findViewById(R.id.relMainListItem)).setOnTouchListener(gestureListener);
-        (getActivity().findViewById(R.id.scrListItem)).setOnTouchListener(gestureListener);
+
+        try{ (getActivity().findViewById(R.id.scrListItem)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ (getActivity().findViewById(R.id.relMainListItem)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ (getActivity().findViewById(R.id.llMainListItem)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+
 
         this.fliLiItens.setOnTouchListener(gestureListener);
         getActivity().findViewById(R.id.flibEdtSearch).setOnTouchListener(gestureListener);

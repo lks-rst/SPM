@@ -14,7 +14,7 @@ public enum Tabelas
     TIPOLOGIA(10), VALIDADE(12), PRODUTO(13), MIX(14), PROMOCOES(15), GRAVOSOS(16), GRUPO(19),
     NATUREZA(20), KIT(22), TOTALIZADORES(23), TABELA_CLIENTE(25), PRAZOS(28), TABELA_PRECOS(33),
     ESTOQUE(43), DESC_GRUPO(46), DESC_CAMP(47), RESTRICAO_CLIENTE(69), RESTRICAO_GRUPO(90),
-    INVALIDO(-1);
+    GRUPO_NAO_POSITIVADO(26), INVALIDO(-1);
 
 
     private int value;
@@ -75,6 +75,8 @@ public enum Tabelas
                 return TOTALIZADORES;
             case 25 :
                 return TABELA_CLIENTE;
+            case 26 :
+                return GRUPO_NAO_POSITIVADO;
             case 27 :
                 return ATIVIDADE;
             case 28 :
