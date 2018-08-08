@@ -147,6 +147,73 @@ public class Graficos
         }
     }
 
+    public float percentualGrafico(int campo, int mes)
+    {
+        switch (campo)
+        {
+            case 1:
+                switch (mes)
+                {
+                    case 1:
+                        return this.graficoModel.getF_pedidos1();
+                    case 2:
+                        return this.graficoModel.getF_pedidos2();
+                    default:
+                        return this.graficoModel.getF_pedidos3();
+                }
+            case 2:
+                switch (mes)
+                {
+                    case 1:
+                        return this.graficoModel.getF_clientes1();
+                    case 2:
+                        return this.graficoModel.getF_clientes2();
+                    default:
+                        return this.graficoModel.getF_clientes3();
+                }
+            case 3:
+                switch (mes)
+                {
+                    case 1:
+                        return this.graficoModel.getF_pedido_medio1();
+                    case 2:
+                        return this.graficoModel.getF_pedido_medio2();
+                    default:
+                        return this.graficoModel.getF_pedido_medio3();
+                }
+            case 4:
+                switch (mes)
+                {
+                    case 1:
+                        return this.graficoModel.getF_itens_pedido1();
+                    case 2:
+                        return this.graficoModel.getF_itens_pedido2();
+                    default:
+                        return this.graficoModel.getF_itens_pedido3();
+                }
+            case 5:
+                switch (mes)
+                {
+                    case 1:
+                        return this.graficoModel.getF_frequencia1();
+                    case 2:
+                        return this.graficoModel.getF_frequencia2();
+                    default:
+                        return this.graficoModel.getF_frequencia3();
+                }
+            default:
+                switch (mes)
+                {
+                    case 1:
+                        return this.graficoModel.getF_acelerdador1();
+                    case 2:
+                        return this.graficoModel.getF_acelerdador2();
+                    default:
+                        return this.graficoModel.getF_acelerdador3();
+                }
+        }
+    }
+
     private int calcularPercentual(float valor, int tamanho, int max)
     {
         float percentual = 0;

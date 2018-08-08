@@ -18,6 +18,7 @@ import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaCliente;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
+import br.com.sulpasso.sulpassomobile.util.modelos.GenericItemFour;
 
 /**
  * Created by Lucas on 15/08/2016.
@@ -164,6 +165,80 @@ public class ClienteDataAccess
 
         try { return c.getInt(0) >= 1; }
         catch (Exception ex) { return false; }
+    }
+
+    public ArrayList<GenericItemFour> listarNaoPositivadosData(String data)
+    {
+        ArrayList<GenericItemFour> clientes = new ArrayList<GenericItemFour>();
+        Date today = new Date();
+		/*
+		 * 2 == segunda
+		 * 3 == terça
+		 * 4 == quarta
+		 * 5 == quinta
+		 * 6 == sexta
+		 * 7 == sabado
+		 * */
+        int hoje = today.getDay();
+
+        clientes.clear();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT cli.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+        this.sBuilder.append(", cli.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+        this.sBuilder.append(", cli.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ULTIMA);
+        this.sBuilder.append(", cid.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CIDADE);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
+        this.sBuilder.append(" AS cli JOIN ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.TABELA);
+        this.sBuilder.append(" AS cid ON cli.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CIDADE);
+        this.sBuilder.append(" = cid.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA);
+        this.sBuilder.append(" LIKE '%");
+        this.sBuilder.append(hoje + 1);
+        this.sBuilder.append("%' AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VENDIDO);
+        this.sBuilder.append(" LIKE 'N' ORDER BY ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ROTEIRO);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        for (int i = 0; i < c.getCount(); i++)
+        {
+            GenericItemFour cli = new GenericItemFour();
+
+            cli.setDataOne(String.valueOf(c.getInt(0)));
+            cli.setDataTwo(String.valueOf(c.getString(1)));
+            cli.setDataThre(c.getString(3));
+            cli.setDataFour(c.getString(2));
+
+            clientes.add(cli);
+            c.moveToNext();
+        }
+
+        c = null;
+
+        return clientes;
     }
 
     private Boolean insertCliente(Cliente cliente) throws InsertionExeption

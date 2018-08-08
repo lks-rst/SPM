@@ -67,7 +67,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
 
     public void apresentarPlano(ArrayList<String> plano)
     {
-/***************** SEGUNDA *********/
+        /***************** SEGUNDA *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcSeg))).setText(plano.get(0));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvSeg))).setText(plano.get(1));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcSeg))).setText(plano.get(2));
@@ -76,7 +76,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcSeg))).setText(plano.get(5));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpSeg))).setText(plano.get(6));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpSeg))).setText(plano.get(7));
-/***************** TERÇA *********/
+        /***************** TERÇA *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcTer))).setText(plano.get(8));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvTer))).setText(plano.get(9));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcTer))).setText(plano.get(10));
@@ -85,7 +85,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcTer))).setText(plano.get(13));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpTer))).setText(plano.get(14));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpTer))).setText(plano.get(15));
-/***************** QUARTA *********/
+        /***************** QUARTA *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcQua))).setText(plano.get(16));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvQua))).setText(plano.get(17));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcQua))).setText(plano.get(18));
@@ -94,7 +94,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcQua))).setText(plano.get(21));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpQua))).setText(plano.get(22));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpQua))).setText(plano.get(23));
-/***************** QUINTA *********/
+        /***************** QUINTA *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcQui))).setText(plano.get(24));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvQui))).setText(plano.get(25));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcQui))).setText(plano.get(26));
@@ -103,7 +103,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcQui))).setText(plano.get(29));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpQui))).setText(plano.get(30));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpQui))).setText(plano.get(31));
-/***************** SEXTA *********/
+        /***************** SEXTA *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcSex))).setText(plano.get(32));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvSex))).setText(plano.get(33));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcSex))).setText(plano.get(34));
@@ -112,7 +112,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcSex))).setText(plano.get(37));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpSex))).setText(plano.get(38));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpSex))).setText(plano.get(39));
-/***************** SABADO *********/
+        /***************** SABADO *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcSab))).setText(plano.get(40));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvSab))).setText(plano.get(41));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcSab))).setText(plano.get(42));
@@ -121,7 +121,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcSab))).setText(plano.get(45));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpSab))).setText(plano.get(46));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpSab))).setText(plano.get(47));
-/***************** S VISITA *********/
+        /***************** S VISITA *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcSdv))).setText(plano.get(48));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvSdv))).setText(plano.get(49));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcSdv))).setText(plano.get(50));
@@ -130,7 +130,7 @@ public class ConsultaGerencialPlanoVisitas extends Fragment
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNpcSdv))).setText(plano.get(53));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvValpSdv))).setText(plano.get(54));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvVolpSdv))).setText(plano.get(55));
-/***************** TOTAIS *********/
+        /***************** TOTAIS *********/
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNrcTot))).setText(plano.get(56));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvNcvTot))).setText(plano.get(57));
         ((EditText) (getActivity().findViewById(R.id.edtFcgPvPrcTot))).setText(plano.get(58));

@@ -399,4 +399,8 @@
     </string-array>
     <!-- END -->
 
+    <!-- String das telas Alertas -->
+    <string name="msg_mix">ALGUNS ITENS DO MIX IDEAL DO CLIENTE NÃO ESTÃO PRESENTES NO PEDIDO</string>
+    <!-- END -->
+
 </resources>

@@ -300,11 +300,11 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         */
 
 
-        //TODO: Verificar (está relacionado ao item cadastrado como à fazer na tela inial)
-        /*TEM QUE ACRESCENTAR ESSE ITEM PARA TODOS OS COMPONENTES DA TELA PARA QUE NÃO IMPORTA ONDE SEJA ACIONADO O MOVIMENTO A RESPOSTA SEJA IGUAL*/
-        /*AINDA PRECISO VERIFICAR OS RETORNOS SE DEVEM MESMO SER TRUE OU PODE SER FALSE*/
-        (getActivity().findViewById(R.id.llMainCliData)).setOnTouchListener(gestureListener);
-        (getActivity().findViewById(R.id.srvRollMain)).setOnTouchListener(gestureListener);
+        try{ (getActivity().findViewById(R.id.srvRollMain)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ (getActivity().findViewById(R.id.llMainCliData)).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+
 
         this.fdcSpnrClientes.setOnTouchListener(gestureListener);
         this.fdcSpnrNaturezas.setOnTouchListener(gestureListener);

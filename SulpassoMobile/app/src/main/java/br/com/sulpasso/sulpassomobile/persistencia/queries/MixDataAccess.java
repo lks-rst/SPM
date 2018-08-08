@@ -143,8 +143,7 @@ public class MixDataAccess
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mix.TIPOLOGIA);
         this.sBuilder.append(" = ");
-        this.sBuilder.append(
-            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mix.TIPO);
+        this.sBuilder.append(g);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -173,6 +172,7 @@ public class MixDataAccess
 
         return lista;
     }
+
     private Boolean apagar(Mix d)  throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());

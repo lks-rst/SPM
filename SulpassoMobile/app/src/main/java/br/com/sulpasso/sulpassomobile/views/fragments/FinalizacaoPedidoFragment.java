@@ -19,10 +19,6 @@ import android.widget.Spinner;
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 
-/*
-    Todo: Montar tela de aresentação das promoções (campanhas e tabloides [montar da mesma maneira que esta no sistema (a cada item durante a digitação)]);
-    Todo: Verificar se há mix ideal / cobertura multipla esperada para o cliente;
- */
 /**
  * Created by Lucas on 17/08/2016.
  */
@@ -151,9 +147,14 @@ public class FinalizacaoPedidoFragment extends Fragment
         ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtFrete)).getParent()).setVisibility
             (((((Pedido) getActivity()).alteraValorFim(R.id.ffpEdtFrete))) ? View.VISIBLE : View.GONE);
 
-        getActivity().findViewById(R.id.llMainFinal).setOnTouchListener(gestureListener);
-        getActivity().findViewById(R.id.scrMainFinal).setOnTouchListener(gestureListener);
-        getActivity().findViewById(R.id.relMainFinal).setOnTouchListener(gestureListener);
+
+        try{ getActivity().findViewById(R.id.llMainFinal).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ getActivity().findViewById(R.id.scrMainFinal).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+        try{ getActivity().findViewById(R.id.relMainFinal).setOnTouchListener(gestureListener); }
+        catch (Exception e) { /*****/ }
+
 
         ((getActivity().findViewById(R.id.ffpEdtDesconto))).setOnTouchListener(gestureListener);
         ((getActivity().findViewById(R.id.ffpEdtFrete))).setOnTouchListener(gestureListener);

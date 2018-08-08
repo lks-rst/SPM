@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ClienteDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
 import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
+import br.com.sulpasso.sulpassomobile.util.modelos.GenericItemFour;
 
 /**
  * Created by Lucas on 05/03/2018 - 11:32 as part of the project SulpassoMobile.
@@ -129,5 +130,10 @@ public class PlanoVisitas
         total += Float.parseFloat(this.plano.get((campo + 48)));
 
         return total;
+    }
+
+    public ArrayList<GenericItemFour> listarNaoPositivados(String data)
+    {
+        return this.cda.listarNaoPositivadosData(data);
     }
 }

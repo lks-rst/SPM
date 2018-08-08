@@ -124,9 +124,14 @@ public class Atualizacao extends AppCompatActivity
                 new Pedidos().execute();
 
                 break;
+            case R.id.atualizar_clientes :
+                this.controleAtualizacao = new AtualizarSistema(getApplicationContext());
+                new Clientes().execute();
+
+                break;
             case R.id.atualizar_sistema :
                 this.controleAtualizacao = new AtualizarSistema(getApplicationContext());
-                
+
                 if(this.verificarItensNovos(0) > 0)
                 {
                     /*this.baixarAtualizacao = true;
@@ -151,23 +156,39 @@ public class Atualizacao extends AppCompatActivity
                     t.show();
                 }
                 else { new Atualizar().execute(); }
-                
-                break;
-            case R.id.atualizar_clientes :
-                this.controleAtualizacao = new AtualizarSistema(getApplicationContext());
-                new Clientes().execute();
 
                 break;
             case R.id.atualizar_configuracao :
-                this.sl = new SenhaLiberacao();
-                this.chave = sl.getChave();
-                solicitarSenha(Integer.parseInt(this.chave));
+                if(this.verificarItensNovos(0) > 0)
+                {
+                    t = Toast.makeText(getApplicationContext(),
+                            "ATENÇÃO!\nExistem pedidos abertos, utilize o menu referente a essa opção antes de reconfigurar o sistema.",
+                            Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+                }
+                else if(this.verificarItensNovos(1) > 0)
+                {
+                    t = Toast.makeText(getApplicationContext(),
+                            "ATENÇÃO!\nExistem cadastros de clientes não enviados, utilize o menu referente a essa opção antes de reconfigurar o sistema.",
+                            Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+                }
+                else
+                {
+                    this.sl = new SenhaLiberacao();
+                    this.chave = sl.getChave();
+                    solicitarSenha(Integer.parseInt(this.chave));
 
-                t = Toast.makeText(getApplicationContext(),
-                    "CONFIGURAÇÃO ACESSIVEL APENAS MEDIANTE SENHA, DE ACORDO COM DISPONIBILIDADE DA EMPRESA",
-                    Toast.LENGTH_LONG);
-                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-                t.show();
+                    /*
+                    t = Toast.makeText(getApplicationContext(),
+                            "CONFIGURAÇÃO ACESSIVEL APENAS MEDIANTE SENHA, DE ACORDO COM DISPONIBILIDADE DA EMPRESA",
+                            Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+                    */
+                }
 
                 break;
             default:

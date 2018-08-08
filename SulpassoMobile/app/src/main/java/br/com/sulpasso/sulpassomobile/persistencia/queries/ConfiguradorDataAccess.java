@@ -22,6 +22,9 @@ import br.com.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistenc
  */
 public class ConfiguradorDataAccess
 {
+    /*
+    TODO: Rever essa classe. Está muito grande, deve estar executando operações indevidas.
+     */
     private Context ctx;
     private StringBuilder sBuilder;
     private SQLiteDatabase db;
@@ -265,7 +268,29 @@ public class ConfiguradorDataAccess
         catch (Exception exception) { throw new ReadExeption("Data nula ou inválida"); }
     }
 
-    public void updateDataEmail(String s) throws UpdateExeption
+    public int buscarCodigoUsuario()
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CODIGO_USUARIO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        c.moveToFirst();
+
+        try { return c.getInt(0); }
+        catch (Exception exception) { return -1; }
+    }
+
+    public void alterarDataEmail(String data) throws UpdateExeption
+    {
+        this.updateDataEmail(data);
+    }
+
+    private void updateDataEmail(String s) throws UpdateExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("UPDATE ");
@@ -2213,6 +2238,9 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.EMPRESACLIENTE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ENVIADO_EMAIL);
 
         this.sBuilder.append(" FROM ");
         this.sBuilder.append(
@@ -2252,6 +2280,8 @@ public class ConfiguradorDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CONECTIONTYPE)));
         conta.setEmpresa(c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.EMPRESACLIENTE)));
+        conta.setDataEmailEnviado(c.getString(c.getColumnIndex(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ENVIADO_EMAIL)));
 
         return conta;
     }
@@ -2404,23 +2434,6 @@ public class ConfiguradorDataAccess
 
         try { return c.getInt(0); }
         catch (Exception exception) { return 1; }
-    }
-
-    public int buscarCodigoUsuario()
-    {
-        this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CODIGO_USUARIO);
-        this.sBuilder.append(" FROM ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
-
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-        c.moveToFirst();
-
-        try { return c.getInt(0); }
-        catch (Exception exception) { return -1; }
     }
 
     private String getValidade()

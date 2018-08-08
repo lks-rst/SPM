@@ -18,11 +18,13 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PrePedidoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertaMixFaltante;
 
 /**
  * Created by Lucas on 21/03/2017 - 16:49 as part of the project SulpassoMobile.
  */
-public class PedidoNormal extends EfetuarPedidos {
+public class PedidoNormal extends EfetuarPedidos
+{
 
 /**************************************************************************************************/
 /*****************************                                        *****************************/
@@ -248,8 +250,6 @@ public class PedidoNormal extends EfetuarPedidos {
 
                     super.itensVendidos.set(posicao, item);
                     /*
-                    TODO: Ajustar as quantidades das campanhas relacionadas ao item;
-                    TODO: Verificar os descontos das campanhas alteradas;
                     TODO: Replicar as alterações para os demais tipos de pedido;
                      */
                     Toast.makeText(context, "Item " + item.getItem() + " alterado!", Toast.LENGTH_LONG).show();
@@ -287,39 +287,49 @@ public class PedidoNormal extends EfetuarPedidos {
         if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
                 , super.controleConfiguracao.pedidoMinimo()))
         {
-            if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
+            if(super.verificarMix())
             {
-                super.venda.setItens(super.itensVendidos);
-                super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
-                super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
-                super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
-                super.venda.setData(super.dataSistema());
-                super.venda.setHora(super.horaSistema());
-                super.venda.setNatureza(super.codigoNatureza);
-                super.venda.setBanco(super.controleClientes.getBancoCliente());
-
-                super.venda.setTipo(super.strTipoVenda);
-
-                Prazo p = new Prazo();
-                p.setCodigo(super.codigoPrazo);
-                super.venda.setPrazo(p);
-
-                if(super.controleSalvar.salvarPedido(super.context, super.venda))
-                {
-                    super.controleSalvar.atualizarSaldo(super.context, super.controleConfiguracao.getSaldoAtual());
-                    return 1;
-                }
-                else
-                {
-                    Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
-                    return 0;
-                }
+                /* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO */
+                Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
+                AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
+                return 0;
             }
             else
             {
-                Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
-                        , Toast.LENGTH_LONG).show();
-                return 0;
+                if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
+                {
+                    super.venda.setItens(super.itensVendidos);
+                    super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
+                    super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
+                    super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
+                    super.venda.setData(super.dataSistema());
+                    super.venda.setHora(super.horaSistema());
+                    super.venda.setNatureza(super.codigoNatureza);
+                    super.venda.setBanco(super.controleClientes.getBancoCliente());
+
+                    super.venda.setTipo(super.strTipoVenda);
+
+                    Prazo p = new Prazo();
+                    p.setCodigo(super.codigoPrazo);
+                    super.venda.setPrazo(p);
+
+                    if(super.controleSalvar.salvarPedido(super.context, super.venda))
+                    {
+                        super.controleSalvar.atualizarSaldo(super.context, super.controleConfiguracao.getSaldoAtual());
+                        return 1;
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+                        return 0;
+                    }
+                }
+                else
+                {
+                    Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                            , Toast.LENGTH_LONG).show();
+                    return 0;
+                }
             }
         }
         else

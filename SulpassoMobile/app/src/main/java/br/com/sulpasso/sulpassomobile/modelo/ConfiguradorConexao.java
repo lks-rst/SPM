@@ -23,6 +23,8 @@ public class ConfiguradorConexao
     private String empresa;
     private int conectionType;
 
+    private String dataEmailEnviado;
+
     public ConfiguradorConexao()
     {
         /*
@@ -115,6 +117,10 @@ public class ConfiguradorConexao
     public int getConectionType() { return conectionType; }
 
     public void setConectionType(int conectionType) { this.conectionType = conectionType; }
+
+    public String getDataEmailEnviado() { return dataEmailEnviado; }
+
+    public void setDataEmailEnviado(String dataEmailEnviado) { this.dataEmailEnviado = dataEmailEnviado; }
 
     @Override
     public String toString() {

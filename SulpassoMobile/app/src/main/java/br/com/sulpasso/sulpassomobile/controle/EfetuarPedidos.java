@@ -18,6 +18,7 @@ import br.com.sulpasso.sulpassomobile.modelo.ContasReceber;
 import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
+import br.com.sulpasso.sulpassomobile.modelo.Mix;
 import br.com.sulpasso.sulpassomobile.modelo.Natureza;
 import br.com.sulpasso.sulpassomobile.modelo.Prazo;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
@@ -29,6 +30,7 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.ContasReceberDataAcce
 import br.com.sulpasso.sulpassomobile.persistencia.queries.DevolucaoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.GrupoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.MixDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
@@ -38,12 +40,11 @@ import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
  */
 public abstract class EfetuarPedidos
 {
-    public static boolean erro = false;
-    public static String strErro = "";
-    public static boolean senha = false;
+    private GrupoDataAccess gda;
 
-    public int tipoConsultaItens = -1;
-    public String parametrosBuscaItens = "";
+    private boolean titulosExibidos = false;
+
+    private ArrayList<ContasReceber> contas;
 
     protected int codigoNatureza;
     protected int codigoPrazo;
@@ -64,7 +65,6 @@ public abstract class EfetuarPedidos
     protected ArrayList<CampanhaGrupo> campanhaGrupos;
     protected ArrayList<CampanhaProduto> campanhaProdutos;
 
-    private ArrayList<ContasReceber> contas;
     protected ArrayList<ItensVendidos> itensDevolvidos;
 
     protected Context context;
@@ -84,9 +84,14 @@ public abstract class EfetuarPedidos
 
     protected PrePedido prePedido;
 
-    private GrupoDataAccess gda;
+    public static boolean erro = false;
+    public static String strErro = "";
+    public static boolean senha = false;
 
-    private boolean titulosExibidos = false;
+    public int tipoConsultaItens = -1;
+    public String parametrosBuscaItens = "";
+
+    protected ArrayList<Mix> mixFaltando;
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/
@@ -117,13 +122,24 @@ public abstract class EfetuarPedidos
             System.out.println("Erro ao carregar os dados de configuração de venda");
         }
     }
-/**************************************************************************************************/
-/*****************************                                        *****************************/
-/**************************************************************************************************/
 
 /**************************************************************************************************/
 /************************************ABSTRACT METHODS**********************************************/
 /**************************************************************************************************/
+    protected abstract Boolean naturezaIsClicable();
+
+    protected abstract Boolean prazoIsClicable();
+
+    protected abstract Boolean naturezaIsClicableEnd();
+
+    protected abstract Boolean prazoIsClicableEnd();
+
+    protected abstract Boolean finalizarItem();
+
+    protected abstract void getNaturezasList(Boolean especial) throws GenercicException;
+
+    protected abstract void getPrazosList(String prazo) throws GenercicException;
+
     public abstract ArrayList<String> listarCLientes(int tipo, String dados) throws GenercicException;
 
     public abstract ArrayList<String> listarNaturezas(Boolean especial) throws GenercicException;
@@ -186,20 +202,6 @@ public abstract class EfetuarPedidos
 
     public abstract int aplicarDescontoTabloide(float percentual, int posicao);
 
-    protected abstract Boolean naturezaIsClicable();
-
-    protected abstract Boolean prazoIsClicable();
-
-    protected abstract Boolean naturezaIsClicableEnd();
-
-    protected abstract Boolean prazoIsClicableEnd();
-
-    protected abstract Boolean finalizarItem();
-
-    protected abstract void getNaturezasList(Boolean especial) throws GenercicException;
-
-    protected abstract void getPrazosList(String prazo) throws GenercicException;
-
     public abstract ArrayList<CampanhaGrupo> getCampanhaGrupos();
 
     public abstract boolean verificarPrepedido();
@@ -224,6 +226,7 @@ public abstract class EfetuarPedidos
             return "";
         }
     }
+
     protected final String buscarBanco(int codigo)
     {
         BancoDataAccess bda = new BancoDataAccess(this.context);
@@ -243,6 +246,124 @@ public abstract class EfetuarPedidos
         {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    protected final String getPrazoNatureza(int position)
+    {
+        this.codigoNatureza = this.listaNaturezas.get(position).getCodigo();
+        return this.listaNaturezas.get(position).getPrazo();
+    }
+
+    @NonNull
+    @org.jetbrains.annotations.Contract(pure = true)
+    protected final String getConfiguracaoVendaItem() { return "Configuracao de venda dos itens"; }
+
+    protected final String dataSistema()
+    {
+        Date today;
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        today = new Date();
+        return this.strDataBanco(sf.format(today));
+    }
+
+    protected final String horaSistema()
+    {
+        Date today;
+        int m;
+        int s;
+        int h;
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+
+        today = new Date();
+        h = today.getHours();
+        m = today.getMinutes();
+        s = today.getSeconds();
+
+        String sf = ms.comEsquerda("" + h, "0", 2) + ":" + ms.comEsquerda("" + m, "0", 2) + ":" +
+                ms.comEsquerda("" + s, "0", 2) ;
+
+        return this.strDataBanco(sf);
+    }
+
+    protected final String strDataBanco(String data)
+    {
+        String nova_data = "";
+        String[] datas;
+
+        try
+        {
+            datas = data.split("/");
+            nova_data = datas[2] + "-" + datas[1] + "-" + datas[0];
+        }
+        catch (Exception e) { nova_data = data;
+        }
+        return nova_data;
+    }
+
+    @NonNull
+    protected final Boolean clientIsClicable() { return this.itensVendidos.size() <= 0; }
+
+    @Contract(pure = true)
+    protected final float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo)
+    {
+        return (valor
+                - (valor * (desconto / 100))
+                - (valor * (grupo/ 100))
+                - (valor * (produtos / 100))
+                + (valor * (acrescimo / 100)))
+                * quantidade ;
+    }
+
+    protected final boolean verificarMix()
+    {
+        if(this.controleConfiguracao.getConfigTel().getMixIdeal())
+        {
+            MixDataAccess mda = new MixDataAccess(this.context);
+            try
+            {
+                ArrayList<Mix> mixesCliente = mda.getByData(Integer.parseInt(this.venda.getCliente().getTipo()));
+                boolean completo = false;
+
+                if (mixesCliente != null && mixesCliente.size() > 0)
+                {
+                    for(Mix m : mixesCliente)
+                    {
+                        ArrayList<Item> itens = m.getItens();
+
+                        for(Item it : itens)
+                        {
+                            completo = false;
+
+                            for(ItensVendidos iv : this.venda.getItens())
+                            {
+                                if(iv.getItem() == it.getCodigo())
+                                {
+                                    completo = true;
+                                    break;
+                                }
+                            }
+
+                            if (!completo)
+                                break;
+                        }
+
+                        if (!completo)
+                            break;
+                    }
+
+//                    return completo;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            catch (Exception e) { return false; }
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -389,33 +510,6 @@ public abstract class EfetuarPedidos
         */
     }
 
-    public void alterarItem(int posicao)
-    {
-        int codigo = this.itensVendidos.get(posicao).getItem();
-        int newP = this.controleProdutos.getItemPosicao(codigo);
-
-        this.controleDigitacao.setItem(this.controleProdutos.getItem(newP));
-        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda
-                (newP, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
-    }
-
-    public void removerItem(int posicao)
-    {
-        this.itensVendidos.remove(posicao);
-    }
-
-    public String getDescricaoItem(int posicao)
-    {
-        int codigo = this.itensVendidos.get(posicao).getItem();
-        //int newP = this.controleProdutos.getItemPosicao(codigo);
-
-        String[] separated = this.controleProdutos.getItemStr(codigo).split(" . ");
-
-        return separated[1].trim();
-
-        //return this.controleProdutos.getItem(newP).getDescricao();
-    }
-
     public final int restoreClient() { return this.controleClientes.restoreClient(); }
 
     public final void setDescontoPedido(String desconto) { this.controleSalvar.setDesconto(Float.parseFloat(desconto));}
@@ -424,90 +518,14 @@ public abstract class EfetuarPedidos
 
     public final float recalcularTotalPedido() { return this.controleSalvar.calcularTotal(); }
 
-    protected final String getPrazoNatureza(int position)
-    {
-        this.codigoNatureza = this.listaNaturezas.get(position).getCodigo();
-        return this.listaNaturezas.get(position).getPrazo();
-    }
-
-    @NonNull
-    @org.jetbrains.annotations.Contract(pure = true)
-    protected final String getConfiguracaoVendaItem() { return "Configuracao de venda dos itens"; }
-
-    protected final String dataSistema()
-    {
-        Date today;
-        SimpleDateFormat sf;
-        sf = new SimpleDateFormat("dd/MM/yyyy");
-        today = new Date();
-        return this.strDataBanco(sf.format(today));
-    }
-
-    protected final String horaSistema()
-    {
-        Date today;
-        int m;
-        int s;
-        int h;
-        ManipulacaoStrings ms = new ManipulacaoStrings();
-
-        today = new Date();
-        h = today.getHours();
-        m = today.getMinutes();
-        s = today.getSeconds();
-
-        String sf = ms.comEsquerda("" + h, "0", 2) + ":" + ms.comEsquerda("" + m, "0", 2) + ":" +
-                ms.comEsquerda("" + s, "0", 2) ;
-
-        return this.strDataBanco(sf);
-    }
-
-    protected final String strDataBanco(String data)
-    {
-        String nova_data = "";
-        String[] datas;
-
-        try
-        {
-            datas = data.split("/");
-            nova_data = datas[2] + "-" + datas[1] + "-" + datas[0];
-        }
-        catch (Exception e) { nova_data = data;
-        }
-        return nova_data;
-    }
-
-    @NonNull
-    protected final Boolean clientIsClicable() { return this.itensVendidos.size() <= 0; }
-
-    @Contract(pure = true)
-    protected final float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo)
-    {
-        return (valor
-                - (valor * (desconto / 100))
-                - (valor * (grupo/ 100))
-                - (valor * (produtos / 100))
-                + (valor * (acrescimo / 100)))
-                * quantidade ;
-    }
-
     public final void addObs(String s, int tipo)
     {
         ManipulacaoStrings ms = new ManipulacaoStrings();
         s = ms.removeCaracteresEspeciais(s);
 
-        if(tipo == 1)
-        {
-            this.venda.setObservacao(s);
-        }
-        else if(tipo == 2)
-        {
-            this.venda.setObservacaoNota(s);
-        }
-        else if(tipo == 0)
-        {
-            this.venda.setObservacaDesconto(s);
-        }
+        if(tipo == 1) { this.venda.setObservacao(s); }
+        else if(tipo == 2) { this.venda.setObservacaoNota(s); }
+        else if(tipo == 0) { this.venda.setObservacaDesconto(s); }
     }
 
     /**
@@ -602,6 +620,85 @@ public abstract class EfetuarPedidos
             controleDigitacao.getItem().getUnidadeVenda().equals("KG")) { return true; }
         else { return false; }
     }
+/**************************************************************************************************/
+/*********************************NON ABSTRACT OR FINAL METHODS************************************/
+/**************************************************************************************************/
+    private void buscarGrupos() throws GenercicException
+    {
+        this.grupos = this.gda.getAllCliente(this.venda.getCliente().getCodigoCliente());
+    }
+
+    private void buscarSubGrupos() throws GenercicException { this.sGrupos = this.gda.getAll(this.grupo); }
+
+    private Item converterItem(PrePedidoItem item)
+    {
+        Item retorno;
+
+        retorno = new Item();
+/*
+
+        retorno.setCodigo(item.getItem());
+        retorno.setDescricao(item.getDescricao());
+        retorno.setReferencia("");
+        retorno.setComplemento("");
+*/
+
+        ItemDataAccess ida = new ItemDataAccess(this.context);
+        try {
+            retorno = ida.buscarItemCodigo(item.getItem());
+        } catch (GenercicException e) {
+            e.printStackTrace();
+        }
+
+        return retorno;
+    }
+
+    private void buscarDivisoes() throws GenercicException { this.divisoes = this.gda.getAll(this.grupo, this.subGrupo); }
+
+    public void buscarTipoCliente() { this.controleProdutos.setSearchData(this.venda.getCliente().getTipo()); }
+
+    public void setSearchType(TiposBuscaItens type)
+    {
+        this.controleProdutos.setSearchType(type);
+        this.tipoConsultaItens = type.getValue();
+    }
+
+    public void setSearchData(String data)
+    {
+        this.controleProdutos.setSearchData(data);
+    }
+
+    public int buscarConsultaAbertura()
+    {
+        if(tipoConsultaItens == -1)
+        {
+            this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()));
+            return this.controleConfiguracao.getConfigUsr().getTipoBusca();
+        }
+        else
+        {
+            this.setSearchType(TiposBuscaItens.getTipoFromInt(tipoConsultaItens));
+            return tipoConsultaItens;
+        }
+    }
+
+    public float buscarValorItemDigitando()
+    {
+        return this.controleDigitacao.getValorDigitado();
+    }
+
+    public float buscarQuantidadeItemDigitando()
+    {
+        return this.controleDigitacao.getQuantidadeDigitado();
+    }
+
+    public void selecionarCliente() { /*****/ }
+
+    public void selecionarNatureza() { /*****/ }
+
+    public void selecionarPrazo() { /*****/ }
+
+    public void aplicarDesconto(float desconto) { /*****/ }
 
     public float calculoContribuicao(float preco)
     {
@@ -656,58 +753,58 @@ public abstract class EfetuarPedidos
 
     public ArrayList<String> buscarTitulosItens()
     {
-       if(this.verificarTipo() == 3)
-       {
-           String str_ret = "";
-           ArrayList<String> ret = new ArrayList<>();
+        if(this.verificarTipo() == 3)
+        {
+            String str_ret = "";
+            ArrayList<String> ret = new ArrayList<>();
 
-           try
-           {
+            try
+            {
 
-               for(ContasReceber c : this.contas)
-               {
-                   str_ret = c.getDocumento() + " - " + c.getEmissao() + " - " + c.getVencimento() + " - " +
-                           c.getValor() + " - " + c.getTipo();
+                for(ContasReceber c : this.contas)
+                {
+                    str_ret = c.getDocumento() + " - " + c.getEmissao() + " - " + c.getVencimento() + " - " +
+                            c.getValor() + " - " + c.getTipo();
 
-                   ret.add(str_ret);
-               }
-           }
-           catch (Exception e) { ret.add("Não foram encontrados itens para exibição"); }
+                    ret.add(str_ret);
+                }
+            }
+            catch (Exception e) { ret.add("Não foram encontrados itens para exibição"); }
 
 
-           return ret;
-       }
+            return ret;
+        }
         else
-       {
-           String str_ret = "";
-           ArrayList<String> ret = new ArrayList<>();
+        {
+            String str_ret = "";
+            ArrayList<String> ret = new ArrayList<>();
 
-           ItemDataAccess ida = new ItemDataAccess(this.context);
-           ManipulacaoStrings ms = new ManipulacaoStrings();
+            ItemDataAccess ida = new ItemDataAccess(this.context);
+            ManipulacaoStrings ms = new ManipulacaoStrings();
 
-           for(ItensVendidos i : this.itensDevolvidos)
-           {
-               Item it;
-               str_ret = "";
-               str_ret += i.getItem();
+            for(ItensVendidos i : this.itensDevolvidos)
+            {
+                Item it;
+                str_ret = "";
+                str_ret += i.getItem();
 
-               try
-               {
-                   it = ida.buscarItemCodigo(i.getItem());
+                try
+                {
+                    it = ida.buscarItemCodigo(i.getItem());
 
-                   str_ret += " - " + ms.comDireita(it.getReferencia(), " ", 10).trim() + " . " +
-                           ms.comDireita(it.getDescricao(), " ", 25).trim() + " . " +
-                           ms.comDireita(it.getComplemento(), " ", 15).trim() + " - ";
-               }
-               catch (GenercicException e) { str_ret += " -  .  .  - "; }
+                    str_ret += " - " + ms.comDireita(it.getReferencia(), " ", 10).trim() + " . " +
+                            ms.comDireita(it.getDescricao(), " ", 25).trim() + " . " +
+                            ms.comDireita(it.getComplemento(), " ", 15).trim() + " - ";
+                }
+                catch (GenercicException e) { str_ret += " -  .  .  - "; }
 
-               str_ret += i.getQuantidade();
+                str_ret += i.getQuantidade();
 
-               ret.add(str_ret);
-           }
+                ret.add(str_ret);
+            }
 
-           return ret;
-       }
+            return ret;
+        }
     }
 
     public int verificarTipo()
@@ -769,84 +866,31 @@ public abstract class EfetuarPedidos
 
         return detalhes;
     }
-/**************************************************************************************************/
-/*********************************NON ABSTRACT OR FINAL METHODS************************************/
-/**************************************************************************************************/
-    public void buscarTipoCliente() { this.controleProdutos.setSearchData(this.venda.getCliente().getTipo()); }
 
-    public void setSearchType(TiposBuscaItens type)
+    public void removerItem(int posicao)
     {
-        this.controleProdutos.setSearchType(type);
-        this.tipoConsultaItens = type.getValue();
+        this.itensVendidos.remove(posicao);
     }
 
-    public void setSearchData(String data)
+    public String getDescricaoItem(int posicao)
     {
-        this.controleProdutos.setSearchData(data);
+        int codigo = this.itensVendidos.get(posicao).getItem();
+        //int newP = this.controleProdutos.getItemPosicao(codigo);
+
+        String[] separated = this.controleProdutos.getItemStr(codigo).split(" . ");
+
+        return separated[1].trim();
+
+        //return this.controleProdutos.getItem(newP).getDescricao();
     }
 
-    public int buscarConsultaAbertura()
+    public void alterarItem(int posicao)
     {
-        if(tipoConsultaItens == -1)
-        {
-            this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()));
-            return this.controleConfiguracao.getConfigUsr().getTipoBusca();
-        }
-        else
-        {
-            this.setSearchType(TiposBuscaItens.getTipoFromInt(tipoConsultaItens));
-            return tipoConsultaItens;
-        }
-    }
+        int codigo = this.itensVendidos.get(posicao).getItem();
+        int newP = this.controleProdutos.getItemPosicao(codigo);
 
-    public float buscarValorItemDigitando()
-    {
-        return this.controleDigitacao.getValorDigitado();
-    }
-
-    public float buscarQuantidadeItemDigitando()
-    {
-        return this.controleDigitacao.getQuantidadeDigitado();
-    }
-
-    public void selecionarCliente() { /*****/ }
-
-    public void selecionarNatureza() { /*****/ }
-
-    public void selecionarPrazo() { /*****/ }
-
-    public void aplicarDesconto(float desconto) { /*****/ }
-
-    private void buscarGrupos() throws GenercicException
-    {
-
-        this.grupos = this.gda.getAllCliente(this.venda.getCliente().getCodigoCliente());
-    }
-
-    private void buscarSubGrupos() throws GenercicException { this.sGrupos = this.gda.getAll(this.grupo); }
-
-    private void buscarDivisoes() throws GenercicException { this.divisoes = this.gda.getAll(this.grupo, this.subGrupo); }
-
-    private Item converterItem(PrePedidoItem item)
-    {
-        Item retorno;
-
-        retorno = new Item();
-/*
-
-        retorno.setCodigo(item.getItem());
-        retorno.setDescricao(item.getDescricao());
-        retorno.setReferencia("");
-        retorno.setComplemento("");
-*/
-
-        ItemDataAccess ida = new ItemDataAccess(this.context);
-        try {
-            retorno = ida.buscarItemCodigo(item.getItem());
-        } catch (GenercicException e) {
-            e.printStackTrace();
-        }
-
-        return retorno;
+        this.controleDigitacao.setItem(this.controleProdutos.getItem(newP));
+        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda
+                (newP, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
     }
 }
