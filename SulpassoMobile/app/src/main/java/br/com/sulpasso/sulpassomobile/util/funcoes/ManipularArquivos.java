@@ -132,6 +132,7 @@ public class ManipularArquivos
         try { version = Integer.valueOf(Build.VERSION.SDK); }
         catch (Exception ev){ version = 3; }
 
+        /*
         if(version >= 19)
         {
             f = new File("/storage/emulated/0/MobileVenda/", this.nomeArquivo);
@@ -140,6 +141,8 @@ public class ManipularArquivos
         {
             f = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/", this.nomeArquivo);
         }
+        */
+        f = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/", this.nomeArquivo);
 
         return (f);
         //return (new File(Environment.getExternalStorageDirectory() + "/MobileVenda", "PW0006.257"));
@@ -1620,8 +1623,6 @@ public class ManipularArquivos
         catch (Exception e) { this.addStringErro(e.getMessage()); }
     }
 
-
-
     public void criar_plano_visitas(String name, int vendedor, String nome)
     {
         PlanoVisitas plano = new PlanoVisitas(this.context);
@@ -1635,11 +1636,22 @@ public class ManipularArquivos
         ArrayList<String> lPlano =  plano.gerarPlano(data);
         ArrayList<GenericItemFour> np =  plano.listarNaoPositivados(data);
 
+        FileOutputStream fOut = null;
+        OutputStreamWriter osw = null;
+
         try
         {
             this.nomeArquivo = name;
-            FileOutputStream fOut = new FileOutputStream(AbrirArquivosExterno());
-            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+            File fn = AbrirArquivosExterno();
+//            if(fn.exists())
+//            {
+                fOut = new FileOutputStream(fn);
+                osw = new OutputStreamWriter(fOut);
+//            }
+//            else
+//            {
+//                String s = "Não criou o arquivo";
+//            }
 
             osw.append("" + ms.comDireita("_", "_", 110));
             osw.append("\n");
@@ -2325,5 +2337,709 @@ public class ManipularArquivos
             fOut.close();
         }
         catch (Exception e) { /*****/ }
+    }
+
+
+
+    public String plano_visitas(String name, int vendedor, String nome)
+    {
+        PlanoVisitas plano = new PlanoVisitas(this.context);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+
+        Date today = new Date();
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        String data = sf.format(today);
+
+        ArrayList<String> lPlano =  plano.gerarPlano(data);
+        ArrayList<GenericItemFour> np =  plano.listarNaoPositivados(data);
+
+        StringBuilder sb = new StringBuilder();
+
+        try
+        {
+            this.nomeArquivo = name;
+
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("PLANO DE VISISTA", " ", 84));
+            sb.append(ms.comDireita("DATA: " + data, " ", 26));
+            sb.append("\n");
+            sb.append(ms.comDireita("VENDEDOR: " + vendedor + " - " + nome, " ", 84));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("DIA", " ", 12));
+            sb.append(ms.comDireita("CLIENTES", " ", 10));
+            sb.append(ms.comDireita("POSITIV", " ", 12));
+            sb.append(ms.comDireita("%", " ", 9));
+            sb.append(ms.comDireita("F.DIA", " ", 9));
+            sb.append(ms.comDireita("JUSTIF", " ", 11));
+            sb.append(ms.comDireita("NAO POSIT", " ", 13));
+            sb.append(ms.comDireita("FATURAMENTO", " ", 17));
+            sb.append(ms.comDireita("VOLUME", " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("SEGUNDA", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(0), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(1), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(2) /*valor_percentual(Formatacao.format3(f_perc_cli_seg, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(3), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(4), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(5), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(6), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(7), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("TERCA", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(8), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(9), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(10) /*valor_percentual(Formatacao.format3(f_perc_cli_ter, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(11), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(12), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(13), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(14), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(15), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("QUARTA", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(16), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(17), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(18) /*valor_percentual(Formatacao.format3(f_perc_cli_qua, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(19), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(20), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(21), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(22), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(23), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("QUINTA", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(24), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(25), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(26) /*valor_percentual(Formatacao.format3(f_perc_cli_qui, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(27), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(28), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(29), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(30), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(31), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("SEXTA", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(32), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(33), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(34) /*valor_percentual(Formatacao.format3(f_perc_cli_sex, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(35), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(36), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(37), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(38), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(39), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("SABADO", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(40), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(41), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(42) /*valor_percentual(Formatacao.format3(f_perc_cli_sab, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(43), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(44), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(45), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(46), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(47), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("SEM VISITA", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(48), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(49), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(50) /*valor_percentual(Formatacao.format3(f_perc_cli_sv, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(51), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(52), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(53), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(54), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(55), " ", 17));
+            sb.append("\n");
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("TOTAL", " ", 15));
+            sb.append(ms.comDireita(lPlano.get(56), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(57), " ", 9));
+            sb.append(ms.comDireita(lPlano.get(58) /*valor_percentual(Formatacao.format3(f_perc_cli_tot, 2))*/, " ", 11));
+            sb.append(ms.comDireita(lPlano.get(59), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(60), " ", 10));
+            sb.append(ms.comDireita(lPlano.get(61), " ", 12));
+            sb.append(ms.comDireita(lPlano.get(62), " ", 17));
+            sb.append(ms.comDireita(lPlano.get(63), " ", 17));
+            sb.append("\n");
+            sb.append("\n");
+            sb.append("\n");
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("CLIENTE NAO POSITIVADOS", " ", 110));
+
+            if(np.size() < 1)
+            {
+                sb.append("\n");
+                sb.append("\n");
+                sb.append(ms.comDireita(ms.comEsquerda("NAO EXISTEM CLIENTES NAO POSITIVADOS", "*", 74), "*", 110));
+                sb.append("\n");
+            }
+            else
+            {
+                for (int i = 0; i < np.size(); i++)
+                {
+                    sb.append("\n");
+                    sb.append("\n");
+                    sb.append(ms.comDireita("" + np.get(i).getDataOne(), " ", 10));
+                    sb.append(ms.comDireita("" + np.get(i).getDataTwo(), " ", 40));
+                    sb.append(ms.comDireita("" + np.get(i).getDataThre(), " ", 25));
+                    sb.append(ms.comDireita(ms.dataVisual(np.get(i).getDataFour()), " ", 10));
+                }
+            }
+        }
+        catch (Exception e) { /*****/ }
+
+        return sb.toString();
+    }
+
+    public String produtos_foco(String name, String data, int vendedor, String nome)
+    {
+        ConsultaFoco foco = new ConsultaFoco(this.context);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+
+        Date today = new Date();
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+
+        ArrayList<Foco> lista_foco;
+        lista_foco = foco.buscarFoco();
+
+        StringBuilder sb = new StringBuilder();
+
+        try
+        {
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("PRODUTO FOCO - PRODUTO", " ", 75));
+            sb.append(ms.comDireita("DATA: " + ms.dataVisual(data), " ", 35));
+            sb.append("\n");
+            sb.append(ms.comDireita("VENDEDOR: " + vendedor + " - " + nome, " ", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("PRODUTO", " ", 14));
+            sb.append(ms.comDireita("DESCRICAO", " ", 34));
+            sb.append(ms.comDireita("VOLUME", " ", 17));
+            sb.append(ms.comDireita("FATURAMENTO", " ", 17));
+            sb.append(ms.comDireita("CLIENTES", " ", 29));
+            sb.append("\n");
+
+            //ESSA PARTE TEM UM FOR PARA TODOS OS PRODUTOS FOCO
+            float f_Tvolume = 0;
+            float f_Tfaturamento = 0;
+            int i_Tclientes = 0;
+
+            for (int i = 0; i < lista_foco.size(); i++)
+            {
+                Foco prod = lista_foco.get(i);
+
+                f_Tvolume += prod.getVolume();
+                f_Tfaturamento += prod.getValor();
+                i_Tclientes += prod.getClientes();
+
+                sb.append(ms.comDireita("-", "-", 110));
+                sb.append("\n");
+                sb.append(ms.comDireita(prod.getReferencia(), " ", 14));
+                sb.append(ms.comDireita(prod.getDescricao(), " ", 34));
+                sb.append(ms.comDireita(String.valueOf(prod.getVolume()), " ", 17));
+                sb.append(ms.comDireita(String.valueOf(prod.getValor()), " ", 17));
+                sb.append(ms.comDireita(String.valueOf(prod.getClientes()), " ", 29));
+                sb.append("\n");
+            }
+
+            //ATÉ AQUI VEM O FOR...
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("TOTAL", " ", 48));
+            sb.append(ms.comDireita(String.valueOf(f_Tvolume), " ", 17));
+            sb.append(ms.comDireita(String.valueOf(f_Tfaturamento), " ", 17));
+            sb.append(ms.comDireita(String.valueOf(i_Tclientes), " ", 29));
+        }
+        catch (Exception e) { /*****/ }
+
+        return sb.toString();
+    }
+
+    public String resumo_dia(String name, String data, int vendedor, String nome)
+    {
+        StringBuilder sb = new StringBuilder();
+        /*
+        int cod_vendedor;
+        String nome_vendedor;
+        Inserir_Pedidos buscar_pedidos;
+//		ArrayList<Pedido> lista_pedidos;
+
+        Date today = new Date();
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+
+        buscar_pedidos = new Inserir_Pedidos(contexto);
+
+        String lbl_grp_1;
+        String lbl_sgrp_11;
+        String lbl_sgrp_12;
+        String lbl_sgrp_13;
+        String lbl_grp_2;
+        String lbl_grp_21;
+        String lbl_grp_22;
+        String lbl_grp_23;
+        String lbl_grp_3;
+        String lbl_grp_31;
+        String lbl_grp_32;
+        String lbl_grp_33;
+
+        String str_v_gpr1;
+        String str_v_gpr11;
+        String str_v_gpr12;
+        String str_v_gpr13;
+        String str_v_gpr2;
+        String str_v_gpr21;
+        String str_v_gpr22;
+        String str_v_gpr23;
+        String str_v_gpr3;
+        String str_v_gpr31;
+        String str_v_gpr32;
+        String str_v_gpr33;
+
+        String str_f_gpr1;
+        String str_f_gpr11;
+        String str_f_gpr12;
+        String str_f_gpr13;
+        String str_f_gpr2;
+        String str_f_gpr21;
+        String str_f_gpr22;
+        String str_f_gpr23;
+        String str_f_gpr3;
+        String str_f_gpr31;
+        String str_f_gpr32;
+        String str_f_gpr33;
+
+        String str_c_gpr1;
+        String str_c_gpr11;
+        String str_c_gpr12;
+        String str_c_gpr13;
+        String str_c_gpr2;
+        String str_c_gpr21;
+        String str_c_gpr22;
+        String str_c_gpr23;
+        String str_c_gpr3;
+        String str_c_gpr31;
+        String str_c_gpr32;
+        String str_c_gpr33;
+
+        String str_v_outros;
+        String str_v_total;
+        String str_f_outros;
+        String str_f_total;
+        String str_c_outros;
+        String str_c_total;
+
+
+        buscar_pedidos.open();
+        cod_vendedor = buscar_pedidos.getCodVendedor();
+        nome_vendedor = buscar_pedidos.getNomeVendedor();
+        buscar_pedidos.close();
+
+        buscar_pedidos.open();
+//		lista_pedidos = buscar_pedidos.pedidos_reenviar(data, data);
+        lbl_grp_1 = buscar_pedidos.grupo_1();
+        lbl_grp_2 = buscar_pedidos.grupo_2();
+        lbl_grp_3 = buscar_pedidos.grupo_3();
+
+        lbl_sgrp_11 = buscar_pedidos.grupo_11();
+        lbl_sgrp_12 = buscar_pedidos.grupo_12();
+        lbl_sgrp_13 = buscar_pedidos.grupo_13();
+
+        lbl_grp_21 = buscar_pedidos.grupo_21();
+        lbl_grp_22 = buscar_pedidos.grupo_22();
+        lbl_grp_23 = buscar_pedidos.grupo_23();
+
+        lbl_grp_31 = buscar_pedidos.grupo_31();
+        lbl_grp_32 = buscar_pedidos.grupo_32();
+        lbl_grp_33 = buscar_pedidos.grupo_33();
+
+        str_c_gpr1 = "" + buscar_pedidos.c_grupo_1(LerArquivos.StrDataBanco(data));
+        str_c_gpr11 = "" + buscar_pedidos.c_grupo_11(LerArquivos.StrDataBanco(data));
+        str_c_gpr12 = "" + buscar_pedidos.c_grupo_12(LerArquivos.StrDataBanco(data));
+        str_c_gpr13 = "" + buscar_pedidos.c_grupo_13(LerArquivos.StrDataBanco(data));
+        str_c_gpr2 = "" + buscar_pedidos.c_grupo_2(LerArquivos.StrDataBanco(data));
+        str_c_gpr21 = "" + buscar_pedidos.c_grupo_21(LerArquivos.StrDataBanco(data));
+        str_c_gpr22 = "" + buscar_pedidos.c_grupo_22(LerArquivos.StrDataBanco(data));
+        str_c_gpr23 = "" + buscar_pedidos.c_grupo_23(LerArquivos.StrDataBanco(data));
+        str_c_gpr3 = "" + buscar_pedidos.c_grupo_3(LerArquivos.StrDataBanco(data));
+        str_c_gpr31 = "" + buscar_pedidos.c_grupo_31(LerArquivos.StrDataBanco(data));
+        str_c_gpr32 = "" + buscar_pedidos.c_grupo_32(LerArquivos.StrDataBanco(data));
+        str_c_gpr33 = "" + buscar_pedidos.c_grupo_33(LerArquivos.StrDataBanco(data));
+
+        str_v_gpr1 = "" + buscar_pedidos.v_grupo_1(LerArquivos.StrDataBanco(data));
+        str_v_gpr11 = "" + buscar_pedidos.v_grupo_11(LerArquivos.StrDataBanco(data));
+        str_v_gpr12 = "" + buscar_pedidos.v_grupo_12(LerArquivos.StrDataBanco(data));
+        str_v_gpr13 = "" + buscar_pedidos.v_grupo_13(LerArquivos.StrDataBanco(data));
+        str_v_gpr2 = "" + buscar_pedidos.v_grupo_2(LerArquivos.StrDataBanco(data));
+        str_v_gpr21 = "" + buscar_pedidos.v_grupo_21(LerArquivos.StrDataBanco(data));
+        str_v_gpr22 = "" + buscar_pedidos.v_grupo_22(LerArquivos.StrDataBanco(data));
+        str_v_gpr23 = "" + buscar_pedidos.v_grupo_23(LerArquivos.StrDataBanco(data));
+        str_v_gpr3 = "" + buscar_pedidos.v_grupo_3(LerArquivos.StrDataBanco(data));
+        str_v_gpr31 = "" + buscar_pedidos.v_grupo_31(LerArquivos.StrDataBanco(data));
+        str_v_gpr32 = "" + buscar_pedidos.v_grupo_32(LerArquivos.StrDataBanco(data));
+        str_v_gpr33 = "" + buscar_pedidos.v_grupo_33(LerArquivos.StrDataBanco(data));
+
+        str_f_gpr1 = "" + buscar_pedidos.f_grupo_1(LerArquivos.StrDataBanco(data));
+        str_f_gpr11 = "" + buscar_pedidos.f_grupo_11(LerArquivos.StrDataBanco(data));
+        str_f_gpr12 = "" + buscar_pedidos.f_grupo_12(LerArquivos.StrDataBanco(data));
+        str_f_gpr13 = "" + buscar_pedidos.f_grupo_13(LerArquivos.StrDataBanco(data));
+        str_f_gpr2 = "" + buscar_pedidos.f_grupo_2(LerArquivos.StrDataBanco(data));
+        str_f_gpr21 = "" + buscar_pedidos.f_grupo_21(LerArquivos.StrDataBanco(data));
+        str_f_gpr22 = "" + buscar_pedidos.f_grupo_22(LerArquivos.StrDataBanco(data));
+        str_f_gpr23 = "" + buscar_pedidos.f_grupo_23(LerArquivos.StrDataBanco(data));
+        str_f_gpr3 = "" + buscar_pedidos.f_grupo_3(LerArquivos.StrDataBanco(data));
+        str_f_gpr31 = "" + buscar_pedidos.f_grupo_31(LerArquivos.StrDataBanco(data));
+        str_f_gpr32 = "" + buscar_pedidos.f_grupo_32(LerArquivos.StrDataBanco(data));
+        str_f_gpr33 = "" + buscar_pedidos.f_grupo_33(LerArquivos.StrDataBanco(data));
+
+        str_c_outros = "" + buscar_pedidos.c_grupo_outros(LerArquivos.StrDataBanco(data));
+        str_c_total = "" + buscar_pedidos.c_grupo_total(LerArquivos.StrDataBanco(data));
+
+        str_v_outros = "" + buscar_pedidos.v_grupo_outros(LerArquivos.StrDataBanco(data));
+        str_v_total = "" + buscar_pedidos.v_total(LerArquivos.StrDataBanco(data));
+
+        str_f_outros = "" + buscar_pedidos.f_grupo_outros(LerArquivos.StrDataBanco(data));
+        str_f_total = "" + buscar_pedidos.f_grupo_total(LerArquivos.StrDataBanco(data));
+//		str_f_total = "" + (Float.parseFloat(str_f_gpr1) + Float.parseFloat(str_f_gpr2) + Float.parseFloat(str_f_outros));
+
+        buscar_pedidos.close();
+
+        Date d = new Date();
+
+
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(AbrirArquivosExterno(name));
+            OutputStreamWriter osw = new OutputStreamWriter(fOut);
+
+            osw.append("" + StrComDireita("_", "_", 110));
+            osw.append("\n");
+            osw.append("" + StrComDireita("RESUMO DO DIA", " ", 83));
+            osw.append("" + StrComDireita("DATA: " + StrDataVisual(data) + " - " +
+                    d.getHours() + ":" + d.getMinutes(), " ", 27));
+            osw.append("\n");
+            osw.append("" + StrComDireita("VENDEDOR: " + cod_vendedor + " - " + nome_vendedor, " ", 110));
+            osw.append("\n");
+            osw.append("" + StrComDireita("-", "-", 110));
+            osw.append("\n");
+            osw.append("" + StrComDireita("FAMILIA", " ", 41));
+            osw.append("" + StrComDireita("VOLUME", " ", 17));
+            osw.append("" + StrComDireita("FATURAMENTO", " ", 17));
+            osw.append("" + StrComDireita("CLIENTES", " ", 35));
+            osw.append("\n");
+            osw.append("" + StrComDireita("-", "-", 110));
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_1, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr1, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr1, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr1, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_sgrp_11, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr11, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr11, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr11, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_sgrp_12, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr12, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr12, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr12, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_sgrp_13, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr13, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr13, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr13, " ", 35));
+            osw.append("\n");
+            osw.append("" + StrComDireita("-", "-", 110));
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_2, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr2, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr2, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr2, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_21, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr21, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr21, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr21, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_22, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr22, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr22, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr22, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_23, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr23, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr23, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr23, " ", 35));
+            osw.append("\n");
+            osw.append("" + StrComDireita("-", "-", 110));
+            osw.append("\n");
+
+            osw.append("" + StrComDireita(lbl_grp_3, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr3, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr3, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr3, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_31, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr31, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr31, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr31, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_32, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr32, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr32, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr32, " ", 35));
+            osw.append("\n");
+            osw.append("\n");
+            osw.append("" + StrComDireita(lbl_grp_33, " ", 41));
+            osw.append("" + StrComDireita(str_v_gpr33, " ", 17));
+            osw.append("" + StrComDireita(str_f_gpr33, " ", 17));
+            osw.append("" + StrComDireita(str_c_gpr33, " ", 35));
+            osw.append("\n");
+            osw.append("" + StrComDireita("-", "-", 110));
+            osw.append("\n");
+
+            osw.append("" + StrComDireita("OUTROS", " ", 41));
+            osw.append("" + StrComDireita(str_v_outros, " ", 17));
+            osw.append("" + StrComDireita(str_f_outros, " ", 17));
+            osw.append("" + StrComDireita(str_c_outros, " ", 35));
+            osw.append("\n");
+            osw.append("" + StrComDireita("_", "_", 110));
+            osw.append("\n");
+            osw.append("" + StrComDireita("TOTAL", " ", 41));
+            osw.append("" + StrComDireita(str_v_total, " ", 17));
+            osw.append("" + StrComDireita(str_f_total, " ", 17));
+            osw.append("" + StrComDireita(str_c_total, " ", 35));
+            osw.append("\n");
+
+            osw.close();
+            fOut.close();
+        } catch (Exception e) {
+
+        }
+        */
+
+        return sb.toString();
+    }
+
+    public String graficos(String name, String data, int vendedor, String nome)
+    {
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+        Graficos grafico = new Graficos(this.context);
+        grafico.gerarGraficos();
+        this.nomeArquivo = name;
+
+        Date today = new Date();
+        SimpleDateFormat sf;
+        int month = today.getMonth();
+        String month_name;
+        String month_name2;
+        String month_name3;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+
+        StringBuilder sb = new StringBuilder();
+
+        switch(month)
+        {
+            case 0 :
+                month_name = "JANEIRO";
+                month_name2 = "DEZEMBRO";
+                month_name3 = "NOVEMBRO";
+                break;
+            case 1 :
+                month_name = "FEVEREIRO";
+                month_name2 = "JANEIRO";
+                month_name3 = "DEZEMBRO";
+                break;
+            case 2 :
+                month_name = "MARÇO";
+                month_name2 = "FEVEREIRO";
+                month_name3 = "JANEIRO";
+                break;
+            case 3 :
+                month_name = "ABRIL";
+                month_name2 = "MARÇO";
+                month_name3 = "FEVEREIRO";
+                break;
+            case 4 :
+                month_name = "MAIO";
+                month_name2 = "ABRIL";
+                month_name3 = "MARÇO";
+                break;
+            case 5 :
+                month_name = "JUNHO";
+                month_name2 = "MAIO";
+                month_name3 = "ABRIL";
+                break;
+            case 6 :
+                month_name = "JULHO";
+                month_name2 = "JUNHO";
+                month_name3 = "MAIO";
+                break;
+            case 7 :
+                month_name = "AGOSTO";
+                month_name2 = "JULHO";
+                month_name3 = "JUNHO";
+                break;
+            case 8 :
+                month_name = "SETEMBRO";
+                month_name2 = "AGOSTO";
+                month_name3 = "JULHO";
+                break;
+            case 9 :
+                month_name = "OUTUBRO";
+                month_name2 = "SETEMBRO";
+                month_name3 = "AGOSTO";
+                break;
+            case 10 :
+                month_name = "NOVEMBRO";
+                month_name2 = "OUTUBRO";
+                month_name3 = "SETEMBRO";
+                break;
+            case 11 :
+                month_name = "DEZEMBRO";
+                month_name2 = "NOVEMBRO";
+                month_name3 = "OUTRUBRO";
+                break;
+            default :
+                month_name = "DEZEMBRO";
+                month_name2 = "NOVEMBRO";
+                month_name3 = "OUTRUBRO";
+                break;
+        }
+
+        try {
+            sb.append(ms.comDireita("_", "_", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("GRAFCICOS", " ", 75));
+            sb.append(ms.comDireita("DATA: " + ms.dataVisual(data), " ", 35));
+            sb.append("\n");
+            sb.append(ms.comDireita("VENDEDOR: " + vendedor + " - " + nome, " ", 110));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("TOTAL DE PEDIDOS", " ", 30));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(1, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(1, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(1, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("CLIENTES MOVIMENTADOS", " ", 30));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(2, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(2, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(2, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("PEDIDO MEDIO", " ", 30));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(3, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(3, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(3, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("MEDIA ITENS POR PEDIDO", " ", 30));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(4, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(4, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(4, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("FREQUENCIA DE COMPRAS", " ", 30));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(5, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(5, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(5, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("ACELERADOR (MED. ITENS + FREQUENCIA)", " ", 50));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(6, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(6, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(6, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita("-", "-", 110));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("PREÇO MÉDIO", " ", 30));
+            sb.append("\n");
+            sb.append(ms.comDireita(month_name, " ", 15));
+            sb.append(ms.comDireita(month_name2, " ", 15));
+            sb.append(ms.comDireita(month_name3, " ", 15));
+            sb.append("\n");
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(7, 1)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(7, 2)), "0", 10), " ", 15));
+            sb.append(ms.comDireita(ms.comEsquerda(String.valueOf(grafico.percentualGrafico(7, 3)), "0", 10), " ", 15));
+            sb.append("\n");
+
+            sb.append(ms.comDireita("_", "_", 110));
+        }
+        catch (Exception e) { /*****/ }
+
+        return sb.toString();
     }
 }
