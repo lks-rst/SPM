@@ -149,6 +149,13 @@ public class EMailler extends Authenticator
 
     public void addAttachment(String fileName, String filePath) throws Exception
     {
+        BodyPart messageBodyPart = new MimeBodyPart();
+        DataSource source = new FileDataSource(filePath);
+        messageBodyPart.setDataHandler(new DataHandler(source));
+        messageBodyPart.setFileName(fileName);
+
+        _multipart.addBodyPart(messageBodyPart);
+        /*
         try
         {
             BodyPart messageBodyPart = new MimeBodyPart();
@@ -158,7 +165,12 @@ public class EMailler extends Authenticator
 
             _multipart.addBodyPart(messageBodyPart);
         }
-        catch (Exception e) { /*****/ }
+        catch (Exception e)
+        {
+            String s = e.getMessage();
+            s = "";
+        }
+        */
     }
 
     @Override
