@@ -123,7 +123,8 @@ public class ConfiguradorConexao
     public void setDataEmailEnviado(String dataEmailEnviado) { this.dataEmailEnviado = dataEmailEnviado; }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "{" +
                 "\"serverFtp\":\"" + serverFtp + '"' +
                 ", \"serverFtp2\":\"" + serverFtp2 + '"' +

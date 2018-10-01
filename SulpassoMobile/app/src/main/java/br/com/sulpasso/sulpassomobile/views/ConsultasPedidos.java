@@ -280,6 +280,8 @@ public class ConsultasPedidos extends AppCompatActivity
 
     public void indicarPosicaoPedido(int posicao) { this.controle.setPosicaoPedido(posicao); }
 
+    public boolean abrirMenu() { return !this.controle.pedidoJaEnviado(); }
+
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
     public void intervalo_pediods(final int tipo, String titulo)

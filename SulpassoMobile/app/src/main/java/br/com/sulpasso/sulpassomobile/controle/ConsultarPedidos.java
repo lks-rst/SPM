@@ -244,6 +244,21 @@ public class ConsultarPedidos
 
     public void setPosicaoPedido(int posicaoPedido) { this.posicaoPedido = posicaoPedido; }
 
+    public boolean pedidoJaEnviado()
+    {
+        boolean enviado = false;
+
+        if(this.naoEnviadas != null)
+            enviado = false;
+        else if(this.enviadas != null)
+            enviado = true;
+        else if(this.todas != null)
+            enviado = this.todas.get(this.posicaoPedido).getEnviado() == 1 ? true : false;
+
+
+        return enviado;
+    }
+
     public int getTipoBusca() { return tipoBusca; }
 
     public void setTipoBusca(int tipoBusca) { this.tipoBusca = tipoBusca; }

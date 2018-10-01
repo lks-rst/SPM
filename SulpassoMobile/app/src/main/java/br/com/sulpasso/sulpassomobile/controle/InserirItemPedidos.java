@@ -111,11 +111,27 @@ public class InserirItemPedidos
         float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
         float diferenca = 0;
 
-        minimo = minimoPromocional > 0 ?
-                (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
-        minimo = (minimo > 0 && minimo < tabela) ? minimo : tabela;
+        float minimoAcessivel = 0;
 
-        diferenca = minimo - this.valor;
+        if(minimoPromocional > 0)
+        {
+            if(minimo < minimoPromocional)
+            {
+                minimoAcessivel = minimoPromocional;
+            }
+            else
+            {
+                minimoAcessivel = minimo;
+            }
+        }
+        else
+        {
+            minimoAcessivel = minimo;
+        }
+
+        minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
+
+        diferenca = minimoAcessivel - this.valor;
 
         return diferenca;
     }
@@ -237,12 +253,32 @@ public class InserirItemPedidos
                 float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
                 float minimoPromocional = this.verificarPromocoes(context);
                 float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
+                float minimoAcessivel = 0;
 
-                minimo = minimoPromocional > 0 ?
+                if(minimoPromocional > 0)
+                {
+                    if(minimo < minimoPromocional)
+                    {
+                        minimoAcessivel = minimoPromocional;
+                    }
+                    else
+                    {
+                        minimoAcessivel = minimo;
+                    }
+                }
+                else
+                {
+                    minimoAcessivel = minimo;
+                }
+
+                /*
+                minimoAcessivel = minimoPromocional > 0 ?
                         (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
-                minimo = (minimo > 0 && minimo < tabela) ? minimo : tabela;
+                */
 
-                valordesconto = minimo - (minimo * desconto / 100);
+                minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
+
+                valordesconto = minimoAcessivel - (minimoAcessivel * desconto / 100);
 
                 if(this.valor >= valordesconto)
                     return true;

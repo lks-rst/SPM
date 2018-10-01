@@ -12,11 +12,13 @@
         android:layout_height="500dp"
         android:id="@+id/llMainListRes">
 
+        <!--
         <Button
             style="@style/texts.labels.bigger"
             android:text="Finalizar Pedido"
             android:layout_gravity="center_horizontal"
             android:onClick="selecionarItem" />
+        -->
 
         <LinearLayout
             android:orientation="horizontal"

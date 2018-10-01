@@ -641,6 +641,10 @@ public class ItemDataAccess
                     c.getInt(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
 
+            item.setFaixa(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
+
             item.setContribuicao(
                     c.getFloat(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CONTRIBUICAO)));
