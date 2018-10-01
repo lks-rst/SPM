@@ -13,7 +13,6 @@ import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
-import br.com.sulpasso.sulpassomobile.exeption.UpdateExeption;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorConexao;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorEmpresa;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
@@ -116,8 +115,10 @@ public class Email extends Service
                 }
                 else
                 {
+                    /*
                     try { cda.alterarDataEmail(ms.dataBanco(data)); }
                     catch (UpdateExeption updateExeption) { updateExeption.printStackTrace(); }
+                    */
 
                     today = Calendar.getInstance();
                     hour = today.get(Calendar.HOUR_OF_DAY);
@@ -212,7 +213,7 @@ public class Email extends Service
     public IBinder onBind(Intent intent) { return null; }
 
     @Override
-    public void onDestroy(){ Toast.makeText(this, "Email encaminhado aos suprevisores.", Toast.LENGTH_LONG).show(); }
+    public void onDestroy(){ Toast.makeText(this, "Email encaminhado aos supervisores.", Toast.LENGTH_LONG).show(); }
 
     private boolean create_email()
     {

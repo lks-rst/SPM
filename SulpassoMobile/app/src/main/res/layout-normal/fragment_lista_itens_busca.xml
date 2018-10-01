@@ -11,11 +11,13 @@
         android:layout_height="match_parent"
         android:id="@+id/llMainListItem">
 
+        <!--
         <Button
             style="@style/texts.labels.bigger"
             android:text="Resumo Pedido"
             android:layout_gravity="center_horizontal"
             android:onClick="abrirResumo" />
+        -->
 
         <LinearLayout
             android:orientation="horizontal"

@@ -51,7 +51,6 @@ public class Inicial extends AppCompatActivity
         setContentView(R.layout.activity_inicial);
 
         this.acessoConfirmado = false;
-        this.serviceIntialize();
 
         try { this.controle = new TelaInicial(getApplicationContext()); }
         catch (Exception e) { }
@@ -75,6 +74,7 @@ public class Inicial extends AppCompatActivity
                     this.fragmentoCentral();
 
                     this.indicarAcesso();
+                    this.serviceIntialize();
                 }
             }
             else

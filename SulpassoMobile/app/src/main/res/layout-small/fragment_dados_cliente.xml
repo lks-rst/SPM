@@ -354,11 +354,13 @@
                 android:layout_height="@dimen/activity_vertical_margin"
                 android:background="#a10505" />
 
+            <!--
             <Button
                 style="@style/texts.labels"
                 android:text="Confirmar Escolha Cliente"
                 android:id="@+id/button"
                 android:onClick="selecionarCliente" />
+            -->
 
         </LinearLayout>
     </ScrollView>

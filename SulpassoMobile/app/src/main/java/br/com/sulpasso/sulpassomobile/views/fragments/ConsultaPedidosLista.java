@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -166,10 +167,24 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
 /*************************************METHODS FROM THE INTERFACES**********************************/
     private void apresentarAcoes(int posicao)
     {
+        boolean abrirMenu;
         ((ConsultasPedidos) getActivity()).indicarPosicaoPedido(posicao);
-        MenuPedidoNaoEnviado dialog = new MenuPedidoNaoEnviado();
-        dialog.setTargetFragment(this, 1); //request code
-        dialog.show(getFragmentManager(), "DIALOG");
+
+        abrirMenu = ((ConsultasPedidos) getActivity()).abrirMenu();
+
+        if(abrirMenu)
+        {
+            MenuPedidoNaoEnviado dialog = new MenuPedidoNaoEnviado();
+            dialog.setTargetFragment(this, 1); //request code
+            dialog.show(getFragmentManager(), "DIALOG");
+        }
+        else
+        {
+            Toast.makeText(getActivity().getApplicationContext(),
+                "Pedidos já transmitidos nõ podem ser alterados ou excluidos." +
+                "\nPara reenvio de pedidos utilize as opções do menu.",
+                Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

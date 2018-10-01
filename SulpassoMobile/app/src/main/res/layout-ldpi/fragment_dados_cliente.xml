@@ -352,12 +352,14 @@
                 android:hint="@string/str_media" />
         </LinearLayout>
 
+        <!--
         <Button
             style="@style/textsSmall.labels"
             android:text="Confirmar Escolha Cliente"
             android:id="@+id/button"
             android:layout_height="40dp"
             android:onClick="selecionarCliente" />
+        -->
 
     </LinearLayout>
 
