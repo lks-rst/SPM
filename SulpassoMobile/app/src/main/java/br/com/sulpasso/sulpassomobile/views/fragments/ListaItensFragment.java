@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,7 +92,24 @@ public class ListaItensFragment extends Fragment implements
             throw new ClassCastException(getActivity().toString()
                     + " must be Pedido.class calss");
         }
+        else
+        {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
 
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            ((Pedido) getActivity()).verificarEncerramento();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
         /*
         try { activity = (Pedido) getActivity();}
         catch (ClassCastException e)

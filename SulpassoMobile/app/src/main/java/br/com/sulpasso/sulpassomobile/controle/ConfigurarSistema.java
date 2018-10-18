@@ -233,4 +233,9 @@ public class ConfigurarSistema
                 return "--";
         }
     }
+
+    public int consultaClientesAbertura()
+    {
+        return this.configVda.getGerenciarVisitas() ? 5 : 0;
+    }
 }

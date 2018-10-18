@@ -34,6 +34,11 @@ public class MotivosDataAccess
 
     public Boolean delete() throws GenercicException { return this.apagar(null); }
 
+    public ArrayList<Motivos> getAll() throws GenercicException
+    {
+        return this.searchAll();
+    }
+
     private Motivos dataConverter(String motivo)
     {
         Motivos m = new Motivos();
@@ -99,6 +104,7 @@ public class MotivosDataAccess
 
         return lista;
     }
+
     private Boolean apagar(Motivos d)  throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());

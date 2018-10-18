@@ -1,6 +1,7 @@
 package br.com.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -315,7 +316,26 @@ public class PedidoNormal extends EfetuarPedidos
 
                     if(super.controleSalvar.salvarPedido(super.context, super.venda))
                     {
-                        super.controleSalvar.atualizarSaldo(super.context, super.controleConfiguracao.getSaldoAtual());
+                        super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto())));
+
+                        float flexItem = 0;
+                        float flexItens = 0;
+                        float totalFlex = 0;
+
+
+                        for (ItensVendidos i : super.itensVendidos)
+                        {
+                            flexItem = i.getFlex();
+
+                            flexItens += flexItem;
+                        }
+
+                        totalFlex = (float) (flexItens - super.venda.getDesconto());
+
+                        Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                        t.show();
+
                         return 1;
                     }
                     else
@@ -326,7 +346,7 @@ public class PedidoNormal extends EfetuarPedidos
                 }
                 else
                 {
-                    Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                    Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado excede o valor atual de saldo disponível"
                             , Toast.LENGTH_LONG).show();
                     return 0;
                 }
@@ -667,39 +687,46 @@ public class PedidoNormal extends EfetuarPedidos
 
     protected Boolean finalizarItem()
     {
-        if(super.controleDigitacao.valorMaximo(super.context))
+        if(EfetuarPedidos.senha)
         {
-            if(super.controleConfiguracao.formaDesconto() == 0)
+            return true;
+        }
+        else
+        {
+            if(super.controleDigitacao.valorMaximo(super.context))
             {
-                if (super.controleConfiguracao.contribuicaoIdeal())
-                    return true;
+                if(super.controleConfiguracao.formaDesconto() == 0)
+                {
+                    if (super.controleConfiguracao.contribuicaoIdeal())
+                        return true;
+                    else
+                    {
+                        EfetuarPedidos.erro = true;
+                        EfetuarPedidos.strErro = "Contribuição atual não permite desconto!\nPor favor verifique.";
+                        return false;
+                    }
+                }
                 else
                 {
-                    EfetuarPedidos.erro = true;
-                    EfetuarPedidos.strErro = "Contribuição atual não permite desconto!\nPor favor verifique.";
-                    return false;
+                    float saldo = super.controleConfiguracao.getSaldoAtual();
+                    if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        EfetuarPedidos.erro = true;
+                        EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
+                        return false;
+                    }
                 }
             }
             else
             {
-                float saldo = super.controleConfiguracao.getSaldoAtual();
-                if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    EfetuarPedidos.erro = true;
-                    EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
-                    return false;
-                }
+                EfetuarPedidos.erro = true;
+                EfetuarPedidos.strErro = "Valor acima do permitido!\nPor favor verifique.";
+                return false;
             }
-        }
-        else
-        {
-            EfetuarPedidos.erro = true;
-            EfetuarPedidos.strErro = "Valor acima do permitido!\nPor favor verifique.";
-            return false;
         }
     }
 /**************************************************************************************************/

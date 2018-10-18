@@ -893,8 +893,16 @@ public class Atualizacao extends AppCompatActivity
             if (arquivo.exists())
             {
                 this.controleAtualizacao = new AtualizarSistema(getApplicationContext());
-                this.usr = usuario;
-                this.empresa = empresa;
+                if(usuario != -1)
+                {
+                    this.usr = usuario;
+                    this.empresa = empresa;
+                }
+                else
+                {
+                    this.usr = this.controleAtualizacao.buscarUsuario();
+                    this.empresa = this.controleAtualizacao.buscarEmpresa();
+                }
                 new Configurar().execute();
             }
             else
@@ -1003,8 +1011,11 @@ public class Atualizacao extends AppCompatActivity
             liberado = true;
             i = ATUALIZAR;
         }
-*/
+
         if (liberado) { solicitarDados(); }
+        else { /***** / }
+*/
+        if (liberado) { configurarSistema("", -1); }
         else { /*****/ }
     }
 }

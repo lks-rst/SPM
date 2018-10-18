@@ -43,42 +43,52 @@ public class ItemDataAccess
         return this.searchAll();
     }
 
-    public ArrayList<Item> getAll(int tabela) throws GenercicException
+    public ArrayList<Item> getAll(int tabela, int orderBy) throws GenercicException
     {
-        return this.searchAll(tabela);
+        return this.searchAll(tabela, orderBy);
     }
 
     public ArrayList<Item> getByData() throws GenercicException
     {
-        switch (this.searchType)
+        if(this.searchData.trim() == "") { return this.searchAll(); }
+        else
         {
-            case 1:
-            case 2:
-            case 3:
-                return this.searchByData(-1);
-            case 4:
-                return this.searchByGroup(-1);
-            case 6:
-                return this.searchByMix(-1);
-            default :
-                return this.searchAll();
+            switch (this.searchType)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    return this.searchByData(-1, 0);
+                case 4:
+                    return this.searchByGroup(-1);
+                case 6:
+                    return this.searchByMix(-1);
+                default :
+                    return this.searchAll();
+            }
         }
     }
 
-    public ArrayList<Item> getByData(int tabela) throws GenercicException
+    public ArrayList<Item> getByData(int tabela, int orderBy) throws GenercicException
     {
-        switch (this.searchType)
+        if(this.searchData.trim() == "") { return this.searchAll(tabela, orderBy); }
+        else
         {
-            case 1:
-            case 2:
-            case 3:
-                return this.searchByData(tabela);
-            case 4:
-                return this.searchByGroup(tabela);
-            case 6:
-                return this.searchByMix(tabela);
-            default :
-                return this.searchAll(tabela);
+            switch (this.searchType)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    return this.searchByData(tabela, orderBy);
+                case 4:
+                    return this.searchByGroup(tabela);
+                case 6:
+                    return this.searchByMix(tabela);
+                case 7:
+                    return this.searchByData(tabela, orderBy);
+                default :
+                    return this.searchAll(tabela, orderBy);
+            }
         }
     }
 
@@ -314,7 +324,7 @@ public class ItemDataAccess
         catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
     }
 
-    private ArrayList<Item> searchByData(int tabela) throws ReadExeption
+    private ArrayList<Item> searchByData(int tabela, int orderBy) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
 
@@ -381,6 +391,16 @@ public class ItemDataAccess
                 this.sBuilder.append(this.searchData);
                 this.sBuilder.append("%')");
                 break;
+            case 7:
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+                this.sBuilder.append(".");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+                this.sBuilder.append(" = '");
+                this.sBuilder.append(this.searchData);
+                this.sBuilder.append("'");
+                break;
             default:
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
@@ -388,6 +408,38 @@ public class ItemDataAccess
                 this.sBuilder.append(this.searchData);
                 this.sBuilder.append("%')");
                 break;
+        }
+
+        if(tabela != -1)
+        {
+            this.sBuilder.append(" AND ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+            this.sBuilder.append(".");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO);
+            this.sBuilder.append(" > 0");
+        }
+
+        this.sBuilder.append(" ORDER BY ");
+        if(orderBy == 0)
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        }
+        else
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.SUBGRUPO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
         }
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
@@ -465,7 +517,8 @@ public class ItemDataAccess
             sb.append(" = ");
             sb.append(item.getCodigo());
 
-            try {
+            try
+            {
                 Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
                 d.moveToFirst();
               
@@ -555,6 +608,14 @@ public class ItemDataAccess
                     this.sBuilder.append(divisao);
                 }
             }
+
+            this.sBuilder.append("') AND ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+            this.sBuilder.append(".");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO);
+            this.sBuilder.append(" > 0;");
         }
         else
         {
@@ -595,10 +656,10 @@ public class ItemDataAccess
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
                     this.sBuilder.append(" = '");
                     this.sBuilder.append(divisao);
+                    this.sBuilder.append("')");
                 }
             }
         }
-        this.sBuilder.append("');");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -655,8 +716,6 @@ public class ItemDataAccess
                     c.getString(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
 
-
-
             StringBuilder sb = new StringBuilder();
             sb.delete(0, this.sBuilder.length());
             sb.append("SELECT * FROM ");
@@ -672,7 +731,6 @@ public class ItemDataAccess
 
             Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
             d.moveToFirst();
-
 
             try {
                 item.setEstoque(
@@ -727,7 +785,59 @@ public class ItemDataAccess
         this.sBuilder.append("item.");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO);
-        this.sBuilder.append(" AS comp ");
+        this.sBuilder.append(" AS comp, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.BARRAS);
+        this.sBuilder.append(" AS barras, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA);
+        this.sBuilder.append(" AS uVe, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE);
+        this.sBuilder.append(" AS uni, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCONTO);
+        this.sBuilder.append(" AS desconto, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.MINIMO);
+        this.sBuilder.append(" AS minimo, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FLEX);
+        this.sBuilder.append(" AS felx, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA);
+        this.sBuilder.append(" AS qCaixa, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA);
+        this.sBuilder.append(" AS faixa, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO);
+        this.sBuilder.append(" AS peso, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD);
+        this.sBuilder.append(" AS pesocd, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CONTRIBUICAO);
+        this.sBuilder.append(" AS contribuicao, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CUSTO);
+        this.sBuilder.append(" AS custo, ");
+        this.sBuilder.append("item.");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO);
+        this.sBuilder.append(" AS aplicacao");
         this.sBuilder.append(" FROM ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Gravosos.TABELA);
@@ -753,6 +863,19 @@ public class ItemDataAccess
             item.setReferencia(c.getString(5));
             item.setDescricao(c.getString(6));
             item.setComplemento(c.getString(7));
+            item.setBarras(c.getString(8));
+            item.setUnidadeVenda(c.getString(9));
+            item.setUnidade(c.getString(10));
+            item.setDesconto(c.getDouble(11));
+            item.setMinimoVenda(c.getInt(12));
+            item.setFlex(c.getString(13));
+            item.setQuantidadeCaixa(c.getInt(14));
+            item.setFaixa(c.getFloat(15));
+            item.setPeso(c.getFloat(16));
+            item.setPesoCd(c.getFloat(17));
+            item.setContribuicao(c.getFloat(18));
+            item.setCusto(c.getFloat(19));
+            item.setAplicacao(c.getString(20));
 
             gravoso.setItem(item);
             gravoso.setQuantidade(c.getFloat(1));
@@ -869,7 +992,7 @@ public class ItemDataAccess
         return lista;
     }
 
-    private ArrayList<Item> searchByData(int type, int data) throws ReadExeption
+    private ArrayList<Item> searchByData(int type, int data, int orderBy) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
 
@@ -935,7 +1058,7 @@ public class ItemDataAccess
         return lista;
     }
 
-    private ArrayList<Item> searchAll(int tabela) throws ReadExeption
+    private ArrayList<Item> searchAll(int tabela, int orderBy) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
 
@@ -967,6 +1090,34 @@ public class ItemDataAccess
         this.sBuilder.append(" = ");
         this.sBuilder.append(tabela);
         this.sBuilder.append(")");
+        this.sBuilder.append(" AND (");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.TABELA);
+        this.sBuilder.append(".");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO);
+        this.sBuilder.append(" > 0) ORDER BY ");
+
+        if(orderBy == 0)
+        {
+            this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        }
+        else
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.SUBGRUPO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        }
+
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

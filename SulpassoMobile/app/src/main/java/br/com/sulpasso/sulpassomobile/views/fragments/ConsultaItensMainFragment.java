@@ -42,7 +42,7 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
 
     public ConsultaItensMainFragment(){}
 
-    /**********************************FRAGMENT LIFE CYCLE*********************************************/
+/**********************************FRAGMENT LIFE CYCLE*********************************************/
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -56,7 +56,11 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
         try
         {
             controleConfiguracao.carregarConfiguracoesVenda();
-            this.consulta.setSearchType(controleConfiguracao.getConfigUsr().getTipoBusca());
+            int tipoBusca = controleConfiguracao.getConfigUsr().getTipoBusca();
+
+            if(tipoBusca <= 0) tipoBusca = 1;
+
+            this.consulta.setSearchType(tipoBusca);
         }
         catch (GenercicException exeption)
         {

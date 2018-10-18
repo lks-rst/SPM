@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -100,6 +102,9 @@ public class Pedido extends AppCompatActivity
                     this.controlePedido = new Troca(getApplicationContext(), "TR");
                 else if(tipoVenda == TipoVenda.ALTERACAO.getValue())
                     this.controlePedido = new AlteracaoPedidos(getApplicationContext(), direta);
+
+
+                this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controlePedido.pesquisaInicial()));
 
                 displayView(0);
             }
@@ -207,6 +212,8 @@ public class Pedido extends AppCompatActivity
             Toast t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
             t.show();
+
+            this.displayView(1);
         }
         else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique.") ||
                 EfetuarPedidos.strErro.equalsIgnoreCase("Saldo insuficiente!\nPor favor verifique.") ||
@@ -279,15 +286,27 @@ public class Pedido extends AppCompatActivity
     public void alterarFragmento(int position) { this.displayView(position); }
 /******************************END OF BUTTON CLICKS AT THE UI**************************************/
 /*********************************METHODS FOR DATA ACCESS******************************************/
+    public int consultaClientesInicial() { return this.controlePedido.consultaClientesAbertura(); }
+
     public void listarClientes(int tipo, String dados) { this.buscar_clientes(tipo); }
 
     public void listarClientes(int tipo)
     {
-        try { this.apresentarLista(this.controlePedido.listarCLientes(tipo, "")); }
+        try { this.apresentarLista(this.controlePedido.listarCLientes(tipo, ""), 1); }
         catch (GenercicException ge)
         {
             Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
-            this.apresentarLista(new ArrayList<String>());
+            this.apresentarLista(new ArrayList<String>(), 1);
+        }
+    }
+
+    public void listarMotivos()
+    {
+        try { this.apresentarLista(this.controlePedido.listarMotivos(), 2); }
+        catch (GenercicException ge)
+        {
+            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            this.apresentarLista(new ArrayList<String>(), 2);
         }
     }
 
@@ -444,7 +463,10 @@ public class Pedido extends AppCompatActivity
 
     public void alterarItem(int posicao, int opt)
     {
-        if(opt == 1) { this.controlePedido.removerItem(posicao); }
+        if(opt == 1)
+        {
+            this.verificarExclusaoItem(posicao);
+        }
         else
         {
             this.controlePedido.alterarItem(posicao);
@@ -495,6 +517,10 @@ public class Pedido extends AppCompatActivity
     public String getUnidadeVenda() { return this.controlePedido.getUnidadeVenda(); }
 
     public String calcularTotalItem() { return this.controlePedido.calcularTotal(); }
+
+    public int codigoMotivo(int posicao) { return this.controlePedido.codigoMotivo(posicao - 1); }
+
+    public boolean controlaRoteiro() { return this.controlePedido.controlaRoteiro(); }
 
     public void digitarQuantidade(String quantidade) { this.controlePedido.setQuantidade(quantidade); }
 
@@ -566,7 +592,10 @@ public class Pedido extends AppCompatActivity
 
     public void exibirInformacoes() { /*****/ }
 
-    public void salvarPedido() { /*****/ }
+    public void salvarPedido()
+    {
+        this.controlePedido.finalizarPedido();
+    }
 
     public void acrescentarObservacao(String s, int tipo)
     {
@@ -635,9 +664,70 @@ public class Pedido extends AppCompatActivity
     {
         return this.controlePedido.tipoConsultaItens;
     }
+
+    public void verificarEncerramento()
+    {
+        String titulo = "CANCELAMENTO -- ATENÇÃO";
+        String mensagem = "ATENÇÃO!\nDeseja realmente sair do pedido?\nTODAS AS ALTERAÇÕES SERÃO PERDIDAS.";
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(titulo);
+        alert.setMessage(mensagem);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which) { encerrar(); }
+        });
+
+        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
+        });
+
+        alert.show();
+    }
+
+    public void verificarExclusaoItem(final int posicao)
+    {
+        String titulo = "EXCLUSÃO -- ATENÇÃO";
+        String mensagem = "ATENÇÃO!\nDeseja realmente REMOVER o item do pedido?.";
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(titulo);
+        alert.setMessage(mensagem);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                controlePedido.removerItem(posicao);
+                apresentarListaResumo();
+            }
+        });
+
+        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
+        });
+
+        alert.show();
+    }
+
+    private void encerrar()
+    {
+        finish();
+    }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
 /************************************End the Overridin*********************************************/
-/******************************Methods to make class services direct ******************************/
+/***************************Methods to make class services direct *********************************/
     /**
      * Calback para interceptar os movimentos na tela
      */
@@ -781,6 +871,10 @@ public class Pedido extends AppCompatActivity
         {
             FragmentManager fragmentManager = getFragmentManager();
 
+            /**
+             * Todo: Verifica a ação do botão voltar do aparelho
+             */
+            /*
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {
                 fragmentManager.beginTransaction()
@@ -790,6 +884,18 @@ public class Pedido extends AppCompatActivity
             else
             {
                 fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+            }
+            */
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+            {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                        .replace(R.id.frame_container, fragment).commit();
+            }
+            else
+            {
+                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
             }
         }
         else { Log.e("MainActivity", "Error in creating fragment"); }
@@ -912,20 +1018,20 @@ public class Pedido extends AppCompatActivity
                     try
                     {
                         apresentarLista(controlePedido.listarCLientes(tipo, String.valueOf(
-                            controlePedido.getCitCod(spnr_cidades.getSelectedItemPosition()))));
+                            controlePedido.getCitCod(spnr_cidades.getSelectedItemPosition()))), 1);
                     } catch (GenercicException e)
                     {
-                        apresentarLista(new ArrayList<String>());
+                        apresentarLista(new ArrayList<String>(), 1);
                     }
                 }
                 else
                 {
                     try
                     {
-                        apresentarLista(controlePedido.listarCLientes(tipo, input.getText().toString()));
+                        apresentarLista(controlePedido.listarCLientes(tipo, input.getText().toString()), 1);
                     } catch (GenercicException e)
                     {
-                        apresentarLista(new ArrayList<String>());
+                        apresentarLista(new ArrayList<String>(), 1);
                     }
                 }
             }
@@ -934,7 +1040,7 @@ public class Pedido extends AppCompatActivity
         {
             public void onClick(DialogInterface dialog, int which)
             {
-                apresentarLista(new ArrayList<String>());
+                apresentarLista(new ArrayList<String>(), 1);
             }
         });
 
@@ -946,7 +1052,7 @@ public class Pedido extends AppCompatActivity
         alert.show();
     }
 
-    private void apresentarLista(ArrayList<String> itens)
+    private void apresentarLista(ArrayList<String> itens, int tipo)
     {
         FragmentManager fragmentManager = getFragmentManager();
         DadosClienteFragment fragment;
@@ -955,7 +1061,25 @@ public class Pedido extends AppCompatActivity
         {
             fragment = (DadosClienteFragment) fragmentManager.findFragmentById(R.id.frame_container);
 
-            if (fragment != null) { fragment.apresentarLista(itens); }
+            if (fragment != null) { fragment.apresentarLista(itens, tipo); }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void apresentarListaResumo()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        ResumoFragment fragment;
+
+        try
+        {
+            fragment = (ResumoFragment) fragmentManager.findFragmentById(R.id.frame_container);
+
+            if (fragment != null) { fragment.atualizarResumo(); }
         }
         catch (Exception e)
         {
@@ -1004,8 +1128,6 @@ public class Pedido extends AppCompatActivity
 
             if(this.controlePedido.confirmarItem())
             {
-                getFragmentManager().popBackStackImmediate();
-                EfetuarPedidos.senha = false;
                 int ret = -1;
                 ret = this.controlePedido.verificarTabloides();
                 if(ret != -1)
@@ -1013,6 +1135,9 @@ public class Pedido extends AppCompatActivity
                     aplicarDescontoTabloide(ret);
                     Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
                 }
+
+                getFragmentManager().popBackStackImmediate();
+                EfetuarPedidos.senha = false;
             }
             else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique."))
             {

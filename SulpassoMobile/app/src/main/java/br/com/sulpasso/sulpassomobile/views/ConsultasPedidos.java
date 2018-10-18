@@ -241,7 +241,36 @@ public class ConsultasPedidos extends AppCompatActivity
                 break;
 
             case 1:
-                if(this.controle.excluirPedido())
+                this.VerificarExclusaoPedido();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void indicarPosicaoPedido(int posicao) { this.controle.setPosicaoPedido(posicao); }
+
+    public boolean abrirMenu() { return !this.controle.pedidoJaEnviado(); }
+
+
+    public void VerificarExclusaoPedido(/*final int posicao*/)
+    {
+        String titulo = "EXCLUSÃO -- ATENÇÃO";
+        String mensagem = "ATENÇÃO!\nDeseja realmente excluir o pedido?\n(Essa ação não poderá ser desfeita)";
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(titulo);
+        alert.setMessage(mensagem);
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                if(controle.excluirPedido())
                 {
                     FragmentManager fragmentManager;
                     Fragment fragment = null;
@@ -266,22 +295,22 @@ public class ConsultasPedidos extends AppCompatActivity
                         try
                         {
                             ((ConsultaPedidosLista) fragment).listarItens(
-                                    this.controle.listarPedidosV(this.controle.tipoBusca(), ""));
+                                    controle.listarPedidosV(controle.tipoBusca(), ""));
                         }
                         catch (GenercicException e) { e.printStackTrace(); }
                     }
                 }
-                break;
+            }
+        });
 
-            default:
-                break;
-        }
+        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
+        });
+
+        alert.show();
     }
-
-    public void indicarPosicaoPedido(int posicao) { this.controle.setPosicaoPedido(posicao); }
-
-    public boolean abrirMenu() { return !this.controle.pedidoJaEnviado(); }
-
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
     public void intervalo_pediods(final int tipo, String titulo)

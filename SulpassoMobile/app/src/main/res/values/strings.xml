@@ -3,6 +3,7 @@
     <string name="title_activity_login">Login</string>
     <string name="empty"></string>
     <string name="action_settings">Settings</string>
+    <string name="justificativa">Deseja justificar a não venda a este cliente? Ao justificar o pedido será encerrado.</string>
     <!-- END -->
 
     <!-- Strings related to login -->

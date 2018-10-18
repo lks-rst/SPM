@@ -77,6 +77,19 @@ public class ConsultarProdutos
         return posicao;
     }
 
+    public Item getItemAlteracao(int codigo, int tabela, int orderBy)
+    {
+        ArrayList<Item> t = null;
+
+        this.ida.setSearchData(String.valueOf(codigo));
+        this.ida.setSearchType(7);
+
+        try { t = this.ida.getByData(tabela, orderBy); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        return t.get(0);
+    }
+
     public Item getItemCodigo(int codigo) throws GenercicException { return this.buscarItemCodigo(codigo); }
 
     public HashMap<String, String> dadosVenda(int posicao, int tabela, int minimo)
@@ -107,7 +120,7 @@ public class ConsultarProdutos
         return retorno;
     }
 
-    public ArrayList<String> buscarItens(int tabela, int cliente) throws GenercicException
+    public ArrayList<String> buscarItens(int tabela, int cliente, int orderBy) throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();
         /*
@@ -116,7 +129,7 @@ public class ConsultarProdutos
 
         if(this.searchType == TiposBuscaItens.GRAVOSOS)
         {
-            this.listar(tabela);
+            this.listar(tabela, orderBy);
 
             this.removerRestricoes(cliente);
 
@@ -128,7 +141,7 @@ public class ConsultarProdutos
         else
         if(this.searchType == TiposBuscaItens.MIX)
         {
-            this.listar(tabela);
+            this.listar(tabela, orderBy);
 
             this.removerRestricoes(cliente);
 
@@ -139,7 +152,7 @@ public class ConsultarProdutos
         }
         else
         {
-            this.listar(tabela);
+            this.listar(tabela, orderBy);
 
             this.removerRestricoes(cliente);
 
@@ -152,7 +165,7 @@ public class ConsultarProdutos
         return retorno;
     }
 
-    public ArrayList<String> buscarItens(int tabela) throws GenercicException
+    public ArrayList<String> buscarItens(int tabela, int orderBy) throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();
         /*
@@ -161,7 +174,7 @@ public class ConsultarProdutos
 
         if(this.searchType == TiposBuscaItens.GRAVOSOS)
         {
-            this.listar(tabela);
+            this.listar(tabela, orderBy);
 
             for(Gravosos i : this.gravosos)
             {
@@ -171,7 +184,7 @@ public class ConsultarProdutos
         else
         if(this.searchType == TiposBuscaItens.MIX)
         {
-            this.listar(tabela);
+            this.listar(tabela, orderBy);
 
             for(Item i : this.lista)
             {
@@ -180,7 +193,7 @@ public class ConsultarProdutos
         }
         else
         {
-            this.listar(tabela);
+            this.listar(tabela, orderBy);
 
             for(Item i : this.lista)
             {
@@ -199,9 +212,9 @@ public class ConsultarProdutos
         else { this.listarBusca(); }
     }
 
-    private void listar(int tabela) throws GenercicException
+    private void listar(int tabela, int orderBy) throws GenercicException
     {
-        if(this.searchType.getValue() <= 0) { this.listarTodos(tabela); }
+        if(this.searchType.getValue() <= 0) { this.listarTodos(tabela, orderBy); }
         else
         {
             if(this.searchType.getValue() == 4)
@@ -224,7 +237,7 @@ public class ConsultarProdutos
                 this.setSearchData(busca);
             }
 
-            this.listarBusca(tabela);
+            this.listarBusca(tabela, orderBy);
         }
     }
 
@@ -232,14 +245,19 @@ public class ConsultarProdutos
 
     private void listarTodos() throws GenercicException { this.lista = this.ida.getAll(); }
 
-    private void listarTodos(int tabela) throws GenercicException { this.lista = this.ida.getAll(tabela); }
+    private void listarTodos(int tabela, int orderBy) throws GenercicException { this.lista = this.ida.getAll(tabela, orderBy); }
 
     private void listarBusca() throws GenercicException { this.lista = this.ida.getByData(); }
 
-    private void listarBusca(int tabela) throws GenercicException
+    private void listarBusca(int tabela, int orderBy) throws GenercicException
     {
         this.ida.setSearchType(this.searchType.getValue());
         this.ida.setSearchData(this.searchData);
+
+        if(this.searchType == TiposBuscaItens.PRE)
+        {
+            this.ida.setSearchType(TiposBuscaItens.TODOS.getValue());
+        }
 
         if(this.searchType == TiposBuscaItens.GRAVOSOS)
         {
@@ -247,7 +265,7 @@ public class ConsultarProdutos
         }
         else
         {
-            this.lista = this.ida.getByData(tabela);
+            this.lista = this.ida.getByData(tabela, orderBy);
         }
     }
 

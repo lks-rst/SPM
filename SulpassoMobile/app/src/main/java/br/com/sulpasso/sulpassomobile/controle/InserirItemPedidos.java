@@ -105,7 +105,7 @@ public class InserirItemPedidos
     }
 
     public float diferencaFlex(Context ctx)
-    {
+    {//essa função deve ser calculada com base no peso do item
         float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
         float minimoPromocional = this.verificarPromocoes(ctx);
         float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
@@ -115,13 +115,20 @@ public class InserirItemPedidos
 
         if(minimoPromocional > 0)
         {
-            if(minimo < minimoPromocional)
+            if(minimo > 0)
             {
-                minimoAcessivel = minimoPromocional;
+                if(minimo < minimoPromocional)
+                {
+                    minimoAcessivel = minimo;
+                }
+                else
+                {
+                    minimoAcessivel = minimoPromocional;
+                }
             }
             else
             {
-                minimoAcessivel = minimo;
+                minimoAcessivel = minimoPromocional;
             }
         }
         else
@@ -130,8 +137,22 @@ public class InserirItemPedidos
         }
 
         minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
-
         diferenca = minimoAcessivel - this.valor;
+
+        if(this.item.getUnidade().equals("KG") && !this.item.getUnidadeVenda().equals("KG"))
+        {
+            diferenca = diferenca * this.item.getFaixa();
+        }
+        /*
+        else
+        {
+            diferenca = (this.valor
+                    - (this.valor * (this.desconto / 100))
+                    + (this.valor * (this.acrescimo / 100)))
+                    * this.quantidade;
+        }
+        */
+
 
         return diferenca;
     }
@@ -162,8 +183,11 @@ public class InserirItemPedidos
                         item.setFlex(this.diferencaFlex(context));
                         item.setDigitadoSenha(false);
                         item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
+                        item.setDescontoCampanha(false);
+                        item.setDescontoCG(0);
+                        item.setDescontoCP(0);
 
-                        EfetuarPedidos.erro = false;
+                        EfetuarPedidos.erro = false; //Na linha de baixo deve ser acrescentado um calculo relacionando também ao peso do produto calcularTotalDesconto
                         EfetuarPedidos.strErro = "Valor de flex gerado " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
 
                         return item;
@@ -199,6 +223,9 @@ public class InserirItemPedidos
             item.setFlex(this.diferencaFlex(context));
             item.setDigitadoSenha(true);
             item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
+            item.setDescontoCampanha(false);
+            item.setDescontoCG(0);
+            item.setDescontoCP(0);
 
             EfetuarPedidos.erro = false;
             EfetuarPedidos.strErro = "";
@@ -257,13 +284,20 @@ public class InserirItemPedidos
 
                 if(minimoPromocional > 0)
                 {
-                    if(minimo < minimoPromocional)
+                    if(minimo > 0)
                     {
-                        minimoAcessivel = minimoPromocional;
+                        if(minimo < minimoPromocional)
+                        {
+                            minimoAcessivel = minimo;
+                        }
+                        else
+                        {
+                            minimoAcessivel = minimoPromocional;
+                        }
                     }
                     else
                     {
-                        minimoAcessivel = minimo;
+                        minimoAcessivel = minimoPromocional;
                     }
                 }
                 else

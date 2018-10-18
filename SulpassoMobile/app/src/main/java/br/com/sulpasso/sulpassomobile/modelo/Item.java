@@ -155,7 +155,7 @@ public class Item
         ManipulacaoStrings ms = new ManipulacaoStrings();
         return ms.comEsquerda(String.valueOf(codigo), " ", 10) + " - " +
                 ms.comDireita(referencia, " ", 10) + " - " +
-                ms.comDireita(descricao, " ", 25) + " - " +
+                ms.comDireita(descricao, " ", 30) + " - " +
                 ms.comDireita(complemento, " ", 15);
     }
 }
