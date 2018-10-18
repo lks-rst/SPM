@@ -625,25 +625,47 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
     protected Boolean finalizarItem()
     {
-        if(super.controleDigitacao.valorMaximo(super.context))
+        if(EfetuarPedidos.senha)
         {
-            if(super.controleConfiguracao.formaDesconto() == 0)
+            return true;
+        }
+        else
+        {
+            if(super.controleDigitacao.valorMaximo(super.context))
             {
-                if (super.controleConfiguracao.contribuicaoIdeal())
-                    return true;
+                if(super.controleConfiguracao.formaDesconto() == 0)
+                {
+                    if (super.controleConfiguracao.contribuicaoIdeal())
+                        return true;
+                    else
+                    {
+                        EfetuarPedidos.erro = true;
+                        EfetuarPedidos.strErro = "Contribuição atual não permite desconto!\nPor favor verifique.";
+                        return false;
+                    }
+                }
                 else
-                    return false;
+                {
+                    float saldo = super.controleConfiguracao.getSaldoAtual();
+                    if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        EfetuarPedidos.erro = true;
+                        EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
+                        return false;
+                    }
+                }
             }
             else
             {
-                float saldo = super.controleConfiguracao.getSaldoAtual();
-                if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
-                    return true;
-                else
-                    return false;
+                EfetuarPedidos.erro = true;
+                EfetuarPedidos.strErro = "Valor acima do permitido!\nPor favor verifique.";
+                return false;
             }
         }
-        else { return false; }
     }
 
     @Override

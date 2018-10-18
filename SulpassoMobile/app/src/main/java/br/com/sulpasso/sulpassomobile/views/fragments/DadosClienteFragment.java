@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,15 +21,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
-import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertCortesDevolucaoTitulos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesCliente;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertJustificativaPedido;
 
 /**
  * Created by Lucas on 17/08/2016.
  */
-public class DadosClienteFragment extends Fragment implements AlertDetalhesCliente.Callback, AlertCortesDevolucaoTitulos.Callback
+public class DadosClienteFragment extends Fragment implements AlertDetalhesCliente.Callback, AlertCortesDevolucaoTitulos.Callback, AlertJustificativaPedido.Callback
 {
     private GestureDetector gestureDetector;
     View.OnTouchListener gestureListener;
@@ -37,6 +38,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
     private Spinner fdcSpnrClientes;
     private Spinner fdcSpnrNaturezas;
     private Spinner fdcSpnrPrazos;
+    private Spinner fdcSpnrMotivos;
 
     private final Boolean ESPECIAL = true;
 
@@ -82,7 +84,26 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        try { activity = (Pedido) getActivity(); }
+        try
+        {
+            activity = (Pedido) getActivity();
+
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            ((Pedido) getActivity()).verificarEncerramento();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
         catch (ClassCastException e)
         {
             throw new ClassCastException(getActivity().toString()
@@ -170,6 +191,13 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                 getActivity().getApplicationContext(), R.layout.spinner_item, activity.listarNaturezas(!ESPECIAL));
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.fdcSpnrNaturezas.setAdapter(adapter);
+
+        if(activity.controlaRoteiro())
+        {
+            this.fdcSpnrMotivos.setOnItemSelectedListener(justificando);
+            activity.listarMotivos();
+            this.fdcSpnrMotivos.setVisibility(View.VISIBLE);
+        }
 
         if(this.activity.verificarTitulos())
         {
@@ -263,12 +291,23 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         this.fdcSpnrClientes.setEnabled(this.activity.permitirClick(R.id.fdcSpnrClientes));
     }
 
-    public void apresentarLista(ArrayList<String> itens)
+    public void apresentarLista(ArrayList<String> itens, int tipo)
     {
-        ArrayAdapter adapter = new ArrayAdapter(
+        if(tipo == 1)
+        {
+            ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(), R.layout.spinner_item, itens);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        this.fdcSpnrClientes.setAdapter(adapter);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            this.fdcSpnrClientes.setAdapter(adapter);
+        }
+        else
+        {
+            ArrayAdapter adapterMotivos = new ArrayAdapter(
+                    getActivity().getApplicationContext(), R.layout.spinner_item, itens);
+            adapterMotivos.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            this.fdcSpnrMotivos.setAdapter(adapterMotivos);
+        }
+
     }
 /**************************************************************************************************/
 /******************************END OF FRAGMENT ACCESS METHODS**************************************/
@@ -283,11 +322,13 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         this.fdcSpnrClientes = (Spinner) (getActivity().findViewById(R.id.fdcSpnrClientes));
         this.fdcSpnrNaturezas = (Spinner) (getActivity().findViewById(R.id.fdcSpnrNaturezas));
         this.fdcSpnrPrazos = (Spinner) (getActivity().findViewById(R.id.fdcSpnrPrazos));
+        this.fdcSpnrMotivos = (Spinner) (getActivity().findViewById(R.id.fdcSpnrMotivos));
+        this.fdcSpnrMotivos.setVisibility(View.GONE);
 
         this.fdcSpnrClientes.setOnItemSelectedListener(selectingData);
 
         //http://pt.broculos.net/2013/09/how-to-change-spinner-text-size-color.html#.WYIjmVGQy01
-        activity.listarClientes(0);
+        activity.listarClientes(activity.consultaClientesInicial());
 
         ((getActivity().findViewById(R.id.fdcBtnDetalhes))).setOnClickListener(detalhes);
 
@@ -356,6 +397,13 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         dialog.setTargetFragment(this, 1); //request code
         dialog.show(getFragmentManager(), "DIALOG");
     }
+
+    private void confirmarJustificativa()
+    {
+        AlertJustificativaPedido dialog = new AlertJustificativaPedido();
+        dialog.setTargetFragment(this, 1); //request code
+        dialog.show(getFragmentManager(), "DIALOG");
+    }
 /**************************************************************************************************/
 /*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/
 /**************************************************************************************************/
@@ -373,7 +421,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                     {
                         ((EditText) getActivity().findViewById(R.id.fdcEdtTabela)).setText("");
                         activity.selecionarCliente(position - 1);
-                        activity.setSearchType(TiposBuscaItens.FAIL);
+//                        activity.setSearchType(TiposBuscaItens.FAIL);
                     }
                 break;
                 case R.id.fdcSpnrNaturezas :
@@ -388,6 +436,21 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                             (activity.getApplicationContext().getResources()
                             .getString(R.string.str_prazo), activity.selecionarPrazo()));
                 break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) { /******/ }
+    };
+
+    private AdapterView.OnItemSelectedListener justificando = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        {
+            if (position > 0 && activity.codigoMotivo(position) != 500)
+            {
+                confirmarJustificativa();
             }
         }
 
@@ -442,6 +505,19 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
     public ArrayList<String> buscarDetalhes()
     {
         return ((Pedido) getActivity()).buscarDetalhes();
+    }
+
+    @Override
+    public void justificarPedido(int opcao)
+    {
+        if(opcao == 0)
+        {
+            activity.alterarFragmento(1);
+        }
+        else
+        {
+            activity.salvarPedido();
+        }
     }
 /**************************************************************************************************/
 /************************************END OF INTERFACES METHODS*************************************/

@@ -9,7 +9,9 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpasso.sulpassomobile.modelo.Cidade;
 import br.com.sulpasso.sulpassomobile.modelo.Cliente;
+import br.com.sulpasso.sulpassomobile.modelo.Motivos;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ClienteDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.MotivosDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaCliente;
 
 import static br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaCliente.TODOS;
@@ -24,14 +26,17 @@ public class ConsultarClientes
     private int codigoClienteSelecionado;
 
     private List<Cliente> lista;
+    private List<Motivos> motivos;
     private List<Cidade> cidades;
     private ClienteDataAccess cda;
+    private MotivosDataAccess mda;
 
     public ConsultarClientes(Context ctx)
     {
         this.setDadosBusca("");
         this.setTipoBusca(TODOS.getValue());
         this.cda = new ClienteDataAccess(ctx);
+        this.mda = new MotivosDataAccess(ctx);
     }
 
     public int getCodigoClienteSelecionado() { return this.codigoClienteSelecionado; }
@@ -75,6 +80,21 @@ public class ConsultarClientes
         retorno.add("SELECIONE UM CLIENTE");
 
         for(Cliente c : this.lista) { retorno.add(c.toDisplay()); }
+
+        return retorno;
+    }
+
+    public ArrayList<String> exibirMotivos() throws GenercicException
+    {
+        this.setDadosBusca("");
+        this.setTipoBusca(0);
+
+        this.listarMotivos();
+
+        ArrayList<String> retorno = new ArrayList<>();
+        retorno.add("SELECIONE UM MOTIVO");
+
+        for(Motivos m : this.motivos) { retorno.add(m.toDisplay()); }
 
         return retorno;
     }
@@ -175,6 +195,11 @@ public class ConsultarClientes
 
     public boolean possuiDevolucoes(int cliente) { return this.verificarDevolucoes(cliente); }
 
+    public int codigoMotivo(int posicao)
+    {
+        return this.motivos.get(posicao).getCodigo();
+    }
+
     private void listarClientes() throws GenercicException
     {
         TiposBuscaCliente tb = TiposBuscaCliente.getTipoFromInt(tipoBusca);
@@ -209,11 +234,21 @@ public class ConsultarClientes
         */
     }
 
+    private void listarMotivos() throws GenercicException
+    {
+        this.buscarMotivos();
+    }
+
     private void listarPesquisa() throws GenercicException
     {
         this.cda.setSearchData(this.dadosBusca);
         this.cda.setSearchType(this.tipoBusca);
         this.lista = this.cda.getByData();
+    }
+
+    private void buscarMotivos() throws GenercicException
+    {
+        this.motivos = this.mda.getAll();
     }
 
     private void listarTodos() throws GenercicException { this.lista = this.cda.getAll(); }

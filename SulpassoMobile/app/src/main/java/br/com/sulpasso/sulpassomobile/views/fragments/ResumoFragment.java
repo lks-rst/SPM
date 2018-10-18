@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -78,19 +79,69 @@ public class ResumoFragment extends Fragment implements AlterarExcluir.Callback
             throw new ClassCastException(getActivity().toString()
                     + " must be Pedido.class calss");
         }
+        else
+        {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            ((Pedido) getActivity()).verificarEncerramento();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
     }
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
+/**************************************************************************************************/
+/*********************************FRAGMENT ACCESS METHODS******************************************/
+/**************************************************************************************************/
+    public void atualizarResumo()
+    {
+        Toast.makeText(getActivity().getApplicationContext(), "Clicado no botao excluir", Toast.LENGTH_LONG).show();
+        ((ListView) getActivity().findViewById(R.id.flirLiItens)).setAdapter
+        (
+            new ArrayAdapter<String>
+            (
+                getActivity().getApplicationContext(),
+                R.layout.default_list_item,
+                ((Pedido) getActivity()).listarResumo()
+            )
+        );
+
+        ((EditText) getActivity().findViewById(R.id.flirEdtItens)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtItens));
+        ((EditText) getActivity().findViewById(R.id.flirEdtValor)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtValor));
+        ((EditText) getActivity().findViewById(R.id.flirEdtVolume)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtVolume));
+        ((EditText) getActivity().findViewById(R.id.flirEdtCont)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCont));
+    }
+/**************************************************************************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
     /**
      * Metodo para vinculação do layout e inicialização dos itens de UI
      */
     private void setUpLayout()
     {
-        ((EditText) getActivity().findViewById(R.id.flirEdtCliente)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCliente));
-        ((EditText) getActivity().findViewById(R.id.flirEdtCidade)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCidade));
-        ((EditText) getActivity().findViewById(R.id.flirEdtNaturesa)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtNaturesa));
-        ((EditText) getActivity().findViewById(R.id.flirEdtTabela)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtTabela));
-        ((EditText) getActivity().findViewById(R.id.flirEdtTipo)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtTipo));
+        try {
+
+            ((EditText) getActivity().findViewById(R.id.flirEdtCliente)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCliente));
+            ((EditText) getActivity().findViewById(R.id.flirEdtCidade)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtCidade));
+            ((EditText) getActivity().findViewById(R.id.flirEdtNaturesa)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtNaturesa));
+            ((EditText) getActivity().findViewById(R.id.flirEdtTabela)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtTabela));
+            ((EditText) getActivity().findViewById(R.id.flirEdtTipo)).setText(((Pedido) getActivity()).cabecahoPedido(R.id.flirEdtTipo));
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getActivity().getApplicationContext(), "Selecione um cliente para realizar um pedido.", Toast.LENGTH_LONG).show();
+            ((Pedido) getActivity()).alterarFragmento(0);
+
+        }
         ((ListView) getActivity().findViewById(R.id.flirLiItens)).setAdapter
         (
             new ArrayAdapter<String>
@@ -157,17 +208,6 @@ public class ResumoFragment extends Fragment implements AlterarExcluir.Callback
         if(opt == 1)
         {
             ((Pedido) getActivity()).alterarItem(posicaoAlterar, opt);
-
-            Toast.makeText(getActivity().getApplicationContext(), "Clicado no botao excluir", Toast.LENGTH_LONG).show();
-            ((ListView) getActivity().findViewById(R.id.flirLiItens)).setAdapter
-            (
-                new ArrayAdapter<String>
-                (
-                    getActivity().getApplicationContext(),
-                    R.layout.default_list_item,
-                    ((Pedido) getActivity()).listarResumo()
-                )
-            );
         }
         else
         {

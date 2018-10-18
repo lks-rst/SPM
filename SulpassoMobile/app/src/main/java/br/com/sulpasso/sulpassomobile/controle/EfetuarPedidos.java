@@ -216,6 +216,15 @@ public abstract class EfetuarPedidos
 /**************************************************************************************************/
 /****************************************FINAL METHODS*********************************************/
 /**************************************************************************************************/
+    public int consultaClientesAbertura() { return this.controleConfiguracao.consultaClientesAbertura(); }
+
+    public final ArrayList<String> listarMotivos() throws GenercicException
+    {
+        ArrayList<String> lista = this.controleClientes.exibirMotivos();
+
+        return lista;
+    }
+
     protected final String buscarCidade(int codigo)
     {
         CidadeDataAccess cda = new CidadeDataAccess(this.context);
@@ -464,6 +473,14 @@ public abstract class EfetuarPedidos
             case R.id.flirEdtCont :
                 valor = "--";
                 break;
+            case R.id.ffpEdtObsCpd :
+                try { valor = this.venda.getObservacao(); }
+                catch (Exception e) { valor = ""; }
+                break;
+            case R.id.ffpEdtObsNfe :
+                try { valor = this.venda.getObservacaoNota(); }
+                catch (Exception e) { valor = ""; }
+                break;
         }
 
         return valor;
@@ -471,7 +488,8 @@ public abstract class EfetuarPedidos
 
     public final ArrayList<String> listarItens() throws GenercicException
     {
-        return this.controleProdutos.buscarItens(this.tabela, this.venda.getCliente().getCodigoCliente());
+        return this.controleProdutos.buscarItens(this.tabela, this.venda.getCliente().getCodigoCliente(),
+                this.controleConfiguracao.getConfigUsr().getTipoOredenacao());
     }
 
     public final ArrayList<String> listarResumo() throws GenercicException
@@ -619,6 +637,16 @@ public abstract class EfetuarPedidos
         if(controleDigitacao.getItem().getUnidade().equals("KG") &&
             controleDigitacao.getItem().getUnidadeVenda().equals("KG")) { return true; }
         else { return false; }
+    }
+
+    public final int codigoMotivo(int position)
+    {
+        return controleClientes.codigoMotivo(position);
+    }
+
+    public final boolean controlaRoteiro()
+    {
+        return controleConfiguracao.getConfigVda().getGerenciarVisitas();
     }
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
@@ -889,8 +917,14 @@ public abstract class EfetuarPedidos
         int codigo = this.itensVendidos.get(posicao).getItem();
         int newP = this.controleProdutos.getItemPosicao(codigo);
 
-        this.controleDigitacao.setItem(this.controleProdutos.getItem(newP));
+        this.controleDigitacao.setItem(this.controleProdutos.getItemAlteracao
+                (codigo, tabela, this.controleConfiguracao.getConfigUsr().getTipoOredenacao()));
         this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda
                 (newP, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+    }
+
+    public int pesquisaInicial()
+    {
+        return this.controleConfiguracao.getConfigUsr().getTipoBusca();
     }
 }
