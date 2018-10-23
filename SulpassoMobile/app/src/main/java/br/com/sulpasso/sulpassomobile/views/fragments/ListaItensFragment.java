@@ -146,6 +146,7 @@ public class ListaItensFragment extends Fragment implements
                 ((Pedido) getActivity()).setSearchType(TiposBuscaItens.REF);
                 break;
             case R.id.itens_grupo:
+                ((Pedido) getActivity()).setSearchType(TiposBuscaItens.GRUPO);
                 GrupoSelection dialog = new GrupoSelection();
                 dialog.setTargetFragment(this, 1); //request code
                 dialog.show(getFragmentManager(), "DIALOG");
