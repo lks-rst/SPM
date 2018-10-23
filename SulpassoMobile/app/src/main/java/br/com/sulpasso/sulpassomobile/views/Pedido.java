@@ -889,13 +889,29 @@ public class Pedido extends AppCompatActivity
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                        .replace(R.id.frame_container, fragment).commit();
+                if(position == 2)
+                {
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+                }
+                else
+                {
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                            .replace(R.id.frame_container, fragment).commit();
+                }
             }
             else
             {
-                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+                if(position == 2)
+                {
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+                }
+                else
+                {
+                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+                }
             }
         }
         else { Log.e("MainActivity", "Error in creating fragment"); }

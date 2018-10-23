@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.TelaInicial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
+import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.util.services.Email;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
@@ -43,6 +46,10 @@ public class Inicial extends AppCompatActivity
     private final int REQUEST_CONFIG = 1;
 
     private boolean acessoConfirmado;
+
+    private SenhaLiberacao sl;
+    private String chave;
+    private String senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,23 +71,12 @@ public class Inicial extends AppCompatActivity
         {
             if(validar_data_sistema(4))
             {
-                if (this.controle.controleAcesso())
-                {
-                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivityForResult(i, REQUEST_LOGIN);
-                }
-                else
-                {
-                    this.fragmentoCentral();
-
-                    this.indicarAcesso();
-                    this.serviceIntialize();
-                }
+                this.iniciarSistema();
             }
             else
             {
                 this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
-                finish();
+//                finish();
             }
         }
 /*
@@ -144,7 +140,7 @@ public class Inicial extends AppCompatActivity
             else
             {
                 this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
-                finish();
+//                finish();
             }
         }
     }
@@ -154,6 +150,7 @@ public class Inicial extends AppCompatActivity
     {
         super.onResume();
 
+        /*
         try { this.controle = new TelaInicial(getApplicationContext()); }
         catch (Exception e) { }
 
@@ -191,9 +188,10 @@ public class Inicial extends AppCompatActivity
             else
             {
                 this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
-                finish();
+//                finish();
             }
         }
+        */
     }
 
     @Override
@@ -522,6 +520,11 @@ public class Inicial extends AppCompatActivity
         Toast t = Toast.makeText(getApplicationContext(), texto, Toast.LENGTH_LONG);
         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
         t.show();
+
+
+        this.sl = new SenhaLiberacao();
+        this.chave = sl.getChave();
+        solicitarSenha(Integer.parseInt(this.chave));
     }
 
     private void aberturaVendas(int tv, String direta)
@@ -757,6 +760,64 @@ public class Inicial extends AppCompatActivity
                 break;
         }
         return retorno;
+    }
+
+    private void solicitarSenha(final int chave)
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle("Hora Alterada");
+        alert.setMessage("A hora atual é anteriror a última hora de acesso ao sistema.\nVerifique a data e hora do sistema antes de procesguir.\nChave de acesso: " + chave);
+        alert.setCancelable(false);
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+        alert.setView(input);
+
+        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                senha = input.getText().toString();
+                Proseguir();
+            }
+        });
+        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                senha = "00000000";
+                Proseguir();
+            }
+        });
+        alert.show();
+    }
+
+    private void Proseguir()
+    {
+        boolean liberado;
+
+        liberado = sl.verificaChave(senha);
+
+        if (liberado) { iniciarSistema(); }
+        else { finish(); }
+    }
+
+    private void iniciarSistema()
+    {
+        if (this.controle.controleAcesso())
+        {
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivityForResult(i, REQUEST_LOGIN);
+        }
+        else
+        {
+            this.fragmentoCentral();
+
+            this.indicarAcesso();
+            this.serviceIntialize();
+        }
     }
 /**************************************************************************************************/
 /******************************END ACTIVITY ACCESS METHODS*****************************************/

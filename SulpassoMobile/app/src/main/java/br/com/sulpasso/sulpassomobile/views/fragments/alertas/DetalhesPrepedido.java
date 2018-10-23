@@ -3,12 +3,14 @@ package br.com.sulpasso.sulpassomobile.views.fragments.alertas;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -60,7 +62,19 @@ public class DetalhesPrepedido extends DialogFragment
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                 {
-                    callback.exibirDescricaoProduto(position);
+                    try
+                    {
+                        callback.exibirDescricaoProduto(position);
+                    }
+                    catch (Exception erro)
+                    {
+
+                        Toast t = Toast.makeText(getActivity().getApplicationContext(),
+                            "Desculpe, ocorreu um erro ao tentar acessar o item do pré pedido.\nPor favor, refaça sua busca.",
+                            Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                        t.show();
+                    }
                     encerrar();
                 }
             });
