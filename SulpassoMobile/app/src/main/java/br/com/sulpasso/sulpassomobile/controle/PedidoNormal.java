@@ -243,7 +243,7 @@ public class PedidoNormal extends EfetuarPedidos
 
                 if (alteracao)
                 {
-                    if(super.itensVendidos.get(posicao).getFlex() > 0)
+                    if(super.itensVendidos.get(posicao).getFlex() > 0 && !super.itensVendidos.get(posicao).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
                                 (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
@@ -259,7 +259,7 @@ public class PedidoNormal extends EfetuarPedidos
 
                 try
                 {
-                    if(super.itensVendidos.get(posicao).getFlex() > 0)
+                    if(super.itensVendidos.get(posicao).getFlex() > 0 && !super.itensVendidos.get(posicao).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
                                 (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
@@ -267,7 +267,7 @@ public class PedidoNormal extends EfetuarPedidos
                 }
                 catch (Exception exeption)
                 {
-                    if(super.itensVendidos.get(0).getFlex() > 0)
+                    if(super.itensVendidos.get(0).getFlex() > 0 && !super.itensVendidos.get(0).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
                                 (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
@@ -709,7 +709,9 @@ public class PedidoNormal extends EfetuarPedidos
                 else
                 {
                     float saldo = super.controleConfiguracao.getSaldoAtual();
-                    if(saldo - super.controleDigitacao.diferencaFlex(super.context) >= 0)
+
+                    if(saldo - (super.controleDigitacao.diferencaFlex(super.context) *
+                            super.controleDigitacao.getQuantidade()) >= 0)
                     {
                         return true;
                     }

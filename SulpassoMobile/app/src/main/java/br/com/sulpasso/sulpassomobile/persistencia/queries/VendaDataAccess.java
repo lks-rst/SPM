@@ -422,6 +422,9 @@ public class VendaDataAccess
                 item.setTotal(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
+                item.setValorDigitado(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
 
                 item.setDigitadoSenha(
                         (c.getInt(c.getColumnIndex(
@@ -618,6 +621,24 @@ public class VendaDataAccess
                 item.setTotal(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
+                item.setValorDigitado(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
+
+                item.setDigitadoSenha(
+                        (c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA))
+                                == 1) ? true : false);
+                item.setDescontoCampanha(
+                        (c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.CAMPANHAS))
+                                == 1) ? true : false);
+                item.setValorMinimo(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.MINIMO)));
+                item.setQuantidadeEspecifica(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE_ESPECIFICA)));
 
                 itens.add(item);
                 c.moveToNext();
