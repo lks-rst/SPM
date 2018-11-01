@@ -1445,8 +1445,18 @@ public class ManipularArquivos
                  */
                 builder.append(ms.comDireita("" + v.getObservacaDesconto(), " ", 25));
                 builder.append(ms.comDireita(v.getTipo(), " ", 2));
-                builder.append(ms.comDireita("" + v.getObservacao(), " ", 114));
-                builder.append(ms.comDireita("" + v.getObservacaoNota(), " ", 50));
+
+                String obs = v.getObservacao().replaceAll("\n", " ");
+                obs = obs.replaceAll("\t", " ");
+                obs = obs.replaceAll("\r", " ");
+
+                builder.append(ms.comDireita("" + obs, " ", 114));
+
+                obs = v.getObservacaoNota().replaceAll("\n", " ");
+                obs = obs.replaceAll("\t", " ");
+                obs = obs.replaceAll("\r", " ");
+
+                builder.append(ms.comDireita("" + obs, " ", 50));
                 builder.append(ms.comEsquerda("" + v.getBanco(), "0", 3));
                 builder.append(ms.comEsquerda("" + 9, "0", 15));
                 builder.append(ms.comEsquerda("" + 0, "0", 15));

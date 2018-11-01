@@ -36,6 +36,8 @@ public class InserirItemPedidos
 
     public void setQuantidade(float quantidade) { this.quantidade = quantidade; }
 
+    public float getQuantidade() { return this.quantidade; }
+
     public void setAcrescimo(float acrescimo) { this.acrescimo = acrescimo; }
 
     public void setDadosVendaItem(HashMap<String, String>  dadosVendaItem)
@@ -113,6 +115,8 @@ public class InserirItemPedidos
 
         float minimoAcessivel = 0;
 
+
+
         if(minimoPromocional > 0)
         {
             if(minimo > 0)
@@ -133,7 +137,14 @@ public class InserirItemPedidos
         }
         else
         {
-            minimoAcessivel = minimo;
+            if(minimo > 0)
+            {
+                minimoAcessivel = minimo;
+            }
+            else
+            {
+                minimoAcessivel = tabela;
+            }
         }
 
         minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
@@ -187,7 +198,7 @@ public class InserirItemPedidos
                         item.setDescontoCG(0);
                         item.setDescontoCP(0);
 
-                        EfetuarPedidos.erro = false; //Na linha de baixo deve ser acrescentado um calculo relacionando também ao peso do produto calcularTotalDesconto
+                        EfetuarPedidos.erro = false;
                         EfetuarPedidos.strErro = "Valor de flex gerado " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
 
                         return item;
@@ -302,7 +313,14 @@ public class InserirItemPedidos
                 }
                 else
                 {
-                    minimoAcessivel = minimo;
+                    if(minimo > 0)
+                    {
+                        minimoAcessivel = minimo;
+                    }
+                    else
+                    {
+                        minimoAcessivel = tabela;
+                    }
                 }
 
                 /*

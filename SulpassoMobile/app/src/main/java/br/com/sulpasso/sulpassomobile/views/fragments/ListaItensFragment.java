@@ -14,10 +14,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -193,8 +195,32 @@ public class ListaItensFragment extends Fragment implements
     {
         super.onResume();
 
+        /*
+        try {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            ((Pedido) getActivity()).verificarEncerramento();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+
+        }
+        catch (Exception ex) { Toast.makeText(getActivity().getApplicationContext(), "Erro ao carregar keylistener", Toast.LENGTH_LONG).show();}
+        */
+
         this.setUpLayout();
     }
+
+
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
     /**
@@ -228,7 +254,23 @@ public class ListaItensFragment extends Fragment implements
 
         ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setHint(hint);
 
+        /*
         ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).addTextChangedListener(search);
+        */
+
+        ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                    Editable s = ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).getEditableText();
+                    ((Pedido) getActivity()).setSearchData(s.toString().toUpperCase());
+
+                    listarItens();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         /*
         ((EditText) (getActivity().findViewById(R.id.flibEdtSearch)))
