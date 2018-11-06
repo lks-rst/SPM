@@ -889,7 +889,7 @@ public class Pedido extends AppCompatActivity
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {
-                if(position == 2 || position == 1)
+                if(position == 2)
                 {
                     fragmentManager.beginTransaction()
                             .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
@@ -904,7 +904,7 @@ public class Pedido extends AppCompatActivity
             }
             else
             {
-                if(position == 2 || position == 1)
+                if(position == 2)
                 {
                     fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
                 }

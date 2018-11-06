@@ -1246,28 +1246,18 @@ public class ItemDataAccess
             sb.append(" WHERE ");
             sb.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
-            /*
             sb.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
-            */
-            sb.append(" = '");
+            sb.append(" = ");
             sb.append(item.getCodigo());
-            sb.append("';");
 
-            Cursor d = this.db.rawQuery(sb.toString(), null);
+            Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
             d.moveToFirst();
 
 
             try {
-                /*
-                Estoque est = new Estoque();
-                est.setCodigoProduto(d.getInt(d.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO)));
-                est.setEstoque(d.getDouble(d.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
-                est.setEstoque(d.getDouble(d.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
-                */
-
                 item.setEstoque(
-                        d.getFloat(d.getColumnIndex(
+                        d.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
             }
             catch (Exception x) { item.setEstoque(0); }
