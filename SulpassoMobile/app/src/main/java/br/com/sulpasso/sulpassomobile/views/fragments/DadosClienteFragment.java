@@ -96,7 +96,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (event.getAction() == KeyEvent.ACTION_DOWN) {
                         if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            ((Pedido) getActivity()).verificarEncerramento();
+                            ((Pedido) getActivity()).verificarEncerramento(0);
                             return true;
                         }
                     }
@@ -319,6 +319,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
      */
     private void setUpLayout()
     {
+        Toast.makeText(getActivity().getApplicationContext(), "Abrindo tela de clientes", Toast.LENGTH_LONG).show();
         this.fdcSpnrClientes = (Spinner) (getActivity().findViewById(R.id.fdcSpnrClientes));
         this.fdcSpnrNaturezas = (Spinner) (getActivity().findViewById(R.id.fdcSpnrNaturezas));
         this.fdcSpnrPrazos = (Spinner) (getActivity().findViewById(R.id.fdcSpnrPrazos));

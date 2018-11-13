@@ -446,7 +446,10 @@ public class Pedido extends AppCompatActivity
         }
         catch (Exception e)
         {
+            String s;
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            s = e.getMessage();
+            e.printStackTrace();
             return new ArrayList<>();
         }
     }
@@ -665,30 +668,38 @@ public class Pedido extends AppCompatActivity
         return this.controlePedido.tipoConsultaItens;
     }
 
-    public void verificarEncerramento()
+    public void verificarEncerramento(int p)
     {
-        String titulo = "CANCELAMENTO -- ATENÇÃO";
-        String mensagem = "ATENÇÃO!\nDeseja realmente sair do pedido?\nTODAS AS ALTERAÇÕES SERÃO PERDIDAS.";
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-
-        alert.setTitle(titulo);
-        alert.setMessage(mensagem);
-        alert.setCancelable(false);
-
-        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        if(p == 2)
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which) { encerrar(); }
-        });
-
-        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+            Toast.makeText(getApplicationContext(), "Retorno da tela da digitação", Toast.LENGTH_LONG).show();
+            this.displayView(1);
+        }
+        else
         {
-            @Override
-            public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
-        });
+            String titulo = "ATENÇÃO -- CANCELAMENTO";
+            String mensagem = "ATENÇÃO!\nDeseja realmente sair do pedido?\nTODAS AS ALTERAÇÕES SERÃO PERDIDAS.";
 
-        alert.show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle(titulo);
+            alert.setMessage(mensagem);
+            alert.setCancelable(false);
+
+            alert.setPositiveButton("SAIR", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which) { encerrar(); }
+            });
+
+            alert.setNegativeButton("PERMANCER", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
+            });
+
+            alert.show();
+        }
     }
 
     public void verificarExclusaoItem(final int posicao)
@@ -887,7 +898,23 @@ public class Pedido extends AppCompatActivity
             }
             */
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+            {
+                if(position == 2)
+                {
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                            .replace(R.id.frame_container, fragment)./*addToBackStack(null).*/commit();
+                }
+                else
+                {
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                            .replace(R.id.frame_container, fragment).commit();
+                }
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {
                 if(position == 2)
                 {
@@ -1075,7 +1102,18 @@ public class Pedido extends AppCompatActivity
 
         try
         {
-            fragment = (DadosClienteFragment) fragmentManager.findFragmentById(R.id.frame_container);
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+            {
+                fragment = new DadosClienteFragment();
+                /*
+                fragmentManager.beginTransaction().remove(fragment).commit();
+                fragmentManager.beginTransaction().add(R.id.frame_container, fragment).commit();
+                */
+            }
+            else
+                fragment = (DadosClienteFragment) fragmentManager.findFragmentById(R.id.frame_container);
 
             if (fragment != null) { fragment.apresentarLista(itens, tipo); }
         }

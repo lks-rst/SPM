@@ -51,6 +51,8 @@ public class Inicial extends AppCompatActivity
     private String chave;
     private String senha;
 
+    private boolean solicitarSenhaHora;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -75,6 +77,7 @@ public class Inicial extends AppCompatActivity
             }
             else
             {
+                this.solicitarSenhaHora = true;
                 this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
 //                finish();
             }
@@ -139,6 +142,7 @@ public class Inicial extends AppCompatActivity
             }
             else
             {
+                this.solicitarSenhaHora = true;
                 this.mensagem("Por favor,\nverifique a data e hora de seu dipositvo antes de iniciar o sistema");
 //                finish();
             }
@@ -271,11 +275,13 @@ public class Inicial extends AppCompatActivity
                     }
                     else
                     {
+                        this.solicitarSenhaHora = false;
                         this.mensagem("Você não possui permissão para efetuar pedidos nesse hora");
                     }
                 }
                 else
                 {
+                    this.solicitarSenhaHora = false;
                     this.mensagem("Preços desatualizados.\nAtualize os dados antes de prosseguir.");
                 }
                 break;
@@ -522,9 +528,12 @@ public class Inicial extends AppCompatActivity
         t.show();
 
 
-        this.sl = new SenhaLiberacao();
-        this.chave = sl.getChave();
-        solicitarSenha(Integer.parseInt(this.chave));
+        if(this.solicitarSenhaHora)
+        {
+            this.sl = new SenhaLiberacao();
+            this.chave = sl.getChave();
+            solicitarSenha(Integer.parseInt(this.chave));
+        }
     }
 
     private void aberturaVendas(int tv, String direta)

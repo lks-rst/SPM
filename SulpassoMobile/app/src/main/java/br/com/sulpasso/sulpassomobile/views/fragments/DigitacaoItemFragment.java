@@ -1,10 +1,12 @@
 package br.com.sulpasso.sulpassomobile.views.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,43 @@ public class DigitacaoItemFragment extends Fragment
             throw new ClassCastException(getActivity().toString()
                     + " must be Pedido.class calss");
         }
+        else
+        {
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    //Find the currently focused view, so we can grab the correct window token from it.
+                    if(imm.isAcceptingText())
+                    {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                ((Pedido) getActivity()).verificarEncerramento(2);
+                                return true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                ((Pedido) getActivity()).verificarEncerramento(2);
+                                return true;
+                            }
+                        }
+                    }
+
+
+                    return false;
+                }
+            });
+        }
     }
+
+
 /**************************************************************************************************/
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
 /**************************************************************************************************/
@@ -179,6 +217,14 @@ public class DigitacaoItemFragment extends Fragment
             (((Pedido) getActivity()).calcularPpc(
                 ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString(),
                 ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).getText().toString(), "0")));
+
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtQuantidade))).setOnFocusChangeListener(alteracaoFoco);
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).setOnFocusChangeListener(alteracaoFoco);
+        ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto))).setOnFocusChangeListener(alteracaoFoco);
+        ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo))).setOnFocusChangeListener(alteracaoFoco);
+        ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).setOnFocusChangeListener(alteracaoFoco);
+
     }
 
     private void exibirTotal()
@@ -195,6 +241,47 @@ public class DigitacaoItemFragment extends Fragment
 /**************************************************************************************************/
 /*****************************     CLICK LISTENERS FOR THE UI         *****************************/
 /**************************************************************************************************/
+    private View.OnFocusChangeListener alteracaoFoco = new View.OnFocusChangeListener()
+    {
+        @Override
+        public void onFocusChange(View view, boolean b)
+        {
+            if(view.hasFocus())
+            {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+
+            view.setOnKeyListener(new View.OnKeyListener()
+            {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    //Find the currently focused view, so we can grab the correct window token from it.
+                    if(imm.isAcceptingText())
+                    {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                ((Pedido) getActivity()).verificarEncerramento(2);
+                                return true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                ((Pedido) getActivity()).verificarEncerramento(2);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+    };
+
     private TextWatcher digitacaoQuantidade = new TextWatcher()
     {
         @Override

@@ -89,7 +89,7 @@ public class ResumoFragment extends Fragment implements AlterarExcluir.Callback
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (event.getAction() == KeyEvent.ACTION_DOWN) {
                         if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            ((Pedido) getActivity()).verificarEncerramento();
+                            ((Pedido) getActivity()).verificarEncerramento(0);
                             return true;
                         }
                     }
