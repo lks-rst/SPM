@@ -1,5 +1,6 @@
 package br.com.sulpasso.sulpassomobile.views.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -104,7 +106,7 @@ public class ListaItensFragment extends Fragment implements
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
                     if (event.getAction() == KeyEvent.ACTION_DOWN) {
                         if (keyCode == KeyEvent.KEYCODE_BACK) {
-                            ((Pedido) getActivity()).verificarEncerramento();
+                            ((Pedido) getActivity()).verificarEncerramento(0);
                             return true;
                         }
                     }
@@ -219,8 +221,6 @@ public class ListaItensFragment extends Fragment implements
 
         this.setUpLayout();
     }
-
-
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
     /**
@@ -271,6 +271,8 @@ public class ListaItensFragment extends Fragment implements
                 return false;
             }
         });
+
+        ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setOnFocusChangeListener(alteracaoFoco);
 
         /*
         ((EditText) (getActivity().findViewById(R.id.flibEdtSearch)))
@@ -334,6 +336,47 @@ public class ListaItensFragment extends Fragment implements
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
+    private View.OnFocusChangeListener alteracaoFoco = new View.OnFocusChangeListener()
+    {
+        @Override
+        public void onFocusChange(View view, boolean b)
+        {
+            if(view.hasFocus())
+            {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+
+            view.setOnKeyListener(new View.OnKeyListener()
+            {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    //Find the currently focused view, so we can grab the correct window token from it.
+                    if(imm.isAcceptingText())
+                    {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                ((Pedido) getActivity()).verificarEncerramento(0);
+                                return true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                ((Pedido) getActivity()).verificarEncerramento(2);
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+    };
+
     private AdapterView.OnItemClickListener selectingItems = new AdapterView.OnItemClickListener()
     {
         @Override
