@@ -1,6 +1,7 @@
 package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -291,19 +292,29 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         this.fdcSpnrClientes.setEnabled(this.activity.permitirClick(R.id.fdcSpnrClientes));
     }
 
-    public void apresentarLista(ArrayList<String> itens, int tipo)
+    public void apresentarLista(ArrayList<String> itens, int tipo, Context ctx)
     {
+        /*
+        Context ctx = null;
+        if(getActivity() == null)
+            ctx = getContext();
+        else
+            ctx = getActivity().getApplicationContext();
+        */
+
         if(tipo == 1)
         {
+            /*
             ArrayAdapter adapter = new ArrayAdapter(
-                getActivity().getApplicationContext(), R.layout.spinner_item, itens);
+                getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, itens);
+             */
+            ArrayAdapter adapter = new ArrayAdapter(ctx, R.layout.spinner_item, itens);
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             this.fdcSpnrClientes.setAdapter(adapter);
         }
         else
         {
-            ArrayAdapter adapterMotivos = new ArrayAdapter(
-                    getActivity().getApplicationContext(), R.layout.spinner_item, itens);
+            ArrayAdapter adapterMotivos = new ArrayAdapter(ctx, R.layout.spinner_item, itens);
             adapterMotivos.setDropDownViewResource(R.layout.spinner_dropdown_item);
             this.fdcSpnrMotivos.setAdapter(adapterMotivos);
         }

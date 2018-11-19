@@ -100,6 +100,11 @@ public class ConsultarProdutos
             return this.getDadosVenda(this.lista.get(posicao).getCodigo(), tabela, minimo);
     }
 
+    public HashMap<String, String> dadosVendaAlteracao(int codigo, int tabela, int minimo)
+    {
+        return this.getDadosVenda(codigo, tabela, minimo);
+    }
+
     public HashMap<String, String> dadosVendaPre(int codigo, int tabela, int minimo)
     {
         return this.getDadosVenda(codigo, tabela, minimo);

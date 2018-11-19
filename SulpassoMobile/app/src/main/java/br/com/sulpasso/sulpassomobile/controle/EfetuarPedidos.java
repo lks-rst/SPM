@@ -897,6 +897,9 @@ public abstract class EfetuarPedidos
 
     public void removerItem(int posicao)
     {
+        this.controleConfiguracao.setSaldoAtual(this.controleConfiguracao.getSaldoAtual() +
+                (this.itensVendidos.get(posicao).getFlex() * this.itensVendidos.get(posicao).getQuantidade()));
+
         this.itensVendidos.remove(posicao);
     }
 
@@ -919,8 +922,13 @@ public abstract class EfetuarPedidos
 
         this.controleDigitacao.setItem(this.controleProdutos.getItemAlteracao
                 (codigo, tabela, this.controleConfiguracao.getConfigUsr().getTipoOredenacao()));
+        this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVendaAlteracao
+                (codigo, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+
+        /*
         this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda
                 (newP, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+        */
     }
 
     public int pesquisaInicial()

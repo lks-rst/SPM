@@ -1,11 +1,9 @@
 package br.com.sulpasso.sulpassomobile.views;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,10 +36,12 @@ import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.views.fragments.DadosClienteFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.DigitacaoItemFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.FinalizacaoPedidoFragment;
-import br.com.sulpasso.sulpassomobile.views.fragments.ListaItensFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ResumoFragment;
 
-public class Pedido extends AppCompatActivity
+/**
+ * Created by Lucas on 14/11/2018 - 13:48 as part of the project SulpassoMobile.
+ */
+public class PedidoNoFragments extends AppCompatActivity
 {
     private GestureDetector gestureDetector;
 
@@ -55,16 +54,13 @@ public class Pedido extends AppCompatActivity
     private SenhaLiberacao sl;
     private String chave;
     private String senha;
-/**********************************ACTIVITY LIFE CICLE*********************************************/
+    /**********************************ACTIVITY LIFE CICLE*********************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pedido);
+        setContentView(R.layout.pedido_no_fragments);
 
-        Toast.makeText(getApplicationContext(), "Verificação de alteração", Toast.LENGTH_LONG).show();
-
-        // load slide menu items
         fragTitles = getResources().getStringArray(R.array.fragTitles);
 
         Intent call = getIntent();
@@ -183,11 +179,11 @@ public class Pedido extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1){ finish(); }
+        if (getFragmentManager().getBackStackEntryCount() == 1){ finish(); }
         else { super.onBackPressed(); }
     }
 /***************************END METHODS ACTIVITY LIFE CICLE****************************************/
-/********************************BUTTON CLICKS AT THE UI*******************************************/
+    /********************************BUTTON CLICKS AT THE UI*******************************************/
     public void selecionarCliente(View v)
     {
         displayView(1);
@@ -282,12 +278,12 @@ public class Pedido extends AppCompatActivity
     public String calcularPpc(String valor, String markup, String desconto)
     {
         return String.valueOf(this.controlePedido.calcularPpc(
-            Float.parseFloat(valor), Float.parseFloat(markup),  Float.parseFloat(desconto)));
+                Float.parseFloat(valor), Float.parseFloat(markup),  Float.parseFloat(desconto)));
     }
 
     public void alterarFragmento(int position) { this.displayView(position); }
 /******************************END OF BUTTON CLICKS AT THE UI**************************************/
-/*********************************METHODS FOR DATA ACCESS******************************************/
+    /*********************************METHODS FOR DATA ACCESS******************************************/
     public int consultaClientesInicial() { return this.controlePedido.consultaClientesAbertura(); }
 
     public void listarClientes(int tipo, String dados) { this.buscar_clientes(tipo); }
@@ -849,28 +845,53 @@ public class Pedido extends AppCompatActivity
     {
 //        update the main content by replacing fragments
         String title = getString(R.string.telaPedido);
-        Fragment fragment = null;
 
         switch (position)
         {
             case 0:
-                fragment = new DadosClienteFragment();
+                findViewById(R.id.fragDadosClienteNoFrag).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragListaItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragResumoItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragFinalizacaoNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragDigitalizacaoNoFrag).setVisibility(View.GONE);
+
                 title += fragTitles[position];
                 break;
             case 1:
-                fragment = new ListaItensFragment();
+                findViewById(R.id.fragDadosClienteNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragListaItensNoFrag).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragResumoItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragFinalizacaoNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragDigitalizacaoNoFrag).setVisibility(View.GONE);
+
                 title += fragTitles[position];
                 break;
             case 2:
-                fragment = new DigitacaoItemFragment();
+                findViewById(R.id.fragDigitalizacaoNoFrag).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragListaItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragResumoItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragFinalizacaoNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragDadosClienteNoFrag).setVisibility(View.GONE);
+
+                //fragment = new DigitacaoItemFragment();
                 title += fragTitles[position];
                 break;
             case 3:
-                fragment = new FinalizacaoPedidoFragment();
+                findViewById(R.id.fragDadosClienteNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragListaItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragResumoItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragFinalizacaoNoFrag).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragDigitalizacaoNoFrag).setVisibility(View.GONE);
+
                 title += fragTitles[position];
                 break;
             case 4:
-                fragment = new ResumoFragment();
+                findViewById(R.id.fragDadosClienteNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragListaItensNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragResumoItensNoFrag).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragFinalizacaoNoFrag).setVisibility(View.GONE);
+                findViewById(R.id.fragDigitalizacaoNoFrag).setVisibility(View.GONE);
+
                 title += fragTitles[position];
                 break;
             case 5:
@@ -880,77 +901,7 @@ public class Pedido extends AppCompatActivity
 //                    title = fragTitles[position];
                 break;
         }
-        if (fragment != null)
-        {
-            FragmentManager fragmentManager = getFragmentManager();
 
-            /**
-             * Todo: Verifica a ação do botão voltar do aparelho
-             */
-            /*
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
-            {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                        .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-            }
-            else
-            {
-                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-            }
-            */
-
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
-            {
-                if(position == 2)
-                {
-                    fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                            .replace(R.id.frame_container, fragment)./*addToBackStack(null).*/commit();
-                }
-                else
-                {
-                    fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                            .replace(R.id.frame_container, fragment).commit();
-                }
-            }
-            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
-            {
-                if(position == 2)
-                {
-                    fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                            .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-                }
-                else
-                {
-                    fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-                            .replace(R.id.frame_container, fragment).commit();
-                }
-            }
-            else
-            {
-                if(position == 2)
-                {
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
-                }
-                else
-                {
-                    fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
-                }
-            }
-        }
-        else { Log.e("MainActivity", "Error in creating fragment"); }
-
-        /*
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(position, true);
-            mDrawerList.setSelection(position);
-            mDrawerLayout.closeDrawer(mDrawerList);
-        */
         setTitle(title);
     }
 
@@ -1063,7 +1014,7 @@ public class Pedido extends AppCompatActivity
                     try
                     {
                         apresentarLista(controlePedido.listarCLientes(tipo, String.valueOf(
-                            controlePedido.getCitCod(spnr_cidades.getSelectedItemPosition()))), 1);
+                                controlePedido.getCitCod(spnr_cidades.getSelectedItemPosition()))), 1);
                     } catch (GenercicException e)
                     {
                         apresentarLista(new ArrayList<String>(), 1);
@@ -1105,20 +1056,16 @@ public class Pedido extends AppCompatActivity
         try
         {
 
-//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
 //            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
-//            {
-//                fragment = new DadosClienteFragment();
-
-//                fragmentManager.beginTransaction()
-//                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
-//                        .replace(R.id.frame_container, fragment)./*addToBackStack(null).*/commit();
+            {
+                fragment = new DadosClienteFragment();
                 /*
                 fragmentManager.beginTransaction().remove(fragment).commit();
                 fragmentManager.beginTransaction().add(R.id.frame_container, fragment).commit();
                 */
-//            }
-//            else
+            }
+            else
                 fragment = (DadosClienteFragment) fragmentManager.findFragmentById(R.id.frame_container);
 
             if (fragment != null) { fragment.apresentarLista(itens, tipo, getApplicationContext()); }
@@ -1126,7 +1073,7 @@ public class Pedido extends AppCompatActivity
         catch (Exception e)
         {
             Toast.makeText(getApplicationContext(),
-                    "Erro ao carregar dados\n" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    "Erro ao carregar dados", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -39,6 +39,9 @@
         <activity android:name=".views.Pedido"
             android:screenOrientation="portrait"
             android:icon="@drawable/btn_sulpasso" />
+        <activity android:name=".views.PedidoNoFragments"
+            android:screenOrientation="portrait"
+            android:icon="@drawable/btn_sulpasso" />
         <activity android:name=".views.Agenda"
             android:screenOrientation="portrait"
             android:icon="@drawable/btn_sulpasso" />
