@@ -42,7 +42,10 @@ public class SalvarPedido
 
     public Boolean verificarSaldo(float saldo)
     {
-        return (saldo - this.desconto >= 0);
+        if(this.desconto > 0)
+            return (saldo - this.desconto >= 0);
+        else
+            return true;
     }
 
     public Boolean salvarPedido(Context ctx, Venda venda)

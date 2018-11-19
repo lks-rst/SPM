@@ -251,6 +251,8 @@ public class Inicial extends AppCompatActivity
                 break;
 
             case R.id.inicial_pedidos :
+                Toast.makeText(getApplicationContext(), "Versao do android" + Build.VERSION.SDK_INT, Toast.LENGTH_LONG).show();
+
                 if(this.validar_data_sistema(5))
                 {
                     if(this.validar_hora_sistema())
@@ -544,7 +546,17 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
-            Intent i = new Intent(getApplicationContext(), Pedido.class);
+            Intent i;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+//                i = new Intent(getApplicationContext(), PedidoNoFragments.class);
+                i = new Intent(getApplicationContext(), Pedido.class);
+            }
+            else
+            {
+                i = new Intent(getApplicationContext(), Pedido.class);
+            }
+
             i.putExtra("TIPOVENDA", tv);
             i.putExtra("DIRETA", direta);
             startActivity(i);
