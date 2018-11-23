@@ -2,6 +2,7 @@ package br.com.sulpasso.sulpassomobile.persistencia.queries;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -503,7 +504,6 @@ public class ItemDataAccess
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
 
 
-
             StringBuilder sb = new StringBuilder();
             sb.delete(0, this.sBuilder.length());
             sb.append("SELECT * FROM ");
@@ -512,21 +512,23 @@ public class ItemDataAccess
             sb.append(" WHERE ");
             sb.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.PRODUTO);
-            sb.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.TABELA);
             sb.append(" = ");
             sb.append(item.getCodigo());
 
             try
             {
-                Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+                Cursor d = this.db.rawQuery(sb.toString(), null);
                 d.moveToFirst();
               
                 item.setEstoque(
-                    d.getFloat(c.getColumnIndex(
+                    d.getFloat(d.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Estoque.ESTOQUE)));
             }
-            catch (Exception x) { item.setEstoque(0); }
+            catch (Exception x)
+            {
+                String s = x.getMessage();
+                item.setEstoque(0);
+            }
 
 
             lista.add(item);
@@ -637,6 +639,7 @@ public class ItemDataAccess
             try { divisao = Integer.parseInt(this.searchData.substring(4, 6).trim()); }
             catch (Exception exception) { divisao = 0; }
 
+
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
             this.sBuilder.append(" = '");
@@ -656,9 +659,10 @@ public class ItemDataAccess
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
                     this.sBuilder.append(" = '");
                     this.sBuilder.append(divisao);
-                    this.sBuilder.append("')");
                 }
             }
+
+            this.sBuilder.append("');");
         }
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
@@ -1186,8 +1190,8 @@ public class ItemDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
         c.moveToFirst();
+
         for(int i = 0; i < c.getCount(); i++)
         {
             Item item = new Item();
@@ -1254,8 +1258,15 @@ public class ItemDataAccess
             sb.append(item.getCodigo());
             sb.append("';");
 
-            Cursor d = this.db.rawQuery(sb.toString(), null);
-            d.moveToFirst();
+            Cursor d;
+
+            try
+            {
+                d = this.db.rawQuery(sb.toString(), null);
+                d.moveToFirst();
+            }
+            catch (SQLiteCantOpenDatabaseException scode) { return lista; }
+            catch (Exception ex) { return lista; }
 
 
             try {

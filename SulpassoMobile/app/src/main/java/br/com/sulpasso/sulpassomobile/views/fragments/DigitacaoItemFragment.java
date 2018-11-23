@@ -218,13 +218,13 @@ public class DigitacaoItemFragment extends Fragment
                 ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString(),
                 ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).getText().toString(), "0")));
 
-
         ((EditText) (getActivity().findViewById(R.id.fdEdtQuantidade))).setOnFocusChangeListener(alteracaoFoco);
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).setOnFocusChangeListener(alteracaoFoco);
         ((EditText) (getActivity().findViewById(R.id.fdEdtDesconto))).setOnFocusChangeListener(alteracaoFoco);
         ((EditText) (getActivity().findViewById(R.id.fdEdtAcrescimo))).setOnFocusChangeListener(alteracaoFoco);
         ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).setOnFocusChangeListener(alteracaoFoco);
 
+        ((EditText) (getActivity().findViewById(R.id.fdEdtQuantidade))).requestFocus();
     }
 
     private void exibirTotal()

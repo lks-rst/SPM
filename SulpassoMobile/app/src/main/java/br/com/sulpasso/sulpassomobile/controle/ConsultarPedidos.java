@@ -121,20 +121,35 @@ public class ConsultarPedidos
     public boolean excluirPedido()
     {
         int cod = 0;
+        Double descontoPedido = new Double(0);
 
         switch (this.tipoBusca())
         {
             case 0:
+                descontoPedido = this.todas.get(this.posicaoPedido).getDesconto();
                 cod = this.todas.get(this.posicaoPedido).getCodigo();
                 break;
             case 1:
                 break;
             case 2:
+                descontoPedido = this.naoEnviadas.get(this.posicaoPedido).getDesconto();
                 cod = this.naoEnviadas.get(this.posicaoPedido).getCodigo();
                 break;
         }
 
-        try { this.vda.excluirPedido(cod); }
+        try
+        {
+            float flex = 0;
+            float flexPedido = descontoPedido.floatValue();
+            float flexItens = this.vda.buscarFlexItens(cod);
+            float saldo = this.vda.buscarSaldoAtual();
+
+            flex = flexPedido + flexItens;
+            saldo = saldo + flex;
+
+            this.vda.excluirPedido(cod);
+            this.vda.atualizarSaldo(saldo);
+        }
         catch (GenercicException e) { cod = 0; }
 
         return cod > 0;

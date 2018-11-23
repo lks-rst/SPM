@@ -36,6 +36,7 @@ import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.util.services.Email;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
+import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMainFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosResumo;
 
@@ -340,7 +341,7 @@ public class Inicial extends AppCompatActivity
                 fragment = new ConsultaGerencialMensagem();
                 break;
             case 1:
-                fragment = new ConsultaItensKits();
+                fragment = new ConsultaItensMainFragment();
                 break;
             case 2:
                 fragment = new ConsultaPedidosLista();
@@ -364,11 +365,51 @@ public class Inicial extends AppCompatActivity
                 break;
         }
 
+        /*
         if (fragment != null)
         {
             FragmentManager fragmentManager = getFragmentManager();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+            {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                        .replace(R.id.fragmentInicial, fragment).addToBackStack(null).commit();
+            }
+            else
+            {
+                fragmentManager.beginTransaction().replace(R.id.fragmentInicial, fragment).addToBackStack(null).commit();
+            }
+        }
+        */
+        if(fragment != null)
+        {
+            FragmentManager fragmentManager = getFragmentManager();
+
+            /**
+             * Todo: Verifica a ação do botão voltar do aparelho
+             */
+            /*
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+            {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                        .replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+            }
+            else
+            {
+                fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).addToBackStack(null).commit();
+            }
+            */
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        //            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1)
+            {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
+                        .replace(R.id.fragmentInicial, fragment).commit();
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.fadein, R.anim.fadeout, R.anim.fadein, R.anim.fadeout)
