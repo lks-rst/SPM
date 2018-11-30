@@ -1473,7 +1473,15 @@ public class ManipularArquivos
                 ArrayList<ItensVendidos> itens = v.getItens();
                 for(ItensVendidos i : itens)
                 {
-                    if(i.getValorLiquido() < i.getValorTabela() && (i.getDescontoCG() == 0)/* && (i.getFlag_desconto_campanha() == 1) */)
+                    /*
+                    if(i.getValorLiquido() < i.getValorTabela() && (i.getDescontoCG() == 0)*//* && (i.getFlag_desconto_campanha() == 1) *//*)
+                    {
+                        float desconto = ((i.getValorTabela() - i.getValorLiquido()) / i.getValorTabela()) * 100;
+                        i.setDescontoCG(desconto);
+                    }
+                    */
+
+                    if(i.getValorLiquido() < i.getValorTabela() && (i.getDescontoCG() == 0) && i.isDescontoCampanha())
                     {
                         float desconto = ((i.getValorTabela() - i.getValorLiquido()) / i.getValorTabela()) * 100;
                         i.setDescontoCG(desconto);
@@ -2348,8 +2356,6 @@ public class ManipularArquivos
         }
         catch (Exception e) { /*****/ }
     }
-
-
 
     public String plano_visitas(String name, int vendedor, String nome)
     {

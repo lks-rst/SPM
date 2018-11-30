@@ -52,7 +52,7 @@ public class VendaDataAccess
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
-        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(" WHERE (");
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO);
         this.sBuilder.append(" = ");
@@ -68,7 +68,7 @@ public class VendaDataAccess
         }
         else { this.sBuilder.append(1); }
 
-        this.sBuilder.append(" AND ");
+        this.sBuilder.append(") AND ");
 
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
@@ -943,6 +943,32 @@ public class VendaDataAccess
     private boolean insertItens(ArrayList<ItensVendidos> itens, int pedido) throws GenercicException
     {
         this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("DELETE FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(pedido);
+
+        try
+        {
+            this.db.execSQL(this.sBuilder.toString());
+        }
+        catch (Exception e)
+        {
+            String s = e.getMessage();
+            /*
+            TODO: Criar uma forma de escrever esse erro no log de erros do arquivo
+            ManipularArquivos arquivos = new ManipularArquivos(this.ctx);
+            arquivos.addStringErro("Erro ao excluir itens de pedido alterado\n");
+            arquivos.addStringErro(e.getMessage());
+            arquivos.criarArquivoErros();
+            */
+        }
+
+        this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("Insert or replace into ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
@@ -1432,5 +1458,78 @@ public class VendaDataAccess
         }
 
         return v;
+    }
+
+    public float buscarFlexItens(int codVenda)
+    {
+        float flex = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.FLEX);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(codVenda);
+        this.sBuilder.append("';");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                float flexItem = c.getFloat(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.FLEX));
+                if(flexItem > 0)
+                {
+                    flex += (c.getFloat(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.FLEX)) *
+                            c.getFloat(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE)));
+                }
+
+                c.moveToNext();
+            }
+        }
+
+        return flex;
+    }
+
+    public float buscarSaldoAtual()
+    {
+        float flex = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.SALDO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
+        this.sBuilder.append(";");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                flex += c.getFloat(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.SALDO));
+
+                c.moveToNext();
+            }
+        }
+
+        return flex;
     }
 }

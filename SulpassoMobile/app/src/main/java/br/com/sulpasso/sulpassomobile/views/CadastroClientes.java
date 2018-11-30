@@ -135,7 +135,6 @@ public class CadastroClientes extends AppCompatActivity
     private final int ENVIADOS = 2;
     private final int N_ENVIADOS = 3;
 
-
     private CadastrarClientes controle;
 
 /**********************************FRAGMENT LIFE CYCLE*********************************************/
@@ -303,7 +302,6 @@ public class CadastroClientes extends AppCompatActivity
     {
         super.onDestroy();
     }
-
 /********************************END OF FRAGMENT LIFE CICLE****************************************/
 /*******************************FRAGMENT FUNCTIONAL METHODS****************************************/
     /**

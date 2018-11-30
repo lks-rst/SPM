@@ -897,8 +897,11 @@ public abstract class EfetuarPedidos
 
     public void removerItem(int posicao)
     {
-        this.controleConfiguracao.setSaldoAtual(this.controleConfiguracao.getSaldoAtual() +
-                (this.itensVendidos.get(posicao).getFlex() * this.itensVendidos.get(posicao).getQuantidade()));
+        if(this.itensVendidos.get(posicao).getFlex() > 0 && !this.itensVendidos.get(posicao).isDigitadoSenha())
+        {
+            this.controleConfiguracao.setSaldoAtual(this.controleConfiguracao.getSaldoAtual() +
+                    (this.itensVendidos.get(posicao).getFlex() * this.itensVendidos.get(posicao).getQuantidade()));
+        }
 
         this.itensVendidos.remove(posicao);
     }

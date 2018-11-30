@@ -197,8 +197,7 @@ public class InserirItemPedidos
                         item.setDescontoCP(0);
 
                         EfetuarPedidos.erro = false; //Na linha de baixo deve ser acrescentado um calculo relacionando também ao peso do produto calcularTotalDesconto
-                        EfetuarPedidos.strErro = "Valor de flex gerado " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
-                        EfetuarPedidos.strErro = "Valor de flex gerado " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
+                        EfetuarPedidos.strErro = "Valor de flex gerado no item " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
 
                         return item;
                     }

@@ -2,6 +2,7 @@ package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -89,7 +90,8 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_filtro_itens, menu);
@@ -207,15 +209,26 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
 
     public void listarItens() throws GenercicException
     {
-        this.fcipLiItens.setAdapter
-        (
-            new ArrayAdapter<String>
-            (
-                getActivity().getApplicationContext(),
-                R.layout.default_list_item,
-                consulta.buscarItens()
-            )
-        );
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                try {
+                    fcipLiItens.setAdapter
+                    (
+                        new ArrayAdapter<String>
+                        (
+                            getActivity().getApplicationContext(),
+                            R.layout.default_list_item,
+                            consulta.buscarItens()
+                        )
+                    );
+                } catch (GenercicException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 750);
     }
 
     public void ajustarLayout() { /*****/ }

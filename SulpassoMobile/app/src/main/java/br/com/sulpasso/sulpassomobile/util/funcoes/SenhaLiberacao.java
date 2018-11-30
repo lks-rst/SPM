@@ -151,7 +151,6 @@ public class SenhaLiberacao
         return false;
     }
 
-
     /**
      * Calculo para mascarar a quantidade
      *
@@ -200,7 +199,6 @@ public class SenhaLiberacao
         return nq.toString();
     }
 
-
     /**
      * Calculo para mascarar a quantidade
      *
@@ -214,7 +212,6 @@ public class SenhaLiberacao
 
         return sun;
     }
-
 
     /**
      * Calculo para mascarar a quantidade

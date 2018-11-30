@@ -238,6 +238,7 @@ public class PedidoNormal extends EfetuarPedidos
                     {
                         alteracao = true;
                         posicao = super.itensVendidos.indexOf(i);
+                        break;
                     }
                 }
 
@@ -259,10 +260,10 @@ public class PedidoNormal extends EfetuarPedidos
 
                 try
                 {
-                    if(super.itensVendidos.get(posicao).getFlex() > 0 && !super.itensVendidos.get(posicao).isDigitadoSenha())
+                    if(super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() > 0 && !super.itensVendidos.get(super.itensVendidos.size() - 1).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
-                                (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                                (super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() * super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade()));
                     }
                 }
                 catch (Exception exeption)
@@ -284,6 +285,15 @@ public class PedidoNormal extends EfetuarPedidos
     public int finalizarPedido()
     {
         NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
+
+        /*
+        TODO: Verificar com os clientes se precisa recriar essa funcionalidade
+        if(super.controleSalvar.getDesconto() > 0 && super.venda.getObservacaDesconto().length() < 20)
+        {
+            Toast.makeText(super.context, "É necessario acrescentar uma justificativa para o desconto aplicado ao final do pedido", Toast.LENGTH_LONG).show();
+            return -1;
+        }
+        */
 
         if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
                 , super.controleConfiguracao.pedidoMinimo()))
@@ -316,21 +326,25 @@ public class PedidoNormal extends EfetuarPedidos
 
                     if(super.controleSalvar.salvarPedido(super.context, super.venda))
                     {
-                        super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto())));
+                        super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
 
                         float flexItem = 0;
                         float flexItens = 0;
                         float totalFlex = 0;
 
-
                         for (ItensVendidos i : super.itensVendidos)
                         {
                             flexItem = i.getFlex();
 
-                            flexItens += flexItem;
+                            if(flexItem > 0  && !i.isDigitadoSenha())
+                                flexItens += (flexItem * i.getQuantidade());
                         }
 
-                        totalFlex = (float) (flexItens - super.venda.getDesconto());
+                        float valorDesconto = super.venda.getDesconto().floatValue();
+                        float saldoFinalFlex = flexItens + valorDesconto;
+
+                        totalFlex = (float) (flexItens + super.venda.getDesconto());
+                        totalFlex *= -1;
 
                         Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
