@@ -52,7 +52,7 @@ public class VendaDataAccess
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
-        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(" WHERE (");
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.ENVIO);
         this.sBuilder.append(" = ");
@@ -68,7 +68,7 @@ public class VendaDataAccess
         }
         else { this.sBuilder.append(1); }
 
-        this.sBuilder.append(" AND ");
+        this.sBuilder.append(") AND ");
 
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);

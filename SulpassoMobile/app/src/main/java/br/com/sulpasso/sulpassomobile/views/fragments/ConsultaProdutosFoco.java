@@ -86,7 +86,6 @@ public class ConsultaProdutosFoco extends Fragment implements AlertItensFoco.Cal
         catch (GenercicException e) { e.printStackTrace(); }
     }
 
-
     public void listarItens() throws GenercicException
     {
         ArrayList<String> dados = new ArrayList<>();
@@ -134,7 +133,5 @@ public class ConsultaProdutosFoco extends Fragment implements AlertItensFoco.Cal
         try { listarItens(); }
         catch (GenercicException e) { e.printStackTrace(); }
     }
-
-
 /*********************************END OF ITERFACES METHODS*****************************************/
 }

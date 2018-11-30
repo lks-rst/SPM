@@ -849,11 +849,11 @@ public class Atualizacao extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                String emp = empresa.getText().toString().toUpperCase();
+                String emp = empresa.getText().toString().trim().toUpperCase();
                 int usr;
                 try
                 {
-                    usr = Integer.parseInt(usuario.getText().toString());
+                    usr = Integer.parseInt(usuario.getText().toString().trim());
                     configurarSistema(emp, usr);
                 }
                 catch (Exception e){ Toast.makeText(getApplicationContext(), "INSIRA O CÓDIGO DO USUÁRIO", Toast.LENGTH_LONG).show(); }
@@ -880,7 +880,7 @@ public class Atualizacao extends AppCompatActivity
 
         if(version == 19)
         {
-            arquivo = new File("/storage/emulated/0//MobileVenda");
+            arquivo = new File("/storage/emulated/0/MobileVenda");
         }
         else
         {
@@ -907,7 +907,7 @@ public class Atualizacao extends AppCompatActivity
             }
             else
             {
-                String s = "ATENÇÃO!\nNão há permissão para escrita de arquivos ou a pasta do sistema não foi criada corretamente.\nPor favor, varifique e reinicie o sistema.";
+                String s = "ATENÇÃO!\nNão há permissão para escrita de arquivos ou a pasta do sistema não foi criada corretamente.\nPor favor, verifique e reinicie o sistema.";
 
                 Toast t = Toast.makeText(this, s, Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
@@ -916,7 +916,7 @@ public class Atualizacao extends AppCompatActivity
         }
         catch (Exception e)
         {
-            String s = "ATENÇÃO!\nNão há permissão para escrita de arquivos ou a pasta do sistema não foi criada corretamente.\nPor favor, varifique e reinicie o sistema.";
+            String s = "ATENÇÃO!\nNão há permissão para escrita de arquivos ou a pasta do sistema não foi criada corretamente.\nPor favor, verifique e reinicie o sistema.";
 
             Toast t = Toast.makeText(this, s, Toast.LENGTH_LONG);
             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);

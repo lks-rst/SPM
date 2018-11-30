@@ -98,7 +98,6 @@ public class ConsultaClientesPrePedido extends Fragment implements DetalhesPrepe
     }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
-
     private AdapterView.OnItemClickListener selecionadoCliente = new AdapterView.OnItemClickListener()
     {
         @Override

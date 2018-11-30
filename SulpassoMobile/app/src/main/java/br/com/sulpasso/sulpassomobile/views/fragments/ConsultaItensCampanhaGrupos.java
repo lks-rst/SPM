@@ -59,7 +59,6 @@ public class ConsultaItensCampanhaGrupos extends Fragment
         catch (GenercicException e) { e.printStackTrace(); }
     }
 
-
     public void listarItens() throws GenercicException
     {
         this.consulta.setSearchTypeMain(4);

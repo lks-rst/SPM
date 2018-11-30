@@ -90,7 +90,8 @@ public class ConsultaItensMainFragment extends Fragment implements GrupoSelectio
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_filtro_itens, menu);

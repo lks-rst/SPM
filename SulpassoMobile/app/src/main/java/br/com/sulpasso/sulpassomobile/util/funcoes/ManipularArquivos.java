@@ -2357,8 +2357,6 @@ public class ManipularArquivos
         catch (Exception e) { /*****/ }
     }
 
-
-
     public String plano_visitas(String name, int vendedor, String nome)
     {
         PlanoVisitas plano = new PlanoVisitas(this.context);

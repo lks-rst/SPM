@@ -138,5 +138,4 @@ public class ManipulacaoStrings
 
         return passa;
     }
-
 }
