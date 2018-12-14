@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Contract;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
@@ -23,6 +24,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Natureza;
 import br.com.sulpasso.sulpassomobile.modelo.Prazo;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedidoItem;
+import br.com.sulpasso.sulpassomobile.modelo.Promocao;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.BancoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.CidadeDataAccess;
@@ -31,6 +33,7 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.DevolucaoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.GrupoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.MixDataAccess;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
@@ -536,6 +539,51 @@ public abstract class EfetuarPedidos
 
     public final float recalcularTotalPedido() { return this.controleSalvar.calcularTotal(); }
 
+    public final void recalcularValor()
+    {
+        if(this.controleConfiguracao.getConfigVda().getRecalcularPreco())
+        {
+            ArrayList<ItensVendidos> livAlt = new ArrayList<>();
+            ArrayList<ItensVendidos> liv = this.venda.getItens();
+            ItemDataAccess ida = new ItemDataAccess(this.context);
+
+            HashMap<String, String> dadosVendaItem;
+
+            for(ItensVendidos iv : liv)
+            {
+                dadosVendaItem = this.controleProdutos.dadosVendaAlteracao
+                        (iv.getItem(), this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo());
+
+                float minimo = 0;
+                float total = 0;
+                float faixa = 1;
+
+                iv.setValorTabela(Float.parseFloat(dadosVendaItem.get("TABELA")));
+                minimo = Float.parseFloat(dadosVendaItem.get("MINIMO"));
+                if (minimo <= 0 || minimo > iv.getValorTabela())
+                    minimo = iv.getValorTabela();
+
+                iv.setValorMinimo(minimo);
+                iv.setValorDigitado(iv.getValorTabela());
+                iv.setValorLiquido(iv.getValorTabela());
+
+                faixa = ida.buscarFaixa(iv.getItem());
+
+                if(dadosVendaItem.get("UNIDADE").equals("KG") && !dadosVendaItem.get("UNVENDA").equals("KG"))
+                    total = iv.getValorTabela() * iv.getQuantidade() * faixa;
+                else
+                    total = iv.getValorTabela() * iv.getQuantidade();
+
+                iv.setTotal(total);
+
+                livAlt.add(iv);
+            }
+
+            liv.clear();
+            liv = livAlt;
+        }
+    }
+
     public final void addObs(String s, int tipo)
     {
         ManipulacaoStrings ms = new ManipulacaoStrings();
@@ -937,5 +985,28 @@ public abstract class EfetuarPedidos
     public int pesquisaInicial()
     {
         return this.controleConfiguracao.getConfigUsr().getTipoBusca();
+    }
+
+    public ArrayList<String> exibirPromocoes()
+    {
+        PromocaoDataAccess pda = new PromocaoDataAccess(this.context);
+        ArrayList<Promocao> promocoes = new ArrayList<>();
+        try { promocoes = pda.buscarPromocao(this.controleDigitacao.getItem().getCodigo()); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        ArrayList<String> lista = new ArrayList<>();
+
+        if(promocoes.size() > 0)
+            for (Promocao p : promocoes)
+                lista.add(p.toDisplay());
+        else
+            lista.add(this.context.getString(R.string.sem_promocoes));
+
+        return lista;
+        /*
+        Toast.makeText(this.context
+                ,"Valores promocionais encontrados para o item:\n" + lista.toString()
+                , Toast.LENGTH_LONG).show();
+        */
     }
 }

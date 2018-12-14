@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Atividade;
 import br.com.sulpasso.sulpassomobile.modelo.Banco;
 import br.com.sulpasso.sulpassomobile.modelo.Cidade;
@@ -68,6 +69,20 @@ public class CadastrarClientes
         this.cda.salvarCliente(this.cliente);
     }
 
+    public ArrayList<String> listarClientes(Context ctx)
+    {
+        ArrayList<String> strListaClientes = new ArrayList<>();
+        ArrayList<ClienteNovo> listaClientes = new ArrayList<>();
+
+        ClienteNovoDataAccess cnda = new ClienteNovoDataAccess(ctx);
+
+        try { listaClientes = cnda.getAll(); }
+        catch (GenercicException e) { e.printStackTrace(); }
+
+        for(ClienteNovo c : listaClientes) { strListaClientes.add(c.toDisplay()); }
+
+        return strListaClientes;
+    }
 
     //	http://www.devmedia.com.br/validando-o-cnpj-em-uma-aplicacao-java/22374
     private Boolean validar_cgc(String cgc)
@@ -225,6 +240,4 @@ public class CadastrarClientes
 
         return valido;
     }
-
-
 }

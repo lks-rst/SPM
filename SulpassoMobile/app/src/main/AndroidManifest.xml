@@ -63,6 +63,9 @@
         <activity android:name=".views.CadastroClientes"
             android:screenOrientation="portrait"
             android:icon="@drawable/btn_sulpasso" />
+        <activity android:name=".views.CadastroClientesFragmentalized"
+            android:screenOrientation="portrait"
+            android:icon="@drawable/btn_sulpasso" />
 
         <service android:name=".util.services.Email" />
     </application>

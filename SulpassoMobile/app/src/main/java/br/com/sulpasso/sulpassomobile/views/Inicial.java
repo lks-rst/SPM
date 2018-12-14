@@ -225,7 +225,8 @@ public class Inicial extends AppCompatActivity
                 startActivity(ia);
                 break;
             case R.id.inicial_clientes :
-                Intent ic = new Intent(getApplicationContext(), CadastroClientes.class);
+//                Intent ic = new Intent(getApplicationContext(), CadastroClientes.class);
+                Intent ic = new Intent(getApplicationContext(), CadastroClientesFragmentalized.class);
                 startActivity(ic);
                 /*
                 t = Toast.makeText(getApplicationContext(), "CADASTRO CLIENTES INDISPONIVEL", Toast.LENGTH_LONG);

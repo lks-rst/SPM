@@ -1481,17 +1481,21 @@ public class ManipularArquivos
                     }
                     */
 
+                    ItemDataAccess ida = new ItemDataAccess(this.context);
+
                     if(i.getValorLiquido() < i.getValorTabela() && (i.getDescontoCG() == 0) && i.isDescontoCampanha())
                     {
                         float desconto = ((i.getValorTabela() - i.getValorLiquido()) / i.getValorTabela()) * 100;
                         i.setDescontoCG(desconto);
                     }
                     builder.delete(0, builder.length());
+
+                    String referencia = ida.getItemStr(i.getItem());
                     
                     builder.append("I");
                     builder.append(ms.comEsquerda("" + v.getCodigo(), "0", 7));
                     builder.append(ms.comEsquerda("" + v.getCliente().getCodigoCliente(), "0", 7));
-                    builder.append(ms.comDireita("" + i.getItem(), " ", 10));
+                    builder.append(ms.comDireita("" + referencia, " ", 10));
                     //builder.append(ms.comEsquerda(("" + /*(int)*/Formatacao.format2d(i.getEstoque())).replace(".", ""), "0", 6) +
                     builder.append(ms.comEsquerda(("" + (int)i.getQuantidade()).replace(".", ""), "0", 4));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorLiquido())).replace(".", "").replace(",", ""), "0", 9));

@@ -366,11 +366,13 @@ public class FinalizacaoPedidoFragment extends Fragment
                     ajustarPrazos(position);
                     break;
                 case R.id.ffpSpnrPrazos :
-                    /*
-                    ((EditText) getActivity().findViewById(R.id.fdcEdtTabela))
+                    ((EditText) getActivity().findViewById(R.id.ffpEdtTab))
                         .setText(String.format(((Pedido) getActivity()).getApplicationContext()
                         .getResources().getString(R.string.str_tab), String.valueOf(String
                         .valueOf(((Pedido) getActivity()).selecionarPrazo(position)))));
+
+                    ((Pedido) getActivity()).recalcularPrecos();
+                    /*
                     ((EditText) getActivity().findViewById(R.id.fdcEdtPrazo)).setText(String.format
                         (((Pedido) getActivity()).getApplicationContext().getResources()
                         .getString(R.string.str_prazo), ((Pedido) getActivity()).selecionarPrazo()));

@@ -30,7 +30,8 @@ public class AlertDataPedidos extends DialogFragment
     {
         View view = inflater.inflate(R.layout.alert_data_pedidos, container);
 
-        final DatePicker datePicker = (DatePicker) view.findViewById(R.id.adpDtp);this.callback = null;
+        final DatePicker datePicker = (DatePicker) view.findViewById(R.id.adpDtp);
+        this.callback = null;
 
         try
         {
@@ -92,7 +93,7 @@ public class AlertDataPedidos extends DialogFragment
 */
 
 
-        getDialog().setTitle(R.string.tlt_datas_pedidos);
+//        getDialog().setTitle(R.string.tlt_datas_pedidos);
         return view;
     }
 

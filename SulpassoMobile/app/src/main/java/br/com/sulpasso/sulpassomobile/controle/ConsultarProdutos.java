@@ -10,6 +10,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 
 /**
  * Created by Lucas on 01/08/2016.
@@ -233,9 +234,12 @@ public class ConsultarProdutos
                 s = String.valueOf(this.subGrupo);
                 d = String.valueOf(this.divisao);
 
-                g = g.length() == 2 ? g : ("0" + g);
-                s = s.length() == 2 ? s : ("0" + s);
-                d = d.length() == 2 ? d : ("0" + d);
+                ManipulacaoStrings ms = new ManipulacaoStrings();
+
+
+                g = ms.comEsquerda(g, "0", 3);
+                s = ms.comEsquerda(s, "0", 3);
+                d = ms.comEsquerda(d, "0", 3);
 
                 busca = g + s + d;
 

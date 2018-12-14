@@ -100,7 +100,7 @@ public class AtualizarSistema
                 this.atualizarVendas(true);
                 return true;
             case 13 :
-                carregarClientes();
+                carregarClientes(0);
                 return true;
             case 14 :
                 this.sendClients();
@@ -122,6 +122,8 @@ public class AtualizarSistema
             case 21 :
                 this.atualizarVendas(false);
                 return true;
+            case 131 :
+                carregarClientes(1);
             default:
                 return true;
         }
@@ -243,12 +245,22 @@ public class AtualizarSistema
         }
     }
 
-    private void carregarClientes()
+    private void carregarClientes(int tipo)
     {
         ClienteNovoDataAccess cnda = new ClienteNovoDataAccess(this.context);
 
         cnda.setSearchType(0);
-        try { this.listaNovos = (ArrayList<ClienteNovo>) cnda.getByData(); }
+        try
+        {
+            if(tipo == 1)
+            {
+                this.listaNovos = (ArrayList<ClienteNovo>) cnda.getByData();
+            }
+            else
+            {
+                this.listaNovos = (ArrayList<ClienteNovo>) cnda.getAll();
+            }
+        }
         catch (GenercicException e)
         {
             this.arquivos.addStringErro(e.getMessage());

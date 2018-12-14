@@ -234,7 +234,23 @@ public class Pedido extends AppCompatActivity
         }
     }
 
-    public void exibirPromocoes(View v) { this.controlePedido.buscarPromocoes(); }
+    public void exibirPromocoes(View v)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        DigitacaoItemFragment fragment;
+
+        try
+        {
+            fragment = (DigitacaoItemFragment) fragmentManager.findFragmentById(R.id.frame_container);
+
+            if (fragment != null) { fragment.apresentarPromocoes(); }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+    }
 
     public void buscarMinimoTabela(View v)
     {
@@ -353,7 +369,10 @@ public class Pedido extends AppCompatActivity
 
     public ArrayList<String> listarPrazos(int position)
     {
-        try { return this.controlePedido.listarPrazos(position); }
+        try
+        {
+            return this.controlePedido.listarPrazos(position);
+        }
         catch (GenercicException ge)
         {
             Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
@@ -412,9 +431,13 @@ public class Pedido extends AppCompatActivity
         return this.controlePedido.getTabela();
     }
 
-    public String selecionarPrazo()
+    public String selecionarPrazo() { return this.controlePedido.getDesdobramentoPrazo(); }
+
+    public void recalcularPrecos()
     {
-        return this.controlePedido.getDesdobramentoPrazo();
+        this.controlePedido.recalcularValor();
+        this.exibirTotalPedido();
+        Toast.makeText(getApplicationContext(), "Preços recalculados", Toast.LENGTH_LONG).show();
     }
 
     public int itensVendidos() { return this.controlePedido.itensVendidos(); }
@@ -732,6 +755,12 @@ public class Pedido extends AppCompatActivity
         });
 
         alert.show();
+    }
+
+    public ArrayList<String> listarPromocoes()
+    {
+//        return this.controlePedido.buscarPromocoes();
+        return this.controlePedido.exibirPromocoes();
     }
 
     private void encerrar()

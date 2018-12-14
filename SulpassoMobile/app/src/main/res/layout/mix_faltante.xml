@@ -15,7 +15,8 @@
         android:paddingBottom="@dimen/padding_inferior"
         android:layout_marginBottom="@dimen/padding_inferior"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:id="@+id/amfTxtMsg" />
 
     <ListView
         android:layout_width="wrap_content"
