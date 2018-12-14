@@ -15,13 +15,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertaPromocoes;
 
 /**
  * Created by Lucas on 17/08/2016.
  */
-public class DigitacaoItemFragment extends Fragment
+public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.ExibirPromocoes
 {
     public DigitacaoItemFragment(){}
 /**************************************************************************************************/
@@ -102,6 +105,13 @@ public class DigitacaoItemFragment extends Fragment
     public void indicarMinimo(String valor)
     {
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).setText(valor);
+    }
+
+    public void apresentarPromocoes()
+    {
+        AlertaPromocoes dialog = new AlertaPromocoes();
+        dialog.setTargetFragment(this, 1); //request code
+        dialog.show(getFragmentManager(), "DIALOG");
     }
 /**************************************************************************************************/
 /******************************END OF FRAGMENT ACCESS METHODS**************************************/
@@ -397,4 +407,17 @@ public class DigitacaoItemFragment extends Fragment
 /**************************************************************************************************/
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /**************************************************************************************************/
+/**************************************************************************************************/
+/**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
+/**************************************************************************************************/
+    @Override
+    public ArrayList<String> buscarMix() {
+        /*
+        ArrayList<String> retorno = new ArrayList<>();
+        retorno.add("Aqui seram apresentadas as promoções");
+
+        return retorno;
+        */
+        return ((Pedido) getActivity()).listarPromocoes();
+    }
 }

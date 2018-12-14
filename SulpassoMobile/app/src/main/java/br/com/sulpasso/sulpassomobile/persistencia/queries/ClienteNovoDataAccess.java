@@ -45,7 +45,7 @@ public class ClienteNovoDataAccess {
         this.searchData = searchData;
     }
 
-    public ArrayList<Cliente> getAll() throws GenercicException {
+    public ArrayList<ClienteNovo> getAll() throws GenercicException {
         return this.searchAll();
     }
 
@@ -368,102 +368,53 @@ public class ClienteNovoDataAccess {
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TABELA);
-        this.sBuilder.append(" ORDER BY ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO);
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.TABELA);
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {
-            Cliente cliente = new Cliente();
+            ClienteNovo cliente = new ClienteNovo();
 
-            cliente.setCodigoCliente(
+            cliente.setCod(
                     c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO)));
-            cliente.setRazao(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COD)));
+            cliente.setNome(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.RAZAO)));
-            cliente.setFantasia(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NOME)));
+            cliente.setFantazia(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FANTASIA)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.FANTASIA)));
             cliente.setCgc(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CGC)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.CGC)));
             cliente.setIe(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.IE)));
-            cliente.setNatureza(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.IE)));
+            cliente.setPagto(
                     c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.NATUREZA)));
-            cliente.setPrazo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.PRAZO)));
-            cliente.setTabela(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.TAB)));
-            cliente.setTelefone(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.PGTO)));
+            cliente.setFone(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.FONE)));
-            cliente.setCelular(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.FONE)));
+            cliente.setCell(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CELULAR)));
-            cliente.setEmail(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.EMAIL)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.CEL)));
             cliente.setEndereco(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ENDERECO)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.END)));
             cliente.setBairro(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.BAIRRO)));
-            cliente.setCodigoCidade(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.BAIRRO)));
+            cliente.setCidade(
                     c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CIDADE)));
-            cliente.setMensagem(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.MENSAGEM)));
-            cliente.setRoteiro(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ROTEIRO)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.CID_COD)));
             cliente.setCep(
                     c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CEP)));
-            cliente.setAlteraPrazo(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ALTERA)).charAt(0));
-            cliente.setEspecial(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ESPECIAL)).charAt(0));
-            cliente.setSituacao(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.SITUACAO)).charAt(0));
-            cliente.setAtividade(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ATIVIDADE)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.CEP)));
             cliente.setBanco(
                     c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.BANCO)));
-            cliente.setVisita(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.VISITA)));
-
-            cliente.setMetaPeso(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.METAPESO)));
-            cliente.setMediaCompras(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.MEDIA)));
-            cliente.setRealizado(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.REALIZADO)));
-            cliente.setLimiteCredito(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.LIMITE)));
-            cliente.setDataUltimaCompra(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.ULTIMA)));
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.BANCO)));
 
             lista.add(cliente);
             c.moveToNext();

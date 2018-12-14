@@ -130,13 +130,21 @@ public class PedidoNormal extends EfetuarPedidos
     {
         super.codigoPrazo = super.listaPrazos.get(posicao).getCodigo();
 
-        for (Prazo p : super.listaPrazos)
+        if(String.valueOf(super.venda.getCliente().getEspecial()).equalsIgnoreCase("E"))
         {
-            if (p.getCodigo() == super.codigoPrazo)
+            super.tabela = super.venda.getCliente().getTabela();
+            super.venda.setTabela(super.tabela);
+        }
+        else
+        {
+            for (Prazo p : super.listaPrazos)
             {
-                super.tabela = super.listaPrazos.get(super.listaPrazos.indexOf(p)).getTabela();
-                super.venda.setTabela(super.tabela);
-                break;
+                if (p.getCodigo() == super.codigoPrazo)
+                {
+                    super.tabela = super.listaPrazos.get(super.listaPrazos.indexOf(p)).getTabela();
+                    super.venda.setTabela(super.tabela);
+                    break;
+                }
             }
         }
     }
@@ -153,7 +161,6 @@ public class PedidoNormal extends EfetuarPedidos
 
     public void buscarPromocoes()
     {
-
         PromocaoDataAccess pda = new PromocaoDataAccess(super.context);
         ArrayList<Promocao> promocoes = new ArrayList<>();
         try { promocoes = pda.buscarPromocao(super.controleDigitacao.getItem().getCodigo()); }

@@ -348,4 +348,57 @@ public class ClienteNovo
     public void setComercial_abertura(String comercial_abertura) {
         this.comercial_abertura = comercial_abertura;
     }
+
+    @Override
+    public String toString() {
+        return "ClienteNovo{" +
+                "cod=" + cod +
+                ", nome='" + nome + '\'' +
+                ", fantazia='" + fantazia + '\'' +
+                ", cgc='" + cgc + '\'' +
+                ", ie='" + ie + '\'' +
+                ", contato='" + contato + '\'' +
+                ", tipologia=" + tipologia +
+                ", uf='" + uf + '\'' +
+                ", cidade=" + cidade +
+                ", bairro='" + bairro + '\'' +
+                ", endereco='" + endereco + '\'' +
+                ", nr_res='" + nr_res + '\'' +
+                ", cep='" + cep + '\'' +
+                ", fone='" + fone + '\'' +
+                ", cell='" + cell + '\'' +
+                ", email='" + email + '\'' +
+                ", aniversario='" + aniversario + '\'' +
+                ", rep='" + rep + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", ident='" + ident + '\'' +
+                ", pagto=" + pagto +
+                ", banco=" + banco +
+                ", visita='" + visita + '\'' +
+                ", zona=" + zona +
+                ", potencial=" + potencial +
+                ", obs='" + obs + '\'' +
+                ", envio=" + envio +
+                ", data='" + data + '\'' +
+                ", atividade=" + atividade +
+                ", area=" + area +
+                ", t_pessoa='" + t_pessoa + '\'' +
+                ", comercial1='" + comercial1 + '\'' +
+                ", comercial1_fone='" + comercial1_fone + '\'' +
+                ", comercial2='" + comercial2 + '\'' +
+                ", comercial2_fone='" + comercial2_fone + '\'' +
+                ", comercial3='" + comercial3 + '\'' +
+                ", comercial3_fone='" + comercial3_fone + '\'' +
+                ", comercial_abertura='" + comercial_abertura + '\'' +
+                '}';
+    }
+
+    public String toDisplay()
+    {
+        return cod +
+                " - " + nome +
+                " - " + fantazia +
+                " - " + cgc +
+                " - " + ie;
+    }
 }

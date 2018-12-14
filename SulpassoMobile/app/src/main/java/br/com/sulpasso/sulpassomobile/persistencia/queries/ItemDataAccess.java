@@ -580,13 +580,13 @@ public class ItemDataAccess
             int subGrupo = -1;
             int divisao = -1;
 
-            try { grupo = Integer.parseInt(this.searchData.substring(0, 2).trim()); }
+            try { grupo = Integer.parseInt(this.searchData.substring(0, 3).trim()); }
             catch (Exception exception) { grupo = 0; }
 
-            try { subGrupo = Integer.parseInt(this.searchData.substring(2, 4).trim()); }
+            try { subGrupo = Integer.parseInt(this.searchData.substring(3, 6).trim()); }
             catch (Exception exception) { subGrupo = 0; }
 
-            try { divisao = Integer.parseInt(this.searchData.substring(4, 6).trim()); }
+            try { divisao = Integer.parseInt(this.searchData.substring(6, 9).trim()); }
             catch (Exception exception) { divisao = 0; }
 
             this.sBuilder.append(
@@ -1859,6 +1859,34 @@ public class ItemDataAccess
         c.moveToFirst();
 
         try { volume = c.getInt(0) * c.getFloat(1); }
+        catch (Exception e) { volume = 0; }
+
+        return volume;
+    }
+
+    public float buscarFaixa(int produto)
+    {
+        float volume = 0;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(produto);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { volume = c.getInt(0); }
         catch (Exception e) { volume = 0; }
 
         return volume;
