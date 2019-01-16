@@ -25,6 +25,7 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
 import br.com.sulpasso.sulpassomobile.util.funcoes.FtpConnect;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipularArquivos;
+import br.com.sulpasso.sulpassomobile.views.fragments.ListaClientesFragment;
 
 /**
  * Created by Lucas on 02/08/2016 - 17:53 as part of the project SulpassoMobile.
@@ -254,11 +255,13 @@ public class AtualizarSistema
         {
             if(tipo == 1)
             {
+                cnda.setSearchData(String.valueOf(ListaClientesFragment.idSelected));
                 this.listaNovos = (ArrayList<ClienteNovo>) cnda.getByData();
             }
             else
             {
-                this.listaNovos = (ArrayList<ClienteNovo>) cnda.getAll();
+                cnda.setSearchData("-1");
+                this.listaNovos = (ArrayList<ClienteNovo>) cnda.getByData();
             }
         }
         catch (GenercicException e)

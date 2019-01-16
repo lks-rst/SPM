@@ -297,7 +297,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
             }
             else
             {
-                Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado acima do permitido"
                         , Toast.LENGTH_LONG).show();
                 return 0;
             }

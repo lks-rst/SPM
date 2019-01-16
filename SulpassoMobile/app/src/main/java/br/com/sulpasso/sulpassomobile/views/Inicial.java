@@ -387,9 +387,6 @@ public class Inicial extends AppCompatActivity
         {
             FragmentManager fragmentManager = getFragmentManager();
 
-            /**
-             * Todo: Verifica a ação do botão voltar do aparelho
-             */
             /*
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {

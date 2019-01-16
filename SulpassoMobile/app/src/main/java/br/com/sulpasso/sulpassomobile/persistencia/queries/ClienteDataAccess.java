@@ -1050,6 +1050,7 @@ public class ClienteDataAccess
     private Cliente dataConverter(String cliente)
     {
         Cliente c = new Cliente();
+        ManipulacaoStrings ms = new ManipulacaoStrings();
 
         int natureza;
         int prazo;
@@ -1086,8 +1087,8 @@ public class ClienteDataAccess
         }
 
         c.setCodigoCliente(Integer.parseInt(cliente.substring(2, 9)));
-        c.setRazao(cliente.substring(9, 54));
-        c.setFantasia(cliente.substring(54, 84));
+        c.setRazao(ms.trata(cliente.substring(9, 54)));
+        c.setFantasia(ms.trata(cliente.substring(54, 84)));
         c.setRoteiro(Integer.parseInt(cliente.substring(84, 88)));
         c.setContato(cliente.substring(88, 113));
         c.setEndereco(cliente.substring(123, 168));
@@ -1110,7 +1111,6 @@ public class ClienteDataAccess
         c.setRealizado(Float.parseFloat(cliente.substring(330, 338)) / 100);
         c.setSaldo(Float.parseFloat(cliente.substring(338, 346)) / 100);
 
-        ManipulacaoStrings ms = new ManipulacaoStrings();
         String ultima = "";
         ultima = ms.dataBanco(cliente.substring(346, 356));
 

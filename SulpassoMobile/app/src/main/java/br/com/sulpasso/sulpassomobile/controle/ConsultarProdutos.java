@@ -171,6 +171,61 @@ public class ConsultarProdutos
         return retorno;
     }
 
+    public ArrayList<Gravosos> buscarItens2(int tabela, int cliente, int orderBy) throws GenercicException
+    {
+        ArrayList<String> retorno = new ArrayList<>();
+        /*
+        retorno.add("SELECIONE UM ITEM");
+        */
+
+        if(this.searchType == TiposBuscaItens.GRAVOSOS)
+        {
+            this.listar(tabela, orderBy);
+
+            this.removerRestricoes(cliente);
+        }
+        else
+        if(this.searchType == TiposBuscaItens.MIX)
+        {
+            this.listar(tabela, orderBy);
+
+            this.removerRestricoes(cliente);
+
+            this.gravosos = new ArrayList<>();
+
+            for(Item i : this.lista)
+            {
+                Gravosos g;
+                g = new Gravosos();
+                g.setItem(i);
+                this.gravosos.add(g);
+            }
+        }
+        else
+        {
+            this.listar(tabela, orderBy);
+
+            this.removerRestricoes(cliente);
+
+            this.gravosos = new ArrayList<>();
+
+            int cont = 0;
+            for(Item i : this.lista)
+            {
+                ++cont;
+
+                Gravosos g;
+                g = new Gravosos();
+                g.setItem(i);
+                g.setSold(false);
+
+                this.gravosos.add(g);
+            }
+        }
+
+        return this.gravosos;
+    }
+
     public ArrayList<String> buscarItens(int tabela, int orderBy) throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();

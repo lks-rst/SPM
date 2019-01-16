@@ -20,10 +20,6 @@ import br.com.sulpasso.sulpassomobile.modelo.Item;
  */
 public class ConsultaItensDetalhesFragment extends DialogFragment
 {
-    /*
-        TODO: Verificar as promoções;
-        TODO: Vincular a busca do item a busca das aplicações para passar a informaçao correta;
-     */
     private ConsultaItensDetalhes callback;
 
     public static interface ConsultaItensDetalhes

@@ -294,7 +294,6 @@ public class PedidoNormal extends EfetuarPedidos
         NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
 
         /*
-        TODO: Verificar com os clientes se precisa recriar essa funcionalidade
         if(super.controleSalvar.getDesconto() > 0 && super.venda.getObservacaDesconto().length() < 20)
         {
             Toast.makeText(super.context, "É necessario acrescentar uma justificativa para o desconto aplicado ao final do pedido", Toast.LENGTH_LONG).show();

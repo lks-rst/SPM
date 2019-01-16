@@ -267,6 +267,7 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
 
         txt_aniversario = (TextView) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_txt_aniversario);
 
+        /*
         adapter_atividades = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_atividades);
         adapter_banco = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_bancos);
         adapter_cidades = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_cidade);
@@ -274,6 +275,15 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
         adapter_tipos = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_tipologias);
         adapter_estados = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_uf);
         adapter_clientes = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_clientes);
+        */
+
+        adapter_atividades = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_atividades);
+        adapter_banco = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_bancos);
+        adapter_cidades = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_cidade);
+        adapter_naturezas = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_natureza);
+        adapter_tipos = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_tipologias);
+        adapter_estados = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_uf);
+        adapter_clientes = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_clientes);
 
         spnr_atividade.setAdapter(adapter_atividades);
         spnr_banco.setAdapter(adapter_banco);

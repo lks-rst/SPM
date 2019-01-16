@@ -32,6 +32,7 @@ import br.com.sulpasso.sulpassomobile.controle.PedidoNormal;
 import br.com.sulpasso.sulpassomobile.controle.Troca;
 import br.com.sulpasso.sulpassomobile.controle.VendaDireta;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
@@ -461,9 +462,40 @@ public class Pedido extends AppCompatActivity
         }
     }
 
+    public ArrayList<Gravosos> listarItens2(int tipo, String dados)
+    {
+        this.controlePedido.indicarTipoBuscaItem(tipo);
+        this.controlePedido.indicarDadosBuscaItens(dados);
+
+        try { return this.controlePedido.listarItens2(); }
+        catch (GenercicException ge)
+        {
+            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            return new ArrayList<>();
+        }
+    }
+
     public ArrayList<String> listarItens()
     {
         try { return this.controlePedido.listarItens(); }
+        catch (GenercicException ge)
+        {
+            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            return new ArrayList<>();
+        }
+        catch (Exception e)
+        {
+            String s;
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            s = e.getMessage();
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<Gravosos> listarItens2()
+    {
+        try { return this.controlePedido.listarItens2(); }
         catch (GenercicException ge)
         {
             Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
@@ -763,6 +795,8 @@ public class Pedido extends AppCompatActivity
         return this.controlePedido.exibirPromocoes();
     }
 
+    public int posicaoUltimoItemSelecionado() { return this.controlePedido.posicaoUltimoItemSelecionado(); }
+
     private void encerrar()
     {
         finish();
@@ -913,9 +947,6 @@ public class Pedido extends AppCompatActivity
         {
             FragmentManager fragmentManager = getFragmentManager();
 
-            /**
-             * Todo: Verifica a ação do botão voltar do aparelho
-             */
             /*
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
             {

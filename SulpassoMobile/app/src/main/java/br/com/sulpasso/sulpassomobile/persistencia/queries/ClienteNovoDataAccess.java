@@ -416,6 +416,14 @@ public class ClienteNovoDataAccess {
                     c.getInt(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.BANCO)));
 
+            int enviado = c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO));
+
+            if(enviado == 1)
+                cliente.setEnviado(true);
+            else
+                cliente.setEnviado(false);
+
             lista.add(cliente);
             c.moveToNext();
         }
@@ -691,7 +699,6 @@ public class ClienteNovoDataAccess {
 
         return natureza;
     }
-
 
     public void salvarCliente(ClienteNovo cliente) {
         ContentValues valores = new ContentValues();
@@ -984,26 +991,39 @@ public class ClienteNovoDataAccess {
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.TABELA);
         this.sBuilder.append(" WHERE ");
 
-        this.sBuilder.append(
+        if(Integer.parseInt(this.searchData) == -1)
+        {
+            this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
 
-        this.sBuilder.append(" = '");
-//        this.sBuilder.append(this.searchType);
+            this.sBuilder.append(" = '");
 
-        if(searchType == 0)
-        {
-            this.sBuilder.append("0'");
+            if(searchType == 0)
+            {
+                this.sBuilder.append("0'");
 
-            this.sBuilder.append(" OR ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
-            this.sBuilder.append(" = '2");
+                this.sBuilder.append(" OR ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO);
+                this.sBuilder.append(" = '2");
+            }
+            else { this.sBuilder.append("1"); }
         }
-        else { this.sBuilder.append("1"); }
+        else
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COD);
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(this.searchData);
+        }
 
         this.sBuilder.append("';");
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+
+        String query = this.sBuilder.toString();
+
+        Cursor c = this.db.rawQuery(query, null);
 
         c.moveToFirst();
         for (int i = 0; i < c.getCount(); i++) {
@@ -1138,7 +1158,9 @@ public class ClienteNovoDataAccess {
         this.sBuilder.append(2);
         this.sBuilder.append("';");
 
-        try { db.execSQL(this.sBuilder.toString()); }
+        String query = this.sBuilder.toString();
+
+        try { db.execSQL(query); }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
