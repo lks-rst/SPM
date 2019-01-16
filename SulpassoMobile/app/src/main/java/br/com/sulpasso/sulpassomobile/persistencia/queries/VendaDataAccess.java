@@ -17,6 +17,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
 import br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipularArquivos;
 
 /**
  * Created by Lucas on 15/08/2016.
@@ -956,16 +957,18 @@ public class VendaDataAccess
         {
             this.db.execSQL(this.sBuilder.toString());
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             String s = e.getMessage();
-            /*
-            TODO: Criar uma forma de escrever esse erro no log de erros do arquivo
-            ManipularArquivos arquivos = new ManipularArquivos(this.ctx);
-            arquivos.addStringErro("Erro ao excluir itens de pedido alterado\n");
-            arquivos.addStringErro(e.getMessage());
-            arquivos.criarArquivoErros();
-            */
+
+            new Thread(new Runnable() {
+                public void run() {
+                    ManipularArquivos arquivos = new ManipularArquivos(ctx);
+                    arquivos.addStringErro("Erro ao excluir itens de pedido alterado\n");
+                    arquivos.addStringErro(e.getMessage());
+                    arquivos.criarArquivoErros();
+                }
+            }).start();
         }
 
         this.sBuilder.delete(0, this.sBuilder.length());

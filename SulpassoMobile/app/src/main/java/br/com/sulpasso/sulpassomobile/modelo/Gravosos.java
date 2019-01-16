@@ -11,6 +11,8 @@ public class Gravosos
     private String validade;
     private int dias;
 
+    private Boolean sold;
+
     public Item getItem() { return item; }
 
     public void setItem(Item item) { this.item = item; }
@@ -30,6 +32,10 @@ public class Gravosos
     public int getDias() { return dias; }
 
     public void setDias(int dias) { this.dias = dias; }
+
+    public Boolean getSold() { return sold; }
+
+    public void setSold(Boolean sold) { this.sold = sold; }
 
     @Override
     public String toString()

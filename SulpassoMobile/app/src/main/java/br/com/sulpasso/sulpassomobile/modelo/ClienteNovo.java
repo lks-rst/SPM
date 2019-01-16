@@ -45,6 +45,8 @@ public class ClienteNovo
     private String comercial3_fone;
     private String comercial_abertura;
 
+    private Boolean enviado;
+
     public int getCod() {
         return cod;
     }
@@ -349,6 +351,10 @@ public class ClienteNovo
         this.comercial_abertura = comercial_abertura;
     }
 
+    public Boolean getEnviado() { return enviado; }
+
+    public void setEnviado(Boolean enviado) { this.enviado = enviado; }
+
     @Override
     public String toString() {
         return "ClienteNovo{" +
@@ -395,7 +401,11 @@ public class ClienteNovo
 
     public String toDisplay()
     {
-        return cod +
+        int env = 0;
+        if(this.enviado)
+            env = 1;
+
+        return String.valueOf(env) + cod +
                 " - " + nome +
                 " - " + fantazia +
                 " - " + cgc +

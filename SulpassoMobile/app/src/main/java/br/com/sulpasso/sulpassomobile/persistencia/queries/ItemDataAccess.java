@@ -1294,11 +1294,12 @@ public class ItemDataAccess
     private Item dataConverter(String item)
     {
         Item i = new Item();
+        ManipulacaoStrings ms = new ManipulacaoStrings();
 
         i.setCodigo(Integer.parseInt(item.substring(2, 9)));
-        i.setReferencia(item.substring(9, 19));
-        i.setDescricao(item.substring(19, 49));
-        i.setComplemento(item.substring(49, 63));
+        i.setReferencia(ms.trata(item.substring(9, 19)));
+        i.setDescricao(ms.trata(item.substring(19, 49)));
+        i.setComplemento(ms.trata(item.substring(49, 63)));
         i.setGrupo(Integer.parseInt(item.substring(63, 66)));
         i.setSubGrupo(Integer.parseInt(item.substring(66, 69)));
         i.setDivisao(Integer.parseInt(item.substring(69, 72)));

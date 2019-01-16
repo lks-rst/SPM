@@ -203,7 +203,6 @@ public class FtpConnect
             File arquivo;
 
             /*
-            TODO: Talvez tenha que remover se der erro
             esse trecho foi modificado para verificar se não era ele causando problema no envio dos pedidos e clientes
              */
             if(version >= 19)

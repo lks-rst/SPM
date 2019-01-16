@@ -1491,6 +1491,7 @@ public class ManipularArquivos
                     builder.delete(0, builder.length());
 
                     String referencia = ida.getItemStr(i.getItem());
+                    referencia = referencia.substring(0, referencia.indexOf(" . "));
                     
                     builder.append("I");
                     builder.append(ms.comEsquerda("" + v.getCodigo(), "0", 7));

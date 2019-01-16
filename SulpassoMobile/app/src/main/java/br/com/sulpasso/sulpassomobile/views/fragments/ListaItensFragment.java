@@ -27,6 +27,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.controle.Adapters.AdapterItensPedido;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
@@ -294,6 +295,19 @@ public class ListaItensFragment extends Fragment implements
 
     public void listarItens()
     {
+        /*
+        TODO: VErificar uma forma melhor de apresentar estes itens;
+         */
+        AdapterItensPedido adapter = new AdapterItensPedido(getActivity().getApplicationContext(), ((Pedido) getActivity()).listarItens2());
+
+        this.fliLiItens.setAdapter(adapter);
+
+        try { this.fliLiItens.setSelection(((Pedido) getActivity()).posicaoUltimoItemSelecionado()); }
+        catch (Exception e) { this.fliLiItens.setSelection(0); }
+
+        /*
+        this.fliLiItens.setSelection(4);
+
         this.fliLiItens.setAdapter
         (
             new ArrayAdapter<String>
@@ -303,6 +317,7 @@ public class ListaItensFragment extends Fragment implements
                 ((Pedido) getActivity()).listarItens()
             )
         );
+        */
     }
 
     public void ajustarLayout() { /*****/ }

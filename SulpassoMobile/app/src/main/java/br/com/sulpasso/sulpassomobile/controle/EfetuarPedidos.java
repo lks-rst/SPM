@@ -16,6 +16,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Banco;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
 import br.com.sulpasso.sulpassomobile.modelo.ContasReceber;
+import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
 import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
@@ -95,6 +96,8 @@ public abstract class EfetuarPedidos
     public String parametrosBuscaItens = "";
 
     protected ArrayList<Mix> mixFaltando;
+
+    public int posicaoItemSelecionado;
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/
@@ -495,6 +498,32 @@ public abstract class EfetuarPedidos
                 this.controleConfiguracao.getConfigUsr().getTipoOredenacao());
     }
 
+    public final ArrayList<Gravosos> listarItens2() throws GenercicException
+    {
+        Boolean found = false;
+        ArrayList<Gravosos> itens = new ArrayList<>();
+        itens = this.controleProdutos.buscarItens2(this.tabela, this.venda.getCliente().getCodigoCliente(),
+                this.controleConfiguracao.getConfigUsr().getTipoOredenacao());
+
+        for(int i = 0; i <  itens.size(); i++)
+        {
+            found = false;
+
+            for(ItensVendidos iv : this.itensVendidos)
+            {
+                if (iv.getItem() == itens.get(i).getItem().getCodigo())
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            itens.get(i).setSold(found);
+        }
+
+        return itens;
+    }
+
     public final ArrayList<String> listarResumo() throws GenercicException
     {
         ArrayList<String> itens = new ArrayList<>();
@@ -514,6 +543,7 @@ public abstract class EfetuarPedidos
 
     public final void selecionarItem(int posicao)
     {
+        this.posicaoItemSelecionado = posicao;
         this.controleDigitacao.setItem(this.controleProdutos.getItem(posicao));
         this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVenda
                 (posicao, this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
@@ -696,6 +726,8 @@ public abstract class EfetuarPedidos
     {
         return controleConfiguracao.getConfigVda().getGerenciarVisitas();
     }
+
+    public final int posicaoUltimoItemSelecionado() { return this.posicaoItemSelecionado; }
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
 /**************************************************************************************************/

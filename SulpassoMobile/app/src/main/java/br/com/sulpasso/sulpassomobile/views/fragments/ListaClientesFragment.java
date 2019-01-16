@@ -10,11 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.controle.Adapters.AdapterCliNovo;
 import br.com.sulpasso.sulpassomobile.controle.AtualizarSistema;
 import br.com.sulpasso.sulpassomobile.controle.CadastrarClientes;
 import br.com.sulpasso.sulpassomobile.views.CadastroClientesFragmentalized;
@@ -31,6 +31,8 @@ public class ListaClientesFragment extends Fragment
     private AtualizarSistema controleAtualizacao;
 
     protected String displayMessage;
+
+    public static int idSelected;
 
     public ListaClientesFragment(){}
 /**********************************FRAGMENT LIFE CICLE*********************************************/
@@ -97,23 +99,29 @@ public class ListaClientesFragment extends Fragment
      */
     private void setUpLayout()
     {
-        /*
-        ((ListView) getActivity().findViewById(R.id.liAcpClientes)).setAdapter(
-                new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                this.controle.listarClientes(getActivity().getApplicationContext())));
-        */
+        AdapterCliNovo adapter = new AdapterCliNovo(getActivity().getApplicationContext(),
+                this.controle.listarClientes(getActivity().getApplicationContext()));
 
+        ((ListView) getActivity().findViewById(R.id.liAcpClientes)).setAdapter(adapter);
+
+        /*
         ((ListView) getActivity().findViewById(R.id.liAcpClientes)).setAdapter(
                 new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 R.layout.default_list_item,
                 this.controle.listarClientes(getActivity().getApplicationContext())));
+        */
+
         ((ListView) getActivity().findViewById(R.id.liAcpClientes)).setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
         {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
             {
                 controleAtualizacao = new AtualizarSistema(getActivity().getApplicationContext());
+
+                String s = ((ListView) getActivity().findViewById(R.id.liAcpClientes)).getItemAtPosition(position).toString();
+                s = s.substring(1, s.indexOf(" -"));
+                idSelected = Integer.parseInt(s);
+
                 new Clientes().execute();
 
                 return false;
@@ -148,7 +156,6 @@ public class ListaClientesFragment extends Fragment
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/
 /**************************************************************************************************/
-
 
 /**************************************************************************************************/
 /*********************************END OF ITERFACES METHODS*****************************************/
@@ -332,7 +339,7 @@ public class ListaClientesFragment extends Fragment
         @Override
         protected void onPostExecute(Void result)
         {
-
+            setUpLayout();
         }
     }
 }
