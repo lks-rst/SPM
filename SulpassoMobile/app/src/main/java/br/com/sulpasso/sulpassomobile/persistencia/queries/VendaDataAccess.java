@@ -1411,6 +1411,7 @@ public class VendaDataAccess
             v.setHora(c.getString(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.HORA)));
             v.setObservacao(c.getString(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.OBSERVACAO)));
             v.setDesconto(c.getDouble(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DESCONTO)));
+            v.setDesconto(c.getDouble(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DESCONTO)));
             v.setObservacaDesconto(c.getString(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.JUSTIFICATIVA)));
             v.setObservacaoNota(c.getString(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.OBSERVACAONOTA)));
             v.setValor(c.getDouble(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TOTAL)));

@@ -1,6 +1,7 @@
 package br.com.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -286,7 +287,30 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
                 if(super.controleSalvar.salvarPedido(super.context, super.venda))
                 {
-                    super.controleSalvar.atualizarSaldo(super.context, super.controleConfiguracao.getSaldoAtual());
+                    super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
+
+                    float flexItem = 0;
+                    float flexItens = 0;
+                    float totalFlex = 0;
+
+                    for (ItensVendidos i : super.itensVendidos)
+                    {
+                        flexItem = i.getFlex();
+
+                        if(flexItem > 0  && !i.isDigitadoSenha())
+                            flexItens += (flexItem * i.getQuantidade());
+                    }
+
+                    float valorDesconto = super.venda.getDesconto().floatValue();
+                    float saldoFinalFlex = flexItens + valorDesconto;
+
+                    totalFlex = (float) (flexItens + super.venda.getDesconto());
+                    totalFlex *= -1;
+
+                    Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+
                     return 1;
                 }
                 else
