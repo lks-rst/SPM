@@ -81,6 +81,7 @@ public class Pedido extends AppCompatActivity
                 {
                     this.controlePedido = new AlteracaoPedidos(getApplicationContext(), "");
                     this.controlePedido.buscarVenda(pedido);
+                    this.controlePedido.acertarSaldo();
                     displayView(0);
                 }
             }

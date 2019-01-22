@@ -610,7 +610,7 @@ public abstract class EfetuarPedidos
             }
 
             liv.clear();
-            liv = livAlt;
+            liv.addAll(livAlt);
         }
     }
 
@@ -1040,5 +1040,15 @@ public abstract class EfetuarPedidos
                 ,"Valores promocionais encontrados para o item:\n" + lista.toString()
                 , Toast.LENGTH_LONG).show();
         */
+    }
+
+    public void acertarSaldo()
+    {
+        float atual = this.controleConfiguracao.getSaldoAtual();
+        float atualizar = 0;
+        float valor = Float.parseFloat(String.valueOf(this.venda.getDesconto()));
+        atualizar = atual + valor;
+        this.controleConfiguracao.setSaldoAtual(atualizar);
+        this.venda.setDesconto(0.0);
     }
 }
