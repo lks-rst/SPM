@@ -292,7 +292,7 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
         spnr_tipologia.setAdapter(adapter_tipos);
         spnr_uf.setAdapter(adapter_estados);
         spnr_clientes.setAdapter(adapter_clientes);
-        ArrayAdapter<CharSequence> adapter_visita = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.array_dias, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter_visita = ArrayAdapter.createFromResource(getActivity().getApplicationContext(), R.array.array_dias, R.layout.spinner_dropdown_item);
         spnr_visita.setAdapter(adapter_visita);
 
         spnr_uf.setOnItemSelectedListener(escolher_estado);
@@ -477,7 +477,7 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
 
                 for (int i = 0; i < array_cidade.size(); i++) { str_cidade.add(array_cidade.get(i).toDisplay()); }
 
-                adapter_cidades = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_cidade);
+                adapter_cidades = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.spinner_dropdown_item, str_cidade);
                 spnr_cidade.setAdapter(adapter_cidades);
             }
         }

@@ -56,7 +56,8 @@ public class CampanhaGrupoDataAccess
 
         cg.setGrupo(g);
         cg.setQuantidade(Integer.parseInt(campanhaGrupo.substring(11, 17)));
-        cg.setDesconto(Float.parseFloat(campanhaGrupo.substring(17).trim()) / 100);
+        cg.setDesconto(Float.parseFloat(campanhaGrupo.substring(17, 22).trim()) / 100);
+        cg.setValorFixo(Float.parseFloat(campanhaGrupo.substring(22, 27).trim()) / 100);
 
         return cg;
     }
