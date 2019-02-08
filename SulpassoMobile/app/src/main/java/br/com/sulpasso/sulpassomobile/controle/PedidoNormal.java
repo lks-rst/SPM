@@ -515,6 +515,28 @@ public class PedidoNormal extends EfetuarPedidos
                     break;
                 }
             }
+
+            if(posicaoGrupo == -1)
+            {
+                ConsultaMinimosGravososKitsCampanhas campanhas = new ConsultaMinimosGravososKitsCampanhas(super.context);
+                try
+                {
+                    CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
+
+                    if(camp == null)
+                        posicaoGrupo = -1;
+                    else
+                    {
+                        super.campanhaGrupos.add(camp);
+                        posicaoGrupo = (super.campanhaGrupos.size() - 1);
+                    }
+                }
+                catch (GenercicException e)
+                {
+                    e.printStackTrace();
+                    posicaoGrupo = -1;
+                }
+            }
         }
         else
         {
@@ -550,6 +572,7 @@ public class PedidoNormal extends EfetuarPedidos
                 if(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado() > 0)
                 {
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado());
+                    super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCampanha(true);
 
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setValorLiquido(
                             super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() -
@@ -601,6 +624,7 @@ public class PedidoNormal extends EfetuarPedidos
                                     super.campanhaGrupos.get(posicao).getGrupo().getDivisao() == 0))
                     {
                         super.itensVendidos.get(i).setDescontoCG(percentual);
+                        super.itensVendidos.get(i).setDescontoCampanha(true);
                         super.itensVendidos.get(i).setValorLiquido(super.itensVendidos.get(i)
                                 .getValorDigitado() - ((super.itensVendidos.get(i).getValorDigitado() * percentual) / 100));
                         super.itensVendidos.get(i).setTotal(super.calcularTotal(

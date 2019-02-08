@@ -11,6 +11,7 @@ public class CampanhaGrupo
     private int quantidade;
     private float desconto;
     private float descontoAplicado;
+    private float valorFixo;
     private int quantidadeVendida;
 
     public CampanhaGrupo()
@@ -30,6 +31,10 @@ public class CampanhaGrupo
     public float getDesconto() { return desconto; }
 
     public void setDesconto(float desconto) { this.desconto = desconto; }
+
+    public float getValorFixo() { return valorFixo; }
+
+    public void setValorFixo(float valorFixo) { this.valorFixo = valorFixo; }
 
     public float getDescontoAplicado() { return descontoAplicado; }
 
