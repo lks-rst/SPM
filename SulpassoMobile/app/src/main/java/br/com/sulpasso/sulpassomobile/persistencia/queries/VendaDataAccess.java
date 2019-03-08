@@ -427,6 +427,13 @@ public class VendaDataAccess
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
 
+                item.setDescontoCG(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.DESCONTOCG)));
+                item.setDescontoCP(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.DESCONTOCP)));
+
                 item.setDigitadoSenha(
                         (c.getInt(c.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA))

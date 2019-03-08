@@ -504,12 +504,9 @@ public class PedidoNormal extends EfetuarPedidos
         {
             for(CampanhaGrupo c : super.campanhaGrupos)
             {
-                if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() ==
-                        produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
-                        (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() ==
-                                produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
-                        (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() ==
-                                0 && c.getGrupo().getDivisao() == 0))
+                if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
+                    (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
+                    (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == 0                     && c.getGrupo().getDivisao() == 0))
                 {
                     posicaoGrupo = super.campanhaGrupos.indexOf(c);
                     break;
@@ -574,6 +571,7 @@ public class PedidoNormal extends EfetuarPedidos
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado());
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCampanha(true);
 
+                    /*
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setValorLiquido(
                             super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() -
                                     ((super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() *
@@ -587,6 +585,7 @@ public class PedidoNormal extends EfetuarPedidos
                                     super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCG(),
                                     super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0
                             ));
+                    */
 
                     return -1;
                 }
@@ -625,8 +624,10 @@ public class PedidoNormal extends EfetuarPedidos
                     {
                         super.itensVendidos.get(i).setDescontoCG(percentual);
                         super.itensVendidos.get(i).setDescontoCampanha(true);
+                        /*
                         super.itensVendidos.get(i).setValorLiquido(super.itensVendidos.get(i)
                                 .getValorDigitado() - ((super.itensVendidos.get(i).getValorDigitado() * percentual) / 100));
+                        */
                         super.itensVendidos.get(i).setTotal(super.calcularTotal(
                                 super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
                                 super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),

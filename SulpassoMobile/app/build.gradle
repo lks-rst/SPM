@@ -8,8 +8,8 @@ android{
         applicationId "br.com.sulpasso.vendas_externas"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 890
-        versionName "1.9"
+        versionCode 893
+        versionName "1.93"
     }
     buildTypes {
         release {

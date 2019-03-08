@@ -556,8 +556,11 @@ public class AlteracaoPedidos extends EfetuarPedidos
                                     super.campanhaGrupos.get(posicao).getGrupo().getDivisao() == 0))
                     {
                         super.itensVendidos.get(i).setDescontoCG(percentual);
+                        super.itensVendidos.get(i).setDescontoCampanha(true);
+                        /*
                         super.itensVendidos.get(i).setValorLiquido(super.itensVendidos.get(i)
                                 .getValorDigitado() - ((super.itensVendidos.get(i).getValorDigitado() * percentual) / 100));
+                        */
                         super.itensVendidos.get(i).setTotal(super.calcularTotal(
                                 super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
                                 super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),
