@@ -76,11 +76,11 @@ public class ListaItensFragment extends Fragment implements
         // Create a GestureDetector
         gestureDetector = new GestureDetector(getActivity().getApplicationContext(), android_gesture_detector);
 
-        gestureListener = new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if (gestureDetector.onTouchEvent(event)) {
-                    return true;
-                }
+        gestureListener = new View.OnTouchListener()
+        {
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (gestureDetector.onTouchEvent(event)) { return true; }
                 return false;
             }
         };
@@ -102,11 +102,14 @@ public class ListaItensFragment extends Fragment implements
             getView().setFocusableInTouchMode(true);
             getView().requestFocus();
 
-            getView().setOnKeyListener(new View.OnKeyListener() {
+            getView().setOnKeyListener(new View.OnKeyListener()
+            {
                 @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN)
+                    {
+                        if (keyCode == KeyEvent.KEYCODE_BACK)
+                        {
                             ((Pedido) getActivity()).verificarEncerramento(0);
                             return true;
                         }

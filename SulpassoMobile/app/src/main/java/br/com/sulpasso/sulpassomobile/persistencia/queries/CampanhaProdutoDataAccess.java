@@ -10,6 +10,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.exeption.InsertionExeption;
 import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
+import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
 
 /**
@@ -32,7 +33,7 @@ public class CampanhaProdutoDataAccess
 
     public ArrayList getAll() throws GenercicException { return this.searchAll(); }
 
-    public ArrayList getByData() throws GenercicException { return new ArrayList(); }
+    public CampanhaProduto getByData(int codigo) throws GenercicException { return this.searchCamp(codigo); }
 
     public Boolean insert(String data) throws GenercicException { return this.insert(this.dataConverter(data)); }
 
@@ -204,4 +205,49 @@ public class CampanhaProdutoDataAccess
         }
         catch (Exception e) { throw new InsertionExeption(e.getMessage()); }
     }
+
+    private CampanhaProduto searchCamp(int codigo) throws ReadExeption
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(codigo);
+        this.sBuilder.append("';");
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        if(c.getCount() > 0)
+        {
+            c.moveToFirst();
+
+            Grupo g = new Grupo();
+            CampanhaProduto campanhaProdutos = new CampanhaProduto();
+
+            campanhaProdutos.setCodigo(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO)));
+            campanhaProdutos.setQuantidade(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE)));
+            campanhaProdutos.setDesconto(c.getFloat(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO)));
+
+            ArrayList<Integer> itens = new ArrayList<>();
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                itens.add(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM)));
+            }
+
+            campanhaProdutos.setItens(itens);
+
+
+            return campanhaProdutos;
+        }
+        else { return null; }
+    }
+
 }

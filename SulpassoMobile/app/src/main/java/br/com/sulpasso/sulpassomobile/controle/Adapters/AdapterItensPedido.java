@@ -49,6 +49,7 @@ public class AdapterItensPedido extends BaseAdapter
             holder.referencia = (TextView) convertView.findViewById(R.id.lblAliRef);
             holder.coplemento = (TextView) convertView.findViewById(R.id.lblAliComp);
             holder.descricao = (TextView) convertView.findViewById(R.id.lblAliDesc);
+            holder.separador = (TextView) convertView.findViewById(R.id.lblAliSeparator);
 
             convertView.setTag(holder);
         }
@@ -58,6 +59,11 @@ public class AdapterItensPedido extends BaseAdapter
             convertView.setBackgroundResource(R.color.LightGreen);
         else
             convertView.setBackgroundResource(R.color.bgColor);
+
+        if(mensagem.getItem().isDestaque())
+            holder.separador.setBackgroundResource(R.color.LightGreen);
+        else
+            holder.separador.setBackgroundResource(R.color.bgColor);
 
         holder.codigo.setText(String.valueOf(mensagem.getItem().getCodigo()));
         holder.referencia.setText(mensagem.getItem().getReferencia());
@@ -74,5 +80,6 @@ public class AdapterItensPedido extends BaseAdapter
         private TextView referencia;
         private TextView descricao;
         private TextView coplemento;
+        private TextView separador;
     }
 }

@@ -34,6 +34,8 @@ public class Item
 
     private String aplicacao;
 
+    private boolean destaque;
+
     public Integer getCodigo() { return codigo; }
 
     public void setCodigo(Integer codigo) { this.codigo = codigo; }
@@ -121,6 +123,10 @@ public class Item
     public String getAplicacao() { return aplicacao; }
 
     public void setAplicacao(String aplicacao) { this.aplicacao = aplicacao; }
+
+    public boolean isDestaque() { return destaque; }
+
+    public void setDestaque(boolean destaque) { this.destaque = destaque; }
 
     @Override
     public String toString() {

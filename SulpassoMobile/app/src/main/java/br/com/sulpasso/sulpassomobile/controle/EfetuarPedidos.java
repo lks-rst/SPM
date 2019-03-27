@@ -206,9 +206,13 @@ public abstract class EfetuarPedidos
 
     public abstract int verificarTabloides();
 
-    public abstract int aplicarDescontoTabloide(float percentual, int posicao);
+    public abstract int verificarCampanhas();
+
+    public abstract int aplicarDescontoTabloide(float percentual, int posicao, int tipo);
 
     public abstract ArrayList<CampanhaGrupo> getCampanhaGrupos();
+
+    public abstract ArrayList<CampanhaProduto> getCampanhaProdutos();
 
     public abstract boolean verificarPrepedido();
 

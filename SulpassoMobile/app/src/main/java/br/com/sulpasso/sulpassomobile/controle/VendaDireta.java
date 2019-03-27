@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
+import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 
 /**
@@ -167,12 +168,22 @@ public class VendaDireta extends EfetuarPedidos {
     }
 
     @Override
-    public int aplicarDescontoTabloide(float percentual, int posicao) {
+    public int verificarCampanhas() {
+        return 0;
+    }
+
+    @Override
+    public int aplicarDescontoTabloide(float percentual, int posicao, int tipo) {
         return 0;
     }
 
     @Override
     public ArrayList<CampanhaGrupo> getCampanhaGrupos() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<CampanhaProduto> getCampanhaProdutos() {
         return null;
     }
 
