@@ -946,7 +946,7 @@ public class PedidoNoFragments extends AppCompatActivity
         try { valor = Float.parseFloat(s); }
         catch (Exception e){ }
 
-        int retorno = this.controlePedido.aplicarDescontoTabloide(valor, posicao);
+        int retorno = this.controlePedido.aplicarDescontoTabloide(valor, posicao, 0);
 
         if(retorno > -1)
             this.aplicarDescontoTabloide(retorno);

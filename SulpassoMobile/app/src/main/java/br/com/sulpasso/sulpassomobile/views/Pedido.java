@@ -212,6 +212,15 @@ public class Pedido extends AppCompatActivity
                 aplicarDescontoTabloide(ret);
                 Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
             }
+            else
+            {
+                ret = this.controlePedido.verificarCampanhas();
+                if(ret != -1)
+                {
+                    aplicarDescontoCampanhas(ret);
+                    Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
+                }
+            }
 
             Toast t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
@@ -1036,7 +1045,7 @@ public class Pedido extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                verificarTabloides(input.getText().toString(), posicao);
+                verificarTabloides(input.getText().toString(), posicao, 0);
             }
         });
 
@@ -1049,17 +1058,61 @@ public class Pedido extends AppCompatActivity
         alert.show();
     }
 
-    private void verificarTabloides(String s, int posicao)
+    public void aplicarDescontoCampanhas(final int posicao)
+    {
+        String titulo = "Campanha Itens";
+        String mensagem = "Para esse item é permitido " + this.controlePedido.getCampanhaProdutos().get(posicao).getDesconto() + "% de desconto.";
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setTitle(titulo);
+        alert.setMessage(mensagem);
+        alert.setCancelable(false);
+
+        final EditText input = new EditText(getApplicationContext());
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+        alert.setView(input);
+
+        alert.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                verificarTabloides(input.getText().toString(), posicao, 1);
+            }
+        });
+
+        alert.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
+        });
+
+        alert.show();
+    }
+
+    private void verificarTabloides(String s, int posicao, int tipo)
     {
         float valor = 0;
 
         try { valor = Float.parseFloat(s); }
         catch (Exception e){ }
 
-        int retorno = this.controlePedido.aplicarDescontoTabloide(valor, posicao);
+        if(tipo == 0)
+        {
+            int retorno = this.controlePedido.aplicarDescontoTabloide(valor, posicao, tipo);
 
-        if(retorno > -1)
-            this.aplicarDescontoTabloide(retorno);
+            if(retorno > -1)
+                this.aplicarDescontoTabloide(retorno);
+        }
+        else
+        {
+            int retorno = this.controlePedido.aplicarDescontoTabloide(valor, posicao, tipo);
+
+            if(retorno > -1)
+                this.aplicarDescontoCampanhas(retorno);
+        }
     }
 
     private void buscar_clientes(final int tipo)

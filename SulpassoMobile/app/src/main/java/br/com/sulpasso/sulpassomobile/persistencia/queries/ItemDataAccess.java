@@ -277,6 +277,10 @@ public class ItemDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CUSTO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE);
+
         this.sBuilder.append(") VALUES ('");
         this.sBuilder.append(item.getCodigo());
         this.sBuilder.append("', '");
@@ -315,6 +319,8 @@ public class ItemDataAccess
         this.sBuilder.append(item.getDivisao());
         this.sBuilder.append("', '");
         this.sBuilder.append(item.getCusto());
+        this.sBuilder.append("', '");
+        this.sBuilder.append((item.isDestaque() ? "9" : "0"));
         this.sBuilder.append("');");
 
         try
@@ -328,6 +334,7 @@ public class ItemDataAccess
     private ArrayList<Item> searchByData(int tabela, int orderBy) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
+        boolean dest = false;
 
         if(tabela == -1)
         {
@@ -503,6 +510,15 @@ public class ItemDataAccess
                     c.getString(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
 
+            String des = c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE));
+
+            int destaque = Integer.parseInt(des);
+
+            dest = destaque == 9 ? true : false;
+
+            item.setDestaque(dest);
+
 
             StringBuilder sb = new StringBuilder();
             sb.delete(0, this.sBuilder.length());
@@ -541,6 +557,7 @@ public class ItemDataAccess
     private ArrayList<Item> searchByGroup(int tabela) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
+        boolean dest = false;
 
         this.sBuilder.delete(0, this.sBuilder.length());
 
@@ -720,6 +737,15 @@ public class ItemDataAccess
                     c.getString(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
 
+            String des = c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE));
+
+            int destaque = Integer.parseInt(des);
+
+            dest = destaque == 9 ? true : false;
+
+            item.setDestaque(dest);
+
             StringBuilder sb = new StringBuilder();
             sb.delete(0, this.sBuilder.length());
             sb.append("SELECT * FROM ");
@@ -898,6 +924,7 @@ public class ItemDataAccess
     {
         ArrayList lista = new ArrayList();
         String tipo = this.searchData;
+        boolean dest = false;
 
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT prod.* FROM ");
@@ -962,7 +989,14 @@ public class ItemDataAccess
                     c.getString(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
 
+            String des = c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE));
 
+            int destaque = Integer.parseInt(des);
+
+            dest = destaque == 9 ? true : false;
+
+            item.setDestaque(dest);
 
             StringBuilder sb = new StringBuilder();
             sb.delete(0, this.sBuilder.length());
@@ -1065,6 +1099,7 @@ public class ItemDataAccess
     private ArrayList<Item> searchAll(int tabela, int orderBy) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
+        boolean dest = false;
 
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
@@ -1122,7 +1157,6 @@ public class ItemDataAccess
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
         }
 
-
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
@@ -1173,6 +1207,29 @@ public class ItemDataAccess
                     c.getFloat(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
 
+            String des = c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE));
+
+            int destaque = Integer.parseInt(des);
+
+            dest = destaque == 9 ? true : false;
+
+            item.setDestaque(dest);
+
+            /*
+            String icm = c.getString(c.getColumnIndex(Tbl_Produto_Ref.getIcm()));
+
+            try {
+                prod.setDiferenciado(icm.substring(0, 1).equalsIgnoreCase("9") ? 1 : 0);
+            } catch (Exception e) {
+                prod.setDiferenciado(0);
+            }
+
+            item.setDestaque(
+                    c.getFloat(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
+            */
+
             lista.add(item);
             c.moveToNext();
         }
@@ -1183,6 +1240,7 @@ public class ItemDataAccess
     private ArrayList<Item> searchAll() throws ReadExeption
     {
         ArrayList lista = new ArrayList();
+        boolean dest = false;
 
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
@@ -1240,7 +1298,14 @@ public class ItemDataAccess
                     c.getString(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.APLICACAO)));
 
+            String des = c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE));
 
+            int destaque = Integer.parseInt(des);
+
+            dest = destaque == 9 ? true : false;
+
+            item.setDestaque(dest);
 
             StringBuilder sb = new StringBuilder();
             sb.delete(0, this.sBuilder.length());
@@ -1295,6 +1360,8 @@ public class ItemDataAccess
     {
         Item i = new Item();
         ManipulacaoStrings ms = new ManipulacaoStrings();
+        String dest = item.substring(119, 120);
+        int d = Integer.parseInt(dest);
 
         i.setCodigo(Integer.parseInt(item.substring(2, 9)));
         i.setReferencia(ms.trata(item.substring(9, 19)));
@@ -1314,6 +1381,7 @@ public class ItemDataAccess
         i.setFlex(item.substring(118, 119));
         i.setContribuicao(Float.parseFloat(item.substring(151, 157)) / 1000);
         i.setCusto(Float.parseFloat(item.substring(143, 151)) / 100);
+        i.setDestaque(d == 9 ? true : false);
 
         return i;
     }

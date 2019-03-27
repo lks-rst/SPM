@@ -11,6 +11,8 @@ public class CampanhaProduto
     private int quantidade;
     private float desconto;
     private List<Integer> itens;
+    private float descontoAplicado;
+    private float quantidadeVendida;
 
     public int getCodigo() { return codigo; }
 
@@ -27,6 +29,14 @@ public class CampanhaProduto
     public List<Integer> getItens() { return itens; }
 
     public void setItens(List<Integer> itens) { this.itens = itens; }
+
+    public float getDescontoAplicado() { return descontoAplicado; }
+
+    public void setDescontoAplicado(float descontoAplicado) { this.descontoAplicado = descontoAplicado; }
+
+    public float getQuantidadeVendida() { return quantidadeVendida; }
+
+    public void setQuantidadeVendida(float quantidadeVendida) { this.quantidadeVendida = quantidadeVendida; }
 
     @Override
     public String toString()

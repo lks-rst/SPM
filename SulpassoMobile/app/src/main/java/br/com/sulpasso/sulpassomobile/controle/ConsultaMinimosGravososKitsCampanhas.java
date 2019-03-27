@@ -46,6 +46,8 @@ public class ConsultaMinimosGravososKitsCampanhas
 
     public CampanhaGrupo buscarCampanha(int codigo) throws GenercicException { return this.buscarCampanhasGrupos(codigo); }
 
+    public CampanhaProduto buscarCampanhaP(int codigo) throws GenercicException { return this.buscarCampanhasProdutos(codigo); }
+
     public ArrayList<String> loadData() throws GenercicException
     {
         ArrayList<String> retorno = new ArrayList<>();
@@ -117,5 +119,12 @@ public class ConsultaMinimosGravososKitsCampanhas
     {
         CampanhaGrupoDataAccess cgda = new CampanhaGrupoDataAccess(ctx);
         return cgda.getByData(produto);
+    }
+
+    private CampanhaProduto buscarCampanhasProdutos(int produto) throws GenercicException
+    {
+        CampanhaGrupoDataAccess cgda = new CampanhaGrupoDataAccess(ctx);
+        CampanhaProdutoDataAccess cpda = new CampanhaProdutoDataAccess(ctx);
+        return cpda.getByData(produto);
     }
 }
