@@ -62,7 +62,7 @@ public class ConsultarProdutos
     public int getItemPosicao(int codigo)
     {
         int i = 0;
-        int posicao = 0;
+        int posicao = -1;
 
         for (i = 0; i < this.lista.size(); i++)
         {
@@ -99,6 +99,11 @@ public class ConsultarProdutos
             return this.getDadosVenda(this.gravosos.get(posicao).getItem().getCodigo(), tabela, minimo);
         else
             return this.getDadosVenda(this.lista.get(posicao).getCodigo(), tabela, minimo);
+    }
+
+    public HashMap<String, String> dadosVendaCodigo(int codigo, int tabela, int minimo)
+    {
+        return this.getDadosVenda(codigo, tabela, minimo);
     }
 
     public HashMap<String, String> dadosVendaAlteracao(int codigo, int tabela, int minimo)

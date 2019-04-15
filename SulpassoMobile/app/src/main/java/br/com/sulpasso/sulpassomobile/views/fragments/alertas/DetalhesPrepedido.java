@@ -47,10 +47,7 @@ public class DetalhesPrepedido extends DialogFragment
             this.callback = (Callback) getTargetFragment();
             this.item = this.callback.detalhesPrePedido();
 
-            for(PrePedidoItem iv : item.getItensVendidos())
-            {
-                this.itens.add(iv.toDisplay());
-            }
+            for(PrePedidoItem iv : item.getItensVendidos()) { this.itens.add(iv.toDisplay()); }
 
             ArrayAdapter adapter = new ArrayAdapter(
                     getActivity().getApplicationContext(), R.layout.spinner_item,
@@ -58,17 +55,14 @@ public class DetalhesPrepedido extends DialogFragment
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             ((ListView) view.findViewById(R.id.dpp_lista)).setAdapter(adapter);
 
-            ((ListView) view.findViewById(R.id.dpp_lista)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            ((ListView) view.findViewById(R.id.dpp_lista)).setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                 {
-                    try
-                    {
-                        callback.exibirDescricaoProduto(position);
-                    }
+                    try { callback.exibirDescricaoProduto(position); }
                     catch (Exception erro)
                     {
-
                         Toast t = Toast.makeText(getActivity().getApplicationContext(),
                             "Desculpe, ocorreu um erro ao tentar acessar o item do pré pedido.\nPor favor, refaça sua busca.",
                             Toast.LENGTH_LONG);

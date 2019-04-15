@@ -556,7 +556,24 @@ public abstract class EfetuarPedidos
     public final void selecionarItemPre(int posicao)
     {
         int posicaoLista = this.controleProdutos.getItemPosicao(this.prePedido.getItensVendidos().get(posicao).getItem());
-        this.selecionarItem(posicaoLista);
+
+        if(posicaoLista >= 100 || posicaoLista < 0)
+        {
+            Item item = new Item();
+            try
+            {
+                item = controleProdutos.getItemCodigo(this.prePedido.getItensVendidos().get(posicao).getItem());
+                this.controleDigitacao.setItem(item);
+                this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVendaCodigo
+                        (item.getCodigo(), this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo()));
+            }
+            catch (GenercicException e) { e.printStackTrace(); }
+        }
+        else
+        {
+            this.selecionarItem(posicaoLista);
+        }
+
         /*
         this.controleDigitacao.setItem(this.converterItem(this.prePedido.getItensVendidos().get(posicao)));
         this.controleDigitacao.setDadosVendaItem(this.controleProdutos.dadosVendaPre
