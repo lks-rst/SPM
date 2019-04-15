@@ -252,15 +252,28 @@ public class PedidoNormal extends EfetuarPedidos
 
                 if (alteracao)
                 {
+                    if(super.itensVendidos.get(posicao).isDigitadoSenha()) { /*****/ }
+                    else
+                    {
+                        if(super.itensVendidos.get(posicao).getFlex() > 0)
+                        {
+                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
+                                    (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                        }
+                    }
+
+                    /*
                     if(super.itensVendidos.get(posicao).getFlex() > 0 && !super.itensVendidos.get(posicao).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
                                 (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
                     }
+                    */
 
                     super.itensVendidos.set(posicao, item);
                     /*
                     TODO: Replicar as alterações para os demais tipos de pedido;
+                    TODO: Rever a inserçao de senhas que está dando problema em aparelhos especificos;
                      */
                     Toast.makeText(context, "Item " + item.getItem() + " alterado!", Toast.LENGTH_LONG).show();
                 }
@@ -268,19 +281,43 @@ public class PedidoNormal extends EfetuarPedidos
 
                 try
                 {
+                    if(super.itensVendidos.get(super.itensVendidos.size() - 1).isDigitadoSenha()) { /*****/ }
+                    else
+                    {
+                        if(super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() > 0)
+                        {
+                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                    (super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() * super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade()));
+                        }
+                    }
+
+                    /*
                     if(super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() > 0 && !super.itensVendidos.get(super.itensVendidos.size() - 1).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
                                 (super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() * super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade()));
                     }
+                    */
                 }
                 catch (Exception exeption)
                 {
+                    if(super.itensVendidos.get(0).isDigitadoSenha()) { /*****/ }
+                    else
+                    {
+                        if(super.itensVendidos.get(0).getFlex() > 0)
+                        {
+                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                    (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
+                        }
+                    }
+
+                    /*
                     if(super.itensVendidos.get(0).getFlex() > 0 && !super.itensVendidos.get(0).isDigitadoSenha())
                     {
                         super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
                                 (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
                     }
+                    */
                 }
 
                 return true;

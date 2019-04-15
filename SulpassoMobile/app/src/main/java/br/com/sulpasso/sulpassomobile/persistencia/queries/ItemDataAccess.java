@@ -450,6 +450,8 @@ public class ItemDataAccess
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
         }
 
+        this.sBuilder.append(" LIMIT 100");
+
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
@@ -634,7 +636,7 @@ public class ItemDataAccess
             this.sBuilder.append(".");
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Preco.PRECO);
-            this.sBuilder.append(" > 0;");
+            this.sBuilder.append(" > 0");
         }
         else
         {
@@ -679,8 +681,10 @@ public class ItemDataAccess
                 }
             }
 
-            this.sBuilder.append("');");
+            this.sBuilder.append("')");
         }
+
+        this.sBuilder.append(" LIMIT 100");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -881,6 +885,8 @@ public class ItemDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
 
+        this.sBuilder.append(" LIMIT 100");
+
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
@@ -944,6 +950,8 @@ public class ItemDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mix.TIPOLOGIA);
         this.sBuilder.append(" = ");
         this.sBuilder.append(Integer.parseInt(this.searchData));
+
+        this.sBuilder.append(" LIMIT 100");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -1044,6 +1052,8 @@ public class ItemDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
         this.sBuilder.append(" = ");
         this.sBuilder.append(dataSearchToInt(0));
+
+        this.sBuilder.append(" LIMIT 100");
         this.sBuilder.append(";");
         /*switch*/
 
@@ -1157,6 +1167,8 @@ public class ItemDataAccess
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
         }
 
+        this.sBuilder.append(" LIMIT 100");
+
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
@@ -1246,6 +1258,8 @@ public class ItemDataAccess
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+
+        this.sBuilder.append(" LIMIT 100");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
         c.moveToFirst();
@@ -1405,6 +1419,8 @@ public class ItemDataAccess
         this.sBuilder.append(codigo);
         this.sBuilder.append("'");
 
+        this.sBuilder.append(" LIMIT 100");
+
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
         c.moveToFirst();
@@ -1504,7 +1520,9 @@ public class ItemDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
         this.sBuilder.append(" = ");
         this.sBuilder.append(codigo);
-        this.sBuilder.append(");");
+        this.sBuilder.append(")");
+
+        this.sBuilder.append(" LIMIT 100");
 
         c = this.db.rawQuery(this.sBuilder.toString(), null);
 
