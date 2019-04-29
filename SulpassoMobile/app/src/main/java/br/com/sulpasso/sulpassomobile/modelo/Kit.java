@@ -53,14 +53,11 @@ public class Kit
         sb.append("\n");
         for(Item i : this.itens)
         {
-            sb.append(" - ");
             sb.append(i.getReferencia());
             sb.append(" - ");
             sb.append(i.getDescricao());
             sb.append(" - ");
-            sb.append(i.getComplemento());
-            sb.append(" - ");
-            sb.append(i.getDescricao());
+            sb.append(i.getEstoque());
             sb.append("\n");
         }
         sb.append(" Valor: ");

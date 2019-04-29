@@ -266,8 +266,15 @@ public class InserirItemPedidos
                 float valor = Float.parseFloat(this.dadosVendaItem.get("TABELA"));
                 float unitario = 0;
 
-                try { unitario = quantidade > 0 ? (valor / quantidade) : valor; }
-                catch (Exception e){ unitario = valor; }
+                if(this.dadosVendaItem.get("UNIDADE").equalsIgnoreCase("UN") && this.dadosVendaItem.get("UNVENDA").equalsIgnoreCase("UN"))
+                {
+                    unitario = valor;
+                }
+                else
+                {
+                    try { unitario = quantidade > 0 ? (valor / quantidade) : valor; }
+                    catch (Exception e){ unitario = valor; }
+                }
 
                 return String.valueOf(unitario);
             case 9 :

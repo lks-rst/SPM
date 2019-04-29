@@ -128,6 +128,11 @@ public class ConfiguradorDataAccess
         return this.atualizarAcesso(time);
     }
 
+    public Boolean updateVersao(String versao) throws GenercicException
+    {
+        return this.atualizarVersao(versao);
+    }
+
     public void updateValidade(String s) throws UpdateExeption
     {
         this.sBuilder.delete(0, this.sBuilder.length());
@@ -224,6 +229,27 @@ public class ConfiguradorDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TIMEATUALIZACAO);
         this.sBuilder.append(" = '");
         this.sBuilder.append(acesso);
+        this.sBuilder.append("'");
+
+        try
+        {
+            this.db.execSQL(this.sBuilder.toString());
+            return true;
+        }
+        catch (Exception exception) { throw new UpdateExeption(exception.getMessage()); }
+    }
+
+    public Boolean atualizarVersao(String versao) throws GenercicException
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("UPDATE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
+        this.sBuilder.append(" SET ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ATUALIZADO);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(versao);
         this.sBuilder.append("'");
 
         try
@@ -1806,12 +1832,24 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.LOGIN);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ATUALIZADO);
 
         this.sBuilder.append(" FROM ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        Cursor c = null;
+
+        try
+        {
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
 
         c.moveToFirst();
 
@@ -1833,6 +1871,8 @@ public class ConfiguradorDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.SITE)));
         conta.setLogin(c.getInt(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.LOGIN)));
+        conta.setAtualizado(c.getString(c.getColumnIndex(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ATUALIZADO)));
 
 
         return conta;

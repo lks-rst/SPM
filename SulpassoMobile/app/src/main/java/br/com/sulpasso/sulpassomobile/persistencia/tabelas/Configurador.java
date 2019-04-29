@@ -103,6 +103,8 @@ public class Configurador
 
     public static final String VENDA = "TotalVendas";
 
+    public static final String ATUALIZADO = "CodigoAtualizacao";
+
     public static String CriarTabela()
     {
         String stmt;
@@ -373,7 +375,11 @@ public class Configurador
         builder.append(",");
         builder.append(TELAINICIAL);
         builder.append(Types.INTEIRO);
-        builder.append(");");
+
+        builder.append(",");
+        builder.append( ATUALIZADO);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '1.5');");
 
         stmt = builder.toString();
         return stmt;
@@ -406,6 +412,22 @@ public class Configurador
         builder.append(ENVIADO_EMAIL);
         builder.append(Types.CHAR);
         builder.append(" DEFAULT '2018-06-13';");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela3()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(ATUALIZADO);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '1.5';");
 
         stmt = builder.toString();
         return stmt;

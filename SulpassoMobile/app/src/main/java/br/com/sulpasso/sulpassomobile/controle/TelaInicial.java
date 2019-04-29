@@ -40,6 +40,11 @@ public class TelaInicial
         return ms.dataVisual(this.configurador.getConfigVda().getValidade());
     }
 
+    public String nomeVersao()
+    {
+        return this.configurador.getConfigEmp().getAtualizado();
+    }
+
     public String versao()
     {
         String versionName = "";
@@ -94,6 +99,11 @@ public class TelaInicial
     public boolean novoAcesso(String time)
     {
         return this.configurador.updateAcesso(time);
+    }
+
+    public boolean atualizarVersao(String versao)
+    {
+        return this.configurador.updateVersao(versao);
     }
 
     public String vendedor()

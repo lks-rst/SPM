@@ -356,28 +356,36 @@
                 android:layout_gravity="center_horizontal" >
 
                 <Button
-                    style="@style/texts.labels"
+                    style="@style/textsSmall.labels"
                     android:text="@string/str_minimo"
                     android:onClick="buscarMinimoTabela"
-                    android:id="@+id/fdBtnMinimos" />
+                    android:id="@+id/fdBtnMinimos"
+                    android:layout_width="72dp" />
 
                 <Button
-                    style="@style/texts.labels"
+                    style="@style/textsSmall.labels"
                     android:text="@string/str_promocao"
                     android:onClick="exibirPromocoes"
-                    android:id="@+id/fdBtnPromocoes" />
+                    android:id="@+id/fdBtnPromocoes"
+                    android:layout_width="66dp" />
 
                 <Button
-                    style="@style/texts.labels"
+                    style="@style/textsSmall.labels"
                     android:text="@string/str_tabela"
                     android:onClick="buscarValorTabela"
                     android:id="@+id/fdBtnValorTabela" />
 
                 <Button
-                    style="@style/texts.labels"
+                    style="@style/textsSmall.labels"
                     android:text="@string/str_confirmar"
                     android:id="@+id/button3"
                     android:onClick="confirmarDigitacao" />
+
+                <Button
+                    style="@style/textsSmall.labels"
+                    android:text="@string/str_solicitar_senha"
+                    android:id="@+id/fdBtnSolSenha"
+                    android:onClick="solicitarSenhaDireto" />
 
             </LinearLayout>
         </LinearLayout>

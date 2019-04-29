@@ -582,6 +582,8 @@ public abstract class EfetuarPedidos
         */
     }
 
+    public final Boolean solicitarSenha() { return this.controleConfiguracao.getConfigEmp().getCodigo() == 3 ? true : false; }
+
     public final int restoreClient() { return this.controleClientes.restoreClient(); }
 
     public final void setDescontoPedido(String desconto) { this.controleSalvar.setDesconto(Float.parseFloat(desconto));}

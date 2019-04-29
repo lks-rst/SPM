@@ -62,6 +62,7 @@ public class ConfigurarSistema
         this.configVda = new ConfiguradorVendas();
         this.configHor = new ConfiguradorHorarios();
         this.configTel = new ConfiguradorTelas();
+        this.configEmp = new ConfiguradorEmpresa();
 
         ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
 
@@ -69,6 +70,7 @@ public class ConfigurarSistema
         this.configVda = cda.getVenda();
         this.configHor = cda.getHorario();
         this.configTel = cda.getTelas();
+        this.configEmp = cda.getEmpresa();
 
         this.saldoAtual = Float.parseFloat(this.getConfiguracao(1));
     }
@@ -179,6 +181,21 @@ public class ConfigurarSistema
         try
         {
             boolean ret = cda.updateAcesso(time);
+            return ret;
+        }
+        catch (GenercicException g)
+        {
+            return false;
+        }
+    }
+
+    public boolean updateVersao(String versao)
+    {
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+
+        try
+        {
+            boolean ret = cda.updateVersao(versao);
             return ret;
         }
         catch (GenercicException g)
