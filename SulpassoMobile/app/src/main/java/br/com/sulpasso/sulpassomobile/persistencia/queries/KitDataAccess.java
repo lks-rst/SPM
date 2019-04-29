@@ -150,10 +150,16 @@ public class KitDataAccess
                 item.setReferencia(cI.getString(cI.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA)));
 
+                item.setEstoque(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.QUANTIDADE)));
+
                 itens.add(item);
                 cI.moveToNext();
             }
             kit.setItens(itens);
+
+            kit.setQuantidade(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Kit.QUANTIDADE)));
 
             lista.add(kit);
             c.moveToNext();

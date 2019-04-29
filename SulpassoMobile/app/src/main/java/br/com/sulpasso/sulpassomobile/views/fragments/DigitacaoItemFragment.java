@@ -126,6 +126,15 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
         /*
         Inserção dos valores nos campos
          */
+        if(((Pedido) getActivity()).solicitarSenha())
+        {
+            (getActivity().findViewById(R.id.fdBtnSolSenha)).setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            (getActivity().findViewById(R.id.fdBtnSolSenha)).setVisibility(View.GONE);
+        }
+
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setText("0");
 

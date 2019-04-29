@@ -68,6 +68,7 @@
     <string name="str_promocao">Promo</string>
     <string name="str_tabela">Tabela</string>
     <string name="str_confirmar">Confirmar</string>
+    <string name="str_solicitar_senha">SENHA</string>
 
     <string name="str_desc_item">Desc. Item: </string>
     <string name="str_val_cli">Val. Especial: </string>
@@ -294,6 +295,7 @@
     <string name="menu_inicial_at">ATUALIZAÇÃO</string>
     <string name="menu_inicial_s">SAIR</string>
     <string name="menu_inicial_co">CONSULTAS</string>
+    <string name="menu_inicial_aj">AJUDA</string>
 
     <string name="menu_inicial_co_ped">Pedidos</string>
     <string name="menu_inicial_co_iten">Itens</string>

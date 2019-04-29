@@ -892,7 +892,7 @@ public class CadastroClientes extends AppCompatActivity
 
             if(edt_razao.getText().length() < 10)
             {
-                t = Toast.makeText(getApplicationContext(), "Campo Razao Social e de preenchimento obrigatorio e deve conter no minimo 10 caracteres", Toast.LENGTH_LONG);
+                t = Toast.makeText(getApplicationContext(), "Campo Razao Social e de preenchimento obrigatório e deve conter no mínimo 10 caracteres", Toast.LENGTH_LONG);
                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                 t.show();
 
@@ -901,7 +901,7 @@ public class CadastroClientes extends AppCompatActivity
             {
                 if(edt_fantasia.getText().length() < 10)
                 {
-                    t = Toast.makeText(getApplicationContext(), "Campo Nome Fantazia e de preenchimento obrigatorio e deve conter no minimo 10 caracteres", Toast.LENGTH_LONG);
+                    t = Toast.makeText(getApplicationContext(), "Campo Nome Fantazia e de preenchimento obrigatório e deve conter no mínimo 10 caracteres", Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                     t.show();
 
@@ -911,7 +911,7 @@ public class CadastroClientes extends AppCompatActivity
                     if((tipo_pessoa.getCheckedRadioButtonId() == R.id.cadastro_cliente_formulario_rb_juridica &&
                             !controle.validarDocumento(edt_cnpj.getText().toString(), 1)))
                     {
-                        t = Toast.makeText(getApplicationContext(), "Cnpj invalido", Toast.LENGTH_LONG);
+                        t = Toast.makeText(getApplicationContext(), "Cnpj inválido", Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                         t.show();
 
@@ -934,7 +934,9 @@ public class CadastroClientes extends AppCompatActivity
                                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                 t.show();
 
-                                edt_ie.requestFocus();
+                                spnr_uf.requestFocus();
+
+//                                edt_ie.requestFocus();
                             } else
                             {
                                 if (spnr_atividade.getSelectedItemPosition() < 1)
@@ -943,7 +945,8 @@ public class CadastroClientes extends AppCompatActivity
                                     t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                     t.show();
 
-                                    edt_ie.requestFocus();
+                                    spnr_atividade.requestFocus();
+//                                    edt_ie.requestFocus();
                                 } else
                                 {
                                     if (spnr_tipologia.getSelectedItemPosition() < 1)
@@ -952,7 +955,8 @@ public class CadastroClientes extends AppCompatActivity
                                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                         t.show();
 
-                                        edt_ie.requestFocus();
+                                        spnr_tipologia.requestFocus();
+//                                        edt_ie.requestFocus();
                                     } else
                                     {
                                         if (spnr_cidade.getSelectedItemPosition() < 1)
@@ -961,7 +965,8 @@ public class CadastroClientes extends AppCompatActivity
                                             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                             t.show();
 
-                                            edt_ie.requestFocus();
+                                            spnr_cidade.requestFocus();
+//                                            edt_ie.requestFocus();
                                         } else
                                         {
                                             if(edt_bairro.getText().length() < 3)
@@ -975,7 +980,7 @@ public class CadastroClientes extends AppCompatActivity
                                             {
                                                 if(edt_endereco.getText().length() < 3)
                                                 {
-                                                    t = Toast.makeText(getApplicationContext(), "Digite um endereco", Toast.LENGTH_LONG);
+                                                    t = Toast.makeText(getApplicationContext(), "Digite um endereço", Toast.LENGTH_LONG);
                                                     t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                     t.show();
 
@@ -984,7 +989,7 @@ public class CadastroClientes extends AppCompatActivity
                                                 {
                                                     if(edt_numero.getText().length() < 1)
                                                     {
-                                                        t = Toast.makeText(getApplicationContext(), "Numero de residencia incompleto", Toast.LENGTH_LONG);
+                                                        t = Toast.makeText(getApplicationContext(), "Número de residencia incompleto", Toast.LENGTH_LONG);
                                                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                         t.show();
 
@@ -993,7 +998,7 @@ public class CadastroClientes extends AppCompatActivity
                                                     {
                                                         if(edt_cep.getText().length() < 4)
                                                         {
-                                                            t = Toast.makeText(getApplicationContext(), "Cep invalido", Toast.LENGTH_LONG);
+                                                            t = Toast.makeText(getApplicationContext(), "Cep inválido", Toast.LENGTH_LONG);
                                                             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                             t.show();
 
@@ -1047,7 +1052,7 @@ public class CadastroClientes extends AppCompatActivity
                                                                             {
                                                                                 if(edt_cpf.getText().length() < 11 || !controle.validarDocumento(edt_cpf.getText().toString(), 0))
                                                                                 {
-                                                                                    t = Toast.makeText(getApplicationContext(), "Cpf do representante invalido", Toast.LENGTH_LONG);
+                                                                                    t = Toast.makeText(getApplicationContext(), "Cpf do representante inválido", Toast.LENGTH_LONG);
                                                                                     t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                                                     t.show();
 
@@ -1056,7 +1061,7 @@ public class CadastroClientes extends AppCompatActivity
                                                                                 {
                                                                                     if(edt_rg.getText().length() < 4)
                                                                                     {
-                                                                                        t = Toast.makeText(getApplicationContext(), "Rg do representante invalido", Toast.LENGTH_LONG);
+                                                                                        t = Toast.makeText(getApplicationContext(), "Rg do representante inválido", Toast.LENGTH_LONG);
                                                                                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                                                         t.show();
 
@@ -1069,7 +1074,8 @@ public class CadastroClientes extends AppCompatActivity
                                                                                             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                                                             t.show();
 
-                                                                                            edt_rg.requestFocus();
+                                                                                            spnr_natureza.requestFocus();
+//                                                                                            edt_rg.requestFocus();
                                                                                         } else
                                                                                         {
                                                                                             if (spnr_banco.getSelectedItemPosition() < 1)
@@ -1078,7 +1084,8 @@ public class CadastroClientes extends AppCompatActivity
                                                                                                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                                                                 t.show();
 
-                                                                                                edt_rg.requestFocus();
+                                                                                                spnr_banco.requestFocus();
+//                                                                                                edt_rg.requestFocus();
                                                                                             } else
                                                                                             {
                                                                                                 if(edt_potencial.getText().length() < 3 && obrigatorio)
@@ -1096,12 +1103,13 @@ public class CadastroClientes extends AppCompatActivity
                                                                                                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                                                                         t.show();
 
-                                                                                                        edt_area.requestFocus();
+                                                                                                        spnr_visita.requestFocus();
+//                                                                                                        edt_area.requestFocus();
                                                                                                     } else
                                                                                                     {
                                                                                                         if(edt_area.getText().length() < 1 && obrigatorio)
                                                                                                         {
-                                                                                                            t = Toast.makeText(getApplicationContext(), "Escolha uma natureza", Toast.LENGTH_LONG);
+                                                                                                            t = Toast.makeText(getApplicationContext(), "Escolha uma área", Toast.LENGTH_LONG);
                                                                                                             t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                                                                                             t.show();
 

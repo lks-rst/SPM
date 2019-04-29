@@ -7,6 +7,8 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.TelaInicial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.util.services.Email;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
@@ -39,6 +42,7 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMainFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosResumo;
+import br.com.sulpasso.sulpassomobile.views.fragments.alertas.DetalhesPrePedidoValores;
 
 public class Inicial extends AppCompatActivity
 {
@@ -234,6 +238,9 @@ public class Inicial extends AppCompatActivity
                 t.show();
                 */
                 break;
+            case R.id.inicial_ajuda :
+                exibirAjuda();
+                break;
 
             case R.id.consultas_clientes :
                 Intent cc = new Intent(getApplicationContext(), ConsultasClientes.class);
@@ -333,6 +340,27 @@ public class Inicial extends AppCompatActivity
 /**************************************************************************************************/
 /*********************************ACTIVITY ACCESS METHODS******************************************/
 /**************************************************************************************************/
+    private void exibirAjuda()
+    {
+        //TODO: Alterar essa mensagem de acordo com cada atualização;
+        String mensagem;
+        mensagem = "CADASTRO CLIENTES: Correção das mensagens de campos não preenchidos.\n" +
+                "KITS: Ajustado a apresentação dos Kits na consulta (Consultas -> Itens -> Mais Opções -> Kits).\n" +
+                "VALOR UNITÁRIO: Modificado forma de calculo do valor unitário na digitação dos itens.\n" +
+                "SOLICITAR SENHA: Funcionalidade inserida para cliente específico.\n" +
+                "AJUDA: Essa tela será apresentada sempre que houver uma atualização do sistema ou através do menu (Ajuda).";
+
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setMessage(mensagem).setTitle("AJUDA ATUALIZAÇÃO");
+
+        // 3. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     private void fragmentoCentral()
     {
         Fragment fragment = null;
@@ -877,6 +905,23 @@ public class Inicial extends AppCompatActivity
 
             this.indicarAcesso();
             this.serviceIntialize();
+
+            String versionName = "";
+            PackageInfo packageInfo;
+            String validade = "";
+            ManipulacaoStrings ms = new ManipulacaoStrings();
+            try
+            {
+                packageInfo = getApplicationContext().getPackageManager().getPackageInfo(this.getPackageName(), 0);//Isso pega a versão do aplicativo direto do manifesto
+                versionName = "" + packageInfo.versionName /*+ this.configurador.getConfigHor().getAtualizacao()*/;
+
+                if(!versionName.equalsIgnoreCase(this.controle.nomeVersao()))
+                {
+                    exibirAjuda();
+                    this.controle.atualizarVersao(versionName);
+                }
+            }
+            catch (PackageManager.NameNotFoundException e) { e.printStackTrace(); }
         }
     }
 /**************************************************************************************************/

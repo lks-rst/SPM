@@ -16,6 +16,7 @@ public class ConfiguradorEmpresa
     private String email;
     private String site;
     private int login;
+    private String atualizado;
 
     public ConfiguradorEmpresa()
     {
@@ -73,6 +74,10 @@ public class ConfiguradorEmpresa
     public int getLogin() { return login; }
 
     public void setLogin(int login) { this.login = login; }
+
+    public String getAtualizado() { return atualizado; }
+
+    public void setAtualizado(String atualizado) { this.atualizado = atualizado; }
 
     @Override
     public String toString()

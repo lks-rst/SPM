@@ -245,6 +245,13 @@ public class Pedido extends AppCompatActivity
         }
     }
 
+    public void solicitarSenhaDireto(View v)
+    {
+        this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
+        this.chave = sl.getChave();
+        solicitarSenha(this.chave);
+    }
+
     public void exibirPromocoes(View v)
     {
         FragmentManager fragmentManager = getFragmentManager();
@@ -605,6 +612,8 @@ public class Pedido extends AppCompatActivity
     public String calcularPPC(String mkp, String vlr) { return this.controlePedido.calcularPPC(mkp, vlr); }
 
     public int restoreClient() { return this.controlePedido.restoreClient(); }
+
+    public Boolean solicitarSenha() { return this.controlePedido.solicitarSenha(); }
 
     public void indicarToatalPedido()
     {
