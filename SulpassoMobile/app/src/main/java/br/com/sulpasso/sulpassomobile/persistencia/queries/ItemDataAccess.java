@@ -61,7 +61,7 @@ public class ItemDataAccess
                 case 3:
                     return this.searchByData(-1, 0);
                 case 4:
-                    return this.searchByGroup(-1);
+                    return this.searchByGroup(-1, 0);
                 case 6:
                     return this.searchByMix(-1);
                 default :
@@ -82,7 +82,7 @@ public class ItemDataAccess
                 case 3:
                     return this.searchByData(tabela, orderBy);
                 case 4:
-                    return this.searchByGroup(tabela);
+                    return this.searchByGroup(tabela, orderBy);
                 case 6:
                     return this.searchByMix(tabela);
                 case 7:
@@ -556,7 +556,7 @@ public class ItemDataAccess
         return lista;
     }
 
-    private ArrayList<Item> searchByGroup(int tabela) throws ReadExeption
+    private ArrayList<Item> searchByGroup(int tabela, int orderBy) throws ReadExeption
     {
         ArrayList lista = new ArrayList();
         boolean dest = false;
@@ -682,6 +682,27 @@ public class ItemDataAccess
             }
 
             this.sBuilder.append("')");
+        }
+
+        this.sBuilder.append(" ORDER BY ");
+        if(orderBy == 0)
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
+        }
+        else
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.SUBGRUPO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
+            this.sBuilder.append(", ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
         }
 
         this.sBuilder.append(" LIMIT 100");
@@ -1476,6 +1497,17 @@ public class ItemDataAccess
         item.setCusto(
                 c.getFloat(c.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CUSTO)));
+
+
+        item.setPeso(
+                c.getFloat(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO)));
+        item.setPesoCd(
+                c.getFloat(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
+        item.setFaixa(
+                c.getFloat(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
 
         return item;
     }

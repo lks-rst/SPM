@@ -101,10 +101,13 @@ public class PedidoNormal extends EfetuarPedidos
 
     public String selecionarCliente(int posicao)
     {
-        super.venda.setCliente(super.controleClientes.getCliente(posicao));
-        super.codigoNatureza = super.controleClientes.getCliente(posicao).getNatureza();
-        super.codigoPrazo = super.controleClientes.getCliente(posicao).getPrazo();
-        super.venda.setCodigoCliente(super.venda.getCliente().getCodigoCliente());
+        if(!(super.itensVendidos() > 0))
+        {
+            super.venda.setCliente(super.controleClientes.getCliente(posicao));
+            super.codigoNatureza = super.controleClientes.getCliente(posicao).getNatureza();
+            super.codigoPrazo = super.controleClientes.getCliente(posicao).getPrazo();
+            super.venda.setCodigoCliente(super.venda.getCliente().getCodigoCliente());
+        }
 
         return super.controleClientes.getCliente(posicao).toString();
     }
@@ -233,8 +236,13 @@ public class PedidoNormal extends EfetuarPedidos
         Boolean alteracao = false;
         int posicao = -1;
 
+        /*
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha);
+        */
+        ItensVendidos item = super.controleDigitacao.confirmarItem(
+                super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo());
 
         if(item != null)
         {
@@ -257,8 +265,19 @@ public class PedidoNormal extends EfetuarPedidos
                     {
                         if(super.itensVendidos.get(posicao).getFlex() > 0)
                         {
-                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
-                                    (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                            /*
+                            GAMBIARRA PRA CLIENTE MALA
+                             */
+                            if(super.codigoNatureza == 21 && super.controleConfiguracao.getConfigEmp().getCodigo() == 7)
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
+                                        (super.itensVendidos.get(posicao).getFlex()));
+                            }
+                            else
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
+                                        (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                            }
                         }
                     }
 
@@ -273,7 +292,6 @@ public class PedidoNormal extends EfetuarPedidos
                     super.itensVendidos.set(posicao, item);
                     /*
                     TODO: Replicar as alterações para os demais tipos de pedido;
-                    TODO: Rever a inserçao de senhas que está dando problema em aparelhos especificos;
                      */
                     Toast.makeText(context, "Item " + item.getItem() + " alterado!", Toast.LENGTH_LONG).show();
                 }
@@ -286,8 +304,19 @@ public class PedidoNormal extends EfetuarPedidos
                     {
                         if(super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() > 0)
                         {
-                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                            /*
+                            GAMBIARRA PRA CLIENTE MALA
+                             */
+                            if(super.codigoNatureza == 21 && super.controleConfiguracao.getConfigEmp().getCodigo() == 7)
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                        (super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex()));
+                            }
+                            else
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
                                     (super.itensVendidos.get(super.itensVendidos.size() - 1).getFlex() * super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade()));
+                            }
                         }
                     }
 
@@ -306,8 +335,19 @@ public class PedidoNormal extends EfetuarPedidos
                     {
                         if(super.itensVendidos.get(0).getFlex() > 0)
                         {
-                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
-                                    (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
+                            /*
+                            GAMBIARRA PRA CLIENTE MALA
+                             */
+                            if(super.codigoNatureza == 21 && super.controleConfiguracao.getConfigEmp().getCodigo() == 7)
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                        (super.itensVendidos.get(0).getFlex()));
+                            }
+                            else
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                        (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
+                            }
                         }
                     }
 
@@ -327,94 +367,108 @@ public class PedidoNormal extends EfetuarPedidos
         else return false;
     }
 
-    public int finalizarPedido()
+    public int finalizarPedido(Boolean justificar)
     {
-        NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
-
-        /*
-        if(super.controleSalvar.getDesconto() > 0 && super.venda.getObservacaDesconto().length() < 20)
+        if(justificar)
         {
-            Toast.makeText(super.context, "É necessario acrescentar uma justificativa para o desconto aplicado ao final do pedido", Toast.LENGTH_LONG).show();
-            return -1;
-        }
-        */
-
-        if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
-                , super.controleConfiguracao.pedidoMinimo()))
-        {
-            if(super.verificarMix())
+            if(super.controleSalvar.justificarPedido(super.context, super.venda))
             {
-                /* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO */
-                Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
-                AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
-                return 0;
+                return 1;
             }
             else
             {
-                if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
-                {
-                    super.venda.setItens(super.itensVendidos);
-                    super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
-                    super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
-                    super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
-                    super.venda.setData(super.dataSistema());
-                    super.venda.setHora(super.horaSistema());
-                    super.venda.setNatureza(super.codigoNatureza);
-                    super.venda.setBanco(super.controleClientes.getBancoCliente());
-
-                    super.venda.setTipo(super.strTipoVenda);
-
-                    Prazo p = new Prazo();
-                    p.setCodigo(super.codigoPrazo);
-                    super.venda.setPrazo(p);
-
-                    if(super.controleSalvar.salvarPedido(super.context, super.venda))
-                    {
-                        super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
-
-                        float flexItem = 0;
-                        float flexItens = 0;
-                        float totalFlex = 0;
-
-                        for (ItensVendidos i : super.itensVendidos)
-                        {
-                            flexItem = i.getFlex();
-
-                            if(flexItem > 0  && !i.isDigitadoSenha())
-                                flexItens += (flexItem * i.getQuantidade());
-                        }
-
-                        float valorDesconto = super.venda.getDesconto().floatValue();
-                        float saldoFinalFlex = flexItens + valorDesconto;
-
-                        totalFlex = (float) (flexItens + super.venda.getDesconto());
-                        totalFlex *= -1;
-
-                        Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-                        t.show();
-
-                        return 1;
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
-                        return 0;
-                    }
-                }
-                else
-                {
-                    Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado excede o valor atual de saldo disponível"
-                            , Toast.LENGTH_LONG).show();
-                    return 0;
-                }
+                return 0;
             }
         }
         else
         {
-            Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
-                    , Toast.LENGTH_LONG).show();
-            return 0;
+            NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
+
+            /*
+            if(super.controleSalvar.getDesconto() > 0 && super.venda.getObservacaDesconto().length() < 20)
+            {
+                Toast.makeText(super.context, "É necessario acrescentar uma justificativa para o desconto aplicado ao final do pedido", Toast.LENGTH_LONG).show();
+                return -1;
+            }
+            */
+
+            if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
+                    , super.controleConfiguracao.pedidoMinimo()))
+            {
+                if(super.verificarMix())
+                {
+                /* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO */
+                    Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
+                    AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
+                    return 0;
+                }
+                else
+                {
+                    if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
+                    {
+                        super.venda.setItens(super.itensVendidos);
+                        super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
+                        super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
+                        super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
+                        super.venda.setData(super.dataSistema());
+                        super.venda.setHora(super.horaSistema());
+                        super.venda.setNatureza(super.codigoNatureza);
+                        super.venda.setBanco(super.controleClientes.getBancoCliente());
+
+                        super.venda.setTipo(super.strTipoVenda);
+
+                        Prazo p = new Prazo();
+                        p.setCodigo(super.codigoPrazo);
+                        super.venda.setPrazo(p);
+
+                        if(super.controleSalvar.salvarPedido(super.context, super.venda))
+                        {
+                            super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
+
+                            float flexItem = 0;
+                            float flexItens = 0;
+                            float totalFlex = 0;
+
+                            for (ItensVendidos i : super.itensVendidos)
+                            {
+                                flexItem = i.getFlex();
+
+                                if(flexItem > 0  && !i.isDigitadoSenha())
+                                    flexItens += (flexItem * i.getQuantidade());
+                            }
+
+                            float valorDesconto = super.venda.getDesconto().floatValue();
+                            float saldoFinalFlex = flexItens + valorDesconto;
+
+                            totalFlex = (float) (flexItens + super.venda.getDesconto());
+                            totalFlex *= -1;
+
+                            Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                            t.show();
+
+                            return 1;
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado excede o valor atual de saldo disponível"
+                                , Toast.LENGTH_LONG).show();
+                        return 0;
+                    }
+                }
+            }
+            else
+            {
+                Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
+                        , Toast.LENGTH_LONG).show();
+                return 0;
+            }
         }
     }
 
@@ -547,8 +601,20 @@ public class PedidoNormal extends EfetuarPedidos
                     (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
                     (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == 0                     && c.getGrupo().getDivisao() == 0))
                 {
-                    posicaoGrupo = super.campanhaGrupos.indexOf(c);
-                    break;
+                    float qt = super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade();
+
+                    if(c.getQuantidade() <= (c.getQuantidadeVendida() + qt))
+                    {
+                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                        posicaoGrupo = super.campanhaGrupos.indexOf(c);
+                    }
+                    else
+                    {
+                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                        posicaoGrupo = -2;
+                    }
                 }
             }
 
@@ -557,14 +623,37 @@ public class PedidoNormal extends EfetuarPedidos
                 ConsultaMinimosGravososKitsCampanhas campanhas = new ConsultaMinimosGravososKitsCampanhas(super.context);
                 try
                 {
-                    CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
+//                    CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
+                    ArrayList<CampanhaGrupo> camps = campanhas.buscarCampanhas(codigo);
 
-                    if(camp == null)
+                    if(camps == null)
                         posicaoGrupo = -1;
                     else
                     {
-                        super.campanhaGrupos.add(camp);
-                        posicaoGrupo = (super.campanhaGrupos.size() - 1);
+                        super.campanhaGrupos.addAll(camps);
+
+                        for(CampanhaGrupo c : super.campanhaGrupos)
+                        {
+                            if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
+                                (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
+                                (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == 0                     && c.getGrupo().getDivisao() == 0))
+                            {
+                                float qt = super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade();
+
+                                if(c.getQuantidade() <= (c.getQuantidadeVendida() + qt))
+                                {
+                                    super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                            super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                                    posicaoGrupo = super.campanhaGrupos.indexOf(c);
+                                }
+                                else
+                                {
+                                    super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                            super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                                    posicaoGrupo = -2;
+                                }
+                            }
+                        }
                     }
                 }
                 catch (GenercicException e)
@@ -580,14 +669,37 @@ public class PedidoNormal extends EfetuarPedidos
             ConsultaMinimosGravososKitsCampanhas campanhas = new ConsultaMinimosGravososKitsCampanhas(super.context);
             try
             {
-                CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
+//                CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
 
-                if(camp == null)
+                ArrayList<CampanhaGrupo> camps = campanhas.buscarCampanhas(codigo);
+
+                if(camps == null)
                     posicaoGrupo = -1;
                 else
                 {
-                    super.campanhaGrupos.add(camp);
-                    posicaoGrupo = 0;
+                    super.campanhaGrupos.addAll(camps);
+
+                    for(CampanhaGrupo c : super.campanhaGrupos)
+                    {
+                        if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
+                            (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
+                            (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == 0                     && c.getGrupo().getDivisao() == 0))
+                        {
+                            float qt = super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade();
+
+                            if(c.getQuantidade() <= (c.getQuantidadeVendida() + qt))
+                            {
+                                super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                                posicaoGrupo = super.campanhaGrupos.indexOf(c);
+                            }
+                            else
+                            {
+                                super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                            }
+                        }
+                    }
                 }
             }
             catch (GenercicException e)
@@ -597,18 +709,12 @@ public class PedidoNormal extends EfetuarPedidos
             }
         }
 
-        if(posicaoGrupo != -1)
+        if(posicaoGrupo > -1)
         {
-            super.campanhaGrupos.get(posicaoGrupo).setQuantidadeVendida(
-                    super.campanhaGrupos.get(posicaoGrupo).getQuantidadeVendida() +
-                            (int) super.itensVendidos.get(super.itensVendidos.size() -1).getQuantidade());
-
-            if(super.campanhaGrupos.get(posicaoGrupo).getQuantidadeVendida() >= super.campanhaGrupos.get(posicaoGrupo).getQuantidade())
+            if(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado() > 0)
             {
-                if(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado() > 0)
-                {
-                    super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado());
-                    super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCampanha(true);
+                super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado());
+                super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCampanha(true);
 
                     /*
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setValorLiquido(
@@ -626,13 +732,10 @@ public class PedidoNormal extends EfetuarPedidos
                             ));
                     */
 
-                    return -1;
-                }
-                else
-                    return posicaoGrupo;
+                return -1;
             }
             else
-                return -1;
+                return posicaoGrupo;
         }
         else
         {
@@ -672,6 +775,9 @@ public class PedidoNormal extends EfetuarPedidos
                     if(posicaoCampanhaP != -1)
                         break;
                 }
+
+                if(posicaoCampanhaP != -1)
+                    break;
             }
 
             if(posicaoCampanhaP == -1)
@@ -722,6 +828,7 @@ public class PedidoNormal extends EfetuarPedidos
         if(posicaoCampanhaP != -1)
         {
             super.campanhaProdutos.get(posicaoCampanhaP).setQuantidadeVendida(
+                    super.campanhaProdutos.get(posicaoCampanhaP).getQuantidadeVendida() +
                     (int) super.itensVendidos.get(super.itensVendidos.size() -1).getQuantidade());
 
             if(super.campanhaProdutos.get(posicaoCampanhaP).getQuantidadeVendida() >= super.campanhaProdutos.get(posicaoCampanhaP).getQuantidade())
@@ -945,16 +1052,35 @@ public class PedidoNormal extends EfetuarPedidos
                 {
                     float saldo = super.controleConfiguracao.getSaldoAtual();
 
-                    if(saldo - (super.controleDigitacao.diferencaFlex(super.context) *
-                            super.controleDigitacao.getQuantidade()) >= 0)
+                    /*
+                    GAMBIARRA PRA CLIENTE MALA
+                     */
+                    if(super.codigoNatureza == 21 && super.controleConfiguracao.getConfigEmp().getCodigo() == 7)
                     {
-                        return true;
+                        if(saldo - super.controleDigitacao.calcularTotal() >= 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            EfetuarPedidos.erro = true;
+                            EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
+                            return false;
+                        }
                     }
                     else
                     {
-                        EfetuarPedidos.erro = true;
-                        EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
-                        return false;
+                        if(saldo - (super.controleDigitacao.diferencaFlex(super.context) *
+                                super.controleDigitacao.getQuantidade()) >= 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            EfetuarPedidos.erro = true;
+                            EfetuarPedidos.strErro = "Saldo insuficiente!\nPor favor verifique.";
+                            return false;
+                        }
                     }
                 }
             }

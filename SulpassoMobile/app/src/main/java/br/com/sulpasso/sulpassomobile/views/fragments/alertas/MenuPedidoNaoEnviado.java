@@ -34,7 +34,7 @@ public class MenuPedidoNaoEnviado extends DialogFragment
 
         ArrayList<String> lista = new ArrayList<>();
         lista.add("ALTERAR");
-        lista.add("ECLUIR");
+        lista.add("EXCLUÍR");
         //http://pt.broculos.net/2013/09/how-to-change-spinner-text-size-color.html#.WYIjmVGQy01
         ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(),
@@ -67,7 +67,7 @@ public class MenuPedidoNaoEnviado extends DialogFragment
             }
         );
 
-        getDialog().setTitle(R.string.tlt_alterar_excluir);
+        getDialog().setTitle(R.string.tlt_alterar_excluir_p);
         return view;
     }
 

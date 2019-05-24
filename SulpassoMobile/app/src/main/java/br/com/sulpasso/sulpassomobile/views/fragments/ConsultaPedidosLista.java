@@ -11,11 +11,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.ConfiguradorDataAccess;
 import br.com.sulpasso.sulpassomobile.views.ConsultasPedidos;
 import br.com.sulpasso.sulpassomobile.views.fragments.Adapters.AdapterPedidos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDataPedidos;
@@ -149,7 +153,21 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
         {
 //            ((ConsultasPedidos) getActivity()).menu_pedido_nao_enviado(position);
-            apresentarAcoes(position);
+            if(validar_hora_sistema())
+            {
+                if(validar_data_pedido(position))
+                {
+                    apresentarAcoes(position);
+                }
+                else
+                {
+                    Toast.makeText(getActivity().getApplication(), "Não é permitido alterar pedidos com data diferente da data atual", Toast.LENGTH_LONG).show();
+                }
+            }
+            else
+            {
+                Toast.makeText(getActivity().getApplication(), "Fora do horário de atendimento não é permitido alterar pedidos", Toast.LENGTH_LONG).show();
+            }
 
             return false;
         }
@@ -202,6 +220,100 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
     }
 /*********************************END OF ITERFACES METHODS*****************************************/
 /**************************************************************************************************/
+    private Boolean validar_hora_sistema()
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("HH:mm");
+        Date now = new Date();
+        Date begin = null;
+        Date end = null;
+        String hora_agora = "" + now.getHours() + ":" + now.getMinutes();
+        String hora_inicio_m = "";
+        String hora_fim_m = "";
+        String hora_inicio_t = "";
+        String hora_fim_t = "";
+        Boolean data_valida = false;
 
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(getActivity().getApplicationContext());
+        ConfiguradorHorarios configHor = null;
+        try
+        {
+            configHor = cda.getHorario();
+
+            hora_inicio_m = configHor.getInicioManha();
+            hora_fim_m = configHor.getFinalManha();
+            hora_inicio_t = configHor.getInicioTarde();
+            hora_fim_t = configHor.getFinalTarde();
+            try
+            {
+                if(now.getHours() >= 12)
+                {
+                    now = sf.parse(hora_agora);
+                    begin = sf.parse(hora_inicio_t);
+                    end = sf.parse(hora_fim_t);
+                }
+                else
+                {
+                    now = sf.parse(hora_agora);
+                    begin = sf.parse(hora_inicio_m);
+                    end = sf.parse(hora_fim_m);
+                }
+            }
+            catch (Exception e) { }
+
+            if ((now.compareTo(begin) >= 0) && (now.compareTo(end) < 0))
+                data_valida = true;
+            else
+                data_valida = false;
+
+        }
+        catch (Exception e) { data_valida = false; }
+
+        return data_valida;
+    }
+
+    private Boolean validar_data_pedido(int posicao)
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date today = new Date();
+        Date aday = null;
+        String data_pedido = "";
+
+        Boolean data_valida = false;
+        int compara = 0;
+
+        data_pedido = ((ConsultasPedidos) getActivity()).dataPedido(posicao);
+
+        try
+        {
+            aday = sf.parse(data_pedido);
+
+            today.setHours(00);
+            today.setMinutes(00);
+            today.setSeconds(00);
+
+            int daya, dayt, montha, montht, yeara, yeart;
+
+            daya = aday.getDate();
+            dayt = today.getDate();
+            montha = aday.getMonth();
+            montht = today.getMonth();
+            yeara = aday.getYear();
+            yeart = today.getYear();
+
+            compara = yeara > yeart ? -1 : yeara == yeart ?
+                    (montha > montht ? -1 : montha == montht ? (daya == dayt ? 1 : -1) : -1) : -1;
+
+            if (compara >= 0)
+                data_valida = true;
+            else
+                data_valida = false;
+        }
+        catch (Exception e) { data_valida = false; }
+
+        return data_valida;
+    }
 /**************************************************************************************************/
 }

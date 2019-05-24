@@ -148,7 +148,7 @@ public class VendaDireta extends EfetuarPedidos {
     }
 
     @Override
-    public int finalizarPedido() {
+    public int finalizarPedido(Boolean justificar) {
         return 0;
     }
 

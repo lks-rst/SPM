@@ -1,5 +1,6 @@
 package br.com.sulpasso.sulpassomobile.views;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -7,9 +8,12 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +30,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +49,7 @@ import br.com.sulpasso.sulpassomobile.controle.TelaInicial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Permissions;
 import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.util.services.Email;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
@@ -42,7 +57,9 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMainFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosResumo;
-import br.com.sulpasso.sulpassomobile.views.fragments.alertas.DetalhesPrePedidoValores;
+import me.drakeet.materialdialog.MaterialDialog;
+
+import cz.msebera.android.httpclient.Header;
 
 public class Inicial extends AppCompatActivity
 {
@@ -58,6 +75,8 @@ public class Inicial extends AppCompatActivity
 
     private boolean solicitarSenhaHora;
 
+    private MaterialDialog mMaterialDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -65,6 +84,49 @@ public class Inicial extends AppCompatActivity
         setContentView(R.layout.activity_inicial);
 
         this.acessoConfirmado = false;
+
+        Permissions.checkAndRequestPermissions(this);
+
+        if(Permissions.hasPermissions(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            try
+            {
+                int version;
+
+                try { version = Integer.valueOf(Build.VERSION.SDK); }
+                catch (Exception ev){ version = 3; }
+
+                File systemFolder;
+
+                if(version >= 19) { systemFolder = new File("/storage/emulated/0/MobileVenda", "ERROS.txt"); }
+                else { systemFolder = new File("sdcard/MobileVenda", "ERROS.txt"); }
+
+                if(!(systemFolder.exists() && systemFolder.isDirectory()))
+                {
+                    if(version >= 19)
+                    {
+                        systemFolder = new File("/storage/emulated/0/MobileVenda", "ERROS.txt");
+                        systemFolder.mkdirs();
+                    }
+                    else
+                    {
+                        systemFolder = new File("sdcard/MobileVenda", "ERROS.txt");
+                        systemFolder.mkdirs();
+                    }
+
+                /*
+                File outputFile = new File(wallpaperDirectory, filename);
+                FileOutputStream fos = new FileOutputStream(outputFile);
+                */
+                }
+                else { /*****/ }
+            }
+            catch(Exception e) { /*****/ }
+        }
+        else
+        {
+            Permissions.checkAndRequestPermissions(this);
+        }
 
         try { this.controle = new TelaInicial(getApplicationContext()); }
         catch (Exception e) { }
@@ -78,6 +140,12 @@ public class Inicial extends AppCompatActivity
         {
             if(validar_data_sistema(4))
             {
+//TODO: Verificar as formas de atualização automáticas
+//                showUpdateAppDialog();
+//                showUpdateAppDialog("1.98SN");
+//                showUpdateAppDialog(917);
+//                new VersionRequester().execute();
+
                 this.iniciarSistema();
             }
             else
@@ -344,11 +412,26 @@ public class Inicial extends AppCompatActivity
     {
         //TODO: Alterar essa mensagem de acordo com cada atualização;
         String mensagem;
+        /* MENSAGEM DA VERSÃO 1.98
         mensagem = "CADASTRO CLIENTES: Correção das mensagens de campos não preenchidos.\n" +
                 "KITS: Ajustado a apresentação dos Kits na consulta (Consultas -> Itens -> Mais Opções -> Kits).\n" +
                 "VALOR UNITÁRIO: Modificado forma de calculo do valor unitário na digitação dos itens.\n" +
                 "SOLICITAR SENHA: Funcionalidade inserida para cliente específico.\n" +
+                "SELEÇÃO DE NATUREZA: Corrigido a seleção das naturezas e prazos no inicio do pedido.\n" +
+                "DIGITAÇAO DE SENHA: Corrigido erro nos aparelhos com android acima da versão 7.5.\n" +
+                "PASTA DO SISTEMA: Criação automática da pasta para armazenamento dos pedidos ao se iniciar " +
+                    "o sistema (considerando que as permições tenham sido aceitas pelo usuário).\n" +
+                "JUSTIFICATIVA: Corrigido o erro ao inserir justificativa no inicio do pedido (ainda" +
+                " falta corrigir a justificativa no final do pedido).\n" +
                 "AJUDA: Essa tela será apresentada sempre que houver uma atualização do sistema ou através do menu (Ajuda).";
+        */
+        mensagem = "PRMOÇÕES: Corrigido o erro ao inserir o valor promocional em um item.\n" +
+                "CAMPANHAS: Ajuste no tratamento das campanhas permitindo mais de uma campanha por grupo.\n" +
+                "CAMPANHAS: Correçao da falha ao tratar a quantidade das campanhas (tanto por grupo quanto por produto).\n" +
+                "SENHA: Correção da aplicação dos descotos liberados na alteração do pedido.\n" +
+                "ALTERAÇAO PEDIDOS: Correção na verificação de data e hora na alteração dos pedidos.\n" +
+                "ABC CLIENTES: Correção no erro de apresentação da consulta ABC.\n" +
+                "PRE PEDIDO: Corrigido o erro ao inserir itens vendido por kilo direto pelo pre pedido";
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -927,4 +1010,214 @@ public class Inicial extends AppCompatActivity
 /**************************************************************************************************/
 /******************************END ACTIVITY ACCESS METHODS*****************************************/
 /**************************************************************************************************/
+    public void DisplyaUpdateAppDialog(){
+        mMaterialDialog = new MaterialDialog(this)
+                /*
+                <resources>
+        <string name="app_name">Jaguar App</string>
+        <string name="dialog_title">Nova Versão do App</string>
+        <string name="dialog_message">Está disponível a nova versão do aplicativo Jaguar App, clique no botão abaixo para realizar a atualização. Essa nova versão é mais leve e segura.</string>
+        <string name="dialog_positive_label">Atualizar</string>
+        <string name="dialog_negative_label">Depois</string>
+    </resources>
+                 */
+                .setTitle( "Nova Versão do App" )
+                .setMessage( "Está disponível a nova versão do aplicativo Jaguar App, clique no botão abaixo para realizar a atualização. Essa nova versão é mais leve e segura." )
+                .setCanceledOnTouchOutside(false)
+                .setPositiveButton( "Atualizar", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String packageName = getPackageName();
+                        Intent intent;
+
+                        try {
+                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName));
+                            startActivity( intent );
+                        }
+                        catch (android.content.ActivityNotFoundException e) {
+                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName));
+                            startActivity( intent );
+                        }
+                    }
+                })
+                .setNegativeButton( "Depois", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMaterialDialog.dismiss();
+                    }
+                });
+
+        mMaterialDialog.show();
+    }
+
+    private PackageInfo packageInfo(){
+        PackageInfo pinfo = null;
+        try {
+            String packageName = this.getPackageName();
+            pinfo = this.getPackageManager().getPackageInfo(packageName, 0);
+        }
+        catch(PackageManager.NameNotFoundException e){}
+
+        return pinfo;
+    }
+
+    public void showUpdateAppDialog( int actuallyAppVersion ){
+        SPLocalBase splb = new SPLocalBase();
+        int versionNumber = packageInfo().versionCode;
+
+        if( actuallyAppVersion > versionNumber
+                && splb.is24hrsDelayed(this) ){
+
+            this.DisplyaUpdateAppDialog();
+        }
+    }
+
+    public void showUpdateAppDialog( String actuallyAppVersion ){
+        SPLocalBase splb = new SPLocalBase();
+        String versionName = packageInfo().versionName;
+
+        if( !actuallyAppVersion.equals(versionName)
+                && splb.is24hrsDelayed(this) ){
+
+            this.DisplyaUpdateAppDialog();
+        }
+    }
+
+    public void showUpdateAppDialog(){
+        SPLocalBase splb = new SPLocalBase();
+        int versionNumber = packageInfo().versionCode;
+        int versionToCompare = splb.getVersion(this);
+
+        if( versionToCompare > versionNumber ){
+            //&& SPTimer.is24hrsDelayed(activity) ){
+
+            this.DisplyaUpdateAppDialog();
+        }
+    }
+
+    private class VersionRequester extends AsyncTask<Void, Void, String>
+    {
+        /*
+        private WeakReference<Presenter> presenter;
+
+        public VersionRequester( Presenter p ){
+            presenter = new WeakReference<>( p );
+        }
+        */
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String version = null;
+            String packageName = getPackageName();
+            try{
+                version = Jsoup
+                        .connect("https://play.google.com/store/apps/details?id=" + packageName)
+                        .get()
+                        .select("div[itemprop=\"softwareVersion\"]")
+                        .text()
+                        .trim();
+                /*
+                version = Jsoup
+                        .connect("https://play.google.com/store/apps/details?id=br.thiengocalopsita")
+                        .get()
+                        .select("div[itemprop=\"softwareVersion\"]")
+                        .text()
+                        .trim();
+                */
+            }
+            catch (IOException e){}
+
+            return version;
+        }
+
+        @Override
+        protected void onPostExecute(String version) {
+            super.onPostExecute(version);
+            showUpdateAppDialog( version );
+        }
+    }
+
+    private class SPLocalBase {
+        private static final String PREF = "PREFERENCES";
+        private static final String TIME_KEY = "time";
+        private static final String VERSION_KEY = "version";
+        private static final long DELAY = 24*60*60*1000;
+
+        private /*static*/ void saveTime(Context context){
+            SharedPreferences sp = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
+            sp.edit().putLong(TIME_KEY, System.currentTimeMillis() + DELAY).apply();
+        }
+
+        public /*static*/ boolean is24hrsDelayed(Context context){
+            SharedPreferences sp = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
+            Long time = sp.getLong(TIME_KEY, 0);
+            Long timeCompare = System.currentTimeMillis();
+
+            if( time < timeCompare ){
+                saveTime(context);
+                return true;
+            }
+            return false;
+        }
+
+        public /*static*/ void saveVersion(Context context, int version){
+            SharedPreferences sp = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
+            sp.edit().putInt(VERSION_KEY, version).apply();
+        }
+
+        public /*static*/ int getVersion(Context context){
+            SharedPreferences sp = context.getSharedPreferences(PREF, Context.MODE_PRIVATE);
+            return sp.getInt(VERSION_KEY, 0);
+        }
+    }
+/*
+    private class JsonHttpRequest extends JsonHttpResponseHandler {
+        public static final String URI = "http://192.168.25.221:8888/jaguar-app/ctrl/CtrlAdmin.php";
+        public static final String METODO_KEY = "metodo";
+        public static final String METODO_JAGUARS = "get-jaguars";
+
+        private Presenter presenter;
+
+        public JsonHttpRequest( Presenter presenter ){
+            this.presenter = presenter;
+        }
+
+        @Override
+        public void onStart() {
+            presenter.showProgressBar( true );
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            try{
+                presenter.showUpdateAppDialog( response.getInt("version") );
+                onSuccess(statusCode, headers, response.getJSONArray("jaguars"));
+            }
+            catch(JSONException e){}
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+            Gson gson = new Gson();
+            ArrayList<Jaguar> jaguars = new ArrayList<>();
+            Jaguar j;
+
+            for( int i = 0; i < response.length(); i++ ){
+                try{
+                    j = gson.fromJson( response.getJSONObject( i ).toString(), Jaguar.class );
+                    jaguars.add( j );
+                }
+                catch(JSONException e){}
+            }
+
+            presenter.updateListaRecycler( jaguars );
+            //new VersionRequester(presenter).execute();
+        }
+
+        @Override
+        public void onFinish() {
+            presenter.showProgressBar( false );
+        }
+    }
+*/
 }

@@ -174,6 +174,33 @@ public class ConsultarPedidos
         return cod;
     }
 
+    public String buscarDataPedido(int posicao)
+    {
+        String data = "";
+
+        switch (this.tipoBusca())
+        {
+            case 0:
+                data = this.todas.get(posicao).getData();
+                break;
+            case 1:
+                break;
+            case 2:
+                data = this.naoEnviadas.get(posicao).getData();
+                break;
+        }
+
+        String[] dataS = data.split("-");
+        data = "";
+        data += dataS[2];
+        data += "/";
+        data += dataS[1];
+        data += "/";
+        data += dataS[0];
+
+        return data;
+    }
+
     public int tipoBusca()
     {
         if(this.naoEnviadas != null)

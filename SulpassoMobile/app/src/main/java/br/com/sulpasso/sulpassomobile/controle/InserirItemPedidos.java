@@ -130,19 +130,19 @@ public class InserirItemPedidos
             }
             else
             {
-                if(minimo > 0)
-                {
-                    minimoAcessivel = minimo;
-                }
-                else
-                {
-                    minimoAcessivel = tabela;
-                }
+                minimoAcessivel = minimoPromocional;
             }
         }
         else
         {
-            minimoAcessivel = minimo;
+            if(minimo > 0)
+            {
+                minimoAcessivel = minimo;
+            }
+            else
+            {
+                minimoAcessivel = tabela;
+            }
         }
 
         minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
@@ -190,6 +190,79 @@ public class InserirItemPedidos
                         item.setDesconto(this.desconto);
                         item.setTotal(this.calcularTotal());
                         item.setFlex(this.diferencaFlex(context));
+                        item.setDigitadoSenha(false);
+                        item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
+                        item.setDescontoCampanha(false);
+                        item.setDescontoCG(0);
+                        item.setDescontoCP(0);
+
+                        EfetuarPedidos.erro = false; //Na linha de baixo deve ser acrescentado um calculo relacionando também ao peso do produto calcularTotalDesconto
+                        EfetuarPedidos.strErro = "Valor de flex gerado no item " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
+
+                        return item;
+                    }
+                    else
+                    {
+                        EfetuarPedidos.erro = true;
+                        return null;
+                    }
+                else
+                {
+                    EfetuarPedidos.erro = true;
+                    EfetuarPedidos.strErro = "Desconto acima do permitido!\nPor favor verifique.";
+                    return null;
+                }
+            else
+            {
+                EfetuarPedidos.erro = true;
+                EfetuarPedidos.strErro = "Verifique a quantidade digitada!";
+                return null;
+            }
+        }
+        else
+        {
+            ItensVendidos item = new ItensVendidos();
+            item.setItem(this.item.getCodigo());
+            item.setQuantidade(this.quantidade);
+            item.setValorTabela(Float.parseFloat(this.getValor()));
+            item.setValorLiquido(this.valor);
+            item.setValorDigitado(this.valor);
+            item.setDesconto(this.desconto);
+            item.setTotal(this.calcularTotal());
+            item.setFlex(this.diferencaFlex(context));
+            item.setDigitadoSenha(true);
+            item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
+            item.setDescontoCampanha(false);
+            item.setDescontoCG(0);
+            item.setDescontoCP(0);
+
+            EfetuarPedidos.erro = false;
+            EfetuarPedidos.strErro = "";
+
+            return item;
+        }
+    }
+
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa)
+    {
+        if(!senha)
+        {
+            if(this.verificarQuantidade())
+                if(this.verificarDesconto(desconto, percentual, context))
+                    if(this.verificarValor(desconto, percentual, context))
+                    {
+                        ItensVendidos item = new ItensVendidos();
+                        item.setItem(this.item.getCodigo());
+                        item.setQuantidade(this.quantidade);
+                        item.setValorTabela(Float.parseFloat(this.getValor()));
+                        item.setValorLiquido(this.valor);
+                        item.setValorDigitado(this.valor);
+                        item.setDesconto(this.desconto);
+                        item.setTotal(this.calcularTotal());
+
+                        if (natureza == 21 && empresa == 7) { item.setFlex(this.calcularTotal()); }
+                        else { item.setFlex(this.diferencaFlex(context)); }
+
                         item.setDigitadoSenha(false);
                         item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
                         item.setDescontoCampanha(false);

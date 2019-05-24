@@ -87,6 +87,30 @@ public class SalvarPedido
         }
     }
 
+    public Boolean justificarPedido(Context ctx, Venda venda)
+    {
+        VisitaDataAccess vida = new VisitaDataAccess(ctx);
+        Visita v = new Visita();
+        v.setVenda("N");
+        v.setCli(venda.getCliente().getCodigoCliente());
+        v.setData(venda.getData());
+        v.setHora(venda.getHora());
+        v.setMotivo(venda.getJustificativa());
+        v.setPed(0);
+
+        try
+        {
+            vida.insert(v);
+
+            return true;
+        }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public void atualizarSaldo(Context ctx, float saldo)
     {
         VendaDataAccess vda = new VendaDataAccess(ctx);

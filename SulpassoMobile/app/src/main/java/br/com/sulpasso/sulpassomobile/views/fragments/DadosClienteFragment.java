@@ -352,12 +352,10 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                 activity.listarClientes(0, "")));
         */
 
-
         try{ (getActivity().findViewById(R.id.srvRollMain)).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
         try{ (getActivity().findViewById(R.id.llMainCliData)).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
-
 
         this.fdcSpnrClientes.setOnTouchListener(gestureListener);
         this.fdcSpnrNaturezas.setOnTouchListener(gestureListener);
@@ -528,7 +526,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         }
         else
         {
-            activity.salvarPedido();
+            activity.salvarPedido(true);
         }
     }
 /**************************************************************************************************/

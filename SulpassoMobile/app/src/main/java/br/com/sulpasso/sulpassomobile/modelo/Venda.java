@@ -27,6 +27,7 @@ public class Venda
     private Prazo prazo;
     private Integer natureza;
     private int enviado;
+    private int justificativa;
 
     public Venda() { this.itens = new ArrayList<>(); }
 
@@ -97,6 +98,10 @@ public class Venda
     public int getEnviado() { return enviado; }
 
     public void setEnviado(int enviado) { this.enviado = enviado; }
+
+    public int getJustificativa() { return justificativa; }
+
+    public void setJustificativa(int justificativa) { this.justificativa = justificativa; }
 
     @Override
     public String toString()

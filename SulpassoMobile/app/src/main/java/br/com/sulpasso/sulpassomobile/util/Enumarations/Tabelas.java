@@ -16,7 +16,6 @@ public enum Tabelas
     ESTOQUE(43), DESC_GRUPO(46), DESC_CAMP(47), RESTRICAO_CLIENTE(69), RESTRICAO_GRUPO(90),
     GRUPO_NAO_POSITIVADO(26), INVALIDO(-1);
 
-
     private int value;
 
     private Tabelas(int value) { this.value = value; }
