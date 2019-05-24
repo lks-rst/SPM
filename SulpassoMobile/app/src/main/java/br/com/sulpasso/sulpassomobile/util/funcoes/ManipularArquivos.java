@@ -1162,6 +1162,7 @@ public class ManipularArquivos
                 {
                     for (String s : saldo)
                     {
+                        String pos =s.substring(9);
                         if (s.substring(9).equals("1"))
                         {
                             try { saldoda.updateSaldo(s.substring(2, 9)); } catch (Exception e)

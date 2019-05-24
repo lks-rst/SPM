@@ -116,6 +116,8 @@ public abstract class EfetuarPedidos
 
         this.itensVendidos = new ArrayList<>();
         this.venda = new Venda();
+        this.venda.setData(this.dataSistema());
+        this.venda.setHora(this.horaSistema());
 
         this.grupo = 0;
         this.subGrupo = 0;
@@ -198,7 +200,7 @@ public abstract class EfetuarPedidos
 
     public abstract Boolean confirmarItem();
 
-    public abstract int finalizarPedido();
+    public abstract int finalizarPedido(Boolean justificar);
 
     public abstract String buscarDadosVenda(int campo);
 
@@ -594,46 +596,53 @@ public abstract class EfetuarPedidos
 
     public final void recalcularValor()
     {
-        if(this.controleConfiguracao.getConfigVda().getRecalcularPreco())
+        if(this.getClass() == AlteracaoPedidos.class)
         {
-            ArrayList<ItensVendidos> livAlt = new ArrayList<>();
-            ArrayList<ItensVendidos> liv = this.venda.getItens();
-            ItemDataAccess ida = new ItemDataAccess(this.context);
 
-            HashMap<String, String> dadosVendaItem;
-
-            for(ItensVendidos iv : liv)
+        }
+        else
+        {
+            if(this.controleConfiguracao.getConfigVda().getRecalcularPreco())
             {
-                dadosVendaItem = this.controleProdutos.dadosVendaAlteracao
-                        (iv.getItem(), this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo());
+                ArrayList<ItensVendidos> livAlt = new ArrayList<>();
+                ArrayList<ItensVendidos> liv = this.venda.getItens();
+                ItemDataAccess ida = new ItemDataAccess(this.context);
 
-                float minimo = 0;
-                float total = 0;
-                float faixa = 1;
+                HashMap<String, String> dadosVendaItem;
 
-                iv.setValorTabela(Float.parseFloat(dadosVendaItem.get("TABELA")));
-                minimo = Float.parseFloat(dadosVendaItem.get("MINIMO"));
-                if (minimo <= 0 || minimo > iv.getValorTabela())
-                    minimo = iv.getValorTabela();
+                for(ItensVendidos iv : liv)
+                {
+                    dadosVendaItem = this.controleProdutos.dadosVendaAlteracao
+                            (iv.getItem(), this.tabela, this.controleConfiguracao.getConfigUsr().getTabelaMinimo());
 
-                iv.setValorMinimo(minimo);
-                iv.setValorDigitado(iv.getValorTabela());
-                iv.setValorLiquido(iv.getValorTabela());
+                    float minimo = 0;
+                    float total = 0;
+                    float faixa = 1;
 
-                faixa = ida.buscarFaixa(iv.getItem());
+                    iv.setValorTabela(Float.parseFloat(dadosVendaItem.get("TABELA")));
+                    minimo = Float.parseFloat(dadosVendaItem.get("MINIMO"));
+                    if (minimo <= 0 || minimo > iv.getValorTabela())
+                        minimo = iv.getValorTabela();
 
-                if(dadosVendaItem.get("UNIDADE").equals("KG") && !dadosVendaItem.get("UNVENDA").equals("KG"))
-                    total = iv.getValorTabela() * iv.getQuantidade() * faixa;
-                else
-                    total = iv.getValorTabela() * iv.getQuantidade();
+                    iv.setValorMinimo(minimo);
+                    iv.setValorDigitado(iv.getValorTabela());
+                    iv.setValorLiquido(iv.getValorTabela());
 
-                iv.setTotal(total);
+                    faixa = ida.buscarFaixa(iv.getItem());
 
-                livAlt.add(iv);
+                    if(dadosVendaItem.get("UNIDADE").equals("KG") && !dadosVendaItem.get("UNVENDA").equals("KG"))
+                        total = iv.getValorTabela() * iv.getQuantidade() * faixa;
+                    else
+                        total = iv.getValorTabela() * iv.getQuantidade();
+
+                    iv.setTotal(total);
+
+                    livAlt.add(iv);
+                }
+
+                liv.clear();
+                liv.addAll(livAlt);
             }
-
-            liv.clear();
-            liv.addAll(livAlt);
         }
     }
 
@@ -742,6 +751,7 @@ public abstract class EfetuarPedidos
 
     public final int codigoMotivo(int position)
     {
+        this.venda.setJustificativa(controleClientes.codigoMotivo(position));
         return controleClientes.codigoMotivo(position);
     }
 

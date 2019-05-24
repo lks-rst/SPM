@@ -268,7 +268,7 @@ public class PedidoNoFragments extends AppCompatActivity
         }
     }
 
-    public void finalizar(View v) { if(this.controlePedido.finalizarPedido() == 1) { finish(); } }
+    public void finalizar(View v) { if(this.controlePedido.finalizarPedido(false) == 1) { finish(); } }
 
     public String calculoContribuicao(float preco)
     {
@@ -595,7 +595,7 @@ public class PedidoNoFragments extends AppCompatActivity
 
     public void salvarPedido()
     {
-        this.controlePedido.finalizarPedido();
+        this.controlePedido.finalizarPedido(false);
     }
 
     public void acrescentarObservacao(String s, int tipo)

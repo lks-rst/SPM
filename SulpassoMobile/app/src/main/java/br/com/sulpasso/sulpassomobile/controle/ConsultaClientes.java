@@ -239,10 +239,17 @@ public class ConsultaClientes implements br.com.sulpasso.sulpassomobile.controle
     {
         ArrayList<CurvaAbc> abc = new ArrayList<>();
         CurvaAbcDataAccess abcdac = new CurvaAbcDataAccess(this.ctx);
-        try { abc = abcdac.getByData(this.clientes.get(cliente).getCodigoCliente()); }
-        catch (GenercicException e) { e.printStackTrace(); }
-
-        return abc.get(0);
+        try
+        {
+            abc = abcdac.getByData(this.clientes.get(cliente).getCodigoCliente());
+            if(abc != null && abc.size() > 0) { return abc.get(0); }
+            else { return new CurvaAbc(); }
+        }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            return new CurvaAbc();
+        }
     }
 /*******************************END OF CLASS FUNCTIONAL METHODS************************************/
 /*************************************METHODS FROM THE INTERFACES**********************************/

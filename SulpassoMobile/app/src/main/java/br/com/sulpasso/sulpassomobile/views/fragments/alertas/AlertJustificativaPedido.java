@@ -30,6 +30,8 @@ public class AlertJustificativaPedido extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        this.callback = (Callback) getTargetFragment();
+
         itens = new ArrayList<>();
         View view = inflater.inflate(R.layout.alert_justificar_visita, container);
 

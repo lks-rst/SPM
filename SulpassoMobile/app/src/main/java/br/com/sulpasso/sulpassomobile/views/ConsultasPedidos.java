@@ -251,8 +251,16 @@ public class ConsultasPedidos extends AppCompatActivity
 
     public void indicarPosicaoPedido(int posicao) { this.controle.setPosicaoPedido(posicao); }
 
-    public boolean abrirMenu() { return !this.controle.pedidoJaEnviado(); }
+    public String dataPedido(int posicao)
+    {
+        String data = "";
 
+        data = this.controle.buscarDataPedido(posicao);
+
+        return data;
+    }
+
+    public boolean abrirMenu() { return !this.controle.pedidoJaEnviado(); }
 
     public void VerificarExclusaoPedido(/*final int posicao*/)
     {

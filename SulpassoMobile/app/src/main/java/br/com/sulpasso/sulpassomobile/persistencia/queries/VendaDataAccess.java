@@ -1461,6 +1461,10 @@ public class VendaDataAccess
                 item.setFlex(cc.getFloat(cc.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.FLEX)));
                 item.setTotal(cc.getFloat(cc.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
 
+                int d = cc.getInt(cc.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA));
+
+                item.setDigitadoSenha((cc.getInt(cc.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA)) == 1 ? true : false));
+
                 itens.add(item);
                 cc.moveToNext();
             }

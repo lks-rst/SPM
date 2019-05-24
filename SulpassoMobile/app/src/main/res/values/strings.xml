@@ -169,6 +169,7 @@
     <string name="str_alterar">ALTERAR ITEM</string>
 
     <string name="tlt_alterar_excluir">ALTERAR OU EXCLUÍR O ITEM</string>
+    <string name="tlt_alterar_excluir_p">ALTERAR OU EXCLUÍR O PEDIDO</string>
 
     <string name="tlt_senha_pedidos">SENHA DE LIBERAÇÃO</string>
 

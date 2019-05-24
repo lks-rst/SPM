@@ -177,7 +177,7 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
                 .setHint("0");
 
         /*
-        Indicação de calbacks de escuta a alteração de valores nos campos
+        Indicação de calbacks de escuta à alteração de valores nos campos
          */
         ((EditText) (getActivity().findViewById(R.id.fdEdtQuantidade)))
                 .addTextChangedListener(digitacaoQuantidade);

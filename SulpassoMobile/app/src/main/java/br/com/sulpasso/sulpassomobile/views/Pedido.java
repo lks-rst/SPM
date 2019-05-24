@@ -203,7 +203,7 @@ public class Pedido extends AppCompatActivity
     {
         if(this.controlePedido.confirmarItem())
         {
-            getFragmentManager().popBackStackImmediate();
+//            getFragmentManager().popBackStackImmediate();
             EfetuarPedidos.senha = false;
             int ret = -1;
             ret = this.controlePedido.verificarTabloides();
@@ -306,7 +306,7 @@ public class Pedido extends AppCompatActivity
         }
     }
 
-    public void finalizar(View v) { if(this.controlePedido.finalizarPedido() == 1) { finish(); } }
+    public void finalizar(View v) { if(this.controlePedido.finalizarPedido(false) == 1) { finish(); } }
 
     public String calculoContribuicao(float preco)
     {
@@ -671,9 +671,9 @@ public class Pedido extends AppCompatActivity
 
     public void exibirInformacoes() { /*****/ }
 
-    public void salvarPedido()
+    public void salvarPedido(Boolean justificar)
     {
-        this.controlePedido.finalizarPedido();
+        if(this.controlePedido.finalizarPedido(justificar) == 1) { finish(); }
     }
 
     public void acrescentarObservacao(String s, int tipo)
@@ -1318,8 +1318,25 @@ public class Pedido extends AppCompatActivity
                     aplicarDescontoTabloide(ret);
                     Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
                 }
+                else
+                {
+                    ret = this.controlePedido.verificarCampanhas();
+                    if(ret != -1)
+                    {
+                        aplicarDescontoCampanhas(ret);
+                        Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
+                    }
+                }
 
-                getFragmentManager().popBackStackImmediate();
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                {
+                    displayView(1);
+                }
+                else
+                {
+                    getFragmentManager().popBackStackImmediate();
+                }
+
                 EfetuarPedidos.senha = false;
             }
             else if(EfetuarPedidos.strErro.equalsIgnoreCase("Valor abaixo do permitido!\nPor favor verifique."))

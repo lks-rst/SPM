@@ -36,6 +36,8 @@ public class CampanhaGrupoDataAccess
 
     public CampanhaGrupo getByData(int codigo) throws GenercicException { return this.searchCamp(codigo); }
 
+    public ArrayList getByDataL(int codigo) throws GenercicException { return this.searchListCamp(codigo); }
+
     public Boolean insert(String data) throws GenercicException
     {
         return this.insert(this.dataConverter(data));
@@ -280,6 +282,125 @@ public class CampanhaGrupoDataAccess
             campanhaGrupo.getGrupo().setDescricao(c.getString(0));
 
             return campanhaGrupo;
+        }
+        else { return null; }
+    }
+
+    private ArrayList searchListCamp(int codigo) throws ReadExeption
+    {
+        ArrayList<CampanhaGrupo> campanhas = null;
+        int grupo;
+        int subGrupo;
+        int divisao;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(Item.GRUPO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(Item.SUBGRUPO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(Item.DIVISAO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(Item.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(codigo);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        grupo = c.getInt(c.getColumnIndex(Item.GRUPO));
+        subGrupo = c.getInt(c.getColumnIndex(Item.SUBGRUPO));
+        divisao = c.getInt(c.getColumnIndex(Item.DIVISAO));
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT * FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.GRUPO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(grupo);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.SUB);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(subGrupo);
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.DIV);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(divisao);
+
+        c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        Cursor d;
+
+        if(c.getCount() > 0)
+        {
+            campanhas = new ArrayList<>();
+
+            c.moveToFirst();
+
+            for(int p = 0; p < c.getCount(); p++)
+            {
+                Grupo g = new Grupo();
+                CampanhaGrupo campanhaGrupo = new CampanhaGrupo();
+
+                g.setGrupo(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.GRUPO)));
+                g.setSubGrupo(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.SUB)));
+                g.setDivisao(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.DIV)));
+                campanhaGrupo.setGrupo(g);
+                campanhaGrupo.setDesconto(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.DESCONTO)));
+                campanhaGrupo.setQuantidade(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaGrupo.QUANTIDADE)));
+
+                this.sBuilder.delete(0, this.sBuilder.length());
+                this.sBuilder.append("SELECT ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DESC);
+                this.sBuilder.append(" FROM ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.TABELA);
+                this.sBuilder.append(" WHERE ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.GRUPO);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(grupo);
+                this.sBuilder.append(" AND ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.SUB);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(subGrupo);
+                this.sBuilder.append(" AND ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Grupo.DIV);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(divisao);
+
+                d = this.db.rawQuery(this.sBuilder.toString(), null);
+
+                d.moveToFirst();
+
+                campanhaGrupo.getGrupo().setDescricao(d.getString(0));
+
+                campanhas.add(campanhaGrupo);
+                c.moveToNext();
+            }
+
+            return campanhas;
         }
         else { return null; }
     }

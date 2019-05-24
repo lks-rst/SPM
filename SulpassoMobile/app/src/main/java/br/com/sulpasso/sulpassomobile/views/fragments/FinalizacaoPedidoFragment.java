@@ -174,7 +174,6 @@ public class FinalizacaoPedidoFragment extends Fragment
         ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtFrete)).getParent()).setVisibility
             (((((Pedido) getActivity()).alteraValorFim(R.id.ffpEdtFrete))) ? View.VISIBLE : View.GONE);
 
-
         try{ getActivity().findViewById(R.id.llMainFinal).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
         try{ getActivity().findViewById(R.id.scrMainFinal).setOnTouchListener(gestureListener); }
