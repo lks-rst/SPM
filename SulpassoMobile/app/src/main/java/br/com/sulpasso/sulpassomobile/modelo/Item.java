@@ -36,6 +36,12 @@ public class Item
 
     private boolean destaque;
 
+    private float vt;
+
+    public float getVt() { return vt; }
+
+    public void setVt(float vt) { this.vt = vt; }
+
     public Integer getCodigo() { return codigo; }
 
     public void setCodigo(Integer codigo) { this.codigo = codigo; }

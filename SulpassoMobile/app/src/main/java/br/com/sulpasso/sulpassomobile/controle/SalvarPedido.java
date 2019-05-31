@@ -2,6 +2,8 @@ package br.com.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
 
+import java.util.Date;
+
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.modelo.Visita;
@@ -46,6 +48,25 @@ public class SalvarPedido
             return (saldo - this.desconto >= 0);
         else
             return true;
+    }
+
+    public Boolean verificarJustificativa(int justificativa, Boolean controlar, int dia)
+    {
+        Date today = new Date();
+        int day = today.getDay();
+        day+=1;
+
+        String dias = String.valueOf(dia);
+        String p = dias.substring(0, 1);
+        String s = dias.substring(1, 2);
+        String t = dias.substring(2);
+
+        //TODO: Ativar novamente quando resolver o problema da view.
+        if(!controlar)
+            return true;
+        else if ((Integer.parseInt(p) == day) || (Integer.parseInt(s) == day) || (Integer.parseInt(t) == day) || ((justificativa != 500) && (justificativa != 0)))
+            return true;
+        else return false;
     }
 
     public Boolean salvarPedido(Context ctx, Venda venda)

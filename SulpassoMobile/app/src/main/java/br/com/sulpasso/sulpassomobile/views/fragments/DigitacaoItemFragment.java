@@ -135,11 +135,13 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
             (getActivity().findViewById(R.id.fdBtnSolSenha)).setVisibility(View.GONE);
         }
 
+        /*
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setText("0");
 
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
                 .setText("0");
+        */
         ((TextView) (getActivity().findViewById(R.id.fdEdtDados)))
                 .setText(((Pedido) getActivity()).getItem());
         ((EditText) (getActivity().findViewById(R.id.fdEdtUnidade)))

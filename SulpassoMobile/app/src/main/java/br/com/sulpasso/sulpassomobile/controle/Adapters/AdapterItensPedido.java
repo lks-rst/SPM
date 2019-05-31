@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 
 /**
  * Created by Lucas on 08/01/2019 - 10:05 as part of the project SulpassoMobile.
@@ -50,6 +51,8 @@ public class AdapterItensPedido extends BaseAdapter
             holder.coplemento = (TextView) convertView.findViewById(R.id.lblAliComp);
             holder.descricao = (TextView) convertView.findViewById(R.id.lblAliDesc);
             holder.separador = (TextView) convertView.findViewById(R.id.lblAliSeparator);
+            holder.estoque = (TextView) convertView.findViewById(R.id.lblAliEst);
+            holder.valor = (TextView) convertView.findViewById(R.id.lblAliVal);
 
             convertView.setTag(holder);
         }
@@ -69,6 +72,8 @@ public class AdapterItensPedido extends BaseAdapter
         holder.referencia.setText(mensagem.getItem().getReferencia());
         holder.descricao.setText(mensagem.getItem().getDescricao().toUpperCase());
         holder.coplemento.setText(mensagem.getItem().getComplemento());
+        holder.estoque.setText("E.: " + Formatacao.format2d(mensagem.getItem().getEstoque()));
+        holder.valor.setText("V.: " + Formatacao.format2d(mensagem.getItem().getVt()));
 
         return convertView;
     }
@@ -81,5 +86,7 @@ public class AdapterItensPedido extends BaseAdapter
         private TextView descricao;
         private TextView coplemento;
         private TextView separador;
+        private TextView estoque;
+        private TextView valor;
     }
 }

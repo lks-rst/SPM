@@ -104,7 +104,6 @@ public class ResumoFragment extends Fragment implements AlterarExcluir.Callback
 /**************************************************************************************************/
     public void atualizarResumo()
     {
-        Toast.makeText(getActivity().getApplicationContext(), "Clicado no botao excluir", Toast.LENGTH_LONG).show();
         ((ListView) getActivity().findViewById(R.id.flirLiItens)).setAdapter
         (
             new ArrayAdapter<String>
@@ -211,7 +210,6 @@ public class ResumoFragment extends Fragment implements AlterarExcluir.Callback
         }
         else
         {
-            Toast.makeText(getActivity().getApplicationContext(), "Clicado no botao alterar", Toast.LENGTH_LONG).show();
             ((Pedido) getActivity()).alterarItem(posicaoAlterar, opt);
         }
     }

@@ -20,6 +20,7 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.NaturezaDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PrePedidoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertaMixFaltante;
 
 /**
@@ -27,7 +28,6 @@ import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertaMixFaltante;
  */
 public class PedidoNormal extends EfetuarPedidos
 {
-
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/
@@ -211,6 +211,8 @@ public class PedidoNormal extends EfetuarPedidos
 
     public String getValor() { return super.controleDigitacao.getValor(); }
 
+    public String getValorTabela() { return super.controleDigitacao.getValorTabela(); }
+
     public String getQtdMinimaVenda() { return super.controleDigitacao.getQtdMinimaVenda(); }
 
     public String getUnidade() { return super.controleDigitacao.getUnidade(); }
@@ -227,7 +229,7 @@ public class PedidoNormal extends EfetuarPedidos
 
     public String getMarkup() { return super.controleConfiguracao.getMarkup(); }
 
-    public String calcularTotal() { return String.valueOf(super.controleDigitacao.calcularTotal()); }
+    public String calcularTotal() { return Formatacao.format2d(super.controleDigitacao.calcularTotal()); }
 
     public void setQuantidade(String quantidade) { super.controleDigitacao.setQuantidade(Float.parseFloat(quantidade)); }
 
@@ -242,7 +244,7 @@ public class PedidoNormal extends EfetuarPedidos
         */
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
-                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo());
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens());
 
         if(item != null)
         {
@@ -397,7 +399,7 @@ public class PedidoNormal extends EfetuarPedidos
             {
                 if(super.verificarMix())
                 {
-                /* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO */
+                        /* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO */
                     Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
                     AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
                     return 0;
@@ -443,9 +445,12 @@ public class PedidoNormal extends EfetuarPedidos
                             totalFlex = (float) (flexItens + super.venda.getDesconto());
                             totalFlex *= -1;
 
-                            Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
-                            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-                            t.show();
+                            if(this.mostraFlexVenda())
+                            {
+                                Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                                t.show();
+                            }
 
                             return 1;
                         }
@@ -462,6 +467,89 @@ public class PedidoNormal extends EfetuarPedidos
                         return 0;
                     }
                 }
+                /*
+                if(super.controleSalvar.verificarJustificativa(super.venda.getJustificativa(),
+                        super.controleConfiguracao.getConfigVda().getGerenciarVisitas(),
+                        super.venda.getCliente().getVisita()))
+                {
+                    if(super.verificarMix())
+                    {
+                        *//* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO *//*
+                        Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
+                        AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
+                        return 0;
+                    }
+                    else
+                    {
+                        if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
+                        {
+                            super.venda.setItens(super.itensVendidos);
+                            super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
+                            super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
+                            super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
+                            super.venda.setData(super.dataSistema());
+                            super.venda.setHora(super.horaSistema());
+                            super.venda.setNatureza(super.codigoNatureza);
+                            super.venda.setBanco(super.controleClientes.getBancoCliente());
+
+                            super.venda.setTipo(super.strTipoVenda);
+
+                            Prazo p = new Prazo();
+                            p.setCodigo(super.codigoPrazo);
+                            super.venda.setPrazo(p);
+
+                            if(super.controleSalvar.salvarPedido(super.context, super.venda))
+                            {
+                                super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
+
+                                float flexItem = 0;
+                                float flexItens = 0;
+                                float totalFlex = 0;
+
+                                for (ItensVendidos i : super.itensVendidos)
+                                {
+                                    flexItem = i.getFlex();
+
+                                    if(flexItem > 0  && !i.isDigitadoSenha())
+                                        flexItens += (flexItem * i.getQuantidade());
+                                }
+
+                                float valorDesconto = super.venda.getDesconto().floatValue();
+                                float saldoFinalFlex = flexItens + valorDesconto;
+
+                                totalFlex = (float) (flexItens + super.venda.getDesconto());
+                                totalFlex *= -1;
+
+                                if(this.mostraFlexVenda())
+                                {
+                                    Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                                    t.show();
+                                }
+
+                                return 1;
+                            }
+                            else
+                            {
+                                Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+                                return 0;
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado excede o valor atual de saldo disponível"
+                                    , Toast.LENGTH_LONG).show();
+                            return 0;
+                        }
+                    }
+                }
+                else
+                {
+                    Toast.makeText(context, "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                            , Toast.LENGTH_LONG).show();
+                    return 0;
+                }
+                */
             }
             else
             {
@@ -1092,6 +1180,10 @@ public class PedidoNormal extends EfetuarPedidos
             }
         }
     }
+
+    public Boolean mostraFlexItem() { return super.controleConfiguracao.getConfigVda().getFlexItem(); }
+
+    public Boolean mostraFlexVenda() { return super.controleConfiguracao.getConfigVda().getFlexVenda(); }
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/

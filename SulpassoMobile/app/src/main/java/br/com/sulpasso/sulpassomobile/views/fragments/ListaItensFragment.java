@@ -593,16 +593,28 @@ public class ListaItensFragment extends Fragment implements
             if(Math.abs(velocityX) > Math.abs(velocityY))
             {
                 if (e1.getX() < e2.getX()) //Left to Right swipe
-                {
-                    //if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
+                {//Se já incluiu um item no pedido, não pode voltar a tela de clientes
+                    if((((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes)))
                         ((Pedido) getActivity()).alterarFragmento(0);
+                    else
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Não e possível alterar o cliente após a inclusão de um item.\nPara verificação avanse para o resumo do pedido.",
+                                Toast.LENGTH_LONG).show();
                 }
-                if (e1.getX() > e2.getX()) { ((Pedido) getActivity()).alterarFragmento(4); } //Right to Left swipe
+                if (e1.getX() > e2.getX()) //Right to Left swipe
+                {//Se ainda não incluiu itens, não há resumo nem raão para encerrar o pedido
+                    if(!((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes))
+                        ((Pedido) getActivity()).alterarFragmento(4);
+                    else
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Só é possível avançar após a inserção de um item no pedido.",
+                                Toast.LENGTH_LONG).show();
+                }
 
                 return true;
             }
             else
-            {
+            { //Basicamente, não respnde a rodar para cima ou para baixo.
                 /*
                 if (e1.getY() < e2.getY()) //Up to Down swipe
                 {

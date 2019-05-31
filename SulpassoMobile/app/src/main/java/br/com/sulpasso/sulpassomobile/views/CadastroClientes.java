@@ -229,9 +229,11 @@ public class CadastroClientes extends AppCompatActivity
                     */
                 }
                 break;
+            /*
             case R.id.consulta_pedidos_resumo :
 
                 break;
+            */
             case R.id.consulta_pedidos_nao :
                 fragmentManager = getFragmentManager();
 
@@ -259,9 +261,11 @@ public class CadastroClientes extends AppCompatActivity
                     */
                 }
                 break;
+            /*
             case R.id.consulta_pedidos_direta :
 
                 break;
+            */
             case R.id.consulta_pedidos_enviados :
                 fragmentManager = getFragmentManager();
 

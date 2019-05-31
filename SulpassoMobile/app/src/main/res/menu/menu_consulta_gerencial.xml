@@ -12,6 +12,7 @@
         android:showAsAction="ifRoom"
         android:title="@string/menu_consulta_meta">
     </item>
+    <!--
     <item
         android:id="@+id/consulta_gerencial_grafico"
         android:showAsAction="ifRoom"
@@ -22,4 +23,5 @@
         android:showAsAction="always"
         android:title="@string/menu_consulta_plano">
     </item>
+    -->
 </menu>

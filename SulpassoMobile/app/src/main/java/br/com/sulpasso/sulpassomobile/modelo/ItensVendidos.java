@@ -101,10 +101,10 @@ public class ItensVendidos
         ManipulacaoStrings ms = new ManipulacaoStrings();
 
         return /*item +*/
-            " - V.:" + ms.comEsquerda(Formatacao.format2d(valorDigitado), "0", 8) +
-            " - Q.:" + ms.comEsquerda(Formatacao.format2d(quantidade), "0", 8) +
+            "\nV.:" + ms.comEsquerda(Formatacao.format2d(valorDigitado), " ", 8) +
+            " - Q.:" + ms.comEsquerda(Formatacao.format2d(quantidade), " ", 8) +
             /*" - " + descontoCG +*/
-            " - T.:" + ms.comEsquerda(Formatacao.format2d(total), "0", 8);
+            " - T.:" + ms.comEsquerda(Formatacao.format2d(total), " ", 8);
     }
 
     @Override

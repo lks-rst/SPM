@@ -36,8 +36,8 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.MixDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
-
 
 /**
  * Created by Lucas on 02/08/2016.
@@ -178,6 +178,8 @@ public abstract class EfetuarPedidos
 
     public abstract String getValor();
 
+    public abstract String getValorTabela();
+
     public abstract String getQtdMinimaVenda();
 
     public abstract String getUnidade();
@@ -225,6 +227,10 @@ public abstract class EfetuarPedidos
     public abstract float calcularPpc(float valor, float markup, float desconto);
 
     public abstract void buscarVenda(int codVenda);
+
+    public abstract Boolean mostraFlexItem();
+
+    public abstract Boolean mostraFlexVenda();
 /**************************************************************************************************/
 /****************************************FINAL METHODS*********************************************/
 /**************************************************************************************************/
@@ -405,7 +411,7 @@ public abstract class EfetuarPedidos
         float valor = Float.parseFloat(vlr);
         float ppc = valor + (valor * ( markup / 100));
 
-        return String.valueOf(ppc);
+        return Formatacao.format2d(ppc);
     }
 
     public final void indicarTotal(float total) { this.controleSalvar.setTotal(total);}
@@ -761,6 +767,13 @@ public abstract class EfetuarPedidos
     }
 
     public final int posicaoUltimoItemSelecionado() { return this.posicaoItemSelecionado; }
+
+    public final Boolean verificarJustificativa()
+    {
+        return this.controleSalvar.verificarJustificativa(this.venda.getJustificativa(),
+                this.controleConfiguracao.getConfigVda().getGerenciarVisitas(),
+                this.venda.getCliente().getVisita());
+    }
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
 /**************************************************************************************************/

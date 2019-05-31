@@ -70,7 +70,18 @@ public class InserirItemPedidos
 
     public float getQuantidadeDigitado() { return this.quantidade; }
 
-    public String getValor() { return this.buscarDadosVendaItem(1); }
+    public String getValor()
+    {
+        if(this.valor > 0)
+            return Formatacao.format2d(this.valor);
+        else
+            return this.buscarDadosVendaItem(1);
+    }
+
+    public String getValorTabela()
+    {
+        return this.buscarDadosVendaItem(1);
+    }
 
     public String buscarMinimo() { return this.buscarDadosVendaItem(2); }
 
@@ -173,11 +184,11 @@ public class InserirItemPedidos
         return (this.valor < (tabela * 2));
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int maximo)
     {
         if(!senha)
         {
-            if(this.verificarQuantidade())
+            if(this.verificarQuantidade(maximo))
                 if(this.verificarDesconto(desconto, percentual, context))
                     if(this.verificarValor(desconto, percentual, context))
                     {
@@ -243,11 +254,11 @@ public class InserirItemPedidos
         }
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo)
     {
         if(!senha)
         {
-            if(this.verificarQuantidade())
+            if(this.verificarQuantidade(maximo))
                 if(this.verificarDesconto(desconto, percentual, context))
                     if(this.verificarValor(desconto, percentual, context))
                     {
@@ -424,9 +435,9 @@ public class InserirItemPedidos
 
     }
 
-    private Boolean verificarQuantidade()
+    private Boolean verificarQuantidade(int maximo)
     {
-        if(this.quantidade > 0 && this.quantidade % Integer.parseInt(this.buscarDadosVendaItem(3)) == 0)
+        if(this.quantidade > 0 && this.quantidade % Integer.parseInt(this.buscarDadosVendaItem(3)) == 0 && this.quantidade <= maximo)
             return true;
         else
             return false;

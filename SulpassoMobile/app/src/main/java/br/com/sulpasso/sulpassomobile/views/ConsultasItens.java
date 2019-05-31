@@ -108,6 +108,7 @@ public class ConsultasItens extends AppCompatActivity
 
                 if (fragment == null) { displayView(R.layout.fragment_consulta_itens_principal); }
                 break;
+            /*
             case R.id.consulta_itens_gravosos :
                 fragmentManager = getFragmentManager();
 
@@ -164,6 +165,7 @@ public class ConsultasItens extends AppCompatActivity
 
                 if (fragment == null) { displayView(R.layout.fragment_consulta_itens_foco); }
                 break;
+            */
             default:
                 break;
         }

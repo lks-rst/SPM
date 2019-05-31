@@ -70,11 +70,12 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
             case R.id.consulta_clientes_positivacao :
                 displayView(R.id.consulta_clientes_positivacao);
                 break;
-            case R.id.consulta_clientes_abc :
-                displayView(R.id.consulta_clientes_abc);
-                break;
             case R.id.consulta_clientes_titulos :
                 displayView(R.id.consulta_clientes_titulos);
+                break;
+            /*
+            case R.id.consulta_clientes_abc :
+                displayView(R.id.consulta_clientes_abc);
                 break;
             case R.id.consulta_clientes_devolucao :
                 displayView(R.id.consulta_clientes_devolucao);
@@ -88,6 +89,7 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
             case R.id.consulta_clientes_aniversario :
                 displayView(R.id.consulta_clientes_aniversario);
                 break;
+            */
 
             default:
                 Toast.makeText(getApplicationContext(), "Escolha uma das opções do menu",
@@ -115,14 +117,17 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
                 fragment = new ConsultaClientesPositivacao();
                 title += fragTitles[0];
                 break;
+            /*
             case R.id.consulta_clientes_abc :
                 fragment = new ConsultaClientesAbc();
                 title += fragTitles[1];
                 break;
+            */
             case R.id.consulta_clientes_titulos :
                 fragment = new ConsultaClientesTitulos();
                 title += fragTitles[2];
                 break;
+            /*
             case R.id.consulta_clientes_devolucao :
                 fragment = new ConsultaClientesDevolucao();
                 title += fragTitles[3];
@@ -139,6 +144,7 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
                 fragment = new ConsultaClientesAniversarios();
                 title += fragTitles[6];
                 break;
+            */
             default:
                 Toast.makeText(getApplicationContext(), "Escolha uma das opções do menu",
                         Toast.LENGTH_SHORT).show();

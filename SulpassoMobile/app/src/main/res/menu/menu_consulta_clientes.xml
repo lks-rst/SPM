@@ -8,15 +8,11 @@
         android:title="@string/menu_consulta_positivacao">
     </item>
     <item
-        android:id="@+id/consulta_clientes_abc"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_consulta_abc">
-    </item>
-    <item
         android:id="@+id/consulta_clientes_titulos"
         android:showAsAction="always"
         android:title="@string/menu_consulta_titulos">
     </item>
+    <!--
     <item
         android:id="@+id/consulta_clientes_devolucao"
         android:showAsAction="always"
@@ -26,6 +22,12 @@
         android:id="@+id/consulta_clientes_corte"
         android:showAsAction="always"
         android:title="@string/menu_consulta_corte">
+    </item>
+
+    <item
+        android:id="@+id/consulta_clientes_abc"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_consulta_abc">
     </item>
     <item
         android:id="@+id/consulta_clientes_pre"
@@ -37,4 +39,5 @@
         android:showAsAction="ifRoom"
         android:title="@string/menu_consulta_aniversario">
     </item>
+    -->
 </menu>

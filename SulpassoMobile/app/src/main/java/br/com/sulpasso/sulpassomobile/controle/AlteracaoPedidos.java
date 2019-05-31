@@ -179,6 +179,8 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
     public String getValor() { return super.controleDigitacao.getValor(); }
 
+    public String getValorTabela() { return super.controleDigitacao.getValorTabela(); }
+
     public String getQtdMinimaVenda() { return super.controleDigitacao.getQtdMinimaVenda(); }
 
     public String getUnidade() { return super.controleDigitacao.getUnidade(); }
@@ -207,8 +209,13 @@ public class AlteracaoPedidos extends EfetuarPedidos
         Boolean alteracao = false;
         int posicao = -1;
 
+        /*
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha);
+        */
+        ItensVendidos item = super.controleDigitacao.confirmarItem(
+                super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens());
 
         if(item != null)
         {
@@ -225,32 +232,52 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
                 if (alteracao)
                 {
-                    if(super.itensVendidos.get(posicao).getFlex() > 0)
+                    if(super.itensVendidos.get(posicao).isDigitadoSenha()) { /*****/ }
+                    else
                     {
-                        super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
-                                (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                        if(super.itensVendidos.get(posicao).getFlex() > 0)
+                        {
+                            if(super.codigoNatureza == 21 && super.controleConfiguracao.getConfigEmp().getCodigo() == 7)
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
+                                        (super.itensVendidos.get(posicao).getFlex()));
+                            }
+                            else
+                            {
+                                super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() +
+                                        (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                            }
+                        }
                     }
 
                     super.itensVendidos.set(posicao, item);
 
-                    Toast.makeText(context, "Item alterado!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Item " + item.getItem() + " alterado!", Toast.LENGTH_LONG).show();
                 }
                 else { super.itensVendidos.add(item); }
 
                 try
                 {
-                    if(super.itensVendidos.get(posicao).getFlex() > 0)
+                    if(super.itensVendidos.get(super.itensVendidos.size() - 1).isDigitadoSenha()) { /*****/ }
+                    else
                     {
-                        super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
-                                (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                        if (super.itensVendidos.get(posicao).getFlex() > 0)
+                        {
+                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                    (super.itensVendidos.get(posicao).getFlex() * super.itensVendidos.get(posicao).getQuantidade()));
+                        }
                     }
                 }
                 catch (Exception exeption)
                 {
-                    if(super.itensVendidos.get(0).getFlex() > 0)
+                    if(super.itensVendidos.get(0).isDigitadoSenha()) { /*****/ }
+                    else
                     {
-                        super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
-                                (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
+                        if (super.itensVendidos.get(0).getFlex() > 0)
+                        {
+                            super.controleConfiguracao.setSaldoAtual(super.controleConfiguracao.getSaldoAtual() -
+                                    (super.itensVendidos.get(0).getFlex() * super.itensVendidos.get(0).getQuantidade()));
+                        }
                     }
                 }
 
@@ -308,9 +335,12 @@ public class AlteracaoPedidos extends EfetuarPedidos
                     totalFlex = (float) (flexItens + super.venda.getDesconto());
                     totalFlex *= -1;
 
-                    Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-                    t.show();
+                    if(this.mostraFlexVenda())
+                    {
+                        Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                        t.show();
+                    }
 
                     return 1;
                 }
@@ -980,4 +1010,8 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
         super.venda = v;
     }
+
+    public Boolean mostraFlexItem() { return super.controleConfiguracao.getConfigVda().getFlexItem(); }
+
+    public Boolean mostraFlexVenda() { return super.controleConfiguracao.getConfigVda().getFlexVenda(); }
 }

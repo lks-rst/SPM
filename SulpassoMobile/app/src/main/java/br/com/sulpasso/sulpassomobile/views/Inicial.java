@@ -189,7 +189,7 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
-            this.serviceIntialize();
+//            this.serviceIntialize();
             if(validar_data_sistema(4))
             {
                 if(this.acessoConfirmado)
@@ -285,6 +285,7 @@ public class Inicial extends AppCompatActivity
 
         switch (item.getItemId())
         {
+            /*
             case R.id.inicial_agenda :
 
                 t = Toast.makeText(getApplicationContext(), "AGENDA DE CLIENTES INDISPONIVEL", Toast.LENGTH_LONG);
@@ -292,6 +293,7 @@ public class Inicial extends AppCompatActivity
                 t.show();
 
                 break;
+            */
             case R.id.inicial_atualizar :
                 Intent ia = new Intent(getApplicationContext(), Atualizacao.class);
                 startActivity(ia);
@@ -328,7 +330,6 @@ public class Inicial extends AppCompatActivity
                 break;
 
             case R.id.inicial_pedidos :
-                Toast.makeText(getApplicationContext(), "Versao do android" + Build.VERSION.SDK_INT, Toast.LENGTH_LONG).show();
 
                 if(this.validar_data_sistema(5))
                 {
@@ -383,8 +384,6 @@ public class Inicial extends AppCompatActivity
         {
             if (resultCode == RESULT_OK)
             {
-                Toast.makeText(Inicial.this, "BEM VINDO", Toast.LENGTH_LONG).show();
-
                 this.acessoConfirmado = true;
 
                 this.fragmentoCentral();
@@ -842,6 +841,7 @@ public class Inicial extends AppCompatActivity
 
     private void serviceIntialize()
     {
+        //TODO: É necessário reverificar essa funcionalidade pois pode estar causando problemas.
         Intent _service = new Intent(this, Email.class);
         boolean running = false;
 
@@ -855,11 +855,11 @@ public class Inicial extends AppCompatActivity
             }
         }
 
-        if (running){ Toast.makeText(this, "Running", Toast.LENGTH_LONG).show(); }
+        if (running){ /*Toast.makeText(this, "Running", Toast.LENGTH_LONG).show();*/ }
         else
         {
             startService(_service);
-            Toast.makeText(this, "Staring", Toast.LENGTH_LONG).show();
+            /*Toast.makeText(this, "Staring", Toast.LENGTH_LONG).show();*/
         }
     }
 
@@ -987,7 +987,7 @@ public class Inicial extends AppCompatActivity
             this.fragmentoCentral();
 
             this.indicarAcesso();
-            this.serviceIntialize();
+//            this.serviceIntialize();
 
             String versionName = "";
             PackageInfo packageInfo;

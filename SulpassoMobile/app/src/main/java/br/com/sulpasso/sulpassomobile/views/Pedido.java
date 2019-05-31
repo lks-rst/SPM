@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,6 +34,7 @@ import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.views.fragments.DadosClienteFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.DigitacaoItemFragment;
@@ -62,8 +61,6 @@ public class Pedido extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido);
-
-        Toast.makeText(getApplicationContext(), "Verificação de alteração", Toast.LENGTH_LONG).show();
 
         // load slide menu items
         fragTitles = getResources().getStringArray(R.array.fragTitles);
@@ -222,9 +219,27 @@ public class Pedido extends AppCompatActivity
                 }
             }
 
-            Toast t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
+            String m = "";
+
+            try { m = EfetuarPedidos.strErro.substring(0, 28); }
+            catch (Exception e) { m = EfetuarPedidos.strErro; }
+
+            Toast t;
+            if(m.equalsIgnoreCase("Valor de flex gerado no item"))
+            {
+                if(this.controlePedido.mostraFlexItem())
+                {
+                    t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+                }
+            }
+            else
+            {
+                t = Toast.makeText(getApplicationContext(), EfetuarPedidos.strErro, Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+            }
 
             this.displayView(1);
         }
@@ -297,7 +312,7 @@ public class Pedido extends AppCompatActivity
         {
             fragment = (DigitacaoItemFragment) fragmentManager.findFragmentById(R.id.frame_container);
 
-            if (fragment != null) { fragment.indicarMinimo(this.getValor()); }
+            if (fragment != null) { fragment.indicarMinimo(this.getValorTabela()); }
         }
         catch (Exception e)
         {
@@ -310,12 +325,12 @@ public class Pedido extends AppCompatActivity
 
     public String calculoContribuicao(float preco)
     {
-        return  String.valueOf(this.controlePedido.calculoContribuicao(preco));
+        return  Formatacao.format2d(this.controlePedido.calculoContribuicao(preco));
     }
 
     public String calcularPpc(String valor, String markup, String desconto)
     {
-        return String.valueOf(this.controlePedido.calcularPpc(
+        return Formatacao.format2d(this.controlePedido.calcularPpc(
             Float.parseFloat(valor), Float.parseFloat(markup),  Float.parseFloat(desconto)));
     }
 
@@ -328,6 +343,8 @@ public class Pedido extends AppCompatActivity
 
     public void listarClientes(int tipo)
     {
+        //TODO: Alterar a forma de verificação de tipo de consulta de clientes
+//        this.controlePedido.consultaClientesAbertura()
         try { this.apresentarLista(this.controlePedido.listarCLientes(tipo, ""), 1); }
         catch (GenercicException ge)
         {
@@ -339,6 +356,16 @@ public class Pedido extends AppCompatActivity
     public void listarMotivos()
     {
         try { this.apresentarLista(this.controlePedido.listarMotivos(), 2); }
+        catch (GenercicException ge)
+        {
+            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            this.apresentarLista(new ArrayList<String>(), 2);
+        }
+    }
+
+    public void listarMotivosFinal()
+    {
+        try { this.apresentarListaFinal(this.controlePedido.listarMotivos(), 2); }
         catch (GenercicException ge)
         {
             Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
@@ -380,7 +407,7 @@ public class Pedido extends AppCompatActivity
         try { return this.controlePedido.listarNaturezas(especial); }
         catch (GenercicException ge)
         {
-            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
     }
@@ -393,7 +420,7 @@ public class Pedido extends AppCompatActivity
         }
         catch (GenercicException ge)
         {
-            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
     }
@@ -474,7 +501,7 @@ public class Pedido extends AppCompatActivity
         try { return this.controlePedido.listarItens(); }
         catch (GenercicException ge)
         {
-            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
     }
@@ -487,7 +514,7 @@ public class Pedido extends AppCompatActivity
         try { return this.controlePedido.listarItens2(); }
         catch (GenercicException ge)
         {
-            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
     }
@@ -497,13 +524,13 @@ public class Pedido extends AppCompatActivity
         try { return this.controlePedido.listarItens(); }
         catch (GenercicException ge)
         {
-            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
         catch (Exception e)
         {
             String s;
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + e.getMessage(), Toast.LENGTH_LONG).show();
             s = e.getMessage();
             e.printStackTrace();
             return new ArrayList<>();
@@ -515,13 +542,13 @@ public class Pedido extends AppCompatActivity
         try { return this.controlePedido.listarItens2(); }
         catch (GenercicException ge)
         {
-            Toast.makeText(getApplicationContext(), ge.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
             return new ArrayList<>();
         }
         catch (Exception e)
         {
             String s;
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + e.getMessage(), Toast.LENGTH_LONG).show();
             s = e.getMessage();
             e.printStackTrace();
             return new ArrayList<>();
@@ -576,6 +603,8 @@ public class Pedido extends AppCompatActivity
     public Boolean alteraValorFim(int campo) { return this.controlePedido.alteraValorFim(campo); }
 
     public String getValor() { return this.controlePedido.getValor(); }
+
+    public String getValorTabela() { return this.controlePedido.getValorTabela(); }
 
     public String getQtdMinimaVenda() { return this.controlePedido.getQtdMinimaVenda(); }
 
@@ -644,7 +673,7 @@ public class Pedido extends AppCompatActivity
 
             if (fragment != null)
             {
-                fragment.ajustarLayout(String.valueOf(this.controlePedido.recalcularTotalPedido()));
+                fragment.ajustarLayout(Formatacao.format2d(this.controlePedido.recalcularTotalPedido()));
             }
         }
         catch (Exception e)
@@ -746,11 +775,7 @@ public class Pedido extends AppCompatActivity
 
     public void verificarEncerramento(int p)
     {
-        if(p == 2)
-        {
-            Toast.makeText(getApplicationContext(), "Retorno da tela da digitação", Toast.LENGTH_LONG).show();
-            this.displayView(1);
-        }
+        if(p == 2) { this.displayView(1); }
         else
         {
             String titulo = "ATENÇÃO -- CANCELAMENTO";
@@ -815,6 +840,8 @@ public class Pedido extends AppCompatActivity
     }
 
     public int posicaoUltimoItemSelecionado() { return this.controlePedido.posicaoUltimoItemSelecionado(); }
+
+    public Boolean verificarJustificativa() { return this.controlePedido.verificarJustificativa(); }
 
     private void encerrar()
     {
@@ -958,7 +985,6 @@ public class Pedido extends AppCompatActivity
             case 5:
                 break;
             default:
-                Toast.makeText(this, "Clicado na posição -1", Toast.LENGTH_LONG).show();
 //                    title = fragTitles[position];
                 break;
         }
@@ -1243,6 +1269,24 @@ public class Pedido extends AppCompatActivity
 //            }
 //            else
                 fragment = (DadosClienteFragment) fragmentManager.findFragmentById(R.id.frame_container);
+
+            if (fragment != null) { fragment.apresentarLista(itens, tipo, getApplicationContext()); }
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),
+                    "Erro ao carregar dados\n" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void apresentarListaFinal(ArrayList<String> itens, int tipo)
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        FinalizacaoPedidoFragment fragment;
+
+        try
+        {
+            fragment = (FinalizacaoPedidoFragment) fragmentManager.findFragmentById(R.id.frame_container);
 
             if (fragment != null) { fragment.apresentarLista(itens, tipo, getApplicationContext()); }
         }

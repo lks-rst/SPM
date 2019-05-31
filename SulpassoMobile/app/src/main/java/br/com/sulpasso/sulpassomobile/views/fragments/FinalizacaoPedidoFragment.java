@@ -2,6 +2,7 @@ package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,7 +20,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 
 /**
@@ -116,9 +120,9 @@ public class FinalizacaoPedidoFragment extends Fragment
         Inserção dos valores nos campos
          */
         ((EditText) (getActivity().findViewById(R.id.ffpEdtTotalItens)))
-            .setText(String.valueOf(((Pedido) getActivity()).valorVendido()));
+            .setText(Formatacao.format2d(((Pedido) getActivity()).valorVendido()));
         ((EditText) (getActivity().findViewById(R.id.ffpEdtTotalPedido)))
-            .setText(String.valueOf(((Pedido) getActivity()).valorVendido()));
+            .setText(Formatacao.format2d(((Pedido) getActivity()).valorVendido()));
 
         ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto))).setText(String.valueOf(0));
         ((EditText) (getActivity().findViewById(R.id.ffpEdtFrete))).setText(String.valueOf(0));
@@ -138,6 +142,18 @@ public class FinalizacaoPedidoFragment extends Fragment
         this.ffpSpnrNaturezas = (Spinner) (getActivity().findViewById(R.id.ffpSpnrNaturezas));
         this.ffpSpnrPrazos = (Spinner) (getActivity().findViewById(R.id.ffpSpnrPrazos));
         this.ffpSpnrJustificativa = (Spinner) (getActivity().findViewById(R.id.ffpSpnrJustificativa));
+
+
+        if(((Pedido) getActivity()).controlaRoteiro())
+        {
+            ((Pedido) getActivity()).listarMotivosFinal();
+            this.ffpSpnrJustificativa.setVisibility(View.VISIBLE);
+            this.ffpSpnrJustificativa.setOnItemSelectedListener(selectingData);
+        }
+        else
+        {
+            this.ffpSpnrJustificativa.setVisibility(View.GONE);
+        }
 
         ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(), R.layout.spinner_item, ((Pedido) getActivity()).listarNaturezas(false));
@@ -167,8 +183,6 @@ public class FinalizacaoPedidoFragment extends Fragment
         ((EditText) (getActivity().findViewById(R.id.ffpEdtObsNfe)))
                 .addTextChangedListener(observacoes);
 
-        this.ffpSpnrJustificativa.setOnItemSelectedListener(selectingData);
-
         ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtDesconto)).getParent()).setVisibility
             (((((Pedido) getActivity()).alteraValorFim(R.id.ffpEdtDesconto))) ? View.VISIBLE : View.GONE);
         ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtFrete)).getParent()).setVisibility
@@ -181,16 +195,13 @@ public class FinalizacaoPedidoFragment extends Fragment
         try{ getActivity().findViewById(R.id.relMainFinal).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
 
-
         ((getActivity().findViewById(R.id.ffpEdtDesconto))).setOnTouchListener(gestureListener);
         ((getActivity().findViewById(R.id.ffpEdtFrete))).setOnTouchListener(gestureListener);
         ((getActivity().findViewById(R.id.ffpEdtObsCpd))).setOnTouchListener(gestureListener);
         ((getActivity().findViewById(R.id.ffpEdtObsNfe))).setOnTouchListener(gestureListener);
-        this.ffpSpnrJustificativa.setOnTouchListener(gestureListener);
 
         this.ffpSpnrNaturezas.setOnTouchListener(gestureListener);
         this.ffpSpnrPrazos.setOnTouchListener(gestureListener);
-        this.ffpSpnrJustificativa.setOnTouchListener(gestureListener);
 
         ((getActivity().findViewById(R.id.ffpEdtTotalItens))).setOnTouchListener(gestureListener);
         ((getActivity().findViewById(R.id.ffpEdtTotalPedido))).setOnTouchListener(gestureListener);
@@ -247,6 +258,16 @@ public class FinalizacaoPedidoFragment extends Fragment
         this.ffpSpnrNaturezas.setEnabled(((Pedido) getActivity()).permitirClick(R.id.fdcSpnrNaturezas));
         this.ffpSpnrPrazos.setClickable(((Pedido) getActivity()).permitirClick(R.id.fdcSpnrPrazos));
         this.ffpSpnrPrazos.setEnabled(((Pedido) getActivity()).permitirClick(R.id.fdcSpnrPrazos));
+    }
+
+    public void apresentarLista(ArrayList<String> itens, int tipo, Context ctx)
+    {
+        //TODO: Verificar apresentação dos dados;
+        ArrayAdapter adapter = new ArrayAdapter(ctx, R.layout.spinner_item, itens);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.ffpSpnrNaturezas.setAdapter(adapter);
+        this.ffpSpnrNaturezas.setVisibility(View.VISIBLE);
+//        this.ffpSpnrJustificativa.setOnItemSelectedListener(selectingData);
     }
 /**************************************************************************************************/
 /******************************END OF FRAGMENT ACCESS METHODS**************************************/
@@ -376,6 +397,13 @@ public class FinalizacaoPedidoFragment extends Fragment
                         (((Pedido) getActivity()).getApplicationContext().getResources()
                         .getString(R.string.str_prazo), ((Pedido) getActivity()).selecionarPrazo()));
                     */
+                    break;
+                case R.id.ffpSpnrJustificativa:
+                    if (position > 0 && ((Pedido) getActivity()).codigoMotivo(position) != 500)
+                    {
+                        Log.d("JUSTIFICATIVA", "Selecionada justificativa para o pedido");
+                        //confirmarJustificativa();
+                    }
                     break;
             }
         }

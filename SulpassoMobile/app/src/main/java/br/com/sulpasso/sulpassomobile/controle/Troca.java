@@ -96,6 +96,9 @@ public class Troca extends EfetuarPedidos {
     }
 
     @Override
+    public String getValorTabela() { return super.controleDigitacao.getValorTabela(); }
+
+    @Override
     public String getQtdMinimaVenda() {
         return null;
     }
@@ -245,4 +248,9 @@ public class Troca extends EfetuarPedidos {
     public void buscarVenda(int codVenda) {
 
     }
+
+
+    public Boolean mostraFlexItem(){ return false; }
+
+    public Boolean mostraFlexVenda(){ return false; }
 }

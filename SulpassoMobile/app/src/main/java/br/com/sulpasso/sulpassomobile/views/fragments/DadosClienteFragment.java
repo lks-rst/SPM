@@ -138,14 +138,10 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         switch (item.getItemId())
         {
             case R.id.clientes_agenda:
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Selecionada opção busca clientes por agenda", Toast.LENGTH_LONG).show();
                 limparCampos();
                 activity.listarClientes(10);
                 break;
             case R.id.clientes_visita:
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Selecionada opção busca clientes por visita", Toast.LENGTH_LONG).show();
                 limparCampos();
                 activity.listarClientes(5);
                 break;
@@ -330,7 +326,6 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
      */
     private void setUpLayout()
     {
-        Toast.makeText(getActivity().getApplicationContext(), "Abrindo tela de clientes", Toast.LENGTH_LONG).show();
         this.fdcSpnrClientes = (Spinner) (getActivity().findViewById(R.id.fdcSpnrClientes));
         this.fdcSpnrNaturezas = (Spinner) (getActivity().findViewById(R.id.fdcSpnrNaturezas));
         this.fdcSpnrPrazos = (Spinner) (getActivity().findViewById(R.id.fdcSpnrPrazos));
@@ -597,23 +592,42 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
         {
+            //TODO: Verificar justificativa
             if(Math.abs(velocityX) > Math.abs(velocityY))
             {
-                if (e1.getX() < e2.getX()) //Left to Right swipe
+                if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
                 {
-                    if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
-                        apresentarDetalhes();
+                    if (e1.getX() < e2.getX()) { apresentarDetalhes(); }//Left to Right swipe
+                    if (e1.getX() > e2.getX()) //Right to Left swipe
+                    {
+                        if(activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                        else
+                        {
+                            Toast.makeText(activity.getApplicationContext(),
+                                    "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                                    , Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
-                if (e1.getX() > e2.getX()) { activity.alterarFragmento(1); } //Right to Left swipe
+                else { Toast.makeText( activity.getApplicationContext(), "Escolha um cliente para prosseguir", Toast.LENGTH_LONG).show(); }
             }
             else
             {
-                if (e1.getY() < e2.getY()) //Up to Down swipe
+                if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
                 {
-                    if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
-                        apresentarDetalhes();
+                    if (e1.getY() < e2.getY()) { apresentarDetalhes(); } //Up to Down swipe
+                    if (e1.getY() > e2.getY()) //Down to Up swipe
+                    {
+                        if(activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                        else
+                        {
+                            Toast.makeText(activity.getApplicationContext(),
+                                    "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                                    , Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
-                if (e1.getY() > e2.getY()) { activity.alterarFragmento(1); } //Down to Up swipe
+                else { Toast.makeText( activity.getApplicationContext(), "Escolha um cliente para prosseguir", Toast.LENGTH_LONG).show(); }
             }
 
             return true;

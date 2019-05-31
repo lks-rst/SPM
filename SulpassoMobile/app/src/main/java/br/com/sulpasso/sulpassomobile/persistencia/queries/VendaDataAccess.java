@@ -1494,7 +1494,10 @@ public class VendaDataAccess
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.PEDIDO);
         this.sBuilder.append(" = '");
         this.sBuilder.append(codVenda);
-        this.sBuilder.append("';");
+        this.sBuilder.append("' AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA);
+        this.sBuilder.append(" = '0';");
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
