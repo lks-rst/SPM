@@ -15,7 +15,7 @@
             style="@style/texts.labels.bigger"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.25"
+            android:layout_weight="0.2"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Lucas Pinheir Rosseti"
             android:id="@+id/lblAliCod"
@@ -24,7 +24,7 @@
         <TextView
             style="@style/texts.labels.bigger"
             android:layout_width="0dp"
-            android:layout_weight="0.25"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="01/01/2017"
@@ -34,13 +34,37 @@
         <TextView
             style="@style/texts.labels.bigger"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
             android:gravity="right|center_vertical"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="31/01/2017"
             android:id="@+id/lblAliComp"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/texts.labels.bigger"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:gravity="right|center_vertical"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="31/01/2017"
+            android:id="@+id/lblAliVal"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/texts.labels.bigger"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:gravity="right|center_vertical"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="31/01/2017"
+            android:id="@+id/lblAliEst"
             android:textSize="15sp" />
     </LinearLayout>
 

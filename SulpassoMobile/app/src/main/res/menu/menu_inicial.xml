@@ -12,11 +12,15 @@
         android:showAsAction="never"
         android:title="@string/menu_inicial_ca">
     </item>
+
+    <!--
     <item
         android:id="@+id/inicial_agenda"
         android:showAsAction="never"
         android:title="@string/menu_inicial_ag">
     </item>
+    -->
+
     <item
         android:id="@+id/inicial_consultas"
         android:showAsAction="always"

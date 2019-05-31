@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.modelo.CurvaAbc;
+import br.com.sulpasso.sulpassomobile.views.fragments.Adapters.AdapterTitulosAbertos;
 
 /**
  * Created by Lucas on 29/01/2018 - 15:42 as part of the project SulpassoMobile.
@@ -41,12 +42,27 @@ public class AlertCortesDevolucaoTitulos extends DialogFragment
 
         View view = inflater.inflate(R.layout.alert_cortes_devolucao_titulos, container);
 
-        ArrayAdapter adapter = new ArrayAdapter(
-                getActivity().getApplicationContext(), R.layout.spinner_item,
-                callback.buscarItens());
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        ArrayAdapter adapter;
 
-        ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapter);
+        if(callback.buscarTipo() != 1 && callback.buscarTipo() != 2)
+        {
+                /*
+                TODO: Criar um adapter especifico para utilizar aqui
+                 */
+            AdapterTitulosAbertos adapters = new AdapterTitulosAbertos(
+                    getActivity().getApplicationContext(), callback.buscarItens());
+//                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapters);
+        }
+        else
+        {
+            adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(), R.layout.spinner_item,
+                    callback.buscarItens());
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+            ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapter);
+        }
 
         detalhes = callback.buscarDetalhes();
 
@@ -57,20 +73,47 @@ public class AlertCortesDevolucaoTitulos extends DialogFragment
 
             if (callback.buscarTipo() == 2)
             {
+                adapter = new ArrayAdapter(
+                        getActivity().getApplicationContext(), R.layout.spinner_item,
+                        callback.buscarItens());
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+                ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapter);
+
                 view.findViewById(R.id.acdt_li_t1).setVisibility(View.VISIBLE);
                 getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_devoucao) + " -- " + detalhes.get(0));
             } else
             {
+                /*
+                TODO: Criar um adapter especifico para utilizar aqui
+                 */
+                AdapterTitulosAbertos adapters = new AdapterTitulosAbertos(
+                        getActivity().getApplicationContext(), callback.buscarItens());
+//                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
                 ((EditText) view.findViewById(R.id.acdt_edt_vencdos)).setText(detalhes.get(3));
                 ((EditText) view.findViewById(R.id.acdt_edt_nVencidos)).setText(detalhes.get(4));
 
                 view.findViewById(R.id.acdt_li_t1).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.acdt_li_t2).setVisibility(View.VISIBLE);
 
+                ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapters);
+
                 getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_titulos) + " -- " + detalhes.get(0));
             }
         }
-        else { getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_corte) + " -- " + detalhes.get(0)); }
+        else
+        {
+            adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(), R.layout.spinner_item,
+                    callback.buscarItens());
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+            ((ListView) view.findViewById(R.id.acdt_li_itens)).setAdapter(adapter);
+
+            getDialog().setTitle(getActivity().getApplicationContext().getString(R.string.tlt_corte) + " -- " + detalhes.get(0));
+        }
+
 
         return view;
     }

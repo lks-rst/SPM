@@ -1034,7 +1034,11 @@ public class ClienteDataAccess
                     c.getString(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.MENSAGEM)));
 
-            lista.add(cliente);
+
+            if(this.verificarVenda(cliente.getCodigoCliente()))
+                lista.add(cliente);
+
+
             c.moveToNext();
         }
 
@@ -1775,5 +1779,50 @@ public class ClienteDataAccess
         catch (Exception e) { nr_clientes = 0; }
 
         return nr_clientes;
+    }
+
+    private Boolean verificarVenda(int cliente)
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date();
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT count(*)");
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
+        this.sBuilder.append(" AS v ");
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(" DATE(");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") = DATE ('now')");
+
+        this.sBuilder.append(" AND ");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE);
+        this.sBuilder.append(" = '");
+        this.sBuilder.append(cliente);
+
+        this.sBuilder.append("' AND ");
+        this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
+        this.sBuilder.append(" <> '");
+        this.sBuilder.append("1");
+
+        this.sBuilder.append("';");
+
+        Cursor d = this.db.rawQuery(this.sBuilder.toString(), null);
+        d.moveToFirst();
+
+        try
+        {
+            if(d.getInt(0) > 0)
+                return false;
+            else
+                return true;
+        }
+        catch (Exception e)
+        {
+            return true;
+        }
     }
 }

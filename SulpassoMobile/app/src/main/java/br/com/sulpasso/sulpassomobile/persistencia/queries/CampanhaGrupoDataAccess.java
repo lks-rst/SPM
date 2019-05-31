@@ -172,7 +172,8 @@ public class CampanhaGrupoDataAccess
 
             c.moveToFirst();
 
-            ((CampanhaGrupo)lista.get(i)).getGrupo().setDescricao(c.getString(0));
+            try { ((CampanhaGrupo)lista.get(i)).getGrupo().setDescricao(c.getString(0)); }
+            catch (Exception e){ ((CampanhaGrupo)lista.get(i)).getGrupo().setDescricao("-");}
         }
 
         return lista;

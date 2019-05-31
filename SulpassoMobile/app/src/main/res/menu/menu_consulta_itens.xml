@@ -14,14 +14,6 @@
                 android:title="@string/menu_consulta_precos">
             </item>
             <item
-                android:id="@+id/consulta_itens_foco"
-                android:title="@string/menu_consulta_foco">
-            </item>
-            <item
-                android:id="@+id/consulta_itens_kit"
-                android:title="@string/menu_consulta_kit">
-            </item>
-            <item
                 android:id="@+id/consulta_itens_promocao"
                 android:title="@string/menu_consulta_promo">
             </item>
@@ -33,6 +25,15 @@
                 android:id="@+id/consulta_itens_grupos"
                 android:title="@string/menu_consulta_campG">
             </item>
+            <!--
+            <item
+                android:id="@+id/consulta_itens_foco"
+                android:title="@string/menu_consulta_foco">
+            </item>
+            <item
+                android:id="@+id/consulta_itens_kit"
+                android:title="@string/menu_consulta_kit">
+            </item>
             <item
                 android:id="@+id/consulta_itens_minimo"
                 android:title="@string/menu_consulta_minimo">
@@ -41,6 +42,7 @@
                 android:id="@+id/consulta_itens_gravosos"
                 android:title="@string/menu_consulta_gravoso">
             </item>
+            -->
         </menu>
 
     </item>
