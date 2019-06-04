@@ -291,6 +291,9 @@ public class FtpConnect
                     cod_nome = (Integer.parseInt(nome.substring(2, nome.length() - 4)));
                     seq_nome = (Integer.parseInt(nome.substring(nome.length() - 3)));
 
+                    if(nr_seq == 999)
+                        nr_seq = 0;
+
                     if (nome.substring(0, 2).equalsIgnoreCase("pw")  &&
                             (cod_nome == cod_vendedor) && (seq_nome >= (nr_seq + 1)))
                     {
