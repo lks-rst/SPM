@@ -600,7 +600,9 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                     if (e1.getX() < e2.getX()) { apresentarDetalhes(); }//Left to Right swipe
                     if (e1.getX() > e2.getX()) //Right to Left swipe
                     {
-                        if(activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                        if(((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.GONE ||
+                           ((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.INVISIBLE ||
+                                activity.verificarJustificativa()) { activity.alterarFragmento(1); }
                         else
                         {
                             Toast.makeText(activity.getApplicationContext(),

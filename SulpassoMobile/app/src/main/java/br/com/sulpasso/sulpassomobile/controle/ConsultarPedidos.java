@@ -130,10 +130,12 @@ public class ConsultarPedidos
                 cod = this.todas.get(this.posicaoPedido).getCodigo();
                 break;
             case 1:
-                break;
-            case 2:
                 descontoPedido = this.naoEnviadas.get(this.posicaoPedido).getDesconto();
                 cod = this.naoEnviadas.get(this.posicaoPedido).getCodigo();
+                break;
+            case 2:
+                descontoPedido = this.enviadas.get(this.posicaoPedido).getDesconto();
+                cod = this.enviadas.get(this.posicaoPedido).getCodigo();
                 break;
         }
 
@@ -165,9 +167,10 @@ public class ConsultarPedidos
                 cod = this.todas.get(this.posicaoPedido).getCodigo();
                 break;
             case 1:
+                cod = this.naoEnviadas.get(this.posicaoPedido).getCodigo();
                 break;
             case 2:
-                cod = this.naoEnviadas.get(this.posicaoPedido).getCodigo();
+                cod = this.enviadas.get(this.posicaoPedido).getCodigo();
                 break;
         }
 
@@ -184,9 +187,10 @@ public class ConsultarPedidos
                 data = this.todas.get(posicao).getData();
                 break;
             case 1:
+                data = this.naoEnviadas.get(posicao).getData();
                 break;
             case 2:
-                data = this.naoEnviadas.get(posicao).getData();
+                data = this.enviadas.get(posicao).getData();
                 break;
         }
 
@@ -205,7 +209,7 @@ public class ConsultarPedidos
     {
         if(this.naoEnviadas != null)
             return 1;
-        else if(this.naoEnviadas != null)
+        else if(this.enviadas != null)
             return 2;
         else
             return 0;

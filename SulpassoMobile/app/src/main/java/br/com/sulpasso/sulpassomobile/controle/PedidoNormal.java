@@ -65,10 +65,18 @@ public class PedidoNormal extends EfetuarPedidos
 
     public ArrayList<String> listarPrazos(int position) throws GenercicException
     {
-        String prazo = super.getPrazoNatureza(position);
-        this.getPrazosList(prazo);
         ArrayList<String> lista = new ArrayList<>();
-        for(Prazo p : super.listaPrazos) lista.add(p.toDisplay());
+
+        if(super.verificarNaturezaBrinde(position))
+        {
+            String prazo = super.getPrazoNatureza(position);
+            this.getPrazosList(prazo);
+            for(Prazo p : super.listaPrazos) lista.add(p.toDisplay());
+        }
+        else
+        {
+            lista = null;
+        }
 
         return lista;
     }

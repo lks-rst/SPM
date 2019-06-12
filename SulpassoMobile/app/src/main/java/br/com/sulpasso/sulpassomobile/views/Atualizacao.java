@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Gravity;
@@ -49,7 +50,15 @@ public class Atualizacao extends AppCompatActivity
     private SenhaLiberacao sl;
     private String chave;
     private String senha;
-    
+
+    TextView timerTextView;
+    long startTime = 0;
+    protected String[] msgAtualizacao;
+    protected String[] msgAtualizacaoPost;
+    protected int posicaoMensagens;
+    protected Boolean show;
+    protected String time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -62,10 +71,38 @@ public class Atualizacao extends AppCompatActivity
         mProgressTwo.setMax(100);
         mProgress.setMax(100);
 
+        msgAtualizacao = getResources().getStringArray(R.array.strAtualizacao);
+        msgAtualizacaoPost = getResources().getStringArray(R.array.strAtualizacaoPost);
+
         if(instalacaoSistema())
         {
             solicitarDados();
         }
+
+        //Função relativa ao timer
+        timerTextView = (TextView) findViewById(R.id.timerTxt);
+        timerTextView.setText(" ");
+        show = false;
+
+        /*
+        Button b = (Button) findViewById(R.id.btnTimer);
+        b.setText("start");
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Button b = (Button) v;
+                if (b.getText().equals("stop")) {
+                    timerHandler.removeCallbacks(timerRunnable);
+                    b.setText("start");
+                } else {
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+                    b.setText("stop");
+                }
+            }
+        });
+        */
     }
 
     /**
@@ -247,34 +284,56 @@ public class Atualizacao extends AppCompatActivity
             {
                 percentualAtualizacao = 0;
 
-                displayMessage = "Conectando com o servidor.";
+                posicaoMensagens = 7;
+                displayMessage = msgAtualizacao[posicaoMensagens];
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
                 publishProgress();
 
                 if(controleAtualizacao.atualizar(3))
                 {
+                    timerHandler.removeCallbacks(timerRunnable);
+
                     percentualAtualizacao = 25;
-                    displayMessage = "Verificando consistência dos dados.";
+                    posicaoMensagens = 8;
+                    displayMessage = msgAtualizacao[posicaoMensagens];
                     publishProgress();
+
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
 
                     if(controleAtualizacao.atualizar(4))
                     {
-                        displayMessage = "Separando dados para atualização.";
+                        timerHandler.removeCallbacks(timerRunnable);
+
+                        posicaoMensagens = 9;
+                        displayMessage = msgAtualizacao[posicaoMensagens];
                         publishProgress();
+                        startTime = System.currentTimeMillis();
+                        timerHandler.postDelayed(timerRunnable, 0);
 
                         if(controleAtualizacao.atualizar(5))
                         {
-                            displayMessage = "Atualizando Base de dados.";
+                            timerHandler.removeCallbacks(timerRunnable);
+
+                            posicaoMensagens = 10;
+                            displayMessage = msgAtualizacao[posicaoMensagens];
                             publishProgress();
+                            startTime = System.currentTimeMillis();
+                            timerHandler.postDelayed(timerRunnable, 0);
                             controleAtualizacao.setTabelas(true);
 
                             for(int i = 0; i < 100; i++)
                             {
-                                displayMessage = "Carregando >>> " + tabelas[i];
+                                posicaoMensagens = 11;
+                                displayMessage = msgAtualizacao[posicaoMensagens] + " >>> " + tabelas[i];
                                 publishProgress();
                                 controleAtualizacao.atualizar(6);
                             }
 
-                            displayMessage = "Dados Carregados";
+                            posicaoMensagens = 12;
+                            displayMessage = msgAtualizacao[posicaoMensagens];
                             publishProgress();
 
                             int count = 100000;
@@ -282,7 +341,8 @@ public class Atualizacao extends AppCompatActivity
                                 count--;
 
                             controleAtualizacao.setTabelas(false);
-                            displayMessage = "Finalizando processo de atualização dos dados";
+                            posicaoMensagens = 13;
+                            displayMessage = msgAtualizacao[posicaoMensagens];
                             publishProgress();
 
                             count = 100000;
@@ -291,7 +351,6 @@ public class Atualizacao extends AppCompatActivity
 
                             controleAtualizacao.setTabelas(true);
                             displayMessage = "";
-                            publishProgress();
 
                             count = 100000;
                             while(count > 0)
@@ -299,25 +358,36 @@ public class Atualizacao extends AppCompatActivity
 
                             controleAtualizacao.setTabelas(false);
                             controleAtualizacao.finalizarTabelas();
-                            displayMessage = "Atualização executada com sucesso";
+                            posicaoMensagens = 14;
+                            displayMessage = msgAtualizacao[posicaoMensagens];
                             publishProgress();
+
+                            timerHandler.removeCallbacks(timerRunnable);
                         }
                         else
                         {
+                            timerHandler.removeCallbacks(timerRunnable);
+
                             percentualAtualizacao = 100;
-                            displayMessage = "Arquivo de dados com erro.\nPor favor comunique seu supervisor.";
+                            posicaoMensagens = 15;
+                            displayMessage = msgAtualizacao[posicaoMensagens];
                             publishProgress();
                         }
                     }
                     else
                     {
+                        timerHandler.removeCallbacks(timerRunnable);
+
                         percentualAtualizacao = 100;
-                        displayMessage = "Arquivo de dados não pode ser verificado ou esta incompleto.\nPor favor comunique seu supervisor.";
+                        posicaoMensagens = 16;
+                        displayMessage = msgAtualizacao[posicaoMensagens];
                         publishProgress();
                     }
                 }
                 else
                 {
+                    timerHandler.removeCallbacks(timerRunnable);
+
                     sem_internet = true;
                     /*
                     percentualAtualizacao = 100;
@@ -480,6 +550,10 @@ public class Atualizacao extends AppCompatActivity
         {
             int nrVendas;
 
+            timerHandler.removeCallbacks(timerRunnable);
+            startTime = System.currentTimeMillis();
+            timerHandler.postDelayed(timerRunnable, 0);
+
             displayMessage = "Verificando se há pedidos não enviados.";
             percentualAtualizacao = 0;
             publishProgress();
@@ -490,25 +564,46 @@ public class Atualizacao extends AppCompatActivity
             {
                 percentualAtualizacao = 20;
 
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
+
                 displayMessage = "Carregando dados de vendas.";
                 publishProgress();
                 if(controleAtualizacao.atualizar(9))
                 {
                     displayMessage = "Criando arquivo de pedidos.";
                     publishProgress();
+
+                    timerHandler.removeCallbacks(timerRunnable);
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+
                     if(controleAtualizacao.atualizar(10))
                     {
                         displayMessage = "Enviando arquivo de vendas.";
                         publishProgress();
+
+                        timerHandler.removeCallbacks(timerRunnable);
+                        startTime = System.currentTimeMillis();
+                        timerHandler.postDelayed(timerRunnable, 0);
+
                         if(controleAtualizacao.atualizar(11))
                         {
                             displayMessage = "Atualizando vendas enviadas.";
                             publishProgress();
+
+                            timerHandler.removeCallbacks(timerRunnable);
+                            startTime = System.currentTimeMillis();
+                            timerHandler.postDelayed(timerRunnable, 0);
+
                             if(controleAtualizacao.atualizar(12))
                             {
                                 displayMessage = "Vendas transmitidas com sucesso.";
                                 controleAtualizacao.criarArquivoErros();
                                 publishProgress();
+
+                                timerHandler.removeCallbacks(timerRunnable);
                             }
                             else
                             {
@@ -516,6 +611,8 @@ public class Atualizacao extends AppCompatActivity
                                 percentualAtualizacao = 100;
                                 controleAtualizacao.criarArquivoErros();
                                 publishProgress();
+
+                                timerHandler.removeCallbacks(timerRunnable);
                             }
                         }
                         else
@@ -526,6 +623,8 @@ public class Atualizacao extends AppCompatActivity
                             publishProgress();
 
                             controleAtualizacao.atualizar(21);
+
+                            timerHandler.removeCallbacks(timerRunnable);
                         }
                     }
                     else
@@ -536,6 +635,8 @@ public class Atualizacao extends AppCompatActivity
                         publishProgress();
 
                         controleAtualizacao.atualizar(21);
+
+                        timerHandler.removeCallbacks(timerRunnable);
                     }
                 }
                 else
@@ -546,6 +647,8 @@ public class Atualizacao extends AppCompatActivity
                     publishProgress();
 
                     controleAtualizacao.atualizar(21);
+
+                    timerHandler.removeCallbacks(timerRunnable);
                 }
             }
             else
@@ -554,6 +657,8 @@ public class Atualizacao extends AppCompatActivity
                 percentualAtualizacao = 100;
                 controleAtualizacao.criarArquivoErros();
                 publishProgress();
+
+                timerHandler.removeCallbacks(timerRunnable);
             }
             return null;
         }
@@ -601,6 +706,10 @@ public class Atualizacao extends AppCompatActivity
             percentualAtualizacao = 0;
             publishProgress();
 
+            timerHandler.removeCallbacks(timerRunnable);
+            startTime = System.currentTimeMillis();
+            timerHandler.postDelayed(timerRunnable, 0);
+
             nrClientes = verificarItensNovos(1);
 
             if(nrClientes > 0)
@@ -609,23 +718,45 @@ public class Atualizacao extends AppCompatActivity
 
                 displayMessage = "Buscando dados de clientes.";
                 publishProgress();
+
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
+
                 if(controleAtualizacao.atualizar(13))
                 {
                     displayMessage = "Criando arquivo de clientes.";
                     publishProgress();
+
+                    timerHandler.removeCallbacks(timerRunnable);
+                    startTime = System.currentTimeMillis();
+                    timerHandler.postDelayed(timerRunnable, 0);
+
                     if(controleAtualizacao.atualizar(16))
                     {
                         displayMessage = "Enviando arquivo de clientes.";
                         publishProgress();
+
+                        timerHandler.removeCallbacks(timerRunnable);
+                        startTime = System.currentTimeMillis();
+                        timerHandler.postDelayed(timerRunnable, 0);
+
                         if(controleAtualizacao.atualizar(14))
                         {
                             displayMessage = "Atualizando clientes enviadas.";
                             publishProgress();
+
+                            timerHandler.removeCallbacks(timerRunnable);
+                            startTime = System.currentTimeMillis();
+                            timerHandler.postDelayed(timerRunnable, 0);
+
                             if(controleAtualizacao.atualizar(17))
                             {
                                 displayMessage = "Clientes transmitidos com sucesso.";
                                 controleAtualizacao.criarArquivoErros();
                                 publishProgress();
+
+                                timerHandler.removeCallbacks(timerRunnable);
                             }
                             else
                             {
@@ -633,6 +764,8 @@ public class Atualizacao extends AppCompatActivity
                                 percentualAtualizacao = 100;
                                 controleAtualizacao.criarArquivoErros();
                                 publishProgress();
+
+                                timerHandler.removeCallbacks(timerRunnable);
                             }
                         }
                         else
@@ -641,6 +774,8 @@ public class Atualizacao extends AppCompatActivity
                             percentualAtualizacao = 100;
                             controleAtualizacao.criarArquivoErros();
                             publishProgress();
+
+                            timerHandler.removeCallbacks(timerRunnable);
 
                             controleAtualizacao.atualizar(18);
                         }
@@ -652,6 +787,8 @@ public class Atualizacao extends AppCompatActivity
                         controleAtualizacao.criarArquivoErros();
                         publishProgress();
 
+                        timerHandler.removeCallbacks(timerRunnable);
+
                         controleAtualizacao.atualizar(18);
                     }
                 }
@@ -662,6 +799,8 @@ public class Atualizacao extends AppCompatActivity
                     controleAtualizacao.criarArquivoErros();
                     publishProgress();
 
+                    timerHandler.removeCallbacks(timerRunnable);
+
                     controleAtualizacao.atualizar(18);
                 }
             }
@@ -671,6 +810,8 @@ public class Atualizacao extends AppCompatActivity
                 percentualAtualizacao = 100;
                 controleAtualizacao.criarArquivoErros();
                 publishProgress();
+
+                timerHandler.removeCallbacks(timerRunnable);
             }
             return null;
         }
@@ -714,33 +855,62 @@ public class Atualizacao extends AppCompatActivity
                 format("Buscando arquivos de configuração\nUsuario = %d\nEmpresa = %s", usr, empresa);
             publishProgress();
 
+            timerHandler.removeCallbacks(timerRunnable);
+            startTime = System.currentTimeMillis();
+            timerHandler.postDelayed(timerRunnable, 0);
+
             if(controleAtualizacao.atualizar(20))
             {
+
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
+
                 percentualAtualizacao = 20;
                 displayMessage = "Verificando arquivos de configuração";
                 publishProgress();
                 controleAtualizacao.atualizar(0);
 
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
+
                 displayMessage = "Verificando configurações de empresa e conexão";
                 publishProgress();
                 controleAtualizacao.atualizar(1);
+
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
 
                 displayMessage = "Verificando configurações de vendedor, vendas e horarios";
                 publishProgress();
                 controleAtualizacao.atualizar(2);
 
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
+
                 displayMessage = "Atualizando configurações";
                 publishProgress();
                 controleAtualizacao.atualizar(7);
 
+                timerHandler.removeCallbacks(timerRunnable);
+                startTime = System.currentTimeMillis();
+                timerHandler.postDelayed(timerRunnable, 0);
+
                 displayMessage = "Atualizando concluída!\nPor favor reinicie o sistema";
                 publishProgress();
+
+                timerHandler.removeCallbacks(timerRunnable);
             }
             else
             {
                 displayMessage = "ERRO AO REALIZAR O DOWNLOAD DOS ARQUIVOS";
                 percentualAtualizacao = 100;
                 publishProgress();
+
+                timerHandler.removeCallbacks(timerRunnable);
             }
 
             return null;
@@ -786,6 +956,7 @@ public class Atualizacao extends AppCompatActivity
 
     protected void atualizarLoadBar()
     {
+//        TODO: Verificar a exibição das informações da atualização
         if(this.controleAtualizacao.isTabelas())
         {
             mProgressStatusTwo += 1;
@@ -794,6 +965,7 @@ public class Atualizacao extends AppCompatActivity
         }
         else
         {
+            timerTextView.setText(timerTextView.getText() + msgAtualizacaoPost[posicaoMensagens] + time + "\n");
             mProgressStatus += percentualAtualizacao;
             mProgress.setProgress(mProgressStatus);
             ((TextView) findViewById(R.id.textProgressOne)).setText(this.displayMessage);
@@ -801,6 +973,7 @@ public class Atualizacao extends AppCompatActivity
 
         if(this.displayMessage.equalsIgnoreCase("Atualização executada com sucesso"))
         {
+//            timerTextView.setText(timerTextView.getText() + msgAtualizacao[posicaoMensagens] + time + "\n");
             mProgressTwo.setVisibility(View.GONE);
             ((TextView) findViewById(R.id.textProgressTwo)).setVisibility(View.GONE);
         }
@@ -1018,4 +1191,26 @@ public class Atualizacao extends AppCompatActivity
         if (liberado) { configurarSistema("", -1); }
         else { /*****/ }
     }
+
+//Fragmento para o contador de tempo aparecer na tela do dispositivo enquanto atualiza
+
+    //runs without a timer by reposting this handler at the end of the runnable
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            long millis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (millis / 1000);
+            int minutes = seconds / 60;
+            seconds = seconds % 60;
+
+            time = String.format("%d:%02d", minutes, seconds);
+
+            ((TextView) findViewById(R.id.textProgressOneTimer)).setText(time);
+
+            timerHandler.postDelayed(this, 500);
+        }
+    };
 }

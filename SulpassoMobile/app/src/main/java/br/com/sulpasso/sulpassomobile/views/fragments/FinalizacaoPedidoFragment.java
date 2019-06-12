@@ -238,18 +238,27 @@ public class FinalizacaoPedidoFragment extends Fragment
 
     public void ajustarPrazos(int posicao)
     {
-        ArrayAdapter adapter = new ArrayAdapter(
-                getActivity().getApplicationContext(), R.layout.spinner_item,
-                ((Pedido) getActivity()).listarPrazos(posicao));
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        ArrayList<String> prazos = null;
+        prazos = ((Pedido) getActivity()).listarPrazos(posicao);
 
-        this.ffpSpnrPrazos.setAdapter(adapter);
+        if(prazos != null)
+        {
+            ArrayAdapter adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(), R.layout.spinner_item, prazos);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
-        this.ffpSpnrPrazos.setSelection(((Pedido) getActivity()).buscarPrazo());
-        this.ffpSpnrPrazos.setOnItemSelectedListener(selectingData);
+            this.ffpSpnrPrazos.setAdapter(adapter);
 
-        this.ffpSpnrPrazos.setClickable(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrPrazos));
-        this.ffpSpnrPrazos.setEnabled(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrPrazos));
+            this.ffpSpnrPrazos.setSelection(((Pedido) getActivity()).buscarPrazo());
+            this.ffpSpnrPrazos.setOnItemSelectedListener(selectingData);
+
+            this.ffpSpnrPrazos.setClickable(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrPrazos));
+            this.ffpSpnrPrazos.setEnabled(((Pedido) getActivity()).permitirClick(R.id.ffpSpnrPrazos));
+        }
+        else
+        {
+            this.ffpSpnrNaturezas.setSelection(((Pedido) getActivity()).buscarNatureza());
+        }
     }
 
     public void bloquearClicks()
