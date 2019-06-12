@@ -234,13 +234,20 @@ public abstract class EfetuarPedidos
 /**************************************************************************************************/
 /****************************************FINAL METHODS*********************************************/
 /**************************************************************************************************/
-    public int consultaClientesAbertura() { return this.controleConfiguracao.consultaClientesAbertura(); }
-
     public final ArrayList<String> listarMotivos() throws GenercicException
     {
         ArrayList<String> lista = this.controleClientes.exibirMotivos();
 
         return lista;
+    }
+
+    protected final Boolean verificarNaturezaBrinde(int position)
+    {
+        if(this.listaNaturezas.get(position).getCodigo() == 21 &&
+                this.controleConfiguracao.getConfigEmp().getCodigo() == 7 && !this.verificarSaldo())
+            return false;
+        else
+            return true;
     }
 
     protected final String buscarCidade(int codigo)
@@ -777,6 +784,8 @@ public abstract class EfetuarPedidos
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
 /**************************************************************************************************/
+    public int consultaClientesAbertura() { return this.controleConfiguracao.consultaClientesAbertura(); }
+
     private void buscarGrupos() throws GenercicException
     {
         this.grupos = this.gda.getAllCliente(this.venda.getCliente().getCodigoCliente());
@@ -1096,5 +1105,19 @@ public abstract class EfetuarPedidos
         atualizar = atual + valor;
         this.controleConfiguracao.setSaldoAtual(atualizar);
         this.venda.setDesconto(0.0);
+    }
+
+    public Boolean verificarSaldo()
+    {
+        //TODO: Talvez seja necessário retorna o saldo caso se selecione uma natureza diferente.
+        //Ps.: Isso não existia na versão anterior do sistema.
+        float atual = this.controleConfiguracao.getSaldoAtual();
+        float valor = Float.parseFloat(String.valueOf(this.controleSalvar.getTotal()));
+        Boolean aceito = atual >= valor;
+
+        if(aceito)
+            this.controleConfiguracao.setSaldoAtual(atual - valor);
+
+        return aceito;
     }
 }

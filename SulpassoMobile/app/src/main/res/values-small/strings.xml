@@ -351,4 +351,100 @@
     </string-array>
     <!-- END -->
 
+    <!-- String das mensagens de atualização do sistema -->
+    <string-array name="strAtualizacao">
+        <item>Buscando arquivos de configuração</item>
+        <item>Verificando arquivos de configuração</item>
+        <item>Verificando configurações de empresa e conexão</item>
+        <item>Verificando configurações de vendedor, vendas e horarios</item>
+        <item>Atualizando configurações</item>
+        <item>Atualizando concluída!\nPor favor reinicie o sistema</item>
+        <item>ERRO AO REALIZAR O DOWNLOAD DOS ARQUIVOS</item>
+
+        <item>Conectando com o servidor.</item>
+        <item>Verificando consistência dos dados.</item>
+        <item>Separando dados para atualização.</item>
+        <item>Atualizando Base de dados.</item>
+        <item>Carregando TABELAS</item>
+        <item>Dados Carregados</item>
+        <item>Finalizando processo de atualização dos dados</item>
+        <item>Atualização executada com sucesso</item>
+        <item>Arquivo de dados com erro.\nPor favor comunique seu supervisor.</item>
+        <item>Arquivo de dados não pode ser verificado ou esta incompleto.\nPor favor comunique seu supervisor.</item>
+
+
+        <item>Verificando se há pedidos não enviados.</item>
+        <item>Carregando dados de vendas.</item>
+        <item>Criando arquivo de pedidos.</item>
+        <item>Enviando arquivo de vendas.</item>
+        <item>Atualizando vendas enviadas.</item>
+        <item>Vendas transmitidas com sucesso.</item>
+        <item>Não foi possivel atualizar as vendas enviadas.\nPor favor comunique seu supervisor.</item>
+        <item>Não foi possivel se conectar com o servidor.\nPor favor tente mais tarde.</item>
+        <item>Não foi possível criar o arquivo de vendas.\nPor favor tente mais tarde.</item>
+        <item>Ocorreu um erro ao buscar os dados das vendas.\nPor favor tente mais tarde.</item>
+        <item>Não existem pedidos para enviar.</item>
+
+        <item>Verificando se há clientes não enviados.</item>
+        <item>Buscando dados de clientes.</item>
+        <item>Criando arquivo de clientes.</item>
+        <item>Enviando arquivo de clientes.</item>
+        <item>Atualizando clientes enviadas.</item>
+        <item>Clientes transmitidos com sucesso.</item>
+        <item>Não foi possivel atualizar os clientes novos enviadas.\nPor favor comunique seu supervisor.</item>
+        <item>Não foi possivel conectar-se com o servidor.\nPor favor tente mais tarde.</item>
+        <item>Não foi possível criar o arquivo de clientes.\nPor favor tente mais tarde.</item>
+        <item>Ocorreu um erro ao buscar os dados dos clientes.\nPor favor tente mais tarde.</item>
+        <item>Não existem clentes novos cadastrados.</item>
+    </string-array>
+
+
+    <string-array name="strAtualizacaoPost">
+        <item>Buscando arquivos de configuração</item>
+        <item>Verificando arquivos de configuração</item>
+        <item>Verificando configurações de empresa e conexão</item>
+        <item>Verificando configurações de vendedor, vendas e horarios</item>
+        <item>Atualizando configurações</item>
+        <item>Atualizando concluída!\nPor favor reinicie o sistema</item>
+        <item>ERRO AO REALIZAR O DOWNLOAD DOS ARQUIVOS</item>
+
+        <item>Iniciando atualização.</item>
+        <item>Conectado ao servidor.</item>
+        <item>Verificado consistência dos dados.</item>
+        <item>Dados separandos.</item>
+        <item>Base de dados atualizada.</item>
+        <item>Carregando TABELAS</item>
+        <item>Dados Carregados</item>
+        <item>Finalizando processo de atualização dos dados</item>
+        <item>Atualização executada com sucesso</item>
+        <item>Arquivo de dados com erro.\nPor favor comunique seu supervisor.</item>
+        <item>Arquivo de dados não pode ser verificado ou esta incompleto.\nPor favor comunique seu supervisor.</item>
+
+
+        <item>Verificando se há pedidos não enviados.</item>
+        <item>Carregando dados de vendas.</item>
+        <item>Criando arquivo de pedidos.</item>
+        <item>Enviando arquivo de vendas.</item>
+        <item>Atualizando vendas enviadas.</item>
+        <item>Vendas transmitidas com sucesso.</item>
+        <item>Não foi possivel atualizar as vendas enviadas.\nPor favor comunique seu supervisor.</item>
+        <item>Não foi possivel se conectar com o servidor.\nPor favor tente mais tarde.</item>
+        <item>Não foi possível criar o arquivo de vendas.\nPor favor tente mais tarde.</item>
+        <item>Ocorreu um erro ao buscar os dados das vendas.\nPor favor tente mais tarde.</item>
+        <item>Não existem pedidos para enviar.</item>
+
+        <item>Verificando se há clientes não enviados.</item>
+        <item>Buscando dados de clientes.</item>
+        <item>Criando arquivo de clientes.</item>
+        <item>Enviando arquivo de clientes.</item>
+        <item>Atualizando clientes enviadas.</item>
+        <item>Clientes transmitidos com sucesso.</item>
+        <item>Não foi possivel atualizar os clientes novos enviadas.\nPor favor comunique seu supervisor.</item>
+        <item>Não foi possivel conectar-se com o servidor.\nPor favor tente mais tarde.</item>
+        <item>Não foi possível criar o arquivo de clientes.\nPor favor tente mais tarde.</item>
+        <item>Ocorreu um erro ao buscar os dados dos clientes.\nPor favor tente mais tarde.</item>
+        <item>Não existem clentes novos cadastrados.</item>
+    </string-array>
+    <!-- END -->
+
 </resources>
