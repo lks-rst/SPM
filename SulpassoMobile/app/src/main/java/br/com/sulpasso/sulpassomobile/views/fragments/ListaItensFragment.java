@@ -1,11 +1,16 @@
 package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Fragment;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -51,6 +56,10 @@ public class ListaItensFragment extends Fragment implements
 
     private ListView fliLiItens;
 
+    private String pesquisaAtual;
+
+    private long memoryNeeded = 0;
+
     public ListaItensFragment(){}
 /**********************************FRAGMENT LIFE CICLE*********************************************/
     @Override
@@ -58,6 +67,8 @@ public class ListaItensFragment extends Fragment implements
     {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        memoryNeeded = totalRamMemorySize() / 10;
     }
 
     @Override
@@ -75,6 +86,8 @@ public class ListaItensFragment extends Fragment implements
         Android_Gesture_Detector android_gesture_detector = new Android_Gesture_Detector();
         // Create a GestureDetector
         gestureDetector = new GestureDetector(getActivity().getApplicationContext(), android_gesture_detector);
+
+        pesquisaAtual = "";
 
         gestureListener = new View.OnTouchListener()
         {
@@ -234,7 +247,11 @@ public class ListaItensFragment extends Fragment implements
     {
         this.fliLiItens = (ListView) (getActivity().findViewById(R.id.flibLiItens));
         this.fliLiItens.setOnItemClickListener(selectingItems);
-        this.listarItens();
+
+//        if(!((Pedido) getActivity()).verifyItens())
+//        {
+            this.listarItens();
+//        }
 
         String hint = getActivity().getResources().getString(R.string.str_busca) + " ";
 
@@ -265,12 +282,34 @@ public class ListaItensFragment extends Fragment implements
         ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
-                    Editable s = ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).getEditableText();
-                    ((Pedido) getActivity()).setSearchData(s.toString().toUpperCase());
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT)
+                {
+                    long memoryFree = freeRamMemorySize();
+                    if(memoryFree >= memoryNeeded)
+                    {
+                        if(!pesquisaAtual.equalsIgnoreCase(((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).getEditableText().toString()))
+                        {
+                            ((Pedido) getActivity()).setPesquisar(false);
+                            Editable s = ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).getEditableText();
 
-                    listarItens();
-                    return true;
+                            pesquisaAtual = s.toString().toUpperCase();
+
+                            ((Pedido) getActivity()).setSearchData(pesquisaAtual);
+
+                            listarItens();
+                            return true;
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity().getApplicationContext(), "Espere a consulta anterior terminar antes de iniciar a próxima", Toast.LENGTH_LONG).show();
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(), "Atenção!\nMemória insuficiente para realizar a pesquisa, para prosseguir encerre algumas aplicações.", Toast.LENGTH_LONG).show();
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -283,14 +322,12 @@ public class ListaItensFragment extends Fragment implements
                 .setText(String.valueOf(((Pedido) getActivity()).itensVendidos()));
         */
 
-
         try{ (getActivity().findViewById(R.id.scrListItem)).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
         try{ (getActivity().findViewById(R.id.relMainListItem)).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
         try{ (getActivity().findViewById(R.id.llMainListItem)).setOnTouchListener(gestureListener); }
         catch (Exception e) { /*****/ }
-
 
         this.fliLiItens.setOnTouchListener(gestureListener);
         getActivity().findViewById(R.id.flibEdtSearch).setOnTouchListener(gestureListener);
@@ -320,6 +357,8 @@ public class ListaItensFragment extends Fragment implements
                 ((Pedido) getActivity()).listarItens()
             )
         );
+
+        ((Pedido) getActivity()).setPesquisar(true);
         */
     }
 
@@ -373,8 +412,10 @@ public class ListaItensFragment extends Fragment implements
                     //Find the currently focused view, so we can grab the correct window token from it.
                     if(imm.isAcceptingText())
                     {
-                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN)
+                        {
+                            if (keyCode == KeyEvent.KEYCODE_BACK)
+                            {
                                 ((Pedido) getActivity()).verificarEncerramento(0);
                                 return true;
                             }
@@ -382,8 +423,10 @@ public class ListaItensFragment extends Fragment implements
                     }
                     else
                     {
-                        if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (event.getAction() == KeyEvent.ACTION_DOWN)
+                        {
+                            if (keyCode == KeyEvent.KEYCODE_BACK)
+                            {
                                 ((Pedido) getActivity()).verificarEncerramento(2);
                                 return true;
                             }
@@ -538,7 +581,7 @@ public class ListaItensFragment extends Fragment implements
         public boolean onSingleTapUp(MotionEvent e) { return false; }
 
         @Override
-        public void onShowPress(MotionEvent e) { Log.d("Gesture ", " onShowPress"); }
+        public void onShowPress(MotionEvent e) { /*****/ }
 
         @Override
         public boolean onDoubleTap(MotionEvent e) { return false; }
@@ -547,7 +590,7 @@ public class ListaItensFragment extends Fragment implements
         public boolean onDoubleTapEvent(MotionEvent e) { return false; }
 
         @Override
-        public void onLongPress(MotionEvent e) { Log.d("Gesture ", " onLongPress"); }
+        public void onLongPress(MotionEvent e) { /*****/ }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
@@ -562,27 +605,6 @@ public class ListaItensFragment extends Fragment implements
                 int scrollDownBegin = (int) height - (height - ((height * 20) / 100));
                 int scrollEnd = (int) height - ((height * 50) / 100);
                 */
-            Log.d("Gesture ", " onScroll");
-
-            if (e1.getY() < e2.getY())
-            {
-                Log.d("Gesture ", " Scroll Down");
-                    /*
-                    if (e1.getY() < scrollDownBegin && e2.getY() <= scrollEnd)
-                    {
-                        Log.d("Gesture ", " Scroll Down");
-                    }
-                    else { Log.d("Gesture ", " Scroll Down -- To Lower"); }
-                    */
-            }
-            if (e1.getY() > e2.getY())
-            {
-                Log.d("Gesture ", " Scroll Up");
-                    /*
-                    if (e1.getY() > scrollUpBegin) { Log.d("Gesture ", " Scroll Up -- To high"); }
-                    else { Log.d("Gesture ", " Scroll Up"); }
-                    */
-            }
 
             return false;
         }
@@ -590,31 +612,148 @@ public class ListaItensFragment extends Fragment implements
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
         {
-            if(Math.abs(velocityX) > Math.abs(velocityY))
+            if(!doingSomething)
             {
-                if (e1.getX() < e2.getX()) //Left to Right swipe
+                e1M = e1;
+                e2M = e2;
+                velocityXM = velocityX;
+                velocityYM = velocityY;
+
+                doingSomething = true;
+
+                Handler handler1 = new Handler(Looper.getMainLooper());
+                handler1.postDelayed(r, 500);
+            }
+
+            return false;
+            /*
+            if(Math.abs(velocityXM) > Math.abs(velocityYM))
+            {
+                Resources resources = getResources();
+                Configuration config = resources.getConfiguration();
+                DisplayMetrics dm = resources.getDisplayMetrics();
+                // Note, screenHeightDp isn't reliable
+                // (it seems to be too small by the height of the status bar),
+                // but we assume screenWidthDp is reliable.
+                // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                // (they get confused when in screen compatibility mode, it seems),
+                // but we assume their ratio is correct.
+                double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                double halfScreenWidthInPixels = screenWidthInPixels / 40;
+                float x1, x2, xd;
+
+                x1 = e1M.getX();
+                x2 = e2M.getX();
+                xd = x2 - x1;
+
+                if (e1M.getX() < e2M.getX() && xd > halfScreenWidthInPixels) //Left to Right swipe
                 {//Se já incluiu um item no pedido, não pode voltar a tela de clientes
+                    *//*
                     if((((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes)))
                         ((Pedido) getActivity()).alterarFragmento(0);
                     else
                         Toast.makeText(getActivity().getApplicationContext(),
-                                "Não e possível alterar o cliente após a inclusão de um item.\nPara verificação avanse para o resumo do pedido.",
+                                "Não e possível alterar o cliente após a inclusão de um item.\nPara verificação avance para o resumo do pedido.",
                                 Toast.LENGTH_LONG).show();
+                    *//*
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Não e possível alterar o cliente.\nPara verificação avance para o resumo do pedido.",
+                            Toast.LENGTH_LONG).show();
                 }
-                if (e1.getX() > e2.getX()) //Right to Left swipe
-                {//Se ainda não incluiu itens, não há resumo nem raão para encerrar o pedido
-                    if(!((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes))
-                        ((Pedido) getActivity()).alterarFragmento(4);
+                else
+                {
+                    if (e1M.getX() > e2M.getX() && Math.abs(xd) > halfScreenWidthInPixels) //Right to Left swipe
+                    {//Se ainda não incluiu itens, não há resumo nem raão para encerrar o pedido
+                        if(!((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes))
+                            ((Pedido) getActivity()).alterarFragmento(4);
+                        else
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "Só é possível avançar após a inserção de um item no pedido.",
+                                    Toast.LENGTH_LONG).show();
+                    }
                     else
+                    {
                         Toast.makeText(getActivity().getApplicationContext(),
-                                "Só é possível avançar após a inserção de um item no pedido.",
-                                Toast.LENGTH_LONG).show();
+                                "ATENÇÃO!\nPara passar para a próxima tela, o movimento deve cobrir mais da metade da tela do dispositivo."
+                                , Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 return true;
             }
             else
             { //Basicamente, não respnde a rodar para cima ou para baixo.
+                *//*
+                if (e1.getY() < e2.getY()) //Up to Down swipe
+                {
+                    //if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
+                        ((Pedido) getActivity()).alterarFragmento(0);
+                }
+                if (e1.getY() > e2.getY()) { ((Pedido) getActivity()).alterarFragmento(4); } //Down to Up swipe
+                *//*
+                return false;
+            }
+            */
+        }
+    }
+
+    MotionEvent e1M;
+    MotionEvent e2M;
+    float velocityXM;
+    float velocityYM;
+    Boolean doingSomething = false;
+
+    final Runnable r = new Runnable() {
+        public void run() {
+            try
+            {
+                if(Math.abs(velocityXM) > Math.abs(velocityYM))
+                {
+                    Resources resources = getResources();
+                    Configuration config = resources.getConfiguration();
+                    DisplayMetrics dm = resources.getDisplayMetrics();
+                    // Note, screenHeightDp isn't reliable
+                    // (it seems to be too small by the height of the status bar),
+                    // but we assume screenWidthDp is reliable.
+                    // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                    // (they get confused when in screen compatibility mode, it seems),
+                    // but we assume their ratio is correct.
+                    double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                    double halfScreenWidthInPixels = screenWidthInPixels / 100;
+                    float x1, x2, xd;
+
+                    x1 = e1M.getX();
+                    x2 = e2M.getX();
+                    xd = x2 - x1;
+
+                    if (e1M.getX() < e2M.getX() && xd > halfScreenWidthInPixels) //Left to Right swipe
+                    {//Se já incluiu um item no pedido, não pode voltar a tela de clientes
+                    /*
+                    if((((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes)))
+                        ((Pedido) getActivity()).alterarFragmento(0);
+                    else
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Não e possível alterar o cliente após a inclusão de um item.\nPara verificação avance para o resumo do pedido.",
+                                Toast.LENGTH_LONG).show();
+                    */
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Não e possível alterar o cliente.\nPara verificação avance para o resumo do pedido.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    if (e1M.getX() > e2M.getX() && Math.abs(xd) > halfScreenWidthInPixels) //Right to Left swipe
+                    {//Se ainda não incluiu itens, não há resumo nem raão para encerrar o pedido
+                        if(!((Pedido)getActivity()).permitirClick(R.id.fdcSpnrClientes))
+                            ((Pedido) getActivity()).alterarFragmento(4);
+                        else
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "Só é possível avançar após a inserção de um item no pedido.",
+                                    Toast.LENGTH_LONG).show();
+                    }
+
+                    doingSomething = false;
+                }
+                else
+                { //Basicamente, não respnde a rodar para cima ou para baixo.
                 /*
                 if (e1.getY() < e2.getY()) //Up to Down swipe
                 {
@@ -623,9 +762,30 @@ public class ListaItensFragment extends Fragment implements
                 }
                 if (e1.getY() > e2.getY()) { ((Pedido) getActivity()).alterarFragmento(4); } //Down to Up swipe
                 */
-
-                return false;
+                    doingSomething = false;
+                }
             }
+            catch (Exception e) { /*****/ }
         }
+    };
+
+
+    private long freeRamMemorySize()
+    {
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(getActivity().ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        long availableMegs = mi.availMem / 1048576L;
+
+        return availableMegs;
+    }
+
+
+    private long totalRamMemorySize() {
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager)getActivity().getSystemService(getActivity().ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        long availableMegs = mi.totalMem / 1048576L;
+        return availableMegs;
     }
 }

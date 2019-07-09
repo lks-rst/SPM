@@ -117,6 +117,8 @@ public class PrazoDataAccess
             lista.add(prazo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -154,6 +156,8 @@ public class PrazoDataAccess
             lista.add(prazo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

@@ -145,7 +145,7 @@
                     android:hint="@string/hnt_obs_pedido"
                     android:imeActionId="@+id/ffpEdtObsCpd"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified" />
+                    android:imeOptions="actionNext" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -160,7 +160,7 @@
                     android:hint="@string/hnt_obs_nota"
                     android:imeActionId="@+id/ffpEdtObsCpd"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
+                    android:imeOptions="actionNext"
                     android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
 

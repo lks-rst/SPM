@@ -165,6 +165,8 @@ public class PrePedidoDiretaDataAccess
             lista.add(pre);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -214,6 +216,8 @@ public class PrePedidoDiretaDataAccess
             lista.add(pre);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

@@ -28,6 +28,8 @@ public class ConsultarProdutos
     private ArrayList<Item> lista;
     private ArrayList<Gravosos> gravosos;
 
+    private Boolean buscarNovos = true;
+
     public ConsultarProdutos(Context ctx)
     {
         this.ida = new ItemDataAccess(ctx);
@@ -39,9 +41,22 @@ public class ConsultarProdutos
         this.searchData = "";
     }
 
-    public void setSearchType(TiposBuscaItens searchType) { this.searchType = searchType; }
+    public void setSearchType(TiposBuscaItens searchType)
+    {
+        this.searchType = searchType;
+        this.buscarNovos = true;
+    }
 
-    public void setSearchData(String searchData) { this.searchData = searchData; }
+    public TiposBuscaItens getSearchType()
+    {
+        return this.searchType;
+    }
+
+    public void setSearchData(String searchData)
+    {
+        this.searchData = searchData;
+        this.buscarNovos = true;
+    }
 
     public void setGrupo(int grupo) { this.grupo = grupo; }
 
@@ -142,7 +157,8 @@ public class ConsultarProdutos
         {
             this.listar(tabela, orderBy);
 
-            this.removerRestricoes(cliente);
+            if(this.buscarNovos)
+                this.removerRestricoes(cliente);
 
             for(Gravosos i : this.gravosos)
             {
@@ -154,7 +170,8 @@ public class ConsultarProdutos
         {
             this.listar(tabela, orderBy);
 
-            this.removerRestricoes(cliente);
+            if(this.buscarNovos)
+                this.removerRestricoes(cliente);
 
             for(Item i : this.lista)
             {
@@ -165,7 +182,8 @@ public class ConsultarProdutos
         {
             this.listar(tabela, orderBy);
 
-            this.removerRestricoes(cliente);
+            if(this.buscarNovos)
+                this.removerRestricoes(cliente);
 
             for(Item i : this.lista)
             {
@@ -187,14 +205,16 @@ public class ConsultarProdutos
         {
             this.listar(tabela, orderBy);
 
-            this.removerRestricoes(cliente);
+            if(this.buscarNovos)
+                this.removerRestricoes(cliente);
         }
         else
         if(this.searchType == TiposBuscaItens.MIX)
         {
             this.listar(tabela, orderBy);
 
-            this.removerRestricoes(cliente);
+            if(this.buscarNovos)
+                this.removerRestricoes(cliente);
 
             this.gravosos = new ArrayList<>();
 
@@ -210,7 +230,8 @@ public class ConsultarProdutos
         {
             this.listar(tabela, orderBy);
 
-            this.removerRestricoes(cliente);
+            if(this.buscarNovos)
+                this.removerRestricoes(cliente);
 
             this.gravosos = new ArrayList<>();
 
@@ -227,6 +248,9 @@ public class ConsultarProdutos
                 this.gravosos.add(g);
             }
         }
+
+        this.buscarNovos = false;
+
 
         return this.gravosos;
     }
@@ -266,6 +290,8 @@ public class ConsultarProdutos
                 retorno.add(i.toDisplay());
             }
         }
+
+        this.buscarNovos = false;
 
         return retorno;
     }
@@ -312,29 +338,50 @@ public class ConsultarProdutos
 
     private Item buscarItemCodigo(int codigo) throws GenercicException { return this.ida.buscarItemCodigo(codigo); }
 
-    private void listarTodos() throws GenercicException { this.lista = this.ida.getAll(); }
+    private void listarTodos() throws GenercicException
+    {
+        if(this.buscarNovos)
+        {
+            this.lista = this.ida.getAll();
+        }
+    }
 
-    private void listarTodos(int tabela, int orderBy) throws GenercicException { this.lista = this.ida.getAll(tabela, orderBy); }
+    private void listarTodos(int tabela, int orderBy) throws GenercicException
+    {
+        if(this.buscarNovos)
+        {
+            this.lista = this.ida.getAll(tabela, orderBy);
+        }
+    }
 
-    private void listarBusca() throws GenercicException { this.lista = this.ida.getByData(); }
+    private void listarBusca() throws GenercicException
+    {
+        if(this.buscarNovos)
+        {
+            this.lista = this.ida.getByData();
+        }
+    }
 
     private void listarBusca(int tabela, int orderBy) throws GenercicException
     {
-        this.ida.setSearchType(this.searchType.getValue());
-        this.ida.setSearchData(this.searchData);
+        if(this.buscarNovos)
+        {
+            this.ida.setSearchType(this.searchType.getValue());
+            this.ida.setSearchData(this.searchData);
 
-        if(this.searchType == TiposBuscaItens.PRE)
-        {
-            this.ida.setSearchType(TiposBuscaItens.TODOS.getValue());
-        }
+            if(this.searchType == TiposBuscaItens.PRE)
+            {
+                this.ida.setSearchType(TiposBuscaItens.TODOS.getValue());
+            }
 
-        if(this.searchType == TiposBuscaItens.GRAVOSOS)
-        {
-            this.gravosos = this.ida.getByDataG(tabela);
-        }
-        else
-        {
-            this.lista = this.ida.getByData(tabela, orderBy);
+            if(this.searchType == TiposBuscaItens.GRAVOSOS)
+            {
+                this.gravosos = this.ida.getByDataG(tabela);
+            }
+            else
+            {
+                this.lista = this.ida.getByData(tabela, orderBy);
+            }
         }
     }
 
@@ -399,5 +446,10 @@ public class ConsultarProdutos
                 this.lista = listaRestritos;
             }
         }
+    }
+
+    public Boolean verifyItens()
+    {
+        return this.lista != null && this.lista.size() > 0;
     }
 }

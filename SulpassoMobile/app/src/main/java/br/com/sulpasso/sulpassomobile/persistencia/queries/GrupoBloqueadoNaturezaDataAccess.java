@@ -134,6 +134,8 @@ public class GrupoBloqueadoNaturezaDataAccess
             lista.add(grupoBloqueadoNatureza);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -178,6 +180,8 @@ public class GrupoBloqueadoNaturezaDataAccess
             lista.add(grupoBloqueadoNatureza);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

@@ -312,6 +312,8 @@ public class ClienteNovoDataAccess {
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -358,6 +360,8 @@ public class ClienteNovoDataAccess {
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -427,6 +431,8 @@ public class ClienteNovoDataAccess {
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -455,6 +461,8 @@ public class ClienteNovoDataAccess {
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -483,6 +491,8 @@ public class ClienteNovoDataAccess {
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -603,6 +613,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return cliente;
     }
@@ -654,6 +666,8 @@ public class ClienteNovoDataAccess {
         for (int i = 0; i < c.getCount(); i++) {
             banco = c.getInt(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.BANCO));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return banco;
     }
@@ -675,6 +689,8 @@ public class ClienteNovoDataAccess {
         for (int i = 0; i < c.getCount(); i++) {
             banco = c.getInt(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.BANCO));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return banco;
     }
@@ -696,6 +712,8 @@ public class ClienteNovoDataAccess {
         for (int i = 0; i < c.getCount(); i++) {
             natureza = c.getInt(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.NATUREZA));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return natureza;
     }
@@ -767,6 +785,14 @@ public class ClienteNovoDataAccess {
         } catch (Exception e) {
             return true;
         }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     public ArrayList<String> listar_estados() {
@@ -786,6 +812,8 @@ public class ClienteNovoDataAccess {
             ufs.add(c.getString(0));
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return ufs;
     }
@@ -811,6 +839,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return atividades;
     }
@@ -836,6 +866,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return bancos;
     }
@@ -869,6 +901,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return cidades;
     }
@@ -894,6 +928,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return naturezas;
     }
@@ -919,6 +955,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return tipologias;
     }
@@ -954,6 +992,8 @@ public class ClienteNovoDataAccess {
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return clientes;
     }
@@ -977,6 +1017,8 @@ public class ClienteNovoDataAccess {
         } catch (Exception e) {
             valor = 0;
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return valor;
     }
@@ -1111,6 +1153,8 @@ public class ClienteNovoDataAccess {
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -1133,6 +1177,14 @@ public class ClienteNovoDataAccess {
 
         try { return c.getInt(0); }
         catch (Exception exception) { return 1; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     public void atualizarClientes(int to) throws GenercicException

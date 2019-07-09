@@ -549,8 +549,11 @@ public abstract class EfetuarPedidos
 
         for (int i = 0; i < this.itensVendidos.size(); i++)
         {
+            /*
             itens.add(this.controleProdutos.getItemStr(this.itensVendidos.get(i).getItem()) +
                     this.itensVendidos.get(i).toDisplay());
+            */
+            itens.add(this.itensVendidos.get(i).toDisplay());
         }
 
         return itens;
@@ -781,6 +784,12 @@ public abstract class EfetuarPedidos
                 this.controleConfiguracao.getConfigVda().getGerenciarVisitas(),
                 this.venda.getCliente().getVisita());
     }
+
+    public final Boolean verifyItens()
+    {
+        return this.controleProdutos.verifyItens();
+    }
+
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
 /**************************************************************************************************/
@@ -835,12 +844,20 @@ public abstract class EfetuarPedidos
     {
         if(tipoConsultaItens == -1)
         {
-            this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()));
+            if(this.controleProdutos.getSearchType() != TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()))
+            {
+                this.setSearchType(TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()));
+            }
+
             return this.controleConfiguracao.getConfigUsr().getTipoBusca();
         }
         else
         {
-            this.setSearchType(TiposBuscaItens.getTipoFromInt(tipoConsultaItens));
+            if(this.controleProdutos.getSearchType() != TiposBuscaItens.getTipoFromInt(this.controleConfiguracao.getConfigUsr().getTipoBusca()))
+            {
+                this.setSearchType(TiposBuscaItens.getTipoFromInt(tipoConsultaItens));
+            }
+
             return tipoConsultaItens;
         }
     }

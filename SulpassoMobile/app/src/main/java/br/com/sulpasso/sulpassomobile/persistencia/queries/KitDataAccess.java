@@ -156,6 +156,10 @@ public class KitDataAccess
                 itens.add(item);
                 cI.moveToNext();
             }
+
+            cI.close();
+            SQLiteDatabase.releaseMemory();
+
             kit.setItens(itens);
 
             kit.setQuantidade(c.getInt(c.getColumnIndex(
@@ -164,6 +168,8 @@ public class KitDataAccess
             lista.add(kit);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -206,6 +212,8 @@ public class KitDataAccess
             lista.add(kit);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

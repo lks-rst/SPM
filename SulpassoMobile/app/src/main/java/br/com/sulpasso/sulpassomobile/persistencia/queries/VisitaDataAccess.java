@@ -131,6 +131,8 @@ public class VisitaDataAccess
                 c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Visita.VDA)));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -175,6 +177,8 @@ public class VisitaDataAccess
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return visita;
     }
@@ -220,6 +224,8 @@ public class VisitaDataAccess
             visitas.add(visita);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return visitas;
     }

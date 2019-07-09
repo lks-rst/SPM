@@ -88,20 +88,29 @@ public class AtividadeDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Tipologia t = new Tipologia();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Tipologia t = new Tipologia();
 
-            t.setTipologia(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.CODIGO)));
-            t.setDescricao(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.ATIVIDADE)));
+                t.setTipologia(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.CODIGO)));
+                t.setDescricao(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.ATIVIDADE)));
 
-            lista.add(t);
-            c.moveToNext();
+                lista.add(t);
+                c.moveToNext();
+            }
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
         }
 
         return lista;
@@ -121,20 +130,30 @@ public class AtividadeDataAccess
         this.sBuilder.append(" = ");
         this.sBuilder.append(g);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Atividade t = new Atividade();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
 
-            t.setCodigo(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.CODIGO)));
-            t.setDescricao(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.ATIVIDADE)));
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Atividade t = new Atividade();
 
-            lista.add(t);
-            c.moveToNext();
+                t.setCodigo(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.CODIGO)));
+                t.setDescricao(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Atividade.ATIVIDADE)));
+
+                lista.add(t);
+                c.moveToNext();
+            }
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
         }
 
         return lista;

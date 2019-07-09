@@ -118,6 +118,8 @@ public class PrecoDataAccess
             lista.add(preco);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -168,6 +170,8 @@ public class PrecoDataAccess
             lista.add(preco);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -243,6 +247,8 @@ public class PrecoDataAccess
             lista.add(preco);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

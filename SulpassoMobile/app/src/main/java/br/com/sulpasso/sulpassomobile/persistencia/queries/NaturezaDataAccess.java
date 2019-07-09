@@ -142,6 +142,8 @@ public class NaturezaDataAccess
             lista.add(natureza);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -172,6 +174,8 @@ public class NaturezaDataAccess
             lista.add(natureza);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -232,6 +236,9 @@ public class NaturezaDataAccess
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         return n;
     }
 

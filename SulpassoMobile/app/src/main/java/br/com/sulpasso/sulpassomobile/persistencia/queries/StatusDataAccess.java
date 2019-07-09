@@ -118,6 +118,8 @@ public class StatusDataAccess
             lista.add(status);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -155,6 +157,8 @@ public class StatusDataAccess
             lista.add(status);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

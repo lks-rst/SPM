@@ -122,6 +122,9 @@ public class ClienteDataAccess
             c.moveToNext();
         }
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         return cidades;
     }
 
@@ -165,6 +168,14 @@ public class ClienteDataAccess
 
         try { return c.getInt(0) >= 1; }
         catch (Exception ex) { return false; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     public ArrayList<GenericItemFour> listarNaoPositivadosData(String data)
@@ -236,7 +247,8 @@ public class ClienteDataAccess
             c.moveToNext();
         }
 
-        c = null;
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return clientes;
     }
@@ -587,6 +599,9 @@ public class ClienteDataAccess
             c.moveToNext();
         }
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         return lista;
     }
 
@@ -744,6 +759,8 @@ public class ClienteDataAccess
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -867,6 +884,8 @@ public class ClienteDataAccess
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -897,6 +916,8 @@ public class ClienteDataAccess
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -1041,6 +1062,8 @@ public class ClienteDataAccess
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -1173,6 +1196,8 @@ public class ClienteDataAccess
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return cliente;
     }
@@ -1228,6 +1253,8 @@ public class ClienteDataAccess
         {
             banco = c.getInt(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.BANCO));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return banco;
     }
@@ -1256,6 +1283,8 @@ public class ClienteDataAccess
         {
             banco = c.getInt(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.BANCO));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return banco;
     }
@@ -1284,6 +1313,8 @@ public class ClienteDataAccess
         {
             natureza = c.getInt(c.getColumnIndex(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.NATUREZA));
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return natureza;
     }
@@ -1451,6 +1482,8 @@ public class ClienteDataAccess
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return clientes;
     }
@@ -1488,6 +1521,8 @@ public class ClienteDataAccess
 
         try { nr_clientes = c.getInt(0); }
         catch (Exception e) { nr_clientes = 0; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return nr_clientes;
     }
@@ -1547,6 +1582,8 @@ public class ClienteDataAccess
 
         try { nr_clientes = c.getInt(0); }
         catch (Exception e) { nr_clientes = 0; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return nr_clientes;
     }
@@ -1611,6 +1648,8 @@ public class ClienteDataAccess
 
         try { nr_clientes = c.getInt(0); }
         catch (Exception e) { nr_clientes = 0; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return nr_clientes;
     }
@@ -1672,6 +1711,8 @@ public class ClienteDataAccess
 
         try { nr_clientes = c.getInt(0); }
         catch (Exception e) { nr_clientes = 0; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return nr_clientes;
     }
@@ -1708,6 +1749,8 @@ public class ClienteDataAccess
 
         try { nr_clientes = c.getInt(0); }
         catch (Exception e) { nr_clientes = 0; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return nr_clientes;
     }
@@ -1777,6 +1820,8 @@ public class ClienteDataAccess
             }
         }
         catch (Exception e) { nr_clientes = 0; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return nr_clientes;
     }
@@ -1823,6 +1868,15 @@ public class ClienteDataAccess
         catch (Exception e)
         {
             return true;
+        }
+
+        finally
+        {
+            if(d != null)
+            {
+                d.close();
+                SQLiteDatabase.releaseMemory();
+            }
         }
     }
 }

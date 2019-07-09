@@ -139,6 +139,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -191,6 +193,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -274,6 +278,8 @@ public class GrupoDataAccess
 
                 c.moveToNext();
             }
+            c.close();
+            SQLiteDatabase.releaseMemory();
         }
         else
         {
@@ -344,6 +350,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -396,6 +404,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -438,6 +448,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -485,6 +497,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -537,6 +551,8 @@ public class GrupoDataAccess
             lista.add(grupo);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

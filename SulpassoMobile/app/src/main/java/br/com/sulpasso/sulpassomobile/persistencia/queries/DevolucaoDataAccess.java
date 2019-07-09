@@ -200,9 +200,14 @@ public class DevolucaoDataAccess
 
             d.setItensDevolvidos(this.searchByData(d.getDocumento()));
 
+            cursor.close();
+            SQLiteDatabase.releaseMemory();
+
             lista.add(d);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -264,6 +269,8 @@ public class DevolucaoDataAccess
             lista.add(item);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -326,6 +333,8 @@ public class DevolucaoDataAccess
             lista.add(item);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

@@ -148,6 +148,8 @@ public class CorteDataAccess
             lista.add(corte);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -192,6 +194,8 @@ public class CorteDataAccess
             lista.add(corte);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -256,6 +260,8 @@ public class CorteDataAccess
 
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return itens;
     }

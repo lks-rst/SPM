@@ -45,7 +45,9 @@ public class AlterarExcluir extends DialogFragment
             @Override
             public void onClick(View v)
             {
-                callback.fazer(1);
+                try { callback.fazer(1); }
+                catch (Exception e ) { /*****/ }
+
                 encerrar();
             }
         });
@@ -55,7 +57,9 @@ public class AlterarExcluir extends DialogFragment
             @Override
             public void onClick(View v)
             {
-                callback.fazer(0);
+                try { callback.fazer(0); }
+                catch (Exception e ) { /*****/ }
+
                 encerrar();
             }
         });

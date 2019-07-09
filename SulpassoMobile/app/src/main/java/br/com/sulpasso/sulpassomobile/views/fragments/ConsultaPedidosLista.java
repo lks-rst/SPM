@@ -2,6 +2,7 @@ package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.controle.ConfigurarSistema;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
@@ -153,20 +155,30 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
         {
 //            ((ConsultasPedidos) getActivity()).menu_pedido_nao_enviado(position);
-            if(validar_hora_sistema())
+            if(validar_data_sistema())
             {
-                if(validar_data_pedido(position))
+                if(validar_hora_sistema())
                 {
-                    apresentarAcoes(position);
+                    if(validar_data_pedido(position))
+                    {
+                        apresentarAcoes(position);
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity().getApplication(), "Não é permitido alterar pedidos com data diferente da data atual", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(getActivity().getApplication(), "Não é permitido alterar pedidos com data diferente da data atual", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplication(), "Fora do horário de atendimento não é permitido alterar pedidos", Toast.LENGTH_LONG).show();
                 }
             }
             else
             {
-                Toast.makeText(getActivity().getApplication(), "Fora do horário de atendimento não é permitido alterar pedidos", Toast.LENGTH_LONG).show();
+                String texto = "Por favor,\nverifique a data e hora de seu dipositvo e reinicie o sistema";
+                Toast t = Toast.makeText(getActivity().getApplication(), texto, Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
             }
 
             return false;
@@ -312,6 +324,54 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
                 data_valida = false;
         }
         catch (Exception e) { data_valida = false; }
+
+        return data_valida;
+    }
+
+    private Boolean validar_data_sistema()
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sf2;
+        sf2 = new SimpleDateFormat("dd-MM-yyyy kk:mm");
+        Date today = new Date();
+        Date aday = null;
+        String data_banco = "";
+        String data_sistema = "";
+
+        Boolean data_valida = false;
+
+        ConfigurarSistema cs = new ConfigurarSistema(getActivity().getApplicationContext());
+
+        try
+        {
+            cs.carregarConfiguracoesInicial();
+            data_banco = cs.getConfigHor().getDataAtualizacao();
+
+            data_sistema = sf.format(today);
+
+            try
+            {
+                aday = sf2.parse(data_banco);
+
+                if (today.compareTo(aday) < 0)
+                    data_valida = false;
+                else
+                    data_valida = true;
+            }
+            catch (Exception e)
+            {
+                aday = today;
+                e.printStackTrace();
+                data_valida = false;
+            }
+        }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            data_valida = false;
+        }
+
 
         return data_valida;
     }

@@ -137,6 +137,8 @@ public class ContasReceberDataAccess
             lista.add(conta);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -178,6 +180,8 @@ public class ContasReceberDataAccess
             lista.add(conta);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -231,6 +235,8 @@ public class ContasReceberDataAccess
             lista.add(cliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

@@ -251,9 +251,17 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
         ((TextView) (getActivity().findViewById(R.id.fdEdtTotal)))
                 .setText(((Pedido) getActivity()).calcularTotalItem());
 
+        float total;
+
+        try
+        {
+            total = Float.parseFloat(
+                    ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString());
+        }
+        catch (Exception empty) { total = 0; }
+
         ((EditText) (getActivity().findViewById(R.id.fdEdtCnt))).setText(
-            (((Pedido) getActivity()).calculoContribuicao(Float.parseFloat(
-            ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).getText().toString()))));
+            (((Pedido) getActivity()).calculoContribuicao(total)));
     }
 /**************************************************************************************************/
 /*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/

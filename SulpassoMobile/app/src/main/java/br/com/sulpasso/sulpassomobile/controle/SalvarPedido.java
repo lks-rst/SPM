@@ -56,12 +56,14 @@ public class SalvarPedido
         int day = today.getDay();
         day+=1;
 
-        String dias = String.valueOf(dia);
-        String p = dias.substring(0, 1);
-        String s = dias.substring(1, 2);
-        String t = dias.substring(2);
+        String dias;
+        String p;
+        String s;
+        String t;
 
-        //TODO: Ativar novamente quando resolver o problema da view.
+        try { dias = String.valueOf(dia); p = dias.substring(0, 1); s = dias.substring(1, 2); t = dias.substring(2); }
+        catch (Exception e) { p = "0"; s = "0"; t = "0"; }
+
         if(!controlar)
             return true;
         else if ((Integer.parseInt(p) == day) || (Integer.parseInt(s) == day) || (Integer.parseInt(t) == day) || ((justificativa != 500) && (justificativa != 0)))

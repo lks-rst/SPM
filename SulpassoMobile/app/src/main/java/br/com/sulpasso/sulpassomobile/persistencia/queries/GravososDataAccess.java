@@ -194,6 +194,8 @@ public class GravososDataAccess
             lista.add(gravoso);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -236,6 +238,8 @@ public class GravososDataAccess
             lista.add(gravoso);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

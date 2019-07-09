@@ -102,78 +102,88 @@ public class CampanhaProdutoDataAccess
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            CampanhaProduto campanhaProduto = new CampanhaProduto();
-
-            campanhaProduto.setCodigo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO)));
-
-            lista.add(campanhaProduto);
-            c.moveToNext();
-        }
-
-        for(int i = 0; i < lista.size(); i++)
-        {
-            this.sBuilder.delete(0, this.sBuilder.length());
-            this.sBuilder.append("SELECT ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE);
-            this.sBuilder.append(", ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO);
-            this.sBuilder.append(" FROM ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
-            this.sBuilder.append(" WHERE ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
-            this.sBuilder.append(" = ");
-            this.sBuilder.append(((CampanhaProduto) lista.get(i)).getCodigo());
-
             c = this.db.rawQuery(this.sBuilder.toString(), null);
             c.moveToFirst();
 
-            ((CampanhaProduto) lista.get(i)).setQuantidade(
-                c.getInt(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE)));
-            ((CampanhaProduto) lista.get(i)).setDesconto(
-                c.getFloat(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO)));
-        }
-
-        for(int i = 0; i < lista.size(); i++)
-        {
-            this.sBuilder.delete(0, this.sBuilder.length());
-            this.sBuilder.append("SELECT ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM);
-            this.sBuilder.append(" FROM ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
-            this.sBuilder.append(" WHERE ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
-            this.sBuilder.append(" = ");
-            this.sBuilder.append(((CampanhaProduto) lista.get(i)).getCodigo());
-
-            c = this.db.rawQuery(this.sBuilder.toString(), null);
-            c.moveToFirst();
-
-            ArrayList<Integer> item = new ArrayList<>();
-            for(int d = 0; d < c.getCount(); d++)
+            for(int i = 0; i < c.getCount(); i++)
             {
-                item.add(new Integer(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM))));
+                CampanhaProduto campanhaProduto = new CampanhaProduto();
 
+                campanhaProduto.setCodigo(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO)));
+
+                lista.add(campanhaProduto);
                 c.moveToNext();
             }
 
-            ((CampanhaProduto) lista.get(i)).setItens(item);
+            for(int i = 0; i < lista.size(); i++)
+            {
+                this.sBuilder.delete(0, this.sBuilder.length());
+                this.sBuilder.append("SELECT ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE);
+                this.sBuilder.append(", ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO);
+                this.sBuilder.append(" FROM ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
+                this.sBuilder.append(" WHERE ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(((CampanhaProduto) lista.get(i)).getCodigo());
+
+                c = this.db.rawQuery(this.sBuilder.toString(), null);
+                c.moveToFirst();
+
+                ((CampanhaProduto) lista.get(i)).setQuantidade(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE)));
+                ((CampanhaProduto) lista.get(i)).setDesconto(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO)));
+            }
+
+            for(int i = 0; i < lista.size(); i++)
+            {
+                this.sBuilder.delete(0, this.sBuilder.length());
+                this.sBuilder.append("SELECT ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM);
+                this.sBuilder.append(" FROM ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
+                this.sBuilder.append(" WHERE ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(((CampanhaProduto) lista.get(i)).getCodigo());
+
+                c = this.db.rawQuery(this.sBuilder.toString(), null);
+                c.moveToFirst();
+
+                ArrayList<Integer> item = new ArrayList<>();
+                for(int d = 0; d < c.getCount(); d++)
+                {
+                    item.add(new Integer(c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM))));
+
+                    c.moveToNext();
+                }
+
+                ((CampanhaProduto) lista.get(i)).setItens(item);
+            }
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
         }
 
         return lista;
@@ -222,50 +232,59 @@ public class CampanhaProdutoDataAccess
         this.sBuilder.append(codigo);
         this.sBuilder.append("';");
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        if(c.getCount() > 0)
+        Cursor c = null;
+        try
         {
-            c.moveToFirst();
-
-            this.sBuilder.delete(0, this.sBuilder.length());
-            this.sBuilder.append("SELECT * FROM ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
-            this.sBuilder.append(" WHERE ");
-            this.sBuilder.append(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
-            this.sBuilder.append(" = '");
-            this.sBuilder.append(c.getInt(0));
-            this.sBuilder.append("';");
-
-            CampanhaProduto campanhaProdutos = new CampanhaProduto();
-
             c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-            c.moveToFirst();
-
-            campanhaProdutos.setCodigo(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO)));
-            campanhaProdutos.setQuantidade(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE)));
-            campanhaProdutos.setDesconto(c.getFloat(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO)));
-
-            ArrayList<Integer> itens = new ArrayList<>();
-            for(int i = 0; i < c.getCount(); i++)
+            if(c.getCount() > 0)
             {
-                itens.add(c.getInt(c.getColumnIndex(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM)));
-                c.moveToNext();
+                c.moveToFirst();
+
+                this.sBuilder.delete(0, this.sBuilder.length());
+                this.sBuilder.append("SELECT * FROM ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
+                this.sBuilder.append(" WHERE ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
+                this.sBuilder.append(" = '");
+                this.sBuilder.append(c.getInt(0));
+                this.sBuilder.append("';");
+
+                CampanhaProduto campanhaProdutos = new CampanhaProduto();
+
+                c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+                c.moveToFirst();
+
+                campanhaProdutos.setCodigo(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO)));
+                campanhaProdutos.setQuantidade(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.QUANTIDADE)));
+                campanhaProdutos.setDesconto(c.getFloat(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.DESCONTO)));
+
+                ArrayList<Integer> itens = new ArrayList<>();
+                for(int i = 0; i < c.getCount(); i++)
+                {
+                    itens.add(c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM)));
+                    c.moveToNext();
+                }
+
+                campanhaProdutos.setItens(itens);
+
+                return campanhaProdutos;
             }
-
-            campanhaProdutos.setItens(itens);
-
-
-            return campanhaProdutos;
+            else { return null; }
         }
-        else { return null; }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
+        }
+
     }
 
 }

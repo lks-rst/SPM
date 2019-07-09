@@ -222,8 +222,8 @@ public class ConsultarPedidos
 
         for(ItensVendidos item : itens)
         {
-            retorno.add(ms.comEsquerda(String.valueOf(item.getItem()), " ", 10) + " - " +
-                ms.comEsquerda(vda.recuperarDescricao(item.getItem()), " ", 20) +
+            retorno.add(/*ms.comEsquerda(String.valueOf(item.getItem()), " ", 10) + " - " +
+                ms.comEsquerda(vda.recuperarDescricao(item.getItem()), " ", 20) +*/
                 item.toDisplay());
         }
 

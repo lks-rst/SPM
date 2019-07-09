@@ -83,23 +83,32 @@ public class BancoDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Banco banco = new Banco();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Banco banco = new Banco();
 
-            banco.setBanco(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.BANCO)));
-            banco.setCodigo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.CODIGO)));
+                banco.setBanco(
+                        c.getString(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.BANCO)));
+                banco.setCodigo(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.CODIGO)));
 
 
-            lista.add(banco);
-            c.moveToNext();
+                lista.add(banco);
+                c.moveToNext();
+            }
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
         }
 
         return lista;
@@ -119,24 +128,34 @@ public class BancoDataAccess
         this.sBuilder.append(" = ");
         this.sBuilder.append(g);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Banco banco = new Banco();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Banco banco = new Banco();
 
-            banco.setBanco(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.BANCO)));
-            banco.setCodigo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.CODIGO)));
+                banco.setBanco(
+                        c.getString(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.BANCO)));
+                banco.setCodigo(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Banco.CODIGO)));
 
 
-            lista.add(banco);
-            c.moveToNext();
+                lista.add(banco);
+                c.moveToNext();
+            }
         }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
+        }
+
 
         return lista;
     }

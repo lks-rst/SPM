@@ -77,16 +77,34 @@ public class ConfiguradorDataAccess
 
     public boolean verificarConfiguracao()
     {
+        boolean install = false;
+
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT COUNT()");
         this.sBuilder.append(" FROM ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-        c.moveToFirst();
 
-        return c.getCount() > 0 && c.getInt(0) > 0;
+        Cursor c = null;
+        try
+        {
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
+            install = c.getCount() > 0 && c.getInt(0) > 0;
+
+        }
+        catch (Exception e) { return false; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
+
+        return install;
     }
 
     public int buscarSequencias(int item)
@@ -275,6 +293,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getString(0); }
         catch (Exception exception) { return "NOS"; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     public String enviarEmail() throws GenercicException
@@ -292,6 +318,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getString(0); }
         catch (Exception exception) { throw new ReadExeption("Data nula ou inválida"); }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     public int buscarCodigoUsuario()
@@ -309,6 +343,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getInt(0); }
         catch (Exception exception) { return -1; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     public void alterarDataEmail(String data) throws UpdateExeption
@@ -1802,6 +1844,9 @@ public class ConfiguradorDataAccess
         conta.setConexao(this.searchConexao());
         conta.setTelas(this.searchTelas());
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         return conta;
     }
 
@@ -1874,6 +1919,8 @@ public class ConfiguradorDataAccess
         conta.setAtualizado(c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ATUALIZADO)));
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return conta;
     }
@@ -1983,6 +2030,9 @@ public class ConfiguradorDataAccess
         conta.setContribuicao(c.getFloat(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.CONTRIBUICAO)));
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         return conta;
     }
 
@@ -2018,6 +2068,9 @@ public class ConfiguradorDataAccess
         float meta = 0;
 
         meta = c.getFloat(0);
+
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return meta;
     }
@@ -2150,6 +2203,14 @@ public class ConfiguradorDataAccess
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
 
         return conta;
     }
@@ -2229,6 +2290,8 @@ public class ConfiguradorDataAccess
         conta.setDataAtualizacao(c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TIMEATUALIZACAO)));
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return conta;
     }
@@ -2323,6 +2386,9 @@ public class ConfiguradorDataAccess
         conta.setDataEmailEnviado(c.getString(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ENVIADO_EMAIL)));
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         return conta;
     }
 
@@ -2396,6 +2462,8 @@ public class ConfiguradorDataAccess
         conta.setTelaInicial(c.getInt(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TELAINICIAL)));
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return conta;
     }
@@ -2419,10 +2487,23 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(pswd);
         this.sBuilder.append("';");
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-        c.moveToFirst();
+        Cursor c = null;
+        try
+        {
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
+            return c.getCount() == 1 && c.getInt(0) == 1;
 
-        return c.getCount() == 1 && c.getInt(0) == 1;
+        }
+        catch (Exception e) { return false; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     private int buscarSequenciaClientes()
@@ -2440,6 +2521,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getInt(0); }
         catch (Exception exception) { return 1; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     private int buscarSequenciaVendas()
@@ -2457,6 +2546,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getInt(0); }
         catch (Exception exception) { return 1; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     private int buscarSequenciaPw()
@@ -2474,6 +2571,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getInt(0); }
         catch (Exception exception) { return 1; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     private String getValidade()
@@ -2491,6 +2596,14 @@ public class ConfiguradorDataAccess
 
         try { return c.getString(0); }
         catch (Exception exception) { return "--"; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     private void updateSequenciaClientes(int i) throws UpdateExeption

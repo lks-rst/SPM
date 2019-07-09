@@ -110,6 +110,8 @@ public class TipoVendaDataAccess
             lista.add(tiposVenda);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -150,6 +152,8 @@ public class TipoVendaDataAccess
             lista.add(tiposVenda);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

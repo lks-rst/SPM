@@ -138,6 +138,8 @@ public class GrupoBloqueadoClienteDataAccess
             lista.add(grupoBloqueadoCliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -182,6 +184,8 @@ public class GrupoBloqueadoClienteDataAccess
             lista.add(grupoBloqueadoCliente);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

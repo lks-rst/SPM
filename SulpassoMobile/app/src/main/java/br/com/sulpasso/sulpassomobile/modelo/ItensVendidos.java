@@ -23,6 +23,22 @@ public class ItensVendidos
     private float valorMinimo;
     private float quantidadeEspecifica;
 
+    private String descricao;
+    private String referencia;
+    private String complemento;
+
+    public String getDescricao() { return descricao; }
+
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+
+    public String getReferencia() { return referencia; }
+
+    public void setReferencia(String referencia) { this.referencia = referencia; }
+
+    public String getComplemento() { return complemento; }
+
+    public void setComplemento(String complemento) { this.complemento = complemento; }
+
     public int getItem() { return item; }
 
     public void setItem(int item) { this.item = item; }
@@ -99,12 +115,27 @@ public class ItensVendidos
     public String toDisplay()
     {
         ManipulacaoStrings ms = new ManipulacaoStrings();
+        StringBuilder builder = new StringBuilder();
+        builder.delete(0, builder.length());
 
-        return /*item +*/
-            "\nV.:" + ms.comEsquerda(Formatacao.format2d(valorDigitado), " ", 8) +
-            " - Q.:" + ms.comEsquerda(Formatacao.format2d(quantidade), " ", 8) +
-            /*" - " + descontoCG +*/
-            " - T.:" + ms.comEsquerda(Formatacao.format2d(total), " ", 8);
+        try
+        {//TODO: Alterar a consutla de itens na consulta de pedidos (para alteraçao / exclusão) para corrigir a falha que obriga esse try ConsultaPedidos:80
+            builder.append(ms.comEsquerda(referencia, " ", 10));
+            builder.append("-");
+            builder.append(ms.comEsquerda(descricao, " ", 25));
+            builder.append("-");
+            builder.append(ms.comEsquerda(complemento, " ", 15));
+        }
+        catch (Exception e) { /*****/ }
+
+        builder.append("\nV.:");
+        builder.append(ms.comEsquerda(Formatacao.format2d(valorDigitado), " ", 8));
+        builder.append("  Q.:");
+        builder.append(ms.comEsquerda(Formatacao.format2d(quantidade), " ", 8));
+        builder.append("  T.:");
+        builder.append(ms.comEsquerda(Formatacao.format2d(total), " ", 8));
+
+        return /*item +*/ builder.toString();
     }
 
     @Override

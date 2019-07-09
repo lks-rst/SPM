@@ -157,6 +157,8 @@ public class PrePedidoDataAccess
             lista.add(cli);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -199,6 +201,8 @@ public class PrePedidoDataAccess
             lista.add(pre);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -304,6 +308,8 @@ public class PrePedidoDataAccess
             }
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         pre.setCliente(cli);
         pre.setItensPrePedido(itens);
@@ -390,10 +396,10 @@ public class PrePedidoDataAccess
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
-        c.moveToFirst();
-
         try
         {
+            c.moveToFirst();
+
             int t = 0;
 
             t = c.getInt(0);
@@ -401,6 +407,8 @@ public class PrePedidoDataAccess
             retorno = t > 0 ? true : false;
         }
         catch (Exception d) { retorno = false; }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return retorno;
     }

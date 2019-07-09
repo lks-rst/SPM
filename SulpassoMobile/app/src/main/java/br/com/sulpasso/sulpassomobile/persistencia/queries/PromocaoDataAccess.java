@@ -150,6 +150,8 @@ public class PromocaoDataAccess
             lista.add(promocao);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -202,6 +204,8 @@ public class PromocaoDataAccess
             lista.add(promocao);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -244,28 +248,44 @@ public class PromocaoDataAccess
         this.sBuilder.append(" = ");
         this.sBuilder.append(c.getInt(0));
 
+        c.close();
+        SQLiteDatabase.releaseMemory();
+
         c = this.db.rawQuery(this.sBuilder.toString(), null);
 
-        if(c.getCount() > 0)
+        try
         {
-            c.moveToFirst();
+            if(c.getCount() > 0)
+            {
+                c.moveToFirst();
 
-            Promocao promocao = new Promocao();
+                Promocao promocao = new Promocao();
 
-            promocao.setItem(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM)));
-            promocao.setQuantidade(
-                    c.getFloat(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE)));
-            promocao.setValor(
-                    c.getFloat(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.VALOR)));
+                promocao.setItem(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.ITEM)));
+                promocao.setQuantidade(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.QUANTIDADE)));
+                promocao.setValor(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Promocao.VALOR)));
 
-            return promocao;
+                return promocao;
+            }
+            else
+                return null;
+
         }
-        else
-            return null;
+        catch (Exception e) { return null; }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
+        }
     }
 
     private ArrayList<Promocao> searchPromo(int item) throws ReadExeption
@@ -301,6 +321,8 @@ public class PromocaoDataAccess
             lista.add(promocao);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
         return lista;
     }
 
@@ -338,6 +360,8 @@ public class PromocaoDataAccess
             lista.add(prmoocao);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
