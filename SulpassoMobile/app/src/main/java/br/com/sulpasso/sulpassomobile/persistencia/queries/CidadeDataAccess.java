@@ -97,28 +97,39 @@ public class CidadeDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Cidade cidade = new Cidade();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
 
-            cidade.setCodigo(
-                c.getInt(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO)));
-            cidade.setNome(
-                c.getString(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CIDADE)));
-            cidade.setUf(
-                c.getString(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
-            cidade.setCep(
-                c.getString(c.getColumnIndex(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Cidade cidade = new Cidade();
 
-            lista.add(cidade);
-            c.moveToNext();
+                cidade.setCodigo(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO)));
+                cidade.setNome(
+                        c.getString(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CIDADE)));
+                cidade.setUf(
+                        c.getString(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
+                cidade.setCep(
+                        c.getString(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
+
+                lista.add(cidade);
+                c.moveToNext();
+            }
+
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
         }
 
         return lista;
@@ -136,24 +147,33 @@ public class CidadeDataAccess
         this.sBuilder.append(" = ");
         this.sBuilder.append(cod);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+        Cursor c = null;
+        try
+        {
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
+            Cidade cidade = new Cidade();
 
-        c.moveToFirst();
-        Cidade cidade = new Cidade();
-
-        cidade.setCodigo(
-                c.getInt(c.getColumnIndex(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO)));
-        cidade.setNome(
-                c.getString(c.getColumnIndex(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CIDADE)));
-        cidade.setUf(
-                c.getString(c.getColumnIndex(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
-        cidade.setCep(
-                c.getString(c.getColumnIndex(
-                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
-        return cidade;
+            cidade.setCodigo(
+                    c.getInt(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CODIGO)));
+            cidade.setNome(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CIDADE)));
+            cidade.setUf(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.UF)));
+            cidade.setCep(
+                    c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cidade.CEP)));
+            return cidade;
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+                c.close();
+        }
     }
 
     private Boolean apagar(Cidade d)  throws GenercicException

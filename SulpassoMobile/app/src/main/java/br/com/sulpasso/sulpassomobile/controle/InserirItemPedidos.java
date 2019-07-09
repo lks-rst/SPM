@@ -75,7 +75,7 @@ public class InserirItemPedidos
         if(this.valor > 0)
             return Formatacao.format2d(this.valor);
         else
-            return this.buscarDadosVendaItem(1);
+            return Formatacao.format2d(Float.parseFloat(this.buscarDadosVendaItem(1)));
     }
 
     public String getValorTabela()
@@ -264,6 +264,9 @@ public class InserirItemPedidos
                     {
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
+                        item.setReferencia(this.item.getReferencia());
+                        item.setDescricao(this.item.getDescricao());
+                        item.setComplemento(this.item.getComplemento());
                         item.setQuantidade(this.quantidade);
                         item.setValorTabela(Float.parseFloat(this.getValor()));
                         item.setValorLiquido(this.valor);
@@ -307,6 +310,9 @@ public class InserirItemPedidos
         {
             ItensVendidos item = new ItensVendidos();
             item.setItem(this.item.getCodigo());
+            item.setReferencia(this.item.getReferencia());
+            item.setDescricao(this.item.getDescricao());
+            item.setComplemento(this.item.getComplemento());
             item.setQuantidade(this.quantidade);
             item.setValorTabela(Float.parseFloat(this.getValor()));
             item.setValorLiquido(this.valor);

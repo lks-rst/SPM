@@ -3,9 +3,14 @@ package br.com.sulpasso.sulpassomobile.views.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -182,6 +187,18 @@ public class FinalizacaoPedidoFragment extends Fragment
                 .addTextChangedListener(observacoes);
         ((EditText) (getActivity().findViewById(R.id.ffpEdtObsNfe)))
                 .addTextChangedListener(observacoes);
+
+        (getActivity().findViewById(R.id.ffpEdtObsCpd)).setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View view) { return true; }
+        });
+
+        (getActivity().findViewById(R.id.ffpEdtObsNfe)).setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View view) { return true; }
+        });
 
         ((LinearLayout) (getActivity().findViewById(R.id.ffpEdtDesconto)).getParent()).setVisibility
             (((((Pedido) getActivity()).alteraValorFim(R.id.ffpEdtDesconto))) ? View.VISIBLE : View.GONE);
@@ -395,12 +412,16 @@ public class FinalizacaoPedidoFragment extends Fragment
                     ajustarPrazos(position);
                     break;
                 case R.id.ffpSpnrPrazos :
-                    ((EditText) getActivity().findViewById(R.id.ffpEdtTab))
-                        .setText(String.format(((Pedido) getActivity()).getApplicationContext()
-                        .getResources().getString(R.string.str_tab), String.valueOf(String
-                        .valueOf(((Pedido) getActivity()).selecionarPrazo(position)))));
+                    try
+                    {
+                        ((EditText) getActivity().findViewById(R.id.ffpEdtTab))
+                                .setText(String.format(((Pedido) getActivity()).getApplicationContext()
+                                        .getResources().getString(R.string.str_tab), String.valueOf(String
+                                        .valueOf(((Pedido) getActivity()).selecionarPrazo(position)))));
 
-                    ((Pedido) getActivity()).recalcularPrecos();
+                        ((Pedido) getActivity()).recalcularPrecos();
+                    }
+                    catch (Exception e) { ((Pedido) getActivity()).alterarFragmento(4); }
                     /*
                     ((EditText) getActivity().findViewById(R.id.fdcEdtPrazo)).setText(String.format
                         (((Pedido) getActivity()).getApplicationContext().getResources()
@@ -436,7 +457,7 @@ public class FinalizacaoPedidoFragment extends Fragment
         public boolean onSingleTapUp(MotionEvent e) { return false; }
 
         @Override
-        public void onShowPress(MotionEvent e) { Log.d("Gesture ", " onShowPress"); }
+        public void onShowPress(MotionEvent e) { /*****/ }
 
         @Override
         public boolean onDoubleTap(MotionEvent e) { return false; }
@@ -445,7 +466,7 @@ public class FinalizacaoPedidoFragment extends Fragment
         public boolean onDoubleTapEvent(MotionEvent e) { return false; }
 
         @Override
-        public void onLongPress(MotionEvent e) { Log.d("Gesture ", " onLongPress"); }
+        public void onLongPress(MotionEvent e) { /*****/ }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
@@ -460,59 +481,108 @@ public class FinalizacaoPedidoFragment extends Fragment
                 int scrollDownBegin = (int) height - (height - ((height * 20) / 100));
                 int scrollEnd = (int) height - ((height * 50) / 100);
                 */
-            Log.d("Gesture ", " onScroll");
-
-            if (e1.getY() < e2.getY())
-            {
-                Log.d("Gesture ", " Scroll Down");
-                    /*
-                    if (e1.getY() < scrollDownBegin && e2.getY() <= scrollEnd)
-                    {
-                        Log.d("Gesture ", " Scroll Down");
-                    }
-                    else { Log.d("Gesture ", " Scroll Down -- To Lower"); }
-                    */
-            }
-            if (e1.getY() > e2.getY())
-            {
-                Log.d("Gesture ", " Scroll Up");
-                    /*
-                    if (e1.getY() > scrollUpBegin) { Log.d("Gesture ", " Scroll Up -- To high"); }
-                    else { Log.d("Gesture ", " Scroll Up"); }
-                    */
-            }
-
             return false;
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
         {
-            if(Math.abs(velocityX) > Math.abs(velocityY))
+            if(!doingSomething)
             {
-                if (e1.getX() < e2.getX()) //Left to Right swipe
+                e1M = e1;
+                e2M = e2;
+                velocityXM = velocityX;
+                velocityYM = velocityY;
+
+                doingSomething = true;
+
+                Handler handler1 = new Handler(Looper.getMainLooper());
+                handler1.postDelayed(r, 500);
+            }
+
+            return false;
+            /*
+            if(Math.abs(velocityXM) > Math.abs(velocityYM))
+            {
+                Resources resources = getResources();
+                Configuration config = resources.getConfiguration();
+                DisplayMetrics dm = resources.getDisplayMetrics();
+                // Note, screenHeightDp isn't reliable
+                // (it seems to be too small by the height of the status bar),
+                // but we assume screenWidthDp is reliable.
+                // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                // (they get confused when in screen compatibility mode, it seems),
+                // but we assume their ratio is correct.
+                double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                double halfScreenWidthInPixels = screenWidthInPixels / 40;
+                float x1, x2, xd;
+
+                x1 = e1M.getX();
+                x2 = e2M.getX();
+                xd = x2 - x1;
+
+                if (e1M.getX() < e2M.getX() && xd > halfScreenWidthInPixels) //Left to Right swipe
                 {
                     ((Pedido) getActivity()).alterarFragmento(4);
-                    //if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
-                    //((Pedido) getActivity()).alterarFragmento(0);
                 }
-                if (e1.getX() > e2.getX()) { /*((Pedido) getActivity()).alterarFragmento(4);*/ } //Right to Left swipe
+                else
+                {
+                    if (e1M.getX() > e2M.getX()) { *//*((Pedido) getActivity()).alterarFragmento(4);*//* } //Right to Left swipe
+                    else
+                    {
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "ATENÇÃO!\nPara passar para a próxima tela, o movimento deve cobrir mais da metade da tela do dispositivo."
+                                , Toast.LENGTH_LONG).show();
+                    }
+                }
 
                 return true;
             }
-            else
-            {
-                /*
-                if (e1.getY() < e2.getY()) //Up to Down swipe
-                {
-                    //if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
-                        ((Pedido) getActivity()).alterarFragmento(0);
-                }
-                if (e1.getY() > e2.getY()) { ((Pedido) getActivity()).alterarFragmento(4); } //Down to Up swipe
-                */
-
-                return false;
-            }
+            else { return false; }
+            */
         }
     }
+
+    MotionEvent e1M;
+    MotionEvent e2M;
+    float velocityXM;
+    float velocityYM;
+    Boolean doingSomething = false;
+
+    final Runnable r = new Runnable() {
+        public void run() {
+            try
+            {
+                if(Math.abs(velocityXM) > Math.abs(velocityYM))
+                {
+                    Resources resources = getResources();
+                    Configuration config = resources.getConfiguration();
+                    DisplayMetrics dm = resources.getDisplayMetrics();
+                    // Note, screenHeightDp isn't reliable
+                    // (it seems to be too small by the height of the status bar),
+                    // but we assume screenWidthDp is reliable.
+                    // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                    // (they get confused when in screen compatibility mode, it seems),
+                    // but we assume their ratio is correct.
+                    double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                    double halfScreenWidthInPixels = screenWidthInPixels / 100;
+                    float x1, x2, xd;
+
+                    x1 = e1M.getX();
+                    x2 = e2M.getX();
+                    xd = x2 - x1;
+
+                    if (e1M.getX() < e2M.getX() && xd > halfScreenWidthInPixels) //Left to Right swipe
+                    {
+                        ((Pedido) getActivity()).alterarFragmento(4);
+                    }
+                    if (e1M.getX() > e2M.getX() && Math.abs(xd) > halfScreenWidthInPixels) { ((Pedido) getActivity()).alterarFragmento(4); } //Right to Left swipe
+
+                    doingSomething = false;
+                }
+                else { /*****/ doingSomething = false;}
+            }
+            catch (Exception e) { /*****/ }
+        }
+    };
 }

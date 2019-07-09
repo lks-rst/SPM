@@ -127,6 +127,8 @@ public class MixDataAccess
             lista.add(m);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -169,6 +171,8 @@ public class MixDataAccess
             lista.add(m);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

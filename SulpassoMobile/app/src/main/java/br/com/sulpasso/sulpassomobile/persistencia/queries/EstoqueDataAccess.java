@@ -114,6 +114,8 @@ public class EstoqueDataAccess
             lista.add(estoque);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -144,6 +146,8 @@ public class EstoqueDataAccess
             lista.add(estoque);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

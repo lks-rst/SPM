@@ -55,6 +55,8 @@ public class Pedido extends AppCompatActivity
     private SenhaLiberacao sl;
     private String chave;
     private String senha;
+
+    private Boolean pesquisar;
 /**********************************ACTIVITY LIFE CICLE*********************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -129,6 +131,8 @@ public class Pedido extends AppCompatActivity
         Android_Gesture_Detector android_gesture_detector = new Android_Gesture_Detector();
         // Create a GestureDetector
         gestureDetector = new GestureDetector(this, android_gesture_detector);
+
+        pesquisar = true;
     }
 
     @Override
@@ -847,6 +851,15 @@ public class Pedido extends AppCompatActivity
     {
         finish();
     }
+
+    public Boolean getPesquisar() { return this.pesquisar; }
+
+    public void setPesquisar(Boolean pesquisar) { this.pesquisar = pesquisar; }
+
+    public Boolean verifyItens()
+    {
+        return this.controlePedido.verifyItens();
+    }
 /******************************END OF METHODS FOR DATA ACCESS**************************************/
 /************************************End the Overridin*********************************************/
 /***************************Methods to make class services direct *********************************/
@@ -988,6 +1001,8 @@ public class Pedido extends AppCompatActivity
 //                    title = fragTitles[position];
                 break;
         }
+
+        System.gc();
         if (fragment != null)
         {
             FragmentManager fragmentManager = getFragmentManager();

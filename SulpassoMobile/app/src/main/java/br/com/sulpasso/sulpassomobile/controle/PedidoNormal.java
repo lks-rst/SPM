@@ -455,7 +455,7 @@ public class PedidoNormal extends EfetuarPedidos
 
                             if(this.mostraFlexVenda())
                             {
-                                Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
+                                Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " +  Formatacao.format2d(totalFlex), Toast.LENGTH_LONG);
                                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                                 t.show();
                             }
@@ -576,7 +576,7 @@ public class PedidoNormal extends EfetuarPedidos
         {
             case R.id.fdcEdtDca :
                 retorno = String.format(super.context.getResources().getString(R.string.str_flex)
-                        , String.valueOf(super.controleConfiguracao.buscarFlex()));
+                        , Formatacao.format2d(Float.parseFloat(super.controleConfiguracao.buscarFlex())));
                 break;
             default:
                 retorno = "--";

@@ -141,9 +141,9 @@
                     android:imeActionId="@+id/ffpEdtObsCpd"
                     android:textSize="14dp"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="flagNoEnterAction|flagNoAccessoryAction"
                     android:maxLength="114"
-                    android:inputType="textAutoCorrect|textMultiLine" />
+                    android:inputType="textVisiblePassword|textMultiLine|textNoSuggestions" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -159,8 +159,8 @@
                     android:imeActionId="@+id/ffpEdtObsCpd"
                     android:textSize="14dp"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionNext"
-                    android:inputType="textMultiLine"
+                    android:imeOptions="flagNoEnterAction|flagNoAccessoryAction"
+                    android:inputType="textVisiblePassword|textMultiLine|textNoSuggestions"
                     android:maxLength="50" />
             </android.support.design.widget.TextInputLayout>
 

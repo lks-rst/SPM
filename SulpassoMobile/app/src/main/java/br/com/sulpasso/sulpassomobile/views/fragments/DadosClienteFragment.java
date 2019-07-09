@@ -2,8 +2,10 @@ package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -540,7 +542,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         public boolean onSingleTapUp(MotionEvent e) { return false; }
 
         @Override
-        public void onShowPress(MotionEvent e) { Log.d("Gesture ", " onShowPress"); }
+        public void onShowPress(MotionEvent e) { /*****/ }
 
         @Override
         public boolean onDoubleTap(MotionEvent e) { return false; }
@@ -549,7 +551,7 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         public boolean onDoubleTapEvent(MotionEvent e) { return false; }
 
         @Override
-        public void onLongPress(MotionEvent e) { Log.d("Gesture ", " onLongPress"); }
+        public void onLongPress(MotionEvent e) { /*****/ }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY)
@@ -564,27 +566,6 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                 int scrollDownBegin = (int) height - (height - ((height * 20) / 100));
                 int scrollEnd = (int) height - ((height * 50) / 100);
                 */
-            Log.d("Gesture ", " onScroll");
-
-            if (e1.getY() < e2.getY())
-            {
-                Log.d("Gesture ", " Scroll Down");
-                    /*
-                    if (e1.getY() < scrollDownBegin && e2.getY() <= scrollEnd)
-                    {
-                        Log.d("Gesture ", " Scroll Down");
-                    }
-                    else { Log.d("Gesture ", " Scroll Down -- To Lower"); }
-                    */
-            }
-            if (e1.getY() > e2.getY())
-            {
-                Log.d("Gesture ", " Scroll Up");
-                    /*
-                    if (e1.getY() > scrollUpBegin) { Log.d("Gesture ", " Scroll Up -- To high"); }
-                    else { Log.d("Gesture ", " Scroll Up"); }
-                    */
-            }
 
             return false;
         }
@@ -592,21 +573,57 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
         {
-            //TODO: Verificar justificativa
-            if(Math.abs(velocityX) > Math.abs(velocityY))
+            e1M = e1;
+            e2M = e2;
+            velocityXM = velocityX;
+            velocityYM = velocityY;
+
+            /*
+            Handler handler1 = new Handler(Looper.getMainLooper());
+            handler1.postDelayed(r, 1);
+
+            return true;
+            */
+            if(Math.abs(velocityXM) > Math.abs(velocityYM))
             {
                 if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
                 {
-                    if (e1.getX() < e2.getX()) { apresentarDetalhes(); }//Left to Right swipe
-                    if (e1.getX() > e2.getX()) //Right to Left swipe
+                    Resources resources = getResources();
+                    Configuration config = resources.getConfiguration();
+                    DisplayMetrics dm = resources.getDisplayMetrics();
+                    // Note, screenHeightDp isn't reliable
+                    // (it seems to be too small by the height of the status bar),
+                    // but we assume screenWidthDp is reliable.
+                    // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                    // (they get confused when in screen compatibility mode, it seems),
+                    // but we assume their ratio is correct.
+                    double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                    double halfScreenWidthInPixels = screenWidthInPixels / 50;
+                    float x1, x2, xd;
+
+                    x1 = e1M.getX();
+                    x2 = e2M.getX();
+                    xd = x2 - x1;
+
+                    if (e1M.getX() < e2M.getX()/* && xd > halfScreenWidthInPixels*/) { apresentarDetalhes(); } //Left to Right swipe
+                    else
                     {
-                        if(((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.GONE ||
-                           ((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.INVISIBLE ||
-                                activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                        if (e1M.getX() > e2M.getX()/* && Math.abs(xd) > halfScreenWidthInPixels*/) //Right to Left swipe
+                        {
+                            if(((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.GONE ||
+                                    ((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.INVISIBLE ||
+                                    activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                            else
+                            {
+                                Toast.makeText(activity.getApplicationContext(),
+                                        "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                                        , Toast.LENGTH_LONG).show();
+                            }
+                        }
                         else
                         {
                             Toast.makeText(activity.getApplicationContext(),
-                                    "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                                    "ATENÇÃO!\nPara passar para a próxima tela, o movimento deve cobrir mais da metade da tela do dispositivo."
                                     , Toast.LENGTH_LONG).show();
                         }
                     }
@@ -635,4 +652,99 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
             return true;
         }
     }
+
+    MotionEvent e1M;
+    MotionEvent e2M;
+    float velocityXM;
+    float velocityYM;
+
+    final Runnable r = new Runnable() {
+        public void run() {
+            try
+            {
+                if(Math.abs(velocityXM) > Math.abs(velocityYM))
+                {
+                    if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
+                    {
+                        Resources resources = getResources();
+                        Configuration config = resources.getConfiguration();
+                        DisplayMetrics dm = resources.getDisplayMetrics();
+                        // Note, screenHeightDp isn't reliable
+                        // (it seems to be too small by the height of the status bar),
+                        // but we assume screenWidthDp is reliable.
+                        // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                        // (they get confused when in screen compatibility mode, it seems),
+                        // but we assume their ratio is correct.
+                        double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                        double halfScreenWidthInPixels = screenWidthInPixels / 40;
+                        float x1, x2, xd;
+
+                        x1 = e1M.getX();
+                        x2 = e2M.getX();
+                        xd = x2 - x1;
+
+                        if (e1M.getX() < e2M.getX() && xd > halfScreenWidthInPixels) { apresentarDetalhes(); } //Left to Right swipe
+                        else
+                        {
+                            if (e1M.getX() > e2M.getX() && Math.abs(xd) > halfScreenWidthInPixels) //Right to Left swipe
+                            {
+                                if(((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.GONE ||
+                                        ((getActivity().findViewById(R.id.fdcSpnrMotivos))).getVisibility() == View.INVISIBLE ||
+                                        activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                                else
+                                {
+                                    Toast.makeText(activity.getApplicationContext(),
+                                            "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                                            , Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            else
+                            {
+                                Toast.makeText(activity.getApplicationContext(),
+                                    "ATENÇÃO!\nPara passar para a próxima tela, o movimento deve cobrir mais da metade da tela do dispositivo."
+                                    , Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                    else { Toast.makeText( activity.getApplicationContext(), "Escolha um cliente para prosseguir", Toast.LENGTH_LONG).show(); }
+                }
+                else
+                {
+                    if(((getActivity().findViewById(R.id.fdcBtnDetalhes))).getVisibility() == View.VISIBLE)
+                    {
+                        Resources resources = getResources();
+                        Configuration config = resources.getConfiguration();
+                        DisplayMetrics dm = resources.getDisplayMetrics();
+                        // Note, screenHeightDp isn't reliable
+                        // (it seems to be too small by the height of the status bar),
+                        // but we assume screenWidthDp is reliable.
+                        // Note also, dm.widthPixels,dm.heightPixels aren't reliably pixels
+                        // (they get confused when in screen compatibility mode, it seems),
+                        // but we assume their ratio is correct.
+                        double screenWidthInPixels = (double)config.screenWidthDp * dm.density;
+                        double halfScreenWidthInPixels = screenWidthInPixels / 1;
+                        float x1, x2, xd;
+
+                        x1 = e1M.getX();
+                        x2 = e2M.getX();
+                        xd = x2 - x1;
+
+                        if (e1M.getX() < e2M.getX() && xd > halfScreenWidthInPixels) //Left to Right swipe { apresentarDetalhes(); } //Up to Down swipe
+                        if (e1M.getY() > e2M.getY() && Math.abs(xd) > halfScreenWidthInPixels) //Down to Up swipe
+                        {
+                            if(activity.verificarJustificativa()) { activity.alterarFragmento(1); }
+                            else
+                            {
+                                Toast.makeText(activity.getApplicationContext(),
+                                        "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
+                                        , Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }
+                    else { Toast.makeText( activity.getApplicationContext(), "Escolha um cliente para prosseguir", Toast.LENGTH_LONG).show(); }
+                }
+            }
+            catch (Exception e) { /*****/ }
+        }
+    };
 }

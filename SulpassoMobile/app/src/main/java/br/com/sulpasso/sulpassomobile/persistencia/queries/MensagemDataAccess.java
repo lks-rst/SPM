@@ -105,28 +105,41 @@ public class MensagemDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.TABELA);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Mensagem m = new Mensagem();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
 
-            m.setAssunto(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ASSUNTO)));
-            m.setUsuario(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.USUARIO)));
-            m.setEnvio(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ENVIO)));
-            m.setValidade(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.VALIDADE)));
-            m.setMensagem(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.MENSAGEM)));
-            m.setCodigo(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.CODIGO)));
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Mensagem m = new Mensagem();
 
-            lista.add(m);
-            c.moveToNext();
+                m.setAssunto(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ASSUNTO)));
+                m.setUsuario(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.USUARIO)));
+                m.setEnvio(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ENVIO)));
+                m.setValidade(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.VALIDADE)));
+                m.setMensagem(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.MENSAGEM)));
+                m.setCodigo(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.CODIGO)));
+
+                lista.add(m);
+                c.moveToNext();
+            }
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
         }
 
         return lista;
@@ -146,28 +159,41 @@ public class MensagemDataAccess
         this.sBuilder.append(" = ");
         this.sBuilder.append(g);
 
-        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
-
-        c.moveToFirst();
-        for(int i = 0; i < c.getCount(); i++)
+        Cursor c = null;
+        try
         {
-            Mensagem m = new Mensagem();
+            c = this.db.rawQuery(this.sBuilder.toString(), null);
+            c.moveToFirst();
 
-            m.setAssunto(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ASSUNTO)));
-            m.setUsuario(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.USUARIO)));
-            m.setEnvio(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ENVIO)));
-            m.setValidade(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.VALIDADE)));
-            m.setMensagem(c.getString(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.MENSAGEM)));
-            m.setCodigo(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.CODIGO)));
+            for(int i = 0; i < c.getCount(); i++)
+            {
+                Mensagem m = new Mensagem();
 
-            lista.add(m);
-            c.moveToNext();
+                m.setAssunto(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ASSUNTO)));
+                m.setUsuario(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.USUARIO)));
+                m.setEnvio(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.ENVIO)));
+                m.setValidade(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.VALIDADE)));
+                m.setMensagem(c.getString(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.MENSAGEM)));
+                m.setCodigo(c.getInt(c.getColumnIndex(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Mensagem.CODIGO)));
+
+                lista.add(m);
+                c.moveToNext();
+            }
+        }
+        catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }
+        finally
+        {
+            if(c != null)
+            {
+                c.close();
+                SQLiteDatabase.releaseMemory();
+            }
         }
 
         return lista;

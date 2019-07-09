@@ -111,6 +111,8 @@ public class PrecosClientesDataAccess
             lista.add(precosClientes);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -142,6 +144,8 @@ public class PrecosClientesDataAccess
             lista.add(precosClientes);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

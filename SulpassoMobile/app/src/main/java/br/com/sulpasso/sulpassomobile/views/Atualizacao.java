@@ -965,7 +965,7 @@ public class Atualizacao extends AppCompatActivity
         }
         else
         {
-            timerTextView.setText(timerTextView.getText() + msgAtualizacaoPost[posicaoMensagens] + time + "\n");
+//            timerTextView.setText(timerTextView.getText() + msgAtualizacaoPost[posicaoMensagens] + time + "\n");
             mProgressStatus += percentualAtualizacao;
             mProgress.setProgress(mProgressStatus);
             ((TextView) findViewById(R.id.textProgressOne)).setText(this.displayMessage);

@@ -101,6 +101,8 @@ public class MotivosDataAccess
             lista.add(m);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

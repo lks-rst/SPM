@@ -149,6 +149,8 @@ public class CurvaAbcDataAccess
             lista.add(curva);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -195,6 +197,8 @@ public class CurvaAbcDataAccess
             lista.add(curva);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

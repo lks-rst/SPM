@@ -30,12 +30,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.loopj.android.http.JsonHttpResponseHandler;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
 import java.io.File;
@@ -59,8 +53,10 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosResumo;
 import me.drakeet.materialdialog.MaterialDialog;
 
-import cz.msebera.android.httpclient.Header;
-
+/*TODO: Verificar todos os cursores se estão sendo encerrados e a memória liberada
+            c.close();
+            SQLiteDatabase.releaseMemory();
+*/
 public class Inicial extends AppCompatActivity
 {
     private TelaInicial controle;
@@ -423,7 +419,7 @@ public class Inicial extends AppCompatActivity
                 "JUSTIFICATIVA: Corrigido o erro ao inserir justificativa no inicio do pedido (ainda" +
                 " falta corrigir a justificativa no final do pedido).\n" +
                 "AJUDA: Essa tela será apresentada sempre que houver uma atualização do sistema ou através do menu (Ajuda).";
-        */
+
         mensagem = "PRMOÇÕES: Corrigido o erro ao inserir o valor promocional em um item.\n" +
                 "CAMPANHAS: Ajuste no tratamento das campanhas permitindo mais de uma campanha por grupo.\n" +
                 "CAMPANHAS: Correçao da falha ao tratar a quantidade das campanhas (tanto por grupo quanto por produto).\n" +
@@ -431,6 +427,11 @@ public class Inicial extends AppCompatActivity
                 "ALTERAÇAO PEDIDOS: Correção na verificação de data e hora na alteração dos pedidos.\n" +
                 "ABC CLIENTES: Correção no erro de apresentação da consulta ABC.\n" +
                 "PRE PEDIDO: Corrigido o erro ao inserir itens vendido por kilo direto pelo pre pedido";
+        */
+
+        mensagem = "LISTA ITENS: Em função do grande número de erros que estava ocorrendo na digitação do pedido o layout da lista de itens foi reduzido ao minimo de informações necessárias para que se execute o pedido.\n" +
+                "ALTERAÇÃO DE TELAS PEDIDO: Também em função dos erros que vinham ocorrendo foi realizado um bloqueio na tela de clientes. Após selecionar o cliente e passar para a tela de itens não é mais possível retornar para a seleção de clientes.\n" +
+                "Esperamos que as modificações realizadas resolvam de uma vez os prolemas de o sistema travar no meio do pedido enquanto trabalhamos para retornar as funcionalidades sem arcar com os problemas.";
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

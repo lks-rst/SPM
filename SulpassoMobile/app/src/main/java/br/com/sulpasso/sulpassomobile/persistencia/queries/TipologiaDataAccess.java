@@ -102,6 +102,8 @@ public class TipologiaDataAccess
             lista.add(t);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
@@ -135,6 +137,8 @@ public class TipologiaDataAccess
             lista.add(t);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }

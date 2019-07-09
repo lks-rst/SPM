@@ -89,12 +89,12 @@ public class MetaDataAccess
         meta.setFamilia(data.substring(2, 32).trim());
         meta.setRealizado_c(Integer.parseInt(data.substring(32, 35).trim()));
         meta.setMeta_c(Integer.parseInt(data.substring(35, 38).trim()));
-        meta.setRealizado_v(Float.parseFloat(data.substring(38, 44).trim()) / 100);
-        meta.setMeta_v(Float.parseFloat(data.substring(44, 50).trim()) / 100);
-        meta.setRealizado_co(Float.parseFloat(data.substring(50, 56).trim()) / 100);
-        meta.setMeta_co(Float.parseFloat(data.substring(56, 62).trim()) / 100);
-        meta.setRealizado_f(Float.parseFloat(data.substring(62, 68).trim()) / 100);
-        meta.setMeta_f(Float.parseFloat(data.substring(68, 74).trim()) / 100);
+        meta.setRealizado_v(Float.parseFloat(data.substring(38, 46).trim()) / 100);
+        meta.setMeta_v(Float.parseFloat(data.substring(46, 54).trim()) / 100);
+        meta.setRealizado_co(Float.parseFloat(data.substring(54, 62).trim()) / 100);
+        meta.setMeta_co(Float.parseFloat(data.substring(62, 70).trim()) / 100);
+        meta.setRealizado_f(Float.parseFloat(data.substring(70, 78).trim()) / 100);
+        meta.setMeta_f(Float.parseFloat(data.substring(78, 86).trim()) / 100);
 
         return meta;
     }
@@ -199,6 +199,8 @@ public class MetaDataAccess
             lista.add(meta);
             c.moveToNext();
         }
+        c.close();
+        SQLiteDatabase.releaseMemory();
 
         return lista;
     }
