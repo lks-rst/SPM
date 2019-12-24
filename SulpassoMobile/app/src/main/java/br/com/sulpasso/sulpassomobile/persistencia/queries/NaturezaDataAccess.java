@@ -21,6 +21,7 @@ public class NaturezaDataAccess
     private StringBuilder sBuilder;
     private SQLiteDatabase db;
     private int searchType;
+    private int searchData;
 
     public NaturezaDataAccess(Context context)
     {
@@ -30,6 +31,10 @@ public class NaturezaDataAccess
     }
 
     public void setSearchType(int searchType) { this.searchType = searchType; }
+
+    public int getSearchData() { return searchData; }
+
+    public void setSearchData(int searchData) { this.searchData = searchData; }
 
     public ArrayList<Natureza> buscarTodos() throws GenercicException
     {
@@ -44,6 +49,11 @@ public class NaturezaDataAccess
     public ArrayList<Natureza> buscarRestrito() throws GenercicException
     {
         return this.searchByData(this.searchType);
+    }
+
+    public ArrayList<Natureza> buscarAVista() throws GenercicException
+    {
+        return this.searchByData(-1);
     }
 
     public Boolean inserir(String data) throws GenercicException
@@ -152,10 +162,36 @@ public class NaturezaDataAccess
     {
         ArrayList lista = new ArrayList();
 
-        this.sBuilder.delete(0, this.sBuilder.length());
-        this.sBuilder.append("SELECT * FROM ");
-        this.sBuilder.append(
-                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.TABELA);
+        if(type == -1)
+        {
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT * FROM ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.TABELA);
+            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.PRAZO);
+            this.sBuilder.append(" LIKE 'A' OR ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.PRAZO);
+            this.sBuilder.append(" LIKE 'a' OR ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.PRAZO);
+            this.sBuilder.append(" LIKE '0';");
+        }
+        else
+        {
+            this.sBuilder.delete(0, this.sBuilder.length());
+            this.sBuilder.append("SELECT * FROM ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.TABELA);
+            this.sBuilder.append(" WHERE ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.CODIGO);
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(this.searchData);
+            this.sBuilder.append("';");
+        }
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 
@@ -165,11 +201,23 @@ public class NaturezaDataAccess
             Natureza natureza = new Natureza();
 
             natureza.setCodigo(
-                    c.getInt(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.CODIGO)));
+                    c.getInt(c.getColumnIndex(br.com.sulpasso
+                            .sulpassomobile.persistencia.tabelas.Natureza.CODIGO)));
             natureza.setDescricao(
-                    c.getString(c.getColumnIndex(
-                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Natureza.DESCRICAO)));
+                    c.getString(c.getColumnIndex(br.com.sulpasso
+                            .sulpassomobile.persistencia.tabelas.Natureza.DESCRICAO)));
+            natureza.setPrazo(
+                    c.getString(c.getColumnIndex(br.com.sulpasso
+                            .sulpassomobile.persistencia.tabelas.Natureza.PRAZO)));
+            natureza.setMinimo(
+                    c.getFloat(c.getColumnIndex(br.com.sulpasso
+                            .sulpassomobile.persistencia.tabelas.Natureza.MINIMO)));
+            natureza.setBanco(
+                    c.getInt(c.getColumnIndex(br.com.sulpasso
+                            .sulpassomobile.persistencia.tabelas.Natureza.BANCO)));
+            natureza.setVenda(
+                    c.getString(c.getColumnIndex(br.com.sulpasso
+                            .sulpassomobile.persistencia.tabelas.Natureza.VENDA)).charAt(0));
 
             lista.add(natureza);
             c.moveToNext();

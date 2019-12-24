@@ -67,10 +67,10 @@ public class ConsultasGerenciais extends AppCompatActivity
             case R.id.consulta_gerencial_meta :
                 displayView(R.id.consulta_gerencial_meta);
                 break;
-            /*
             case R.id.consulta_gerencial_plano :
                 displayView(R.id.consulta_gerencial_plano);
                 break;
+            /*
             case R.id.consulta_gerencial_grafico :
                 displayView(R.id.consulta_gerencial_grafico);
                 break;
@@ -104,15 +104,15 @@ public class ConsultasGerenciais extends AppCompatActivity
                 fragment = new ConsultaGerencialMetas();
                 title += fragTitles[1] + " - IDEAL: " + this.buscarMetaIdeal();
                 break;
+            case R.id.consulta_gerencial_plano :
+                fragment = new ConsultaGerencialPlanoVisitas();
+                title += fragTitles[3];
+                break;
             /*
             case R.id.consulta_gerencial_grafico :
                 this.controle.criarGraficos();
                 fragment = new ConsultaGerencialGraficos();
                 title += fragTitles[2];
-                break;
-            case R.id.consulta_gerencial_plano :
-                fragment = new ConsultaGerencialPlanoVisitas();
-                title += fragTitles[3];
                 break;
             */
 

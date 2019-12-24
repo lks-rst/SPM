@@ -304,7 +304,7 @@
     <string name="menu_inicial_co_geral">Gerencial</string>
 
     <string name="menu_consulta_todos">Todos</string>
-    <string name="menu_consulta_mais">Mais Opções</string>
+    <string name="menu_consulta_mais">Outras Consultas</string>
     <string name="menu_consulta_filtros_itens">Opções Filtros</string>
     <string name="menu_consulta_enviados">Enviados</string>
     <string name="menu_consulta_nao">Não Enviados</string>

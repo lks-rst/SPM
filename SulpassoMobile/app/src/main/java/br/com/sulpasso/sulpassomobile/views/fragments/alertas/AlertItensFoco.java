@@ -67,6 +67,12 @@ public class AlertItensFoco extends DialogFragment
         spnrFiltrados = (Spinner) view.findViewById(R.id.asifSpnrFiltered);
         lvAdicionados = (ListView) view.findViewById(R.id.asifLvAdd);
 
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item, callback.buscarItens(""));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        spnrFiltrados.setAdapter(adapter);
+
         view.findViewById(R.id.asifBtnConf).setOnClickListener(new View.OnClickListener()
         {
             @Override

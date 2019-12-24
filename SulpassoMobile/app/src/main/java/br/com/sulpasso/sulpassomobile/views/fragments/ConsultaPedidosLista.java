@@ -2,14 +2,15 @@ package br.com.sulpasso.sulpassomobile.views.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -71,10 +72,16 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         */
+        Date today = new Date();
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+
+        ((TextView) getActivity().findViewById(R.id.txtDataInicio)).setText(sf.format(today));
+        ((TextView) getActivity().findViewById(R.id.txtDataFim)).setText(sf.format(today));
 
         AdapterPedidos adapter = new AdapterPedidos(
             getActivity().getApplicationContext(),
-            ((ConsultasPedidos) getActivity()).getControle().listarPedidosV(0, ""));
+            ((ConsultasPedidos) getActivity()).getControle().listarPedidosV(0, sf.format(today), sf.format(today)));
 
         ((ListView) getActivity().findViewById(R.id.liAcpPedidos)).setAdapter(adapter);
 
@@ -90,7 +97,30 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         ((EditText)  getActivity().findViewById(R.id.edtContPed)).setText(
                 ((ConsultasPedidos) getActivity()).getControle().totalizadorVendas(4));
 
+        ((TextView) getActivity().findViewById(R.id.txtDataInicio)).setOnClickListener(alterDate);
+        ((TextView) getActivity().findViewById(R.id.txtDataFim)).setOnClickListener(alterDate);
+
+
+        ((Button) getActivity().findViewById(R.id.btnDefinirIntervalo)).setOnClickListener(
+                new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        ((ConsultasPedidos) getActivity()).buscarPedidosData(
+                                (((TextView) getActivity().findViewById(R.id.txtDataInicio)).getText()).toString(),
+                                (((TextView) getActivity().findViewById(R.id.txtDataFim)).getText()).toString());
+                    }
+                }
+        );
+
+
+
+
+
+        /*
         ((getActivity().findViewById(R.id.fcpBtnData))).setOnClickListener(alterDate);
+        */
     }
 
     public void listarItens(ArrayList<Venda> lista) throws GenercicException
@@ -130,6 +160,13 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         dialog.setTargetFragment(this, 1); //request code
         dialog.show(getFragmentManager(), "DIALOG");
     }
+
+    private void selecionarData(boolean inicio)
+    {
+        AlertDataPedidos dialog = new AlertDataPedidos();
+        dialog.setTargetFragment(this, 1); //request code
+        dialog.show(getFragmentManager(), "DIALOG");
+    }
 /********************************END OF FRAGMENT FUNCTIONAL METHODS********************************/
 /*************************************CLICK LISTENERS FOR THE UI***********************************/
     private AdapterView.OnItemClickListener clickPedido = new AdapterView.OnItemClickListener()
@@ -155,6 +192,8 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
         {
 //            ((ConsultasPedidos) getActivity()).menu_pedido_nao_enviado(position);
+
+            /*
             if(validar_data_sistema())
             {
                 if(validar_hora_sistema())
@@ -180,16 +219,26 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
                 t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
                 t.show();
             }
+            */
 
+            apresentarAcoes(position);
             return false;
         }
     };
 
+
+    private Boolean dataInicio = false;
     private View.OnClickListener alterDate = new View.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
+            if(v.getId() == R.id.txtDataInicio)
+                dataInicio = true;
+            else
+                dataInicio = false;
+
+
             selecionarData();
         }
     };
@@ -228,7 +277,10 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
     @Override
     public void indicarNovaData(String data)
     {
-        ((ConsultasPedidos) getActivity()).buscarPedidosData(data);
+        if(dataInicio)
+            ((TextView) getActivity().findViewById(R.id.txtDataInicio)).setText(data);
+        else
+            ((TextView) getActivity().findViewById(R.id.txtDataFim)).setText(data);
     }
 /*********************************END OF ITERFACES METHODS*****************************************/
 /**************************************************************************************************/
@@ -374,6 +426,16 @@ public class ConsultaPedidosLista extends Fragment implements MenuPedidoNaoEnvia
 
 
         return data_valida;
+    }
+
+    public String buscarDataInicio()
+    {
+        return ((TextView) getActivity().findViewById(R.id.txtDataInicio)).getText().toString();
+    }
+
+    public String buscarDataFim()
+    {
+        return ((TextView) getActivity().findViewById(R.id.txtDataFim)).getText().toString();
     }
 /**************************************************************************************************/
 }

@@ -25,11 +25,11 @@
                 android:id="@+id/consulta_itens_grupos"
                 android:title="@string/menu_consulta_campG">
             </item>
-            <!--
             <item
                 android:id="@+id/consulta_itens_foco"
                 android:title="@string/menu_consulta_foco">
             </item>
+            <!--
             <item
                 android:id="@+id/consulta_itens_kit"
                 android:title="@string/menu_consulta_kit">

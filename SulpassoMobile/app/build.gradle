@@ -7,9 +7,9 @@ android{
     defaultConfig {
         applicationId "br.com.sulpasso.vendas_externas"
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 931
-        versionName "1.99XD"
+        targetSdkVersion 28
+        versionCode 934
+        versionName "1.99V9"
     }
     buildTypes {
         release {

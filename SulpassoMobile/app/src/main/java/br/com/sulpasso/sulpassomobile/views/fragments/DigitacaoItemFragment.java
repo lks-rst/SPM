@@ -354,11 +354,18 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
-            if(s.toString().length() > 0 && s.toString().indexOf('.') != (s.toString().length() - 1))
+            if(s.toString().length() > 0 /*&& s.toString().indexOf('.') != (s.toString().length() - 1)*/)
             {
                 ((Pedido) getActivity()).digitarValor(s.toString());
                 exibirTotal();
             }
+            /*
+            else if(s.toString().indexOf('.') == (s.toString().length() - 1))
+            {
+                ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                        .setText(s.toString().substring(0, s.toString().length() - 1));
+            }
+            */
         }
 
         @Override

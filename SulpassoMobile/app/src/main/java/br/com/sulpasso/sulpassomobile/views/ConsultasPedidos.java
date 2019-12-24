@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,12 +23,16 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.controle.ConfigurarSistema;
 import br.com.sulpasso.sulpassomobile.controle.ConsultarPedidos;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorConexao;
+import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
 import br.com.sulpasso.sulpassomobile.modelo.Venda;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ConfiguradorDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
@@ -99,7 +104,9 @@ public class ConsultasPedidos extends AppCompatActivity
                     findViewById(R.id.frame_itens).setVisibility(View.GONE);
 
                     try {
-                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(0, ""));
+                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(0,
+                                ((ConsultaPedidosLista) fragment).buscarDataInicio(),
+                                ((ConsultaPedidosLista) fragment).buscarDataFim()));
                     } catch (GenercicException e) {
                         e.printStackTrace();
                     }
@@ -132,7 +139,9 @@ public class ConsultasPedidos extends AppCompatActivity
                     findViewById(R.id.frame_itens).setVisibility(View.GONE);
 
                     try {
-                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(2, ""));
+                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(2,
+                                ((ConsultaPedidosLista) fragment).buscarDataInicio(),
+                                ((ConsultaPedidosLista) fragment).buscarDataFim()));
                     } catch (GenercicException e) {
                         e.printStackTrace();
                     }
@@ -158,7 +167,9 @@ public class ConsultasPedidos extends AppCompatActivity
 
                     try
                     {
-                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(1, ""));
+                        ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(1,
+                                ((ConsultaPedidosLista) fragment).buscarDataInicio(),
+                                ((ConsultaPedidosLista) fragment).buscarDataFim()));
                     }
                     catch (GenercicException e) { e.printStackTrace(); }
                 }
@@ -230,20 +241,72 @@ public class ConsultasPedidos extends AppCompatActivity
         switch (acaoPedido)
         {
             case 0:
-                int pedidoAlterar = this.controle.alterarPedido();
-                if(pedidoAlterar > 0)
+                if(validar_data_sistema())
                 {
-                    Toast.makeText(this, "Iniciar alteração de pedido", Toast.LENGTH_LONG).show();
+                    if(validar_hora_sistema())
+                    {
+                        if(validar_data_pedido(this.controle.getPosicaoPedido()))
+                        {
+                            int pedidoAlterar = this.controle.alterarPedido();
+                            if(pedidoAlterar > 0)
+                            {
+                                //Toast.makeText(this, "Iniciar alteração de pedido", Toast.LENGTH_LONG).show();
 
-                    Intent i = new Intent(getApplicationContext(), Pedido.class);
-                    i.putExtra("ALTERACAO", true);
-                    i.putExtra("CODIGO", pedidoAlterar);
-                    startActivity(i);
+                                Intent i = new Intent(getApplicationContext(), Pedido.class);
+                                i.putExtra("ALTERACAO", true);
+                                i.putExtra("CODIGO", pedidoAlterar);
+                                startActivity(i);
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplication(), "Não é permitido alterar pedidos com data diferente da data atual", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplication(), "Fora do horário de atendimento não é permitido alterar pedidos", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    String texto = "Por favor,\nverifique a data e hora de seu dipositvo e reinicie o sistema";
+                    Toast t = Toast.makeText(getApplication(), texto, Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
                 }
                 break;
 
             case 1:
                 this.VerificarExclusaoPedido();
+                /*
+                if(validar_data_sistema())
+                {
+                    if(validar_hora_sistema())
+                    {
+                        if(validar_data_pedido(this.controle.getPosicaoPedido()))
+                        {
+
+                            this.VerificarExclusaoPedido();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplication(), "Não é permitido alterar pedidos com data diferente da data atual", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplication(), "Fora do horário de atendimento não é permitido alterar pedidos", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    String texto = "Por favor,\nverifique a data e hora de seu dipositvo e reinicie o sistema";
+                    Toast t = Toast.makeText(getApplication(), texto, Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                    t.show();
+                }
+                */
                 break;
 
             default:
@@ -304,8 +367,13 @@ public class ConsultasPedidos extends AppCompatActivity
 
                         try
                         {
+                            /*
                             ((ConsultaPedidosLista) fragment).listarItens(
                                     controle.listarPedidosV(controle.tipoBusca(), ""));
+                            */
+                            ((ConsultaPedidosLista) fragment).listarItens(controle.listarPedidosV(0,
+                                    ((ConsultaPedidosLista) fragment).buscarDataInicio(),
+                                    ((ConsultaPedidosLista) fragment).buscarDataFim()));
                         }
                         catch (GenercicException e) { e.printStackTrace(); }
                     }
@@ -466,6 +534,38 @@ public class ConsultasPedidos extends AppCompatActivity
             }
         }
     }
+
+
+
+    public void buscarPedidosData(String inicio, String fim)
+    {
+        FragmentManager fragmentManager;
+        Fragment fragment = null;
+        fragmentManager = getFragmentManager();
+
+        try
+        {
+            fragment = (ConsultaPedidosLista) fragmentManager.findFragmentById(R.id.frame_consultas);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados", Toast.LENGTH_LONG).show();
+        }
+
+        if (fragment == null) { displayView(R.layout.fragment_consulta_pedidos_lista); }
+        else
+        {
+            findViewById(R.id.frame_pedidos).setVisibility(View.VISIBLE);
+            findViewById(R.id.frame_itens).setVisibility(View.GONE);
+
+            try {
+                ((ConsultaPedidosLista) fragment).listarItens(this.controle.listarPedidosV(inicio, fim));
+            } catch (GenercicException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 /*********************************END OF ITERFACES METHODS*****************************************/
 /**************************************************************************************************/
     @Override
@@ -633,4 +733,150 @@ public class ConsultasPedidos extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "ENVIADO ARQUIVOS...", Toast.LENGTH_LONG).show();
         }
     }
+
+/**************************************************************************************************/
+    private Boolean validar_hora_sistema()
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("HH:mm");
+        Date now = new Date();
+        Date begin = null;
+        Date end = null;
+        String hora_agora = "" + now.getHours() + ":" + now.getMinutes();
+        String hora_inicio_m = "";
+        String hora_fim_m = "";
+        String hora_inicio_t = "";
+        String hora_fim_t = "";
+        Boolean data_valida = false;
+
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(getApplicationContext());
+        ConfiguradorHorarios configHor = null;
+        try
+        {
+            configHor = cda.getHorario();
+
+            hora_inicio_m = configHor.getInicioManha();
+            hora_fim_m = configHor.getFinalManha();
+            hora_inicio_t = configHor.getInicioTarde();
+            hora_fim_t = configHor.getFinalTarde();
+            try
+            {
+                if(now.getHours() >= 12)
+                {
+                    now = sf.parse(hora_agora);
+                    begin = sf.parse(hora_inicio_t);
+                    end = sf.parse(hora_fim_t);
+                }
+                else
+                {
+                    now = sf.parse(hora_agora);
+                    begin = sf.parse(hora_inicio_m);
+                    end = sf.parse(hora_fim_m);
+                }
+            }
+            catch (Exception e) { }
+
+            if ((now.compareTo(begin) >= 0) && (now.compareTo(end) < 0))
+                data_valida = true;
+            else
+                data_valida = false;
+
+        }
+        catch (Exception e) { data_valida = false; }
+
+        return data_valida;
+    }
+
+    private Boolean validar_data_pedido(int posicao)
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date today = new Date();
+        Date aday = null;
+        String data_pedido = "";
+
+        Boolean data_valida = false;
+        int compara = 0;
+
+        data_pedido = dataPedido(posicao);
+
+        try
+        {
+            aday = sf.parse(data_pedido);
+
+            today.setHours(00);
+            today.setMinutes(00);
+            today.setSeconds(00);
+
+            int daya, dayt, montha, montht, yeara, yeart;
+
+            daya = aday.getDate();
+            dayt = today.getDate();
+            montha = aday.getMonth();
+            montht = today.getMonth();
+            yeara = aday.getYear();
+            yeart = today.getYear();
+
+            compara = yeara > yeart ? -1 : yeara == yeart ?
+                    (montha > montht ? -1 : montha == montht ? (daya == dayt ? 1 : -1) : -1) : -1;
+
+            if (compara >= 0)
+                data_valida = true;
+            else
+                data_valida = false;
+        }
+        catch (Exception e) { data_valida = false; }
+
+        return data_valida;
+    }
+
+    private Boolean validar_data_sistema()
+    {
+        SimpleDateFormat sf;
+        sf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sf2;
+        sf2 = new SimpleDateFormat("dd-MM-yyyy kk:mm");
+        Date today = new Date();
+        Date aday = null;
+        String data_banco = "";
+        String data_sistema = "";
+
+        Boolean data_valida = false;
+
+        ConfigurarSistema cs = new ConfigurarSistema(getApplicationContext());
+
+        try
+        {
+            cs.carregarConfiguracoesInicial();
+            data_banco = cs.getConfigHor().getDataAtualizacao();
+
+            data_sistema = sf.format(today);
+
+            try
+            {
+                aday = sf2.parse(data_banco);
+
+                if (today.compareTo(aday) < 0)
+                    data_valida = false;
+                else
+                    data_valida = true;
+            }
+            catch (Exception e)
+            {
+                aday = today;
+                e.printStackTrace();
+                data_valida = false;
+            }
+        }
+        catch (GenercicException e)
+        {
+            e.printStackTrace();
+            data_valida = false;
+        }
+
+
+        return data_valida;
+    }
+/**************************************************************************************************/
 }

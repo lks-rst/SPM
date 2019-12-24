@@ -47,6 +47,7 @@ public class VendaDataAccess
 
     public List getByData() throws GenercicException
     {
+        String[] datas = this.searchData.split("%%");
         ArrayList lista = new ArrayList();
 
         this.sBuilder.delete(0, this.sBuilder.length());
@@ -69,13 +70,25 @@ public class VendaDataAccess
         }
         else { this.sBuilder.append(1); }
 
-        this.sBuilder.append(") AND ");
+        this.sBuilder.append(") AND date(");
 
+
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") BETWEEN '");
+        this.sBuilder.append(datas[0]);
+        this.sBuilder.append("' AND '");
+        this.sBuilder.append(datas[1]);
+        this.sBuilder.append("' AND ");
+
+        /*
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(" = '");
         this.sBuilder.append(this.searchData);
         this.sBuilder.append("' AND ");
+
+        */
 
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
@@ -841,21 +854,35 @@ public class VendaDataAccess
 
     private List searchAll() throws ReadExeption
     {
+        String[] datas = this.searchData.split("%%");
         ArrayList lista = new ArrayList();
 
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT * FROM ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
-        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(" WHERE date(");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
+        this.sBuilder.append(") between '");
+        this.sBuilder.append(datas[0]);
+        this.sBuilder.append("' AND '");
+        this.sBuilder.append(datas[1]);
+        this.sBuilder.append("' AND ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
+        this.sBuilder.append(" = 0;");
+
+
+        /*
+
         this.sBuilder.append(" = '");
         this.sBuilder.append(this.searchData);
         this.sBuilder.append("' AND ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
         this.sBuilder.append(" = 0;");
+         */
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

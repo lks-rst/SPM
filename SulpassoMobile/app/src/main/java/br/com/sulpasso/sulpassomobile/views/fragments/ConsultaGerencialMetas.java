@@ -14,6 +14,7 @@ import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.ConsultaGerencial;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.views.ConsultasGerenciais;
+import br.com.sulpasso.sulpassomobile.views.Inicial;
 
 /**
  * Created by Lucas on 27/02/2018 - 10:49 as part of the project SulpassoMobile.
@@ -72,19 +73,30 @@ public class ConsultaGerencialMetas extends Fragment
         {
             adapter = new br.com.sulpasso.sulpassomobile.views.fragments.Adapters.ConsultaGerencialMetas
                     (getActivity().getApplicationContext(),
-                            ((ConsultasGerenciais)/*(Inicial)*/ getActivity()).buscarListaMetas(),
-                            ((ConsultasGerenciais)/*(Inicial)*/ getActivity()).buscarMetaIdeal());
+                            ((Inicial) getActivity()).buscarListaMetas(),
+                            ((Inicial) getActivity()).buscarMetaIdeal());
         }
 
         ((ListView) (getActivity().findViewById(R.id.liFcgMetas))).setAdapter(adapter);
 
         ((ListView) (getActivity().findViewById(R.id.liFcgMetas))).setOnItemClickListener(exibirMetas);
 
-        ((EditText) (getActivity().findViewById(R.id.edFcgVda))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(0));
+        try
+        {
+            ((EditText) (getActivity().findViewById(R.id.edFcgVda))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(0));
 
-        ((EditText) (getActivity().findViewById(R.id.edFcgComis))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(1));
+            ((EditText) (getActivity().findViewById(R.id.edFcgComis))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(1));
 
-        ((EditText) (getActivity().findViewById(R.id.edFcgContrib))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(2));
+            ((EditText) (getActivity().findViewById(R.id.edFcgContrib))).setText(((ConsultasGerenciais) getActivity()).buscarMetaTotal(2));
+        }
+        catch (Exception e)
+        {
+            ((EditText) (getActivity().findViewById(R.id.edFcgVda))).setText(((Inicial) getActivity()).buscarMetaTotal(0));
+
+            ((EditText) (getActivity().findViewById(R.id.edFcgComis))).setText(((Inicial) getActivity()).buscarMetaTotal(1));
+
+            ((EditText) (getActivity().findViewById(R.id.edFcgContrib))).setText(((Inicial) getActivity()).buscarMetaTotal(2));
+        }
 /*
 
         ((ListView) (getActivity().findViewById(R.id.liFcgMetas))).setAdapter
@@ -106,44 +118,88 @@ public class ConsultaGerencialMetas extends Fragment
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            ((TextView) (getActivity().findViewById(R.id.edFcgPesom))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.META)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgClim))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.META)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgFatm))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.META)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgContm))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.META)));
+            try
+            {
+                ((TextView) (getActivity().findViewById(R.id.edFcgPesom))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.META)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgClim))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.META)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgFatm))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.META)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgContm))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.META)));
 
-            ((TextView) (getActivity().findViewById(R.id.edFcgPesor))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.REALIZADO)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgClir))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.REALIZADO)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgFatr))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.REALIZADO)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgContr))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgPesor))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgClir))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgFatr))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgContr))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.REALIZADO)));
 
-            ((TextView) (getActivity().findViewById(R.id.edFcgPesop))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.PERCENTUAL)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgClip))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.PERCENTUAL)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgFatp))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.PERCENTUAL)));
-            ((TextView) (getActivity().findViewById(R.id.edFcgContp))).
-                    setText((((ConsultasGerenciais) getActivity()).
-                    buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgPesop))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgClip))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgFatp))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgContp))).
+                        setText((((ConsultasGerenciais) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.PERCENTUAL)));
+            }
+            catch (Exception e)
+            {
+                ((TextView) (getActivity().findViewById(R.id.edFcgPesom))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.META)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgClim))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.META)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgFatm))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.META)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgContm))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.META)));
+
+                ((TextView) (getActivity().findViewById(R.id.edFcgPesor))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgClir))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgFatr))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.REALIZADO)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgContr))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.REALIZADO)));
+
+                ((TextView) (getActivity().findViewById(R.id.edFcgPesop))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.PESO, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgClip))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CLIENTE, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgFatp))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.FATURAMENTO, ConsultaGerencial.PERCENTUAL)));
+                ((TextView) (getActivity().findViewById(R.id.edFcgContp))).
+                        setText((((Inicial) getActivity()).
+                                buscarMeta(position, ConsultaGerencial.CONTRIBUICAO, ConsultaGerencial.PERCENTUAL)));
+            }
         }
     };
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/

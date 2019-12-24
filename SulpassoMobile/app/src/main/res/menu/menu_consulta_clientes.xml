@@ -9,20 +9,20 @@
     </item>
     <item
         android:id="@+id/consulta_clientes_titulos"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/menu_consulta_titulos">
     </item>
-    <!--
     <item
         android:id="@+id/consulta_clientes_devolucao"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/menu_consulta_devolucao">
     </item>
     <item
         android:id="@+id/consulta_clientes_corte"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/menu_consulta_corte">
     </item>
+    <!--
 
     <item
         android:id="@+id/consulta_clientes_abc"

@@ -154,6 +154,13 @@ public class ListaItensFragment extends Fragment implements
     {
         switch (item.getItemId())
         {
+            case R.id.itens_promo:
+                ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setHint(
+                        getActivity().getResources().getString(R.string.str_busca) + " " +
+                                getActivity().getResources().getString(R.string.str_promocao));
+                ((Pedido) getActivity()).setSearchType(TiposBuscaItens.PROMO);
+                this.listarItens();
+                break;
             case R.id.itens_desc_ini:
                 ((EditText) (getActivity().findViewById(R.id.flibEdtSearch))).setHint(
                     getActivity().getResources().getString(R.string.str_busca) + " " +

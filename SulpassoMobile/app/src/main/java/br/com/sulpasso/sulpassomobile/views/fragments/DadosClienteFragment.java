@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.util.customViews.SpinnerFilter;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertCortesDevolucaoTitulos;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertDetalhesCliente;
@@ -43,7 +46,12 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
     private Spinner fdcSpnrPrazos;
     private Spinner fdcSpnrMotivos;
 
-    private final Boolean ESPECIAL = true;
+    private SpinnerFilter spnrFil;
+
+    private Boolean ESPECIAL = true;
+
+    ArrayList<String> full;
+    ArrayList<String> source;
 
     public DadosClienteFragment(){}
 /**************************************************************************************************/
@@ -66,6 +74,10 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
     public void onStart()
     {
         super.onStart();
+
+        full = new ArrayList<>();
+        source = new ArrayList<>();
+
         this.setUpLayout();
 
         // Create an object of the Android_Gesture_Detector  Class
@@ -186,8 +198,10 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
 /**************************************************************************************************/
     public void ajustarLayout()
     {
+        ESPECIAL = activity.buscarDadosCliente(R.id.fdcTxtStatus).substring(0, 1).equalsIgnoreCase("E");
+
         ArrayAdapter adapter = new ArrayAdapter(
-                getActivity().getApplicationContext(), R.layout.spinner_item, activity.listarNaturezas(!ESPECIAL));
+                getActivity().getApplicationContext(), R.layout.spinner_item, activity.listarNaturezas(ESPECIAL));
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.fdcSpnrNaturezas.setAdapter(adapter);
 
@@ -258,10 +272,22 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
 
     public void ajustarPrazos(int posicao)
     {
-        ArrayAdapter adapter = new ArrayAdapter(
-                getActivity().getApplicationContext(),
-                R.layout.spinner_item,
-                activity.listarPrazos(posicao));
+        ArrayAdapter adapter = null;
+
+        if(ESPECIAL)
+        {
+            adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(),
+                    R.layout.spinner_item,
+                    activity.listarPrazos());
+        }
+        else
+        {
+            adapter = new ArrayAdapter(
+                    getActivity().getApplicationContext(),
+                    R.layout.spinner_item,
+                    activity.listarPrazos(posicao));
+        }
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.fdcSpnrPrazos.setAdapter(adapter);
@@ -306,9 +332,16 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
             ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, itens);
              */
+
+            /*
             ArrayAdapter adapter = new ArrayAdapter(ctx, R.layout.spinner_item, itens);
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
             this.fdcSpnrClientes.setAdapter(adapter);
+
+            this.spnrFil.AddList(ctx, itens);
+            */
+            this.full = itens;
+            toFull();
         }
         else
         {
@@ -334,7 +367,12 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
         this.fdcSpnrMotivos = (Spinner) (getActivity().findViewById(R.id.fdcSpnrMotivos));
         this.fdcSpnrMotivos.setVisibility(View.GONE);
 
+        this.spnrFil = (SpinnerFilter) (getActivity().findViewById(R.id.spnrFilter));
+
         this.fdcSpnrClientes.setOnItemSelectedListener(selectingData);
+
+        ((EditText) (getActivity().findViewById(R.id.filterBusca))).addTextChangedListener(toFilter);
+
 
         //http://pt.broculos.net/2013/09/how-to-change-spinner-text-size-color.html#.WYIjmVGQy01
         activity.listarClientes(activity.consultaClientesInicial());
@@ -427,7 +465,20 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
                     if(position > 0)
                     {
                         ((EditText) getActivity().findViewById(R.id.fdcEdtTabela)).setText("");
-                        activity.selecionarCliente(position - 1);
+
+                        String selected = source.get(position);
+                        String trueItem = "";
+
+                        int truePosition;
+                        for(truePosition = 0; truePosition < full.size(); truePosition++)
+                        {
+                            trueItem = full.get(truePosition);
+
+                            if(trueItem.indexOf(selected) != -1)
+                                break;
+                        }
+
+                        activity.selecionarCliente(truePosition -1);
 //                        activity.setSearchType(TiposBuscaItens.FAIL);
                     }
                 break;
@@ -493,6 +544,77 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
             apresentarDetalhes();
         }
     };
+
+    private TextWatcher toFilter = new TextWatcher()
+    {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if(s.toString().trim().length() >= 1)
+            {
+                if(fdcSpnrClientes.getSelectedItemPosition() < 1)
+                    filter(s.toString().toUpperCase());
+            }
+            else
+            {
+                Toast.makeText(getActivity().getApplicationContext(), "A consulta não pode ser realizada apenas com espaços", Toast.LENGTH_LONG).show();
+
+                if(fdcSpnrClientes.getSelectedItemPosition() < 1)
+                    toFull();
+            }
+        }
+    };
+
+    protected void filter(String pattern)
+    {
+        this.source.clear();
+        this.source.add("SELECIONE UM CLIENTE");
+
+        String item;
+
+        for(int i = 0; i < this.full.size(); i++)
+        {
+            item = this.full.get(i);
+
+            String[] itens = item.split(" - ");
+
+            if(itens[1].indexOf(pattern) == 0)
+                this.source.add(this.full.get(i));
+            /*
+            item = this.full.get(i);
+
+            if(item.indexOf(pattern) != -1)
+                this.source.add(this.full.get(i));
+            */
+        }
+
+        if(this.source.size() == 1)
+        {
+            this.source.clear();
+            this.source.add("NENHUM CLIENTE CORESPONDENTE");
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.spinner_item, source);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.fdcSpnrClientes.setAdapter(adapter);
+    }
+
+    private void toFull()
+    {
+        this.source.clear();;
+        this.source.addAll(full);
+        ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(), R.layout.spinner_item, source);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.fdcSpnrClientes.setAdapter(adapter);
+    }
 /**************************************************************************************************/
 /**********************************END OF CLICK LISTENERS FOR THE UI*******************************/
 /**************************************************************************************************/

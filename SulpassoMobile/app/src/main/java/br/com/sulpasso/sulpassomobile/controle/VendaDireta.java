@@ -36,6 +36,12 @@ public class VendaDireta extends EfetuarPedidos {
     }
 
     @Override
+    public ArrayList<String> listarPrazos(boolean position) throws GenercicException
+    {
+        return null;
+    }
+
+    @Override
     public Boolean permitirClick(int id) {
         return null;
     }

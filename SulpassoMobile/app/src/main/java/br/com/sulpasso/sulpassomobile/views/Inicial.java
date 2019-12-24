@@ -39,14 +39,18 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.controle.ConsultaGerencial;
 import br.com.sulpasso.sulpassomobile.controle.TelaInicial;
 import br.com.sulpasso.sulpassomobile.modelo.Mensagem;
+import br.com.sulpasso.sulpassomobile.modelo.Meta;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TipoVenda;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 import br.com.sulpasso.sulpassomobile.util.funcoes.Permissions;
 import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
 import br.com.sulpasso.sulpassomobile.util.services.Email;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMensagem;
+import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaGerencialMetas;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensKits;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMainFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
@@ -472,6 +476,9 @@ public class Inicial extends AppCompatActivity
                 break;
             case 7:
                 fragment = new ConsultaItensKits();
+                break;
+            case 16:
+                fragment = new ConsultaGerencialMetas();
                 break;
             default:
                 break;
@@ -1171,6 +1178,32 @@ public class Inicial extends AppCompatActivity
             return sp.getInt(VERSION_KEY, 0);
         }
     }
+
+    public ArrayList<Meta> buscarListaMetas()
+    {
+        ConsultaGerencial cg = new ConsultaGerencial(getApplicationContext());
+        return cg.buscarListaMetas();
+    }
+
+    public float buscarMetaIdeal()
+    {
+        ConsultaGerencial cg = new ConsultaGerencial(getApplicationContext());
+        return cg.buscarMetaIdeal();
+    }
+
+    public String buscarMetaTotal(int tipo)
+    {
+        ConsultaGerencial cg = new ConsultaGerencial(getApplicationContext());
+        return Formatacao.format2d(cg.buscarMetaTotal(tipo));
+    }
+
+    public String buscarMeta(int posicao, int campo, int tipo)
+    {
+        ConsultaGerencial cg = new ConsultaGerencial(getApplicationContext());
+        cg.buscarListaMetas();
+        return cg.buscarMeta(posicao, campo, tipo);
+    }
+
 /*
     private class JsonHttpRequest extends JsonHttpResponseHandler {
         public static final String URI = "http://192.168.25.221:8888/jaguar-app/ctrl/CtrlAdmin.php";

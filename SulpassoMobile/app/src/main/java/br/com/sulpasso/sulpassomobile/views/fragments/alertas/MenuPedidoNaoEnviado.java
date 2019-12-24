@@ -38,7 +38,7 @@ public class MenuPedidoNaoEnviado extends DialogFragment
         //http://pt.broculos.net/2013/09/how-to-change-spinner-text-size-color.html#.WYIjmVGQy01
         ArrayAdapter adapter = new ArrayAdapter(
                 getActivity().getApplicationContext(),
-                R.layout.spinner_item, lista);
+                R.layout.spinner_item_pedido_nao_enviado, lista);
 
         this.callback = null;
         try
