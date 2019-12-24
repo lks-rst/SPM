@@ -51,7 +51,7 @@ public class AlertDataPedidos extends DialogFragment
                 int year = datePicker.getYear();
                 ManipulacaoStrings ms = new ManipulacaoStrings();
                 String data = ms.comEsquerda(String.valueOf(day), "0" , 2) + "/" + ms.comEsquerda(String.valueOf(month), "0" , 2) + "/" + year;
-                data = ms.dataBanco(data);
+                data = ms.dataVisual(data);
 
                 Toast.makeText(getActivity().getApplicationContext(), "Data selecionada= " + data, Toast.LENGTH_LONG).show();
                 callback.indicarNovaData(data);

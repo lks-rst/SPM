@@ -81,6 +81,16 @@ public class PedidoNormal extends EfetuarPedidos
         return lista;
     }
 
+    public ArrayList<String> listarPrazos(boolean especial) throws GenercicException
+    {
+        ArrayList<String> lista = new ArrayList<>();
+
+        this.getPrazosList();
+        for(Prazo p : super.listaPrazos) lista.add(p.toDisplay());
+
+        return lista;
+    }
+
     public Boolean permitirClick(int id)
     {
         Boolean click = false;
@@ -252,7 +262,8 @@ public class PedidoNormal extends EfetuarPedidos
         */
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
-                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens());
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(),
+                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass());
 
         if(item != null)
         {
@@ -665,6 +676,9 @@ public class PedidoNormal extends EfetuarPedidos
             case R.id.aacCbxSeg :
                 retorno = String.valueOf(super.venda.getCliente().getVisita());
                 break;
+            case R.id.fdcTxtStatus :
+                retorno = String.valueOf(super.venda.getCliente().getEspecial() + " - " + super.venda.getCliente().getSituacao());
+                break;
 
             default:
                 retorno = "--";
@@ -1075,6 +1089,16 @@ public class PedidoNormal extends EfetuarPedidos
             super.listaPrazos = pda.buscarTodos();
     }
 
+    protected void getPrazosList() throws GenercicException
+    {
+        PrazoDataAccess pda = new PrazoDataAccess(super.context);
+
+        pda.setSearchType(1);
+        pda.setSearchData(super.codigoPrazo);
+
+        super.listaPrazos = pda.buscarRestrito();
+    }
+
     protected Boolean naturezaIsClicable()
     {
         boolean clienteLiberado = super.controleClientes.clienteAlteraTabela();
@@ -1131,7 +1155,7 @@ public class PedidoNormal extends EfetuarPedidos
         }
         else
         {
-            if(super.controleDigitacao.valorMaximo(super.context))
+            if(super.controleDigitacao.valorMaximo(super.context, this.getClass()))
             {
                 if(super.controleConfiguracao.formaDesconto() == 0)
                 {

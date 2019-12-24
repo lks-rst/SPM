@@ -177,20 +177,24 @@ public class InserirItemPedidos
         return diferenca;
     }
 
-    public boolean valorMaximo(Context ctx)
+    public boolean valorMaximo(Context ctx, Class tipoPedido)
     {
         float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
 
-        return (this.valor < (tabela * 2));
+        if(tipoPedido == Troca.class)
+            return (this.valor < tabela);
+        else
+            return (this.valor < (tabela * 2));
+
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int maximo)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int maximo, Class tipoPedido)
     {
         if(!senha)
         {
             if(this.verificarQuantidade(maximo))
                 if(this.verificarDesconto(desconto, percentual, context))
-                    if(this.verificarValor(desconto, percentual, context))
+                    if(this.verificarValor(desconto, percentual, context, tipoPedido))
                     {
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
@@ -254,13 +258,13 @@ public class InserirItemPedidos
         }
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo, Class tipoPedido)
     {
         if(!senha)
         {
             if(this.verificarQuantidade(maximo))
                 if(this.verificarDesconto(desconto, percentual, context))
-                    if(this.verificarValor(desconto, percentual, context))
+                    if(this.verificarValor(desconto, percentual, context, tipoPedido))
                     {
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
@@ -271,7 +275,12 @@ public class InserirItemPedidos
                         item.setValorTabela(Float.parseFloat(this.getValor()));
                         item.setValorLiquido(this.valor);
                         item.setValorDigitado(this.valor);
-                        item.setDesconto(this.desconto);
+
+                        if(tipoPedido == Troca.class)
+                            item.setDesconto(0);
+                        else
+                            item.setDesconto(this.desconto);
+
                         item.setTotal(this.calcularTotal());
 
                         if (natureza == 21 && empresa == 7) { item.setFlex(this.calcularTotal()); }
@@ -317,9 +326,9 @@ public class InserirItemPedidos
             item.setValorTabela(Float.parseFloat(this.getValor()));
             item.setValorLiquido(this.valor);
             item.setValorDigitado(this.valor);
-            item.setDesconto(this.desconto);
+            item.setDesconto(0);
             item.setTotal(this.calcularTotal());
-            item.setFlex(this.diferencaFlex(context));
+            item.setFlex(0);
             item.setDigitadoSenha(true);
             item.setValorMinimo(Float.parseFloat(this.buscarDadosVendaItem(2)));
             item.setDescontoCampanha(false);
@@ -374,9 +383,9 @@ public class InserirItemPedidos
         }
     }
 
-    private Boolean verificarValor(float desconto, boolean percentual, Context context)
+    private Boolean verificarValor(float desconto, boolean percentual, Context context, Class tipoPedido)
     {
-        if(this.valorMaximo(context))
+        if(this.valorMaximo(context, tipoPedido))
         {
             if(percentual)
                 return true;

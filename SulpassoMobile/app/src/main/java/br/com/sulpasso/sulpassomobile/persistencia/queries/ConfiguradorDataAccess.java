@@ -1453,11 +1453,13 @@ public class ConfiguradorDataAccess
             this.sBuilder.append(" = '");
             this.sBuilder.append(conta.getTipoBusca());
             this.sBuilder.append("', ");
+            /*
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.SALDO);
             this.sBuilder.append(" = '");
             this.sBuilder.append(conta.getSaldo());
             this.sBuilder.append("', ");
+            */
             this.sBuilder.append(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.COMISSAO);
             this.sBuilder.append(" = '");

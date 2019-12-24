@@ -154,6 +154,8 @@ public abstract class EfetuarPedidos
 
     public abstract ArrayList<String> listarPrazos(int position) throws GenercicException;
 
+    public abstract ArrayList<String> listarPrazos(boolean especial) throws GenercicException;
+
     public abstract Boolean permitirClick(int id);
 
     public abstract String selecionarCliente(int posicao);
@@ -403,8 +405,21 @@ public abstract class EfetuarPedidos
 
     public final void setValor(String valor)
     {
-        try { this.controleDigitacao.setValor(Float.parseFloat(valor)); }
-        catch (Exception e){ this.controleDigitacao.setValor(Float.parseFloat("0")); }
+        try
+        {
+            if(valor.toString().indexOf('.') != (valor.toString().length() - 1))
+            {
+                this.controleDigitacao.setValor(Float.parseFloat(valor));
+            }
+            else
+            {
+                this.controleDigitacao.setValor(Float.parseFloat(valor.substring(0, valor.length() - 1)));
+            }
+        }
+        catch (Exception e)
+        {
+            this.controleDigitacao.setValor(Float.parseFloat("0"));
+        }
     }
 
     public final void setDesconto(String desconto) { this.controleDigitacao.setDesconto(Float.parseFloat(desconto));}
@@ -612,7 +627,8 @@ public abstract class EfetuarPedidos
 
     public final void recalcularValor()
     {
-        if(this.getClass() == AlteracaoPedidos.class)
+        float totalPedido = 0;
+        if(this.getClass() == AlteracaoPedidos.class || this.getClass() == Troca.class)
         {
 
         }
@@ -654,11 +670,16 @@ public abstract class EfetuarPedidos
                     iv.setTotal(total);
 
                     livAlt.add(iv);
+
+                    totalPedido += total;
                 }
 
                 liv.clear();
                 liv.addAll(livAlt);
             }
+
+            this.controleSalvar.setTotal(totalPedido);
+           // this.venda.setValor((double)totalPedido);
         }
     }
 

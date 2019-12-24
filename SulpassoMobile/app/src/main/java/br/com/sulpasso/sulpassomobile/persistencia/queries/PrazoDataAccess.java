@@ -21,6 +21,7 @@ public class PrazoDataAccess
     private StringBuilder sBuilder;
     private SQLiteDatabase db;
     private int searchType;
+    private int searchData;
 
     public PrazoDataAccess(Context context)
     {
@@ -30,6 +31,10 @@ public class PrazoDataAccess
     }
 
     public void setSearchType(int searchType) { this.searchType = searchType; }
+
+    public int getSearchData() { return searchData; }
+
+    public void setSearchData(int searchData) { this.searchData = searchData; }
 
     public ArrayList<Prazo> buscarTodos() throws GenercicException
     {
@@ -132,9 +137,21 @@ public class PrazoDataAccess
         this.sBuilder.append(
             br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.TABELA);
         this.sBuilder.append(" WHERE ");
-        this.sBuilder.append(
-            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
-        this.sBuilder.append(" LIKE '000-000-000-000'");
+
+        if(this.searchType == 1)
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.CODIGO);
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(this.searchData);
+            this.sBuilder.append("'");
+        }
+        else
+        {
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Prazo.DESDOBRAMENTO);
+            this.sBuilder.append(" LIKE '000-000-000-000'");
+        }
 
         Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
 

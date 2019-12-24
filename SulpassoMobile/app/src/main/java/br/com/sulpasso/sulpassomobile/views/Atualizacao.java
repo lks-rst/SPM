@@ -59,6 +59,8 @@ public class Atualizacao extends AppCompatActivity
     protected Boolean show;
     protected String time;
 
+    private String resultadoAtualizacao = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -146,13 +148,7 @@ public class Atualizacao extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         Toast t;
-
-        mProgressTwo.setVisibility(View.VISIBLE);
-        ((TextView) findViewById(R.id.textProgressTwo)).setVisibility(View.VISIBLE);
-
-        mProgress.setProgress(0);
-        mProgressTwo.setProgress(0);
-        ((TextView) findViewById(R.id.textProgressTwo)).setText("--");
+        resetProgress();
 
         switch (item.getItemId())
         {
@@ -259,6 +255,7 @@ public class Atualizacao extends AppCompatActivity
         @Override
         protected Void doInBackground(Void... params)
         {
+            resultadoAtualizacao = "";
             if(instalacaoSistema())
             {
                 percentualAtualizacao = 1;
@@ -366,6 +363,7 @@ public class Atualizacao extends AppCompatActivity
                         }
                         else
                         {
+                            resultadoAtualizacao = "Erro ao carregar os dados!";
                             timerHandler.removeCallbacks(timerRunnable);
 
                             percentualAtualizacao = 100;
@@ -376,6 +374,7 @@ public class Atualizacao extends AppCompatActivity
                     }
                     else
                     {
+                        resultadoAtualizacao = "Arquivo de dados incompleto!";
                         timerHandler.removeCallbacks(timerRunnable);
 
                         percentualAtualizacao = 100;
@@ -387,6 +386,7 @@ public class Atualizacao extends AppCompatActivity
                 else
                 {
                     timerHandler.removeCallbacks(timerRunnable);
+                    resultadoAtualizacao = "Você não possui conexão com a internet!";
 
                     sem_internet = true;
                     /*
@@ -1130,7 +1130,8 @@ public class Atualizacao extends AppCompatActivity
     private void terminar()
     {
         percentualAtualizacao = 100;
-        displayMessage = "Arquivo de dados não pode ser verificado ou esta incompleto.\nPor favor comunique seu supervisor.";
+        //displayMessage = "Arquivo de dados não pode ser verificado ou esta incompleto.\nPor favor comunique seu supervisor.";
+        displayMessage = resultadoAtualizacao;
         atualizarLoadBar();
     }
 
@@ -1160,6 +1161,23 @@ public class Atualizacao extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) { /*****/ }
         });
         alert.show();
+    }
+
+    private void resetProgress()
+    {
+        mProgress.setProgress(0);
+        mProgressTwo.setProgress(0);
+
+        mProgressTwo.setMax(100);
+        mProgress.setMax(100);
+
+        findViewById(R.id.textProgressOne).setVisibility(View.GONE);
+        findViewById(R.id.textProgressOne).setVisibility(View.VISIBLE);
+        findViewById(R.id.textProgressTwo).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.textProgressTwo)).setText("--");
+
+        mProgressTwo.setVisibility(View.VISIBLE);
+        mProgress.setVisibility(View.VISIBLE);
     }
 
     private void Proseguir()

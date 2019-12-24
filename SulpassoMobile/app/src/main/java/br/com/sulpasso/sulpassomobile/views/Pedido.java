@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -18,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -207,19 +210,23 @@ public class Pedido extends AppCompatActivity
 //            getFragmentManager().popBackStackImmediate();
             EfetuarPedidos.senha = false;
             int ret = -1;
-            ret = this.controlePedido.verificarTabloides();
-            if(ret != -1)
+
+            if(this.controlePedido.getClass() != Troca.class)
             {
-                aplicarDescontoTabloide(ret);
-                Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                ret = this.controlePedido.verificarCampanhas();
+                ret = this.controlePedido.verificarTabloides();
                 if(ret != -1)
                 {
-                    aplicarDescontoCampanhas(ret);
+                    aplicarDescontoTabloide(ret);
                     Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    ret = this.controlePedido.verificarCampanhas();
+                    if(ret != -1)
+                    {
+                        aplicarDescontoCampanhas(ret);
+                        Toast.makeText(getApplicationContext(), "Desconto aplicado", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
@@ -251,10 +258,20 @@ public class Pedido extends AppCompatActivity
                 EfetuarPedidos.strErro.equalsIgnoreCase("Saldo insuficiente!\nPor favor verifique.") ||
                 EfetuarPedidos.strErro.equalsIgnoreCase("Contribuição atual não permite desconto!\nPor favor verifique."))
         {
-            Toast.makeText(getApplicationContext(), "Solicitar Senha", Toast.LENGTH_LONG).show();
-            this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
-            this.chave = sl.getChave();
-            solicitarSenha(this.chave);
+            if(this.controlePedido.getClass() != Troca.class)
+            {
+                Toast.makeText(getApplicationContext(), "Solicitar Senha", Toast.LENGTH_LONG).show();
+                this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
+                this.chave = sl.getChave();
+                solicitarSenha(this.chave);
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Informações do item icorretas.\nVerifique valor e quantidade do item para prosseguir.", Toast.LENGTH_LONG).show();
+                this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
+                this.chave = sl.getChave();
+                solicitarSenha(this.chave);
+            }
         }
         else
         {
@@ -418,10 +435,7 @@ public class Pedido extends AppCompatActivity
 
     public ArrayList<String> listarPrazos(int position)
     {
-        try
-        {
-            return this.controlePedido.listarPrazos(position);
-        }
+        try { return this.controlePedido.listarPrazos(position); }
         catch (GenercicException ge)
         {
             Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
@@ -429,10 +443,17 @@ public class Pedido extends AppCompatActivity
         }
     }
 
-    public String buscarDadosCliente(int campo)
+    public ArrayList<String> listarPrazos()
     {
-        return this.controlePedido.buscarDadosCliente(campo);
+        try { return this.controlePedido.listarPrazos(true); }
+        catch (GenercicException ge)
+        {
+            Toast.makeText(getApplicationContext(), "Erro ao carregar dados" + ge.getMessage(), Toast.LENGTH_LONG).show();
+            return new ArrayList<>();
+        }
     }
+
+    public String buscarDadosCliente(int campo) { return this.controlePedido.buscarDadosCliente(campo); }
 
     public ArrayList<String> buscarAdicionais()
     {
@@ -455,17 +476,11 @@ public class Pedido extends AppCompatActivity
         return adicionais;
     }
 
-    public String buscarDadosVenda(int campo)
-    {
-        return this.controlePedido.buscarDadosVenda(campo);
-    }
+    public String buscarDadosVenda(int campo) { return this.controlePedido.buscarDadosVenda(campo); }
 
     public Boolean permitirClick(int id) { return this.controlePedido.permitirClick(id); }
 
-    public int buscarNatureza()
-    {
-        return this.controlePedido.buscarNatureza();
-    }
+    public int buscarNatureza() { return this.controlePedido.buscarNatureza(); }
 
     public int buscarPrazo()
     {
@@ -1170,7 +1185,8 @@ public class Pedido extends AppCompatActivity
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         int posicao = 0;
 
-        ArrayList<String> cidades;
+        final ArrayList<String> cidades = new ArrayList<>();
+        final ArrayList<String> cidadesFiltered = new ArrayList<>();
         ArrayAdapter<String> adapter_ciadades;
 
         String array_spinner[];
@@ -1185,10 +1201,16 @@ public class Pedido extends AppCompatActivity
 
         array_mensagem[0]="Digite o nome fantasia.";
         array_mensagem[1]="Digite a razao social";
-        array_mensagem[2]="Digite a cidade";
+        array_mensagem[2]="Selecione a cidade";
 
         final EditText input = new EditText(this);
         final Spinner spnr_cidades = new Spinner(this);
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.addView(input);
+        ll.addView(spnr_cidades);
+
+        //input.addTextChangedListener(null);
 
         switch (tipo)
         {
@@ -1202,13 +1224,78 @@ public class Pedido extends AppCompatActivity
                 break;
             case 3: //CIDADE
                 posicao = 2;
-                cidades = new ArrayList<>();
+
+                cidades.addAll(controlePedido.listarCidades());
+                cidadesFiltered.addAll(cidades);
+
                 adapter_ciadades = new ArrayAdapter<String>(getApplicationContext(),
-                        R.layout.spinner_item, controlePedido.listarCidades());
+                        R.layout.spinner_item, cidadesFiltered);
                 adapter_ciadades.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
                 spnr_cidades.setAdapter(adapter_ciadades);
-                input.setVisibility(View.GONE);
+                input.setVisibility(View.VISIBLE);
+
+                input.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s)
+                    {
+                        if(s.toString().trim().length() >= 1)
+                        {
+                            String filter = s.toString().toUpperCase();
+                            cidadesFiltered.clear();
+                            cidadesFiltered.add("Escolha uma cidade");
+
+                            String item;
+
+                            for(int i = 0; i < cidades.size(); i++)
+                            {
+                                item = cidades.get(i);
+
+                                String[] itens = item.split(" - ");
+
+                                if(itens[1].indexOf(filter) == 0)
+                                    cidadesFiltered.add(cidades.get(i));
+                                /*
+                                item = cidades.get(i);
+
+                                if(item.indexOf(filter) != -1)
+                                    cidadesFiltered.add(cidades.get(i));
+                                */
+                            }
+
+                            if(cidadesFiltered.size() == 1)
+                            {
+                                cidadesFiltered.clear();
+                                cidadesFiltered.add("NENHUMA CIDADE CORRESPONDENTE");
+                            }
+
+                            ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, cidadesFiltered);
+                            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                            spnr_cidades.setAdapter(adapter);
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "A consulta não pode ser realizada apenas com espaços", Toast.LENGTH_LONG).show();
+
+                            cidadesFiltered.clear();
+                            cidadesFiltered.add("Escolha uma cidade");
+                            cidadesFiltered.addAll(cidades);
+                            ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, cidadesFiltered);
+                            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                            spnr_cidades.setAdapter(adapter);
+                        }
+                    }
+                });
                 break;
 
             default:
@@ -1226,8 +1313,26 @@ public class Pedido extends AppCompatActivity
                 {
                     try
                     {
+                        int position = spnr_cidades.getSelectedItemPosition();
+
+                        int truePosition = 1;
+                        if(position > 0)
+                        {
+                            String selected = cidadesFiltered.get(position);
+                            String trueItem = "";
+
+                            for(truePosition = 0; truePosition < cidades.size(); truePosition++)
+                            {
+                                trueItem = cidades.get(truePosition);
+
+                                if(trueItem.indexOf(selected) != -1)
+                                    break;
+                            }
+//                        activity.setSearchType(TiposBuscaItens.FAIL);
+                        }
+
                         apresentarLista(controlePedido.listarCLientes(tipo, String.valueOf(
-                            controlePedido.getCitCod(spnr_cidades.getSelectedItemPosition()))), 1);
+                            controlePedido.getCitCod(truePosition))), 1);
                     } catch (GenercicException e)
                     {
                         apresentarLista(new ArrayList<String>(), 1);
@@ -1254,7 +1359,7 @@ public class Pedido extends AppCompatActivity
         });
 
         if(tipo == 3)
-            alert.setView(spnr_cidades);
+            alert.setView(ll);
         else
             alert.setView(input);
 
@@ -1403,6 +1508,10 @@ public class Pedido extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Solicitar Senha", Toast.LENGTH_LONG).show();
             }
         }
-        else { /*****/ }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "ATENÇAO!\nA senha digitada é incorreta.", Toast.LENGTH_LONG).show();
+            /*****/
+        }
     }
 }

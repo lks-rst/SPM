@@ -92,9 +92,71 @@ public class ConsultarPedidos
         }
     }
 
+    public ArrayList<Venda> listarPedidosV(int tipo, String inicio, String fim)
+    {
+        this.naoEnviadas = null;
+        this.enviadas = null;
+        this.todas = null;
+
+        this.setTipoBusca(tipo);
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+
+        if(inicio.length() < 10)
+        {
+            Calendar calendario = Calendar.getInstance();
+            int year = calendario.get(Calendar.YEAR);
+            int month = (calendario.get(Calendar.MONTH) + 1);
+            int day = calendario.get(Calendar.DAY_OF_MONTH);
+
+            inicio = ms.comEsquerda(String.valueOf(day), "0" , 2) + "/" + ms.comEsquerda(String.valueOf(month), "0" , 2) + "/" + year;
+            inicio = ms.dataBanco(inicio);
+        }
+        else {
+            inicio = ms.dataBanco(inicio);
+        }
+
+        if(fim.length() < 10)
+        {
+            Calendar calendario = Calendar.getInstance();
+            int year = calendario.get(Calendar.YEAR);
+            int month = (calendario.get(Calendar.MONTH) + 1);
+            int day = calendario.get(Calendar.DAY_OF_MONTH);
+
+            fim = ms.comEsquerda(String.valueOf(day), "0" , 2) + "/" + ms.comEsquerda(String.valueOf(month), "0" , 2) + "/" + year;
+            fim = ms.dataBanco(fim);
+        }
+        else {
+            fim = ms.dataBanco(fim);
+        }
+
+
+        String data = inicio + "%%" + fim;
+
+        switch (tipo)
+        {
+            case 0 :
+                this.buscarTodos(data);
+                return this.todas;
+            case 1 :
+                this.buscarEnviados(data);
+                return this.enviadas;
+            case 2 :
+                this.buscarNaoEnviados(data);
+                return this.naoEnviadas;
+            default :
+                this.buscarTodos(data);
+                return this.todas;
+        }
+    }
+
     public ArrayList<Venda> listarPedidosV(String data)
     {
         return this.listarPedidosV(this.tipoBusca, data);
+    }
+
+    public ArrayList<Venda> listarPedidosV(String inicio, String fim)
+    {
+        return this.listarPedidosV(this.tipoBusca, inicio, fim);
     }
 
     public ArrayList<String> listarItens(int posicao)

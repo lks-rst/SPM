@@ -1,6 +1,7 @@
 package br.com.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
@@ -231,7 +232,16 @@ public class ConfigurarSistema
 
     private float getDesconto() { return this.configUsr.getDescontoItem(); }
 
-    private Boolean verifyContribuicao() { return true; }
+    private Boolean verifyContribuicao()
+    {
+        Toast.makeText(context, "Contribuição atual = " + this.configUsr.getContribuicao() +
+                "\nContribuiçao ideal = " + this.configUsr.getContribuicaoIdeal(), Toast.LENGTH_LONG).show();
+
+        if(this.configUsr.getContribuicao() >= this.configUsr.getContribuicaoIdeal())
+            return true;
+
+        return false;
+    }
 
     private String getConfiguracao(int data)
     {

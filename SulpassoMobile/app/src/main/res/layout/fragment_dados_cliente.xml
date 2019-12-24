@@ -17,6 +17,14 @@
             android:layout_height="match_parent"
             android:id="@+id/llMainCliData">
 
+
+            <EditText
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:id="@+id/filterBusca" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -28,7 +36,7 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_width="0dp"
                     android:layout_weight="0.9"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:id="@+id/fdcSpnrClientes" />
 
                 <TextView
@@ -41,16 +49,11 @@
                     android:layout_gravity="center" />
             </LinearLayout>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_height="75dp"
+                android:layout_height="50dp"
                 android:id="@+id/fdcSpnrNaturezas" />
 
             <Spinner
@@ -58,13 +61,8 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_height="75dp"
+                android:layout_height="50dp"
                 android:id="@+id/fdcSpnrPrazos" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -112,11 +110,6 @@
                     android:hint="@string/str_flex" />
             </LinearLayout>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -127,7 +120,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.15"
                     android:text="@string/lbl_cidade"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -144,7 +138,8 @@
                     android:layout_weight="0.15"
                     style="@style/texts.labels"
                     android:text="@string/lbl_estado"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -167,7 +162,8 @@
                     android:layout_weight="0.2"
                     style="@style/texts.labels"
                     android:text="@string/lbl_end"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -190,7 +186,8 @@
                     android:layout_weight="0.18"
                     style="@style/texts.labels"
                     android:text="@string/lbl_fone"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -207,7 +204,8 @@
                     android:layout_weight="0.15"
                     style="@style/texts.labels"
                     android:text="@string/lbl_cel"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -230,7 +228,8 @@
                     android:layout_weight="0.2"
                     style="@style/texts.labels"
                     android:text="@string/lbl_ultima"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -253,7 +252,8 @@
                     android:layout_weight="0.15"
                     style="@style/texts.labels"
                     android:text="@string/lbl_meta"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -263,7 +263,8 @@
                     android:focusableInTouchMode="false"
                     android:layout_weight="0.35"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtMeta" />
+                    android:id="@+id/fdcEdtMeta"
+                    android:textSize="12dp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -271,7 +272,8 @@
                     style="@style/texts.labels"
                     android:text="@string/lbl_realizado"
                     android:id="@+id/fdcTxtRealizado"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -281,7 +283,8 @@
                     android:clickable="true"
                     android:focusableInTouchMode="false"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtReal" />
+                    android:id="@+id/fdcEdtReal"
+                    android:textSize="12dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -291,7 +294,8 @@
                     android:clickable="true"
                     android:focusableInTouchMode="false"
                     android:layout_height="wrap_content"
-                    android:id="@+id/fdcEdtPercentual" />
+                    android:id="@+id/fdcEdtPercentual"
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -304,7 +308,8 @@
                     android:layout_weight="0.2"
                     style="@style/texts.labels"
                     android:text="@string/lbl_credito"
-                    android:gravity="center_vertical|right" />
+                    android:gravity="center_vertical|right"
+                    android:textSize="15dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -332,7 +337,8 @@
                     android:enabled="true"
                     android:editable="false"
                     android:clickable="true"
-                    android:focusableInTouchMode="false" />
+                    android:focusableInTouchMode="false"
+                    android:textSize="12dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -346,19 +352,15 @@
                     android:editable="false"
                     android:clickable="true"
                     android:focusableInTouchMode="false"
-                    android:hint="@string/str_media" />
+                    android:hint="@string/str_media"
+                    android:textSize="12dp" />
             </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/activity_vertical_margin"
-                android:background="#a10505" />
 
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_height="75dp"
+                android:layout_height="50dp"
                 android:id="@+id/fdcSpnrMotivos" />
 
 
@@ -369,6 +371,24 @@
                 android:id="@+id/button"
                 android:onClick="selecionarCliente" />
             -->
+
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <br.com.sulpasso.sulpassomobile.util.customViews.SpinnerFilter
+                    android:id="@+id/spnrFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </br.com.sulpasso.sulpassomobile.util.customViews.SpinnerFilter>
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

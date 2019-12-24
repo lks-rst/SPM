@@ -73,15 +73,15 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
             case R.id.consulta_clientes_titulos :
                 displayView(R.id.consulta_clientes_titulos);
                 break;
-            /*
-            case R.id.consulta_clientes_abc :
-                displayView(R.id.consulta_clientes_abc);
-                break;
             case R.id.consulta_clientes_devolucao :
                 displayView(R.id.consulta_clientes_devolucao);
                 break;
             case R.id.consulta_clientes_corte :
                 displayView(R.id.consulta_clientes_corte);
+                break;
+            /*
+            case R.id.consulta_clientes_abc :
+                displayView(R.id.consulta_clientes_abc);
                 break;
             case R.id.consulta_clientes_pre :
                 displayView(R.id.consulta_clientes_pre);
@@ -127,7 +127,6 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
                 fragment = new ConsultaClientesTitulos();
                 title += fragTitles[2];
                 break;
-            /*
             case R.id.consulta_clientes_devolucao :
                 fragment = new ConsultaClientesDevolucao();
                 title += fragTitles[3];
@@ -136,6 +135,7 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
                 fragment = new ConsultaClientesCorte();
                 title += fragTitles[4];
                 break;
+            /*
             case R.id.consulta_clientes_pre :
                 fragment = new ConsultaClientesPrePedido();
                 title += fragTitles[5];

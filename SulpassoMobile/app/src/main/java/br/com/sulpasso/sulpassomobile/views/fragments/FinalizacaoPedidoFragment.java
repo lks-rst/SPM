@@ -420,6 +420,9 @@ public class FinalizacaoPedidoFragment extends Fragment
                                         .valueOf(((Pedido) getActivity()).selecionarPrazo(position)))));
 
                         ((Pedido) getActivity()).recalcularPrecos();
+
+                        ((EditText) (getActivity().findViewById(R.id.ffpEdtTotalItens)))
+                                .setText(Formatacao.format2d(((Pedido) getActivity()).valorVendido()));
                     }
                     catch (Exception e) { ((Pedido) getActivity()).alterarFragmento(4); }
                     /*

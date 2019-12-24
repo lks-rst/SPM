@@ -35,6 +35,12 @@
 </item>
 
 <item
+    android:showAsAction="ifRoom"
+    android:id="@+id/itens_promo"
+    android:title="@string/str_promocao">
+</item>
+
+<item
     android:id="@+id/itens_desc_any"
     android:title="@string/menu_itens_desc">
 </item>

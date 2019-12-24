@@ -63,7 +63,19 @@ public class AlteracaoPedidos extends EfetuarPedidos
     public ArrayList<String> listarPrazos(int position) throws GenercicException
     {
         String prazo = super.getPrazoNatureza(position);
-        this.getPrazosList(prazo);
+        this.getPrazosList(super.venda.getPrazo().getCodigo());
+
+        ArrayList<String> lista = new ArrayList<>();
+        for(Prazo p : super.listaPrazos) lista.add(p.toDisplay());
+
+        return lista;
+    }
+
+    @Override
+    public ArrayList<String> listarPrazos(boolean position) throws GenercicException
+    {
+        this.getPrazosList(super.venda.getPrazo().getCodigo());
+
         ArrayList<String> lista = new ArrayList<>();
         for(Prazo p : super.listaPrazos) lista.add(p.toDisplay());
 
@@ -96,7 +108,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
     public int buscarPrazo()
     {
         for (Prazo p : super.listaPrazos)
-            if (p.getCodigo() == super.codigoPrazo)
+            if (p.getCodigo() == super.venda.getPrazo().getCodigo())
                 return super.listaPrazos.indexOf(p);
 
         return -1;
@@ -215,7 +227,8 @@ public class AlteracaoPedidos extends EfetuarPedidos
         */
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
-                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens());
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(),
+                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass());
 
         if(item != null)
         {
@@ -843,11 +856,9 @@ public class AlteracaoPedidos extends EfetuarPedidos
     protected void getNaturezasList(Boolean especial) throws GenercicException
     {
         NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
+        nda.setSearchData(super.venda.getNatureza());
 
-        if (especial)
-            super.listaNaturezas = nda.buscarRestrito();
-        else
-            super.listaNaturezas = nda.buscarTodos();
+        super.listaNaturezas = nda.buscarRestrito();
     }
 
     protected void getPrazosList(String prazo) throws GenercicException
@@ -916,7 +927,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
         }
         else
         {
-            if(super.controleDigitacao.valorMaximo(super.context))
+            if(super.controleDigitacao.valorMaximo(super.context, this.getClass()))
             {
                 if(super.controleConfiguracao.formaDesconto() == 0)
                 {
@@ -1014,4 +1025,14 @@ public class AlteracaoPedidos extends EfetuarPedidos
     public Boolean mostraFlexItem() { return super.controleConfiguracao.getConfigVda().getFlexItem(); }
 
     public Boolean mostraFlexVenda() { return super.controleConfiguracao.getConfigVda().getFlexVenda(); }
+
+    private void getPrazosList(int prazo) throws GenercicException
+    {
+        PrazoDataAccess pda = new PrazoDataAccess(super.context);
+        pda.setSearchType(1);
+        pda.setSearchData(prazo);
+
+
+        super.listaPrazos = pda.buscarRestrito();
+    }
 }
