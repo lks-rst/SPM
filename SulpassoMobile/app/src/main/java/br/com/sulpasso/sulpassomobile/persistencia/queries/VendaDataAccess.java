@@ -1557,6 +1557,9 @@ public class VendaDataAccess
             {
                 ItensVendidos item = new ItensVendidos();
 
+                item.setDescontoCG(0);
+                item.setDescontoCP(0);
+
                 item.setItem(
                         c.getInt(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.ITEM)));
@@ -1576,11 +1579,18 @@ public class VendaDataAccess
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
 
+                item.setDescontoCP(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.DESCONTOCP)));
+                item.setDescontoCG(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.DESCONTOCG)));
+
+                item.setDescontoCampanha((item.getDescontoCG() > 0 || item.getDescontoCP() > 0));
 
                 item.setDescricao(c.getString(c.getColumnIndex("id")));
                 item.setReferencia(c.getString(c.getColumnIndex("ir")));
                 item.setComplemento(c.getString(c.getColumnIndex("ic")));
-
 
                 itens.add(item);
                 c.moveToNext();

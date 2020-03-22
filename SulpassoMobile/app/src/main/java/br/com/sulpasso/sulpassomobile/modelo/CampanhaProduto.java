@@ -11,6 +11,7 @@ public class CampanhaProduto
     private int quantidade;
     private float desconto;
     private List<Integer> itens;
+    private List<String> itensDesc;
     private float descontoAplicado;
     private float quantidadeVendida;
 
@@ -38,6 +39,10 @@ public class CampanhaProduto
 
     public void setQuantidadeVendida(float quantidadeVendida) { this.quantidadeVendida = quantidadeVendida; }
 
+    public List<String> getItensDesc() { return itensDesc; }
+
+    public void setItensDesc(List<String> itensDesc) { this.itensDesc = itensDesc; }
+
     @Override
     public String toString()
     {
@@ -59,6 +64,9 @@ public class CampanhaProduto
             sBuilder.append(codigo);
             sBuilder.append(" - ");
             sBuilder.append(i);
+            sBuilder.append(" - ");
+            sBuilder.append(itensDesc.get(this.itens.indexOf(i)));
+            sBuilder.append(" -\n ");
             sBuilder.append(" Qtd.:");
             sBuilder.append(quantidade);
             sBuilder.append(" Desc.:");

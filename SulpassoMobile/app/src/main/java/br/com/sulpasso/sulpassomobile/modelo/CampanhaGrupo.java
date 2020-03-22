@@ -58,4 +58,23 @@ public class CampanhaGrupo
                 " Qtd.:" + quantidade +
                 " Desc.:" + desconto;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CampanhaGrupo)) return false;
+
+        CampanhaGrupo that = (CampanhaGrupo) o;
+
+        if (getQuantidade() != that.getQuantidade()) return false;
+        return getGrupo().equals(that.getGrupo());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getGrupo().hashCode();
+        result = 31 * result + getQuantidade();
+        return result;
+    }
 }

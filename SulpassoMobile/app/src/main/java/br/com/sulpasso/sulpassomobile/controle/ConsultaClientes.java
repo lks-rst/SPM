@@ -93,6 +93,9 @@ public class ConsultaClientes implements br.com.sulpasso.sulpassomobile.controle
     {
         CorteDataAccess cda = new CorteDataAccess(this.ctx);
 
+        try { this.clientes.clear(); }
+        catch (Exception e) { this.clientes = new ArrayList<Cliente>(); }
+
         try
         {
             this.cortes = cda.getAll();
@@ -117,19 +120,19 @@ public class ConsultaClientes implements br.com.sulpasso.sulpassomobile.controle
 
         for(ItensVendidos i : ic)
         {
-            Item it;
+            //Item it;
             str_ret = "";
             str_ret += i.getItem();
 
             try
             {
-                it = ida.buscarItemCodigo(i.getItem());
+                //it = ida.buscarItemCodigo(i.getItem());
 
-                str_ret += " - " + ms.comDireita(it.getReferencia(), " ", 10).trim() + " . " +
-                        ms.comDireita(it.getDescricao(), " ", 25).trim() + " . " +
-                        ms.comDireita(it.getComplemento(), " ", 15).trim() + " - ";
+                str_ret += " - " + ms.comDireita(i.getReferencia(), " ", 10).trim() + " . " +
+                        ms.comDireita(i.getDescricao(), " ", 25).trim() + " . " +
+                        ms.comDireita(i.getComplemento(), " ", 15).trim() + " - ";
             }
-            catch (GenercicException e) { str_ret += " -  .  .  - "; }
+            catch (Exception e) { str_ret += " -  .  .  - "; }
 
             str_ret += i.getQuantidade();
 

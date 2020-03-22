@@ -142,6 +142,19 @@ public class ManipularArquivos
             f = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/", this.nomeArquivo);
         }
         */
+        if(this.nomeArquivo == null || this.nomeArquivo.isEmpty())
+        {
+            ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+            int sequencia;
+            int usuario;
+            ManipulacaoStrings ms = new ManipulacaoStrings();
+
+            sequencia = cda.buscarSequencias(0);
+            usuario = cda.buscarCodigoUsuario();
+
+            this.nomeArquivo = "Pw" + ms.comEsquerda("" + usuario, "0", 4) + "." + ms.comEsquerda("" + (sequencia + 1), "0", 3);
+        }
+
         f = new File(Environment.getExternalStorageDirectory() + "/MobileVenda/", this.nomeArquivo);
 
         return (f);

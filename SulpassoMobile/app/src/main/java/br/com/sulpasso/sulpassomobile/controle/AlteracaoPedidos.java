@@ -11,6 +11,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
+import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.modelo.Natureza;
@@ -228,7 +229,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
                 super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(),
-                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass());
+                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), super.venda.getTipo());
 
         if(item != null)
         {
@@ -306,10 +307,12 @@ public class AlteracaoPedidos extends EfetuarPedidos
     {
         NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
 
-        if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
-                , super.controleConfiguracao.pedidoMinimo()))
+
+        if(super.venda.getTipo().equalsIgnoreCase("tr") ||
+            super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo(), super.controleConfiguracao.pedidoMinimo()))
         {
-            if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
+            if(super.venda.getTipo().equalsIgnoreCase("tr") ||
+                super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
             {
                 super.venda.setItens(super.itensVendidos);
                 super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
@@ -328,7 +331,8 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
                 if(super.controleSalvar.salvarPedido(super.context, super.venda))
                 {
-                    super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
+                    if(!super.venda.getTipo().equalsIgnoreCase("tr"))
+                        super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
 
                     float flexItem = 0;
                     float flexItens = 0;
@@ -348,7 +352,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
                     totalFlex = (float) (flexItens + super.venda.getDesconto());
                     totalFlex *= -1;
 
-                    if(this.mostraFlexVenda())
+                    if(super.venda.getTipo().equalsIgnoreCase("tr") || this.mostraFlexVenda())
                     {
                         Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
@@ -518,7 +522,9 @@ public class AlteracaoPedidos extends EfetuarPedidos
                     {
                         super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
                                 super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
-                        posicaoGrupo = -2;
+
+                        if(posicaoGrupo == -1)
+                            posicaoGrupo = -2;
                     }
                 }
             }
@@ -530,32 +536,69 @@ public class AlteracaoPedidos extends EfetuarPedidos
                 {
 //                    CampanhaGrupo camp = campanhas.buscarCampanha(codigo);
                     ArrayList<CampanhaGrupo> camps = campanhas.buscarCampanhas(codigo);
+                    int alterado = -1;
 
                     if(camps == null)
                         posicaoGrupo = -1;
                     else
                     {
-                        super.campanhaGrupos.addAll(camps);
-
-                        for(CampanhaGrupo c : super.campanhaGrupos)
+                        if(super.campanhaGrupos == null || super.campanhaGrupos.size() == 0)
                         {
-                            if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
-                                    (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
-                                    (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == 0                     && c.getGrupo().getDivisao() == 0))
+                            super.campanhaGrupos.addAll(camps);
+                            alterado = 0;
+                        }
+                        else
+                        {
+                            for (CampanhaGrupo cp : camps)
                             {
-                                float qt = super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade();
-
-                                if(c.getQuantidade() <= (c.getQuantidadeVendida() + qt))
+                                int pos = -1;
+                                for (CampanhaGrupo scp: super.campanhaGrupos)
                                 {
-                                    super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
-                                            super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
-                                    posicaoGrupo = super.campanhaGrupos.indexOf(c);
+                                    if(scp.equals(cp))
+                                    {
+                                        pos = super.campanhaGrupos.indexOf(scp);
+                                        break;
+                                    }
+                                }
+                                if(pos != -1)
+                                {
+                                    alterado = pos;
+                                    //alterado = super.campanhaGrupos.size();
+                                    //super.campanhaGrupos.add(cp);
                                 }
                                 else
                                 {
-                                    super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
-                                            super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
-                                    posicaoGrupo = -2;
+                                    super.campanhaGrupos.add(cp);
+                                }
+
+                            }
+                        }
+
+                        if(alterado != -1)
+                        {
+                            for(int i = 0; i < super.campanhaGrupos.size(); i++)
+                            {
+                                CampanhaGrupo c = super.campanhaGrupos.get(i);
+                                if ((c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == produto.getDivisao()) ||
+                                        (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == produto.getSubGrupo() && c.getGrupo().getDivisao() == 0) ||
+                                        (c.getGrupo().getGrupo() == produto.getGrupo() && c.getGrupo().getSubGrupo() == 0                     && c.getGrupo().getDivisao() == 0))
+                                {
+                                    float qt = super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade();
+
+                                    if(c.getQuantidade() <= (c.getQuantidadeVendida() + qt))
+                                    {
+                                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                                super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+                                        posicaoGrupo = super.campanhaGrupos.indexOf(c);
+                                    }
+                                    else
+                                    {
+                                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
+                                                super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+
+                                        if(posicaoGrupo == -1)
+                                            posicaoGrupo = -2;
+                                    }
                                 }
                             }
                         }
@@ -602,6 +645,9 @@ public class AlteracaoPedidos extends EfetuarPedidos
                             {
                                 super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).setQuantidadeVendida(
                                         super.campanhaGrupos.get(super.campanhaGrupos.indexOf(c)).getQuantidadeVendida() + (int)qt);
+
+                                if(posicaoGrupo == -1)
+                                    posicaoGrupo = -2;
                             }
                         }
                     }
@@ -621,21 +667,20 @@ public class AlteracaoPedidos extends EfetuarPedidos
                 super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado());
                 super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCampanha(true);
 
-                    /*
-                    super.itensVendidos.get(super.itensVendidos.size() - 1).setValorLiquido(
-                            super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() -
-                                    ((super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() *
-                                            super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado()) / 100));
+                super.itensVendidos.get(super.itensVendidos.size() - 1).setValorLiquido(
+                        super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() -
+                                ((super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado() *
+                                        super.campanhaGrupos.get(posicaoGrupo).getDescontoAplicado()) / 100));
 
-                    super.itensVendidos.get(super.itensVendidos.size() - 1).setTotal(super.calcularTotal
-                            (
-                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade(),
-                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado(),
-                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getDesconto(),
-                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCG(),
-                                    super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0
-                            ));
-                    */
+                super.itensVendidos.get(super.itensVendidos.size() - 1).setTotal(super.calcularTotal
+                        (
+                                super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade(),
+                                super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado(),
+                                super.itensVendidos.get(super.itensVendidos.size() - 1).getDesconto(),
+                                super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCG(),
+                                super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0,
+                                super.itensVendidos.get(super.itensVendidos.size() - 1).getItem()
+                        ));
 
                 return -1;
             }
@@ -646,6 +691,33 @@ public class AlteracaoPedidos extends EfetuarPedidos
         {
             return -1;
         }
+    }
+
+    public boolean buscarPorCampanhas(int pos)
+    {
+        boolean encontrado = false;
+        Item i = super.controleProdutos.getItem(pos);
+        Grupo g = new Grupo();
+        g.setGrupo(i.getGrupo());
+        g.setSubGrupo(i.getSubGrupo());
+        g.setDivisao(i.getDivisao());
+
+        if(super.campanhaGrupos != null && super.campanhaGrupos.size() > 0)
+            for (CampanhaGrupo cg : super.campanhaGrupos)
+            {
+                if(cg.getGrupo().equals(g))
+                    return true;
+            }
+
+        if(super.campanhaProdutos != null && super.campanhaProdutos.size() > 0)
+            for (CampanhaProduto cp : super.campanhaProdutos)
+            {
+                for(Integer it : cp.getItens())
+                    if (i.getCodigo() == it)
+                        return true;
+            }
+
+        return encontrado;
     }
 
     public int verificarCampanhas()
@@ -670,15 +742,19 @@ public class AlteracaoPedidos extends EfetuarPedidos
             {
                 for(int nrI = 0; nrI < cp.getItens().size(); nrI++)
                 {
-                    if ((cp.getItens().get(nrI) == produto.getCodigo()))
+                    int codigoCampanha = cp.getItens().get(nrI);
+                    if (codigoCampanha == produto.getCodigo())
                     {
-                        posicaoCampanhaP = super.campanhaGrupos.indexOf(cp);
+                        posicaoCampanhaP = super.campanhaProdutos.indexOf(cp);
                         break;
                     }
 
                     if(posicaoCampanhaP != -1)
                         break;
                 }
+
+                if(posicaoCampanhaP != -1)
+                    break;
             }
 
             if(posicaoCampanhaP == -1)
@@ -729,14 +805,22 @@ public class AlteracaoPedidos extends EfetuarPedidos
         if(posicaoCampanhaP != -1)
         {
             super.campanhaProdutos.get(posicaoCampanhaP).setQuantidadeVendida(
-                    (int) super.itensVendidos.get(super.itensVendidos.size() -1).getQuantidade());
+                    super.campanhaProdutos.get(posicaoCampanhaP).getQuantidadeVendida() +
+                            (int) super.itensVendidos.get(super.itensVendidos.size() -1).getQuantidade());
 
             if(super.campanhaProdutos.get(posicaoCampanhaP).getQuantidadeVendida() >= super.campanhaProdutos.get(posicaoCampanhaP).getQuantidade())
             {
                 if(super.campanhaProdutos.get(posicaoCampanhaP).getDescontoAplicado() > 0)
                 {
-                    super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCG(super.campanhaProdutos.get(posicaoCampanhaP).getDescontoAplicado());
+                    super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCP(super.campanhaProdutos.get(posicaoCampanhaP).getDescontoAplicado());
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setDescontoCampanha(true);
+
+                    super.itensVendidos.get(super.itensVendidos.size() - 1).setTotal(super.calcularTotal(
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade(), super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado(),
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getDesconto(), super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCG(),
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0,
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getItem()));
+
                     return -1;
                 }
                 else
@@ -786,7 +870,8 @@ public class AlteracaoPedidos extends EfetuarPedidos
                             super.itensVendidos.get(i).setTotal(super.calcularTotal(
                                     super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
                                     super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),
-                                    super.itensVendidos.get(i).getDescontoCP(), 0));
+                                    super.itensVendidos.get(i).getDescontoCP(), 0,
+                                    super.itensVendidos.get(i).getItem()));
                         /*
                         super.itensVendidos.get(i).setTotal(
                             super.itensVendidos.get(i).getValorLiquido() * super.itensVendidos.get(i).getQuantidade());
@@ -818,13 +903,14 @@ public class AlteracaoPedidos extends EfetuarPedidos
                             int codigo = super.campanhaProdutos.get(posicao).getItens().get(j);
                             if(codigo == produto.getCodigo())
                             {
-                                super.itensVendidos.get(i).setDescontoCG(percentual);
+                                super.itensVendidos.get(i).setDescontoCP(percentual);
                                 super.itensVendidos.get(i).setDescontoCampanha(true);
 
                                 super.itensVendidos.get(i).setTotal(super.calcularTotal(
                                         super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
                                         super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),
-                                        super.itensVendidos.get(i).getDescontoCP(), 0));
+                                        super.itensVendidos.get(i).getDescontoCP(), 0,
+                                        super.itensVendidos.get(i).getItem()));
                             }
                         }
                     }
@@ -849,7 +935,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
 
     @Override
     public ArrayList<CampanhaProduto> getCampanhaProdutos() {
-        return null;
+        return campanhaProdutos;
     }
 
     @Override
@@ -1020,6 +1106,117 @@ public class AlteracaoPedidos extends EfetuarPedidos
         catch (ReadExeption readExeption) { readExeption.printStackTrace(); }
 
         super.venda = v;
+        super.itensVendidos = v.getItens();
+
+        super.campanhaGrupos = new ArrayList<>();
+        super.campanhaProdutos = new ArrayList<>();
+
+        ConsultaMinimosGravososKitsCampanhas campanhas = new ConsultaMinimosGravososKitsCampanhas(super.context);
+
+        for(ItensVendidos iv : super.itensVendidos)
+        {
+            try
+            {
+                ArrayList<CampanhaGrupo> camps = campanhas.buscarCampanhas(iv.getItem());
+
+                if(camps != null)
+                {
+                    if(super.campanhaGrupos == null || super.campanhaGrupos.size() == 0)
+                        super.campanhaGrupos.addAll(camps);
+                    else
+                    {
+                        for(CampanhaGrupo cI : camps)
+                        {
+                            boolean recognized = false;
+                            for(CampanhaGrupo cS : super.campanhaGrupos)
+                            {
+                                if (cI.equals(cS))
+                                {
+                                    recognized = true;
+                                    break;
+                                }
+                            }
+
+                            if(!recognized)
+                                super.campanhaGrupos.add(cI);
+                        }
+                    }
+                }
+            }
+            catch (Exception e){/*****/}
+
+            try
+            {
+                CampanhaProduto camp = campanhas.buscarCampanhaP(iv.getItem());
+
+                if(camp != null)
+                {
+                    if(super.campanhaProdutos == null || super.campanhaProdutos.size() == 0)
+                        super.campanhaProdutos.add(camp);
+                    else
+                    {
+                        boolean recognized = false;
+                        for(CampanhaProduto cP : super.campanhaProdutos)
+                        {
+                            for(Integer i : cP.getItens())
+                            {
+                                if (i == iv.getItem())
+                                {
+                                    recognized = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if(!recognized)
+                            super.campanhaProdutos.add(camp);
+                    }
+                }
+            }
+            catch (Exception e){/*****/}
+        }
+
+        for(ItensVendidos iv : super.itensVendidos)
+        {
+            Grupo gItem = this.controleProdutos.getGrupoItem(iv.getItem());
+
+            try
+            {
+                for(CampanhaGrupo cS : super.campanhaGrupos)
+                {
+                    if (cS.getGrupo().equals(gItem))
+                    {
+                        super.campanhaGrupos.get(super.campanhaGrupos.indexOf(cS)).setQuantidadeVendida((int) iv.getQuantidade());
+                        if(super.campanhaGrupos.get(super.campanhaGrupos.indexOf(cS)).getQuantidade() <= super.campanhaGrupos.get(super.campanhaGrupos.indexOf(cS)).getQuantidadeVendida())
+                        {
+                            super.campanhaGrupos.get(super.campanhaGrupos.indexOf(cS)).setDescontoAplicado(iv.getDescontoCG());
+                        }
+                        break;
+                    }
+                }
+            }
+            catch (Exception e){/*****/}
+
+            try
+            {
+                for(CampanhaProduto cP : super.campanhaProdutos)
+                {
+                    for(Integer i : cP.getItens())
+                    {
+                        if (i == iv.getItem())
+                        {
+                            super.campanhaProdutos.get(super.campanhaProdutos.indexOf(cP)).setQuantidadeVendida((int) iv.getQuantidade());
+                            if(super.campanhaProdutos.get(super.campanhaProdutos.indexOf(cP)).getQuantidade() <= super.campanhaProdutos.get(super.campanhaProdutos.indexOf(cP)).getQuantidadeVendida())
+                            {
+                                super.campanhaProdutos.get(super.campanhaProdutos.indexOf(cP)).setDescontoAplicado(iv.getDescontoCP());
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception e){/*****/}
+        }
     }
 
     public Boolean mostraFlexItem() { return super.controleConfiguracao.getConfigVda().getFlexItem(); }

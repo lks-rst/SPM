@@ -71,7 +71,7 @@ public class SalvarPedido
         else return false;
     }
 
-    public Boolean salvarPedido(Context ctx, Venda venda)
+    public Boolean salvarPedido(Context ctx, Venda venda/*, passar motivo venda (justificativa)*/)
     {
         VendaDataAccess vda = new VendaDataAccess(ctx);
         VisitaDataAccess vida = new VisitaDataAccess(ctx);
@@ -81,6 +81,10 @@ public class SalvarPedido
         v.setData(venda.getData());
         v.setHora(venda.getHora());
         v.setMotivo(500);
+
+        /*
+        TODO: Alterar para acrescentar o salvamento dos valores de Volume e contribuição no pedido
+         */
 
         try
         {

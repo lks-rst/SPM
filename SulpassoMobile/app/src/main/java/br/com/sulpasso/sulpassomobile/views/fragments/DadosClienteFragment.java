@@ -269,6 +269,79 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
 
         ((getActivity().findViewById(R.id.fdcBtnDetalhes))).setVisibility(View.VISIBLE);
     }
+    public void ajustarLayout2()
+    {
+        ESPECIAL = activity.buscarDadosCliente(R.id.fdcTxtStatus).substring(0, 1).equalsIgnoreCase("E");
+
+        ArrayAdapter adapter = new ArrayAdapter(
+                getActivity().getApplicationContext(), R.layout.spinner_item, activity.listarNaturezas(ESPECIAL));
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.fdcSpnrNaturezas.setAdapter(adapter);
+
+        if(activity.controlaRoteiro())
+        {
+            this.fdcSpnrMotivos.setOnItemSelectedListener(justificando);
+            activity.listarMotivos();
+            this.fdcSpnrMotivos.setVisibility(View.GONE);
+        }
+
+        if(this.activity.verificarTitulos())
+        {
+            AlertCortesDevolucaoTitulos dialog = new AlertCortesDevolucaoTitulos();
+            dialog.setTargetFragment(this, 1); //request code
+            dialog.show(getFragmentManager(), "DIALOG");
+        }
+
+        if(this.activity.verificarDevolucoes())
+        {
+            AlertCortesDevolucaoTitulos dialog = new AlertCortesDevolucaoTitulos();
+            dialog.setTargetFragment(this, 1); //request code
+            dialog.show(getFragmentManager(), "DIALOG");
+        }
+
+        /*
+        this.fdcSpnrNaturezas.setAdapter(
+            new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.support.design.R.layout.support_simple_spinner_dropdown_item,
+                activity.listarNaturezas(!ESPECIAL)));
+        */
+
+        this.fdcSpnrNaturezas.setSelection(this.activity.buscarNatureza());
+
+        this.fdcSpnrNaturezas.setOnItemSelectedListener(selectingData);
+
+        this.fdcSpnrNaturezas.setClickable(this.activity.permitirClick(R.id.fdcSpnrNaturezas));
+        this.fdcSpnrNaturezas.setEnabled(this.activity.permitirClick(R.id.fdcSpnrNaturezas));
+        this.fdcSpnrPrazos.setClickable(this.activity.permitirClick(R.id.fdcSpnrPrazos));
+        this.fdcSpnrPrazos.setEnabled(this.activity.permitirClick(R.id.fdcSpnrPrazos));
+
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtCidade)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtCidade));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtUf)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtUf));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtEnd)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtEnd));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtFone)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtFone));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtCel)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtCel));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtUltima)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtUltima));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtMeta)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtMeta));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtReal)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtReal));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtLimite)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtLimite));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtQuantidade)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtQuantidade));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtMedia)))
+                .setText(activity.buscarDadosCliente(R.id.fdcEdtMedia));
+        ((EditText) (getActivity().findViewById(R.id.fdcEdtDca)))
+                .setText(activity.buscarDadosVenda(R.id.fdcEdtDca));
+
+        ((getActivity().findViewById(R.id.fdcBtnDetalhes))).setVisibility(View.VISIBLE);
+    }
 
     public void ajustarPrazos(int posicao)
     {
@@ -586,8 +659,11 @@ public class DadosClienteFragment extends Fragment implements AlertDetalhesClien
 
             String[] itens = item.split(" - ");
 
-            if(itens[1].indexOf(pattern) == 0)
-                this.source.add(this.full.get(i));
+            if(itens.length > 1)
+            {
+                if(itens[1].indexOf(pattern) == 0)
+                    this.source.add(this.full.get(i));
+            }
             /*
             item = this.full.get(i);
 
