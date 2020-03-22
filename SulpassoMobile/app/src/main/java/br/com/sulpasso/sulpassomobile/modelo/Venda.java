@@ -29,6 +29,10 @@ public class Venda
     private int enviado;
     private int justificativa;
 
+    private int volume;
+    private int contribuicao;
+
+
     public Venda() { this.itens = new ArrayList<>(); }
 
     public Integer getCodigo() { return codigo; }
@@ -102,6 +106,14 @@ public class Venda
     public int getJustificativa() { return justificativa; }
 
     public void setJustificativa(int justificativa) { this.justificativa = justificativa; }
+
+    public int getVolume() { return volume; }
+
+    public void setVolume(int volume) { this.volume = volume; }
+
+    public int getContribuicao() { return contribuicao; }
+
+    public void setContribuicao(int contribuicao) { this.contribuicao = contribuicao; }
 
     @Override
     public String toString()

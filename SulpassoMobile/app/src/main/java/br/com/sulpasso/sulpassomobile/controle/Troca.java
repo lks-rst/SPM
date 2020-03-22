@@ -21,7 +21,6 @@ import br.com.sulpasso.sulpassomobile.persistencia.queries.PrazoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PrePedidoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
-import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertaMixFaltante;
 
 /**
  * Created by Lucas on 21/03/2017 - 16:57 as part of the project SulpassoMobile.
@@ -237,7 +236,7 @@ public class Troca extends EfetuarPedidos {
 
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
-                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass());
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), "TR");
 
         if(item != null)
         {
@@ -270,192 +269,56 @@ public class Troca extends EfetuarPedidos {
 
     public int finalizarPedido(Boolean justificar)
     {
-        if(justificar)
+        super.venda.setItens(super.itensVendidos);
+        super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
+        super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
+        super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
+        super.venda.setData(super.dataSistema());
+        super.venda.setHora(super.horaSistema());
+        super.venda.setNatureza(super.codigoNatureza);
+        super.venda.setBanco(super.controleClientes.getBancoCliente());
+
+        super.venda.setTipo("TR");
+
+        Prazo p = new Prazo();
+        p.setCodigo(super.codigoPrazo);
+        super.venda.setPrazo(p);
+
+        if(super.controleSalvar.salvarPedido(super.context, super.venda))
         {
-            if(super.controleSalvar.justificarPedido(super.context, super.venda))
+            super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
+
+            float flexItem = 0;
+            float flexItens = 0;
+            float totalFlex = 0;
+
+            for (ItensVendidos i : super.itensVendidos)
             {
-                return 1;
+                flexItem = i.getFlex();
+
+                if(flexItem > 0  && !i.isDigitadoSenha())
+                    flexItens += (flexItem * i.getQuantidade());
             }
-            else
+
+            float valorDesconto = super.venda.getDesconto().floatValue();
+            float saldoFinalFlex = flexItens + valorDesconto;
+
+            totalFlex = (float) (flexItens + super.venda.getDesconto());
+            totalFlex *= -1;
+
+            if(this.mostraFlexVenda())
             {
-                return 0;
+                Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " +  Formatacao.format2d(totalFlex), Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
             }
+
+            return 1;
         }
         else
         {
-            NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
-
-            /*
-            if(super.controleSalvar.getDesconto() > 0 && super.venda.getObservacaDesconto().length() < 20)
-            {
-                Toast.makeText(super.context, "É necessario acrescentar uma justificativa para o desconto aplicado ao final do pedido", Toast.LENGTH_LONG).show();
-                return -1;
-            }
-            */
-
-            if(super.controleSalvar.verificarMinimo(nda.buscarNatureza(super.codigoNatureza).getMinimo()
-                    , super.controleConfiguracao.pedidoMinimo()))
-            {
-                if(super.verificarMix())
-                {
-                        /* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO */
-                    Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
-                    AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
-                    return 0;
-                }
-                else
-                {
-                    if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
-                    {
-                        super.venda.setItens(super.itensVendidos);
-                        super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
-                        super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
-                        super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
-                        super.venda.setData(super.dataSistema());
-                        super.venda.setHora(super.horaSistema());
-                        super.venda.setNatureza(super.codigoNatureza);
-                        super.venda.setBanco(super.controleClientes.getBancoCliente());
-
-                        super.venda.setTipo(super.strTipoVenda);
-
-                        Prazo p = new Prazo();
-                        p.setCodigo(super.codigoPrazo);
-                        super.venda.setPrazo(p);
-
-                        if(super.controleSalvar.salvarPedido(super.context, super.venda))
-                        {
-                            super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
-
-                            float flexItem = 0;
-                            float flexItens = 0;
-                            float totalFlex = 0;
-
-                            for (ItensVendidos i : super.itensVendidos)
-                            {
-                                flexItem = i.getFlex();
-
-                                if(flexItem > 0  && !i.isDigitadoSenha())
-                                    flexItens += (flexItem * i.getQuantidade());
-                            }
-
-                            float valorDesconto = super.venda.getDesconto().floatValue();
-                            float saldoFinalFlex = flexItens + valorDesconto;
-
-                            totalFlex = (float) (flexItens + super.venda.getDesconto());
-                            totalFlex *= -1;
-
-                            if(this.mostraFlexVenda())
-                            {
-                                Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " +  Formatacao.format2d(totalFlex), Toast.LENGTH_LONG);
-                                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-                                t.show();
-                            }
-
-                            return 1;
-                        }
-                        else
-                        {
-                            Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
-                            return 0;
-                        }
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado excede o valor atual de saldo disponível"
-                                , Toast.LENGTH_LONG).show();
-                        return 0;
-                    }
-                }
-                /*
-                if(super.controleSalvar.verificarJustificativa(super.venda.getJustificativa(),
-                        super.controleConfiguracao.getConfigVda().getGerenciarVisitas(),
-                        super.venda.getCliente().getVisita()))
-                {
-                    if(super.verificarMix())
-                    {
-                        *//* TODO: APRESENTAR OS DADOS DE MIX NÃO COMPLETADO *//*
-                        Toast.makeText(super.context, "VERIFIQUE OS ITENS AINDA NÃO VENDIDOS QUE COMPÕE O MIX IDEAL DO CLIENTE", Toast.LENGTH_LONG).show();
-                        AlertaMixFaltante msg_mix_falt = new AlertaMixFaltante();
-                        return 0;
-                    }
-                    else
-                    {
-                        if(super.controleSalvar.verificarSaldo(super.controleConfiguracao.getSaldoAtual()))
-                        {
-                            super.venda.setItens(super.itensVendidos);
-                            super.venda.setValor(Double.parseDouble(String.valueOf(super.valorVendido())));
-                            super.venda.setCodigoCliente(super.controleClientes.getCodigoClienteSelecionado());
-                            super.venda.setDesconto(Double.parseDouble(String.valueOf(super.controleSalvar.getDesconto())));
-                            super.venda.setData(super.dataSistema());
-                            super.venda.setHora(super.horaSistema());
-                            super.venda.setNatureza(super.codigoNatureza);
-                            super.venda.setBanco(super.controleClientes.getBancoCliente());
-
-                            super.venda.setTipo(super.strTipoVenda);
-
-                            Prazo p = new Prazo();
-                            p.setCodigo(super.codigoPrazo);
-                            super.venda.setPrazo(p);
-
-                            if(super.controleSalvar.salvarPedido(super.context, super.venda))
-                            {
-                                super.controleSalvar.atualizarSaldo(super.context,((float) (super.controleConfiguracao.getSaldoAtual() - super.venda.getDesconto().floatValue())));
-
-                                float flexItem = 0;
-                                float flexItens = 0;
-                                float totalFlex = 0;
-
-                                for (ItensVendidos i : super.itensVendidos)
-                                {
-                                    flexItem = i.getFlex();
-
-                                    if(flexItem > 0  && !i.isDigitadoSenha())
-                                        flexItens += (flexItem * i.getQuantidade());
-                                }
-
-                                float valorDesconto = super.venda.getDesconto().floatValue();
-                                float saldoFinalFlex = flexItens + valorDesconto;
-
-                                totalFlex = (float) (flexItens + super.venda.getDesconto());
-                                totalFlex *= -1;
-
-                                if(this.mostraFlexVenda())
-                                {
-                                    Toast t = Toast.makeText(super.context, "Total de flex gerado no pedido = " + String.valueOf(totalFlex), Toast.LENGTH_LONG);
-                                    t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-                                    t.show();
-                                }
-
-                                return 1;
-                            }
-                            else
-                            {
-                                Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
-                                return 0;
-                            }
-                        }
-                        else
-                        {
-                            Toast.makeText(context, "ATENÇÃO!\nDesconto aplicado excede o valor atual de saldo disponível"
-                                    , Toast.LENGTH_LONG).show();
-                            return 0;
-                        }
-                    }
-                }
-                else
-                {
-                    Toast.makeText(context, "ATENÇÃO!\nEscolha uma justificativa para o pedido fora da data padrão."
-                            , Toast.LENGTH_LONG).show();
-                    return 0;
-                }
-                */
-            }
-            else
-            {
-                Toast.makeText(context, "ATENÇÃO!\nValor vendido abaixo do valor minimo de venda"
-                        , Toast.LENGTH_LONG).show();
-                return 0;
-            }
+            Toast.makeText(context, "ATENÇÃO!\nOcorreu uma falha ao salvar os dados.", Toast.LENGTH_LONG).show();
+            return 0;
         }
     }
 
@@ -831,7 +694,8 @@ public class Troca extends EfetuarPedidos {
                     super.itensVendidos.get(super.itensVendidos.size() - 1).setTotal(super.calcularTotal(
                             super.itensVendidos.get(super.itensVendidos.size() - 1).getQuantidade(), super.itensVendidos.get(super.itensVendidos.size() - 1).getValorDigitado(),
                             super.itensVendidos.get(super.itensVendidos.size() - 1).getDesconto(), super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCG(),
-                            super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0));
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getDescontoCP(), 0,
+                            super.itensVendidos.get(super.itensVendidos.size() - 1).getItem()));
 
                     return -1;
                 }
@@ -882,7 +746,8 @@ public class Troca extends EfetuarPedidos {
                             super.itensVendidos.get(i).setTotal(super.calcularTotal(
                                     super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
                                     super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),
-                                    super.itensVendidos.get(i).getDescontoCP(), 0));
+                                    super.itensVendidos.get(i).getDescontoCP(), 0,
+                                    super.itensVendidos.get(i).getItem()));
                         /*
                         super.itensVendidos.get(i).setTotal(
                             super.itensVendidos.get(i).getValorLiquido() * super.itensVendidos.get(i).getQuantidade());
@@ -920,7 +785,8 @@ public class Troca extends EfetuarPedidos {
                                 super.itensVendidos.get(i).setTotal(super.calcularTotal(
                                         super.itensVendidos.get(i).getQuantidade(), super.itensVendidos.get(i).getValorDigitado(),
                                         super.itensVendidos.get(i).getDesconto(), super.itensVendidos.get(i).getDescontoCG(),
-                                        super.itensVendidos.get(i).getDescontoCP(), 0));
+                                        super.itensVendidos.get(i).getDescontoCP(), 0,
+                                        super.itensVendidos.get(i).getItem()));
                             }
                         }
                     }
@@ -946,6 +812,10 @@ public class Troca extends EfetuarPedidos {
     {
         return valor + (valor * (markup / 100));
     }
+
+
+
+    public boolean buscarPorCampanhas(int pos){return false;}
 /**************************************************************************************************/
 /*****************************                                        *****************************/
     /**************************************************************************************************/

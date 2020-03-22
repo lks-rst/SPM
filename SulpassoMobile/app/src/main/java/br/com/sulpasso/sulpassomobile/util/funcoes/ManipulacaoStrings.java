@@ -18,6 +18,17 @@ public class ManipulacaoStrings
         return (s + resp).substring(0, n);
     }
 
+    public String comDireita2(String value, String caracter, int n)
+    {
+        String s = value.trim();
+        StringBuffer resp = new StringBuffer();
+
+        for (int x = 0; x < n; x++)
+            resp.append(caracter);
+
+        return (s + resp);
+    }
+
     public String comEsquerda(String value, String caracter, int n)
     {
         String s = value.trim();
@@ -88,7 +99,7 @@ public class ManipulacaoStrings
 
     private boolean isSpecialCharacter(int b)
     {
-        if(b == 32 )
+        if(b == 32 || b == 44 || b == 46 )
         {
                 return false;
         }

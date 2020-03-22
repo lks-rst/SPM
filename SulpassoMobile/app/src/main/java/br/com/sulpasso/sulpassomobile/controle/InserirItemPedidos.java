@@ -8,6 +8,7 @@ import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.modelo.ItensVendidos;
 import br.com.sulpasso.sulpassomobile.modelo.Promocao;
+import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.PromocaoDataAccess;
 import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 
@@ -22,6 +23,7 @@ public class InserirItemPedidos
     private float desconto;
     private float quantidade;
     private float acrescimo;
+    private float peso;
 
     private Item item;
 
@@ -52,6 +54,7 @@ public class InserirItemPedidos
         this.desconto = 0;
         this.acrescimo = 0;
         this.quantidade = 0;
+        this.peso = item.getPeso();
     }
 
     public Item getItem() { return item; }
@@ -115,6 +118,49 @@ public class InserirItemPedidos
                 + (this.valor * (this.acrescimo / 100)))
                 * this.quantidade;
         }
+    }
+
+    public float calcularTotalDescCamp(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo, int item, Context ctx)
+    {
+        ItemDataAccess ida = new ItemDataAccess(ctx);
+        if(ida.vendaKilo(item))
+        {
+            return ((valor
+                    - (valor * (desconto / 100))
+                    - (valor * (grupo/ 100))
+                    - (valor * (produtos / 100))
+                    + (valor * (acrescimo / 100)))
+                    * quantidade) * ida.getFaixa(item);
+        }
+        else
+        {
+            return (valor
+                    - (valor * (desconto / 100))
+                    - (valor * (grupo/ 100))
+                    - (valor * (produtos / 100))
+                    + (valor * (acrescimo / 100)))
+                    * quantidade;
+        }
+        /*
+        if(ida.vendaKilo(item))
+        {
+            return ((this.valor
+                    - (this.valor * (this.desconto / 100))
+                    - (this.valor * (grupo/ 100))
+                    - (this.valor * (produtos / 100))
+                    + (this.valor * (this.acrescimo / 100)))
+                    * this.quantidade) * this.item.getFaixa();
+        }
+        else
+        {
+            return (this.valor
+                    - (this.valor * (this.desconto / 100))
+                    - (this.valor * (grupo/ 100))
+                    - (this.valor * (produtos / 100))
+                    + (this.valor * (this.acrescimo / 100)))
+                    * this.quantidade;
+        }
+        */
     }
 
     public float diferencaFlex(Context ctx)
@@ -182,9 +228,9 @@ public class InserirItemPedidos
         float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
 
         if(tipoPedido == Troca.class)
-            return (this.valor < tabela);
+            return (this.valor <= tabela);
         else
-            return (this.valor < (tabela * 2));
+            return (this.valor <= (tabela * 2));
 
     }
 
@@ -210,6 +256,7 @@ public class InserirItemPedidos
                         item.setDescontoCampanha(false);
                         item.setDescontoCG(0);
                         item.setDescontoCP(0);
+                        item.setPeso(this.peso);
 
                         EfetuarPedidos.erro = false; //Na linha de baixo deve ser acrescentado um calculo relacionando também ao peso do produto calcularTotalDesconto
                         EfetuarPedidos.strErro = "Valor de flex gerado no item " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
@@ -250,6 +297,7 @@ public class InserirItemPedidos
             item.setDescontoCampanha(false);
             item.setDescontoCG(0);
             item.setDescontoCP(0);
+            item.setPeso(this.peso);
 
             EfetuarPedidos.erro = false;
             EfetuarPedidos.strErro = "";
@@ -258,13 +306,13 @@ public class InserirItemPedidos
         }
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo, Class tipoPedido)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo, Class tipoPedido, String tipoVenda)
     {
         if(!senha)
         {
-            if(this.verificarQuantidade(maximo))
-                if(this.verificarDesconto(desconto, percentual, context))
-                    if(this.verificarValor(desconto, percentual, context, tipoPedido))
+            if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarQuantidade(maximo))
+                if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarDesconto(desconto, percentual, context))
+                    if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarValor(desconto, percentual, context, tipoPedido))
                     {
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
@@ -275,6 +323,8 @@ public class InserirItemPedidos
                         item.setValorTabela(Float.parseFloat(this.getValor()));
                         item.setValorLiquido(this.valor);
                         item.setValorDigitado(this.valor);
+                        item.setPeso(this.peso);
+                        item.setContribuicao(this.item.getContribuicao());
 
                         if(tipoPedido == Troca.class)
                             item.setDesconto(0);
@@ -293,7 +343,9 @@ public class InserirItemPedidos
                         item.setDescontoCP(0);
 
                         EfetuarPedidos.erro = false; //Na linha de baixo deve ser acrescentado um calculo relacionando também ao peso do produto calcularTotalDesconto
-                        EfetuarPedidos.strErro = "Valor de flex gerado no item " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
+
+                        if(tipoPedido != Troca.class)
+                            EfetuarPedidos.strErro = "Valor de flex gerado no item " + Formatacao.format2d(((item.getFlex() * -1) * item.getQuantidade()));
 
                         return item;
                     }
@@ -334,6 +386,8 @@ public class InserirItemPedidos
             item.setDescontoCampanha(false);
             item.setDescontoCG(0);
             item.setDescontoCP(0);
+            item.setPeso(this.peso);
+            item.setContribuicao(this.item.getContribuicao());
 
             EfetuarPedidos.erro = false;
             EfetuarPedidos.strErro = "";
@@ -387,7 +441,7 @@ public class InserirItemPedidos
     {
         if(this.valorMaximo(context, tipoPedido))
         {
-            if(percentual)
+            if(percentual || tipoPedido == Troca.class)
                 return true;
             else
             {

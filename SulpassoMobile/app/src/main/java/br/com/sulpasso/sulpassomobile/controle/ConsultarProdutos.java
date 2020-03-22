@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
+import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ItemDataAccess;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
@@ -451,5 +452,10 @@ public class ConsultarProdutos
     public Boolean verifyItens()
     {
         return this.lista != null && this.lista.size() > 0;
+    }
+
+    public Grupo getGrupoItem(int item)
+    {
+        return this.ida.getGrupoItem(item);
     }
 }

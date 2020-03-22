@@ -44,4 +44,25 @@ public class Grupo
                 " - " + divisao +
                 " - " + descricao;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Grupo)) return false;
+
+        Grupo grupo1 = (Grupo) o;
+
+        if (getGrupo() != grupo1.getGrupo()) return false;
+        if (getSubGrupo() != grupo1.getSubGrupo()) return false;
+        return getDivisao() == grupo1.getDivisao();
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getGrupo();
+        result = 31 * result + getSubGrupo();
+        result = 31 * result + getDivisao();
+        return result;
+    }
 }

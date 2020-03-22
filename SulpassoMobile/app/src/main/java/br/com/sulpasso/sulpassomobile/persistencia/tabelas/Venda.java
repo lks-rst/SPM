@@ -25,6 +25,9 @@ public class Venda
     public static final String NATUREZA = "PedidosNatureza";
     public static final String EXCLUIDO = "PedidoValido";
 
+    public static final String VOLUME = "PedidosVolume";
+    public static final String CONTRIBUICAO = "PedidoContribuicao";
+
     public static String CriarTabela()
     {
         String stmt;
@@ -92,10 +95,26 @@ public class Venda
         String stmt;
         StringBuilder builder = new StringBuilder();
 
+        /*
         builder.append("ALTER TABLE ");
         builder.append(TABELA);
         builder.append(" ADD COLUMN ");
         builder.append(EXCLUIDO);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0;");
+        */
+
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(VOLUME);
+        builder.append(Types.FLOAT);
+        builder.append(" DEFAULT 0;");
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(CONTRIBUICAO);
         builder.append(Types.FLOAT);
         builder.append(" DEFAULT 0;");
 

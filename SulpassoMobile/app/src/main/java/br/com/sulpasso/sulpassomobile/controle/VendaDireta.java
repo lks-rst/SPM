@@ -258,4 +258,5 @@ public class VendaDireta extends EfetuarPedidos {
     public Boolean mostraFlexItem(){ return false; }
 
     public Boolean mostraFlexVenda(){ return false; }
+    public boolean buscarPorCampanhas(int pos){return false;}
 }

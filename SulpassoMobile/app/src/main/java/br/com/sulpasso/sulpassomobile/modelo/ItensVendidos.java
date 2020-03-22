@@ -22,6 +22,9 @@ public class ItensVendidos
     private boolean descontoCampanha;
     private float valorMinimo;
     private float quantidadeEspecifica;
+    private float peso;
+
+    private float contribuicao;
 
     private String descricao;
     private String referencia;
@@ -95,6 +98,14 @@ public class ItensVendidos
 
     public void setQuantidadeEspecifica(float quantidadeEspecifica) { this.quantidadeEspecifica = quantidadeEspecifica; }
 
+    public float getPeso() { return peso; }
+
+    public void setPeso(float peso) { this.peso = peso; }
+
+    public float getContribuicao() { return contribuicao; }
+
+    public void setContribuicao(float contribuicao) { this.contribuicao = contribuicao; }
+
     @Override
     public String toString()
     {
@@ -127,12 +138,18 @@ public class ItensVendidos
             builder.append(ms.comEsquerda(complemento, " ", 15));
         }
         catch (Exception e) { /*****/ }
-
-        builder.append("\nV.:");
+        //TODO: Verificar a razão de o valor digitado ser igual ao valor digitado
+        /*
+        builder.append("  VT.:");
+        builder.append(ms.comEsquerda(Formatacao.format2d(valorTabela), " ", 8));
+        */
+        builder.append("\nVB.:");
         builder.append(ms.comEsquerda(Formatacao.format2d(valorDigitado), " ", 8));
-        builder.append("  Q.:");
+        builder.append("  VL.:");
+        builder.append(ms.comEsquerda(Formatacao.format2d(valorLiquido), " ", 8));
+        builder.append("  QD.:");
         builder.append(ms.comEsquerda(Formatacao.format2d(quantidade), " ", 8));
-        builder.append("  T.:");
+        builder.append("  TL.:");
         builder.append(ms.comEsquerda(Formatacao.format2d(total), " ", 8));
 
         return /*item +*/ builder.toString();

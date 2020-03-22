@@ -155,9 +155,22 @@ public class CampanhaProdutoDataAccess
                 this.sBuilder.append("SELECT ");
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM);
+                this.sBuilder.append(", ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO);
                 this.sBuilder.append(" FROM ");
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.TABELA);
+
+                this.sBuilder.append(" JOIN ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+                this.sBuilder.append(" ON ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+                this.sBuilder.append(" = ");
+                this.sBuilder.append(
+                        br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM);
                 this.sBuilder.append(" WHERE ");
                 this.sBuilder.append(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.CODIGO);
@@ -168,15 +181,19 @@ public class CampanhaProdutoDataAccess
                 c.moveToFirst();
 
                 ArrayList<Integer> item = new ArrayList<>();
+                ArrayList<String> itemDesc = new ArrayList<>();
                 for(int d = 0; d < c.getCount(); d++)
                 {
                     item.add(new Integer(c.getInt(c.getColumnIndex(
                             br.com.sulpasso.sulpassomobile.persistencia.tabelas.CampanhaProduto.ITEM))));
+                    itemDesc.add(c.getString(c.getColumnIndex(
+                            br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO)));
 
                     c.moveToNext();
                 }
 
                 ((CampanhaProduto) lista.get(i)).setItens(item);
+                ((CampanhaProduto) lista.get(i)).setItensDesc(itemDesc);
             }
         }
         catch (Exception e) { throw new ReadExeption("Possível falta de memória no aparelho."); }

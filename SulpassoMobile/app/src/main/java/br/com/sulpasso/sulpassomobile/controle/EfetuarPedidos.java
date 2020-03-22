@@ -1,6 +1,7 @@
 package br.com.sulpasso.sulpassomobile.controle;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.support.annotation.NonNull;
 
 import org.jetbrains.annotations.Contract;
@@ -98,6 +99,8 @@ public abstract class EfetuarPedidos
     protected ArrayList<Mix> mixFaltando;
 
     public int posicaoItemSelecionado;
+
+    private int quantidadeRemover;
 /**************************************************************************************************/
 /*****************************                                        *****************************/
 /**************************************************************************************************/
@@ -213,6 +216,8 @@ public abstract class EfetuarPedidos
     public abstract int verificarTabloides();
 
     public abstract int verificarCampanhas();
+
+    public abstract boolean buscarPorCampanhas(int pos);
 
     public abstract int aplicarDescontoTabloide(float percentual, int posicao, int tipo);
 
@@ -342,14 +347,17 @@ public abstract class EfetuarPedidos
     protected final Boolean clientIsClicable() { return this.itensVendidos.size() <= 0; }
 
     @Contract(pure = true)
-    protected final float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo)
+    protected final float calcularTotal(float quantidade, float valor, float desconto, float grupo, float produtos, float acrescimo, int item)
     {
+        return this.controleDigitacao.calcularTotalDescCamp(quantidade, valor, desconto, grupo, produtos, acrescimo, item, context);
+        /*
         return (valor
                 - (valor * (desconto / 100))
                 - (valor * (grupo/ 100))
                 - (valor * (produtos / 100))
                 + (valor * (acrescimo / 100)))
                 * quantidade ;
+        */
     }
 
     protected final boolean verificarMix()
@@ -508,10 +516,28 @@ public abstract class EfetuarPedidos
                 valor = String.valueOf(this.valorVendido());
                 break;
             case R.id.flirEdtVolume :
-                valor = "--";
+                float volume = 0;
+                for(ItensVendidos iv : this.itensVendidos)
+                //for(ItensVendidos iv : this.venda.getItens())
+                {
+                    volume += iv.getPeso() * iv.getQuantidade();
+                }
+                //valor = "--";
+                valor = "" + volume;
                 break;
             case R.id.flirEdtCont :
-                valor = "--";
+                float cont = 0;
+                for(ItensVendidos iv : this.itensVendidos)
+                //for(ItensVendidos iv : this.venda.getItens())
+                {
+                    cont += iv.getContribuicao();
+                }
+
+                try{ cont /= this.itensVendidos.size(); }
+                catch (SQLException ex) { cont = -1; }
+
+                //valor = "--";
+                valor = "" + cont;
                 break;
             case R.id.ffpEdtObsCpd :
                 try { valor = this.venda.getObservacao(); }
@@ -625,19 +651,21 @@ public abstract class EfetuarPedidos
 
     public final float recalcularTotalPedido() { return this.controleSalvar.calcularTotal(); }
 
-    public final void recalcularValor()
+    public final boolean recalcularValor(boolean alterar)
     {
-        float totalPedido = 0;
+        float totalPedido = this.controleSalvar.getTotal();
         if(this.getClass() == AlteracaoPedidos.class || this.getClass() == Troca.class)
         {
-
+            this.controleSalvar.setTotal(totalPedido);
+            return false;
         }
         else
         {
-            if(this.controleConfiguracao.getConfigVda().getRecalcularPreco())
+            if(this.controleConfiguracao.getConfigVda().getRecalcularPreco() && alterar)
             {
+                totalPedido = 0;
                 ArrayList<ItensVendidos> livAlt = new ArrayList<>();
-                ArrayList<ItensVendidos> liv = this.venda.getItens();
+                ArrayList<ItensVendidos> liv = this.itensVendidos;
                 ItemDataAccess ida = new ItemDataAccess(this.context);
 
                 HashMap<String, String> dadosVendaItem;
@@ -676,9 +704,16 @@ public abstract class EfetuarPedidos
 
                 liv.clear();
                 liv.addAll(livAlt);
-            }
 
-            this.controleSalvar.setTotal(totalPedido);
+                this.controleSalvar.setTotal(totalPedido);
+
+                return true;
+            }
+            else
+            {
+                this.controleSalvar.setTotal(totalPedido);
+                return false;
+            }
            // this.venda.setValor((double)totalPedido);
         }
     }
@@ -814,6 +849,15 @@ public abstract class EfetuarPedidos
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
 /**************************************************************************************************/
+    public int quantidadeItem(int posicao)
+    {
+        for(ItensVendidos i : this.itensVendidos)
+            if(this.controleProdutos.getItem(posicao).getCodigo() == i.getItem())
+                return (int) this.itensVendidos.get(this.itensVendidos.indexOf(i)).getQuantidade();
+
+        return 0;
+    }
+
     public int consultaClientesAbertura() { return this.controleConfiguracao.consultaClientesAbertura(); }
 
     private void buscarGrupos() throws GenercicException
@@ -916,6 +960,9 @@ public abstract class EfetuarPedidos
         cont = (a - custo);
 
         pCont = (cont * 100)/preco;
+
+
+        this.controleDigitacao.getItem().setContribuicao(pCont);
 
         return pCont;
     }
@@ -1070,6 +1117,7 @@ public abstract class EfetuarPedidos
 
     public void removerItem(int posicao)
     {
+        alterarCampanhasTabloides(posicao);
         if(this.itensVendidos.get(posicao).getFlex() > 0 && !this.itensVendidos.get(posicao).isDigitadoSenha())
         {
             this.controleConfiguracao.setSaldoAtual(this.controleConfiguracao.getSaldoAtual() +
@@ -1078,6 +1126,110 @@ public abstract class EfetuarPedidos
 
         this.itensVendidos.remove(posicao);
     }
+
+    public void alterarCampanhasTabloides(int posicao) //pensar depois
+    {
+        updateTabloides(posicao);
+        updateCampanhas(posicao);
+    }
+
+    protected void updateTabloides(int posicao)
+    {
+        Grupo gItem = this.controleProdutos.getGrupoItem(this.itensVendidos.get(posicao).getItem());
+
+        if(this.campanhaGrupos != null && this.campanhaGrupos.size() > 0)
+        {
+            for (CampanhaGrupo cg : this.campanhaGrupos)/*O código nesse for está duplicado resolver*/
+            {
+                if(cg.getGrupo().equals(gItem))
+                {
+                    int totalCampanha = cg.getQuantidadeVendida();
+                    totalCampanha -= this.itensVendidos.get(posicao).getQuantidade();
+
+                    if(totalCampanha < cg.getQuantidade() && cg.getDescontoAplicado() > 0)
+                    {
+                        for(ItensVendidos iv : this.itensVendidos)
+                        {
+                            Grupo gIv = this.controleProdutos.getGrupoItem(iv.getItem());
+                            if(gIv.equals(cg.getGrupo()))
+                            {
+                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).setDescontoCG(0);
+                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).
+                                        setDescontoCampanha(this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDescontoCP() > 0);
+
+                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).setValorLiquido(
+                                        this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getValorDigitado());
+
+                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).setTotal(this.calcularTotal
+                                        (
+                                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getQuantidade(),
+                                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getValorDigitado(),
+                                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDesconto(),
+                                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDescontoCG(),
+                                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDescontoCP(), 0,
+                                                this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getItem()
+                                        ));
+                            }
+                        }
+
+                        this.campanhaGrupos.get(this.campanhaGrupos.indexOf(cg)).setQuantidadeVendida(totalCampanha);
+                        this.campanhaGrupos.get(this.campanhaGrupos.indexOf(cg)).setDescontoAplicado(0);
+                    }
+                }
+            }
+        }
+    }
+
+    protected void updateCampanhas(int posicao)
+    {
+        Grupo gItem = this.controleProdutos.getGrupoItem(this.itensVendidos.get(posicao).getItem());
+
+        if(this.campanhaProdutos != null && this.campanhaProdutos.size() > 0)
+        {
+            for (CampanhaProduto cp : this.campanhaProdutos)
+            {
+                for(Integer item : cp.getItens())
+                {
+                    if(item == this.itensVendidos.get(posicao).getItem())
+                    {
+                        float totalCampanha = cp.getQuantidadeVendida();
+                        totalCampanha -= this.itensVendidos.get(posicao).getQuantidade();
+
+                        if(totalCampanha < cp.getQuantidade()/* && cp.getDescontoAplicado() > 0*/)
+                        {
+                            for(ItensVendidos iv : this.itensVendidos)
+                            {
+                                Grupo gIv = this.controleProdutos.getGrupoItem(iv.getItem());
+                                if(iv.getItem() == item)
+                                {
+                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).setDescontoCP(0);
+                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).
+                                            setDescontoCampanha(this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDescontoCG() > 0);
+
+                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).setValorLiquido(
+                                            this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getValorDigitado());
+
+                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).setTotal(this.calcularTotal
+                                            (
+                                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getQuantidade(),
+                                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getValorDigitado(),
+                                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDesconto(),
+                                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDescontoCG(),
+                                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getDescontoCP(), 0,
+                                                    this.itensVendidos.get(this.itensVendidos.indexOf(iv)).getItem()
+                                            ));
+                                }
+                            }
+
+                            this.campanhaProdutos.get(this.campanhaProdutos.indexOf(cp)).setQuantidadeVendida(totalCampanha);
+                            this.campanhaProdutos.get(this.campanhaProdutos.indexOf(cp)).setDescontoAplicado(0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     public String getDescricaoItem(int posicao)
     {
@@ -1093,6 +1245,8 @@ public abstract class EfetuarPedidos
 
     public void alterarItem(int posicao)
     {
+        alterarCampanhasTabloides(posicao);
+
         int codigo = this.itensVendidos.get(posicao).getItem();
         int newP = this.controleProdutos.getItemPosicao(codigo);
 
@@ -1158,4 +1312,14 @@ public abstract class EfetuarPedidos
 
         return aceito;
     }
+
+
+    public int getQuantidadeRemover() {
+        return quantidadeRemover;
+    }
+
+    public void setQuantidadeRemover(int quantidadeRemover) {
+        this.quantidadeRemover = quantidadeRemover;
+    }
+
 }

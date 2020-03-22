@@ -9,7 +9,9 @@ public class SenhaLiberacao
 {
     private String chave;
     private String str_chave_valor;
-    private final int NUMERO = 91026;
+    private String str_chave_valorNew;
+    //private final int NUMERO = 91026;
+    private final int NUMERO = 17842;
     private int tipo;
 
     private ManipulacaoStrings ms;
@@ -19,6 +21,14 @@ public class SenhaLiberacao
     int month;
     int sun;
     String pswd;
+
+
+    String strQtd;
+    String strVal;
+    String strMsQV;
+    String strMsch;
+
+
 
     /**
      * Calcula randomicamente a chave de acesso para a senha quando não é utilizado valor
@@ -80,15 +90,24 @@ public class SenhaLiberacao
 
         String str_valor;
         String str_qtd;
-        this.chave = "" + (1 + (int) (Math.random()*1000));
-        String str_chave = "" + mascaraChave(Integer.parseInt(this.chave));
+        String str_qtdV;
+        this.chave = "" + (101 + (int) (Math.random() * 10000));
+        //String str_chave = "" + mascaraChave(Integer.parseInt(this.chave));
+        String str_chave = "" + calculaChave(Integer.parseInt(this.chave));
 
         str_valor = Formatacao.format3(valor, 2).replace(".", "").replace(",", "");
         str_qtd = Formatacao.format3(quantidade, 2).replace(".", "").replace(",", "");
 
-        str_qtd = "" + mascaraQuantidade(str_qtd, str_valor);
+        this.strQtd = str_qtd;
+        this.strVal = str_valor;
 
-        this.str_chave_valor = mascaraChave(str_chave, str_qtd);
+        str_qtdV = "" + mascaraValores(str_valor, str_qtd);
+
+        strMsQV = str_qtd;
+
+        this.str_chave_valor = mascaraValores(str_qtdV, str_chave);
+
+        strMsch = str_chave;
 
         this.tipo = 2;
     }
@@ -98,7 +117,12 @@ public class SenhaLiberacao
      */
     public String getChave()
     {
-        if (tipo == 1 || tipo == 2) return str_chave_valor;
+        if (tipo == 1 || tipo == 2) return str_chave_valor; /*+
+                "\nQ" + this.strQtd+ " - V " +
+        this.strVal+ " - QV " +
+        this.strMsQV+ " - " +
+        this.strMsch + " - MCH" +
+               "\n" +  chave;*/
         else return chave;
     }
 
@@ -140,6 +164,24 @@ public class SenhaLiberacao
      */
     public Boolean verificaChavePedido(String senha)
     {
+        /*
+        int constMult = 9;
+        int sun = 0;
+        int sti = 0;
+        for(int i = 0; i < this.str_chave_valor.length(); i++)
+        {
+            if (constMult < 1)
+                constMult = 9;
+
+            sti = Integer.parseInt(this.str_chave_valor.substring(i, i + 1));
+            sun += sti * constMult--;
+        }
+
+        int rest = sun % 11;
+        rest = rest * 11;
+        sun = sun - rest;
+
+
         day = cal.get(Calendar.DAY_OF_MONTH);
         sun = (Integer.parseInt(chave) * day);
 
@@ -149,6 +191,9 @@ public class SenhaLiberacao
             return true;
 
         return false;
+        */
+
+        return this.chave.equals(senha);
     }
 
     /**
@@ -175,26 +220,19 @@ public class SenhaLiberacao
     private String mascaraQuantidade(String quantidade, String valor)
     {
         StringBuilder nq = new StringBuilder();
-        int dif = valor.length() > quantidade.length() ? valor.length() - quantidade.length() :
-                quantidade.length() - valor.length();
 
-        int i = 0;
-
-        for (i = 0; i < valor.length(); i++)
+        if(valor.length() > quantidade.length())
         {
-            nq.append(valor.substring(i, i+1));
-
-            if (i < quantidade.length()){ nq.append(quantidade.substring(i, i+1)); }
-        }
-
-        if (i < quantidade.length())
-        {
-            nq.append(quantidade.substring(i));
+            ms.comEsquerda(quantidade, "0", valor.length());
+            nq.append(misturar(valor, quantidade, false));
             nq.append("1");
         }
-        else { nq.append("0"); }
-
-        nq.append("" + dif);
+        else
+        {
+            ms.comEsquerda(valor, "0", quantidade.length());
+            nq.append(misturar(quantidade, valor, false));
+            nq.append("2");
+        }
 
         return nq.toString();
     }
@@ -208,7 +246,7 @@ public class SenhaLiberacao
     {
         day = cal.get(Calendar.DAY_OF_MONTH);
 
-        sun = (chave * day);
+        sun = (chave * day) + NUMERO;
 
         return sun;
     }
@@ -221,25 +259,86 @@ public class SenhaLiberacao
     private String mascaraChave(String chave, String valor)
     {
         StringBuilder nq = new StringBuilder();
-        int dif = valor.length() > chave.length() ? valor.length() - chave.length() : chave.length() - valor.length();
-        int i = 0;
 
-        for (i = 0; i < valor.length(); i++)
+        if(valor.length() > chave.length())
         {
-            nq.append(valor.substring(i, i+1));
-
-            if (i < chave.length()){ nq.append(chave.substring(i, i+1)); }
-        }
-
-        if (i < chave.length())
-        {
-            nq.append(chave.substring(i));
+            ms.comEsquerda(chave, "0", valor.length());
+            nq.append(misturar(valor, chave, false));
             nq.append("1");
         }
-        else { nq.append("0"); }
-
-        nq.append("" + dif);
+        else
+        {
+            ms.comEsquerda(valor, "0", chave.length());
+            nq.append(misturar(chave, valor, false));
+            nq.append("2");
+        }
 
         return nq.toString();
     }
+
+    /**
+     * Calculo para mascarar a chave
+     *
+     * @return
+     */
+    private int calculaChave(int chave)
+    {
+        day = cal.get(Calendar.DAY_OF_MONTH);
+
+        sun = (chave * day) + NUMERO;
+
+        return sun;
+    }
+
+    /**
+     * Calculo para misturar duas strings via de regra, o primeiro item é sempre valor
+     *
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private String mascaraValores(String str1, String str2)
+    {
+        StringBuilder nq = new StringBuilder();
+
+        if(str1.length() > str2.length())
+        {
+            str2 = ms.comEsquerda(str2, "0", str1.length());
+            nq.append(misturar(str1, str2, false));
+            nq.append("1");
+        }
+        else
+        {
+            str1 = ms.comEsquerda(str1, "0", str2.length());
+            nq.append(misturar(str2, str1, false));
+            nq.append("2");
+        }
+
+        return nq.toString();
+    }
+
+    /**
+     *
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private String misturar(String str1, String str2, boolean reverse)
+    {
+        StringBuilder nq = new StringBuilder();
+        int i = 0;
+
+        for (i = 0; i < str1.length(); i++)
+        {
+            nq.append(str1.substring(i, i+1));
+
+            if(!reverse)
+                nq.append(str2.substring(i, i+1));
+            else
+                nq.append(str2.substring(str2.length() - i + 1, str2.length() - i));
+        }
+
+        return nq.toString();
+    }
+
 }

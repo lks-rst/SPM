@@ -60,6 +60,10 @@ public class Pedido extends AppCompatActivity
     private String senha;
 
     private Boolean pesquisar;
+
+    private int quantidadeRemovida;
+
+    private boolean firstTimeIn = true;
 /**********************************ACTIVITY LIFE CICLE*********************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -136,6 +140,8 @@ public class Pedido extends AppCompatActivity
         gestureDetector = new GestureDetector(this, android_gesture_detector);
 
         pesquisar = true;
+
+        quantidadeRemovida = 0;
     }
 
     @Override
@@ -405,7 +411,13 @@ public class Pedido extends AppCompatActivity
         {
             fragment = (DadosClienteFragment) fragmentManager.findFragmentById(R.id.frame_container);
 
-            if (fragment != null) { fragment.ajustarLayout(); }
+            if (fragment != null)
+            {
+                if(this.controlePedido.getClass() == Troca.class)
+                    fragment.ajustarLayout2();
+                else
+                    fragment.ajustarLayout();
+            }
         }
         catch (Exception e)
         {
@@ -499,9 +511,14 @@ public class Pedido extends AppCompatActivity
 
     public void recalcularPrecos()
     {
-        this.controlePedido.recalcularValor();
+        boolean alterar = this.controlePedido.recalcularValor(!firstTimeIn);
         this.exibirTotalPedido();
-        Toast.makeText(getApplicationContext(), "Preços recalculados", Toast.LENGTH_LONG).show();
+
+        if (alterar)
+            Toast.makeText(getApplicationContext(), "Preços recalculados", Toast.LENGTH_LONG).show();
+
+
+        firstTimeIn = false;
     }
 
     public int itensVendidos() { return this.controlePedido.itensVendidos(); }
@@ -601,6 +618,8 @@ public class Pedido extends AppCompatActivity
 
     public void selecionarItem(int position)
     {
+        this.controlePedido.setQuantidadeRemover(this.controlePedido.quantidadeItem(position));
+
         this.controlePedido.selecionarItem(position);
         displayView(2);
     }
@@ -794,7 +813,11 @@ public class Pedido extends AppCompatActivity
 
     public void verificarEncerramento(int p)
     {
-        if(p == 2) { this.displayView(1); }
+        if(p == 2)
+        {
+
+            this.displayView(1);
+        }
         else
         {
             String titulo = "ATENÇÃO -- CANCELAMENTO";
@@ -987,6 +1010,8 @@ public class Pedido extends AppCompatActivity
 //        update the main content by replacing fragments
         String title = getString(R.string.telaPedido);
         Fragment fragment = null;
+
+        firstTimeIn = true;
 
         switch (position)
         {
@@ -1263,8 +1288,11 @@ public class Pedido extends AppCompatActivity
 
                                 String[] itens = item.split(" - ");
 
-                                if(itens[1].indexOf(filter) == 0)
-                                    cidadesFiltered.add(cidades.get(i));
+                                if(itens.length > 1)
+                                {
+                                    if(itens[1].indexOf(filter) == 0)
+                                        cidadesFiltered.add(cidades.get(i));
+                                }
                                 /*
                                 item = cidades.get(i);
 
@@ -1358,10 +1386,10 @@ public class Pedido extends AppCompatActivity
             }
         });
 
-        if(tipo == 3)
+//        if(tipo == 3)
             alert.setView(ll);
-        else
-            alert.setView(input);
+//        else
+//            alert.setView(input);
 
         alert.show();
     }

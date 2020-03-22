@@ -9,7 +9,7 @@ android{
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 934
-        versionName "1.99V9"
+        versionName "2.000.0003"
     }
     buildTypes {
         release {

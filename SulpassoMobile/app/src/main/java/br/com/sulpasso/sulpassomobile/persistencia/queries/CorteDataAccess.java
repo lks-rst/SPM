@@ -253,6 +253,12 @@ public class CorteDataAccess
 
             item.setItem(c.getInt(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Corte.PRODUTO)));
+            item.setReferencia(c.getString(c.getColumnIndex((
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.REFERENCIA))));
+            item.setDescricao(c.getString(c.getColumnIndex((
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESCRICAO))));
+            item.setComplemento(c.getString(c.getColumnIndex((
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.COMPLEMENTO))));
             item.setQuantidade(c.getFloat(c.getColumnIndex(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Corte.QUANTIDADE)));
 

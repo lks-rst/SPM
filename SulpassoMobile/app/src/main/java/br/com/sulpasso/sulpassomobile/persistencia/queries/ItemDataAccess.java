@@ -13,6 +13,7 @@ import br.com.sulpasso.sulpassomobile.exeption.InsertionExeption;
 import br.com.sulpasso.sulpassomobile.exeption.ReadExeption;
 import br.com.sulpasso.sulpassomobile.modelo.Foco;
 import br.com.sulpasso.sulpassomobile.modelo.Gravosos;
+import br.com.sulpasso.sulpassomobile.modelo.Grupo;
 import br.com.sulpasso.sulpassomobile.modelo.Item;
 import br.com.sulpasso.sulpassomobile.persistencia.database.SimplySalePersistencySingleton;
 import br.com.sulpasso.sulpassomobile.util.Enumarations.TiposBuscaItens;
@@ -1099,6 +1100,13 @@ public class ItemDataAccess
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
 
+                item.setPeso(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO)));
+                item.setPesoCd(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
+
                 item.setContribuicao(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CONTRIBUICAO)));
@@ -1440,6 +1448,17 @@ public class ItemDataAccess
 
                 String des = c.getString(c.getColumnIndex(
                         br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DESTAQUE));
+
+                item.setFaixa(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
+
+                item.setPeso(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO)));
+                item.setPesoCd(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
 
                 int destaque = Integer.parseInt(des);
 
@@ -1878,6 +1897,15 @@ public class ItemDataAccess
                 item.setQuantidadeCaixa(
                         c.getInt(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.QUANTIDADECAIXA)));
+                item.setFaixa(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA)));
+                item.setPeso(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESO)));
+                item.setPesoCd(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.PESOCD)));
 
                 item.setContribuicao(
                         c.getFloat(c.getColumnIndex(
@@ -2665,5 +2693,113 @@ public class ItemDataAccess
         return valor;
         */
         return 0;
+    }
+
+    public Grupo getGrupoItem(int item)
+    {
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.GRUPO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.SUBGRUPO);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.DIVISAO);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(item);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        Grupo g = new Grupo();
+
+        try
+        {
+            g.setGrupo(c.getInt(0));
+            g.setSubGrupo(c.getInt(1));
+            g.setDivisao(c.getInt(2));
+        }
+        catch (Exception e)
+        {
+            g = null;
+        }
+
+        c.close();
+        SQLiteDatabase.releaseMemory();
+        return g;
+    }
+
+    public boolean vendaKilo(int item) {
+        boolean vendaKilo = false;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADEVENDA);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.UNIDADE);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(item);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { vendaKilo = c.getString(1).equals("KG") && !c.getString(0).equals("KG"); }
+        catch (Exception e) { vendaKilo = false; }
+        finally
+        {
+            c.close();
+            SQLiteDatabase.releaseMemory();
+        }
+
+        return vendaKilo;
+    }
+
+    public float getFaixa(int item) {
+        float faixa = 1;
+
+        this.sBuilder.delete(0, this.sBuilder.length());
+        this.sBuilder.append("SELECT ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.FAIXA);
+        this.sBuilder.append(" FROM ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.TABELA);
+        this.sBuilder.append(" WHERE ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Item.CODIGO);
+        this.sBuilder.append(" = ");
+        this.sBuilder.append(item);
+
+        Cursor c = this.db.rawQuery(this.sBuilder.toString(), null);
+
+        c.moveToFirst();
+
+        try { faixa = c.getFloat(0) > 0 ? c.getFloat(0) : 1; }
+        catch (Exception e) { faixa = 1; }
+        finally
+        {
+            c.close();
+            SQLiteDatabase.releaseMemory();
+        }
+
+        return faixa;
     }
 }

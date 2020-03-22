@@ -385,6 +385,8 @@ public class ConsultarPedidos
                 for(Venda v : this.todas)
                 {
                     total += v.getValor();
+                    volume += v.getVolume();
+                    contribuicao += v.getContribuicao();
                 }
                 break;
             case 1:
@@ -392,6 +394,8 @@ public class ConsultarPedidos
                 for(Venda v : this.enviadas)
                 {
                     total += v.getValor();
+                    volume += v.getVolume();
+                    contribuicao += v.getContribuicao();
                 }
                 break;
             case 2:
@@ -399,6 +403,8 @@ public class ConsultarPedidos
                 for(Venda v : this.naoEnviadas)
                 {
                     total += v.getValor();
+                    volume += v.getVolume();
+                    contribuicao += v.getContribuicao();
                 }
                 break;
         }

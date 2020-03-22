@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.com.sulpasso.sulpassomobile.R;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
 import br.com.sulpasso.sulpassomobile.views.Pedido;
 import br.com.sulpasso.sulpassomobile.views.fragments.alertas.AlertaPromocoes;
 
@@ -244,6 +245,20 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
         ((EditText) (getActivity().findViewById(R.id.fdEdtMkp))).setOnFocusChangeListener(alteracaoFoco);
 
         ((EditText) (getActivity().findViewById(R.id.fdEdtQuantidade))).requestFocus();
+
+        ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                String val = ((EditText)(getActivity().findViewById(R.id.fdEdtValor))).getText().toString();
+
+                if(val.indexOf('.') != -1 && (val.substring(val.indexOf('.'))).length() < 3)
+                {
+                    ManipulacaoStrings ms = new ManipulacaoStrings();
+                    ((EditText) (getActivity().findViewById(R.id.fdEdtValor)))
+                            .setText(ms.comDireita2(val, "0", 3 - (val.substring(val.indexOf('.'))).length()));
+                }
+            }
+        });
     }
 
     private void exibirTotal()
