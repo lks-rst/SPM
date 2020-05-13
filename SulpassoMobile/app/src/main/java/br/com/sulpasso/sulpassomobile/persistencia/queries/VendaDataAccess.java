@@ -441,9 +441,14 @@ public class VendaDataAccess
                 item.setValorTabela(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORTABELA)));
+                /*
                 item.setValorLiquido(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORLIQUIDO)));
+                */
+                item.setValorLiquido(
+                        c.getFloat(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
                 item.setQuantidade(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.QUANTIDADE)));

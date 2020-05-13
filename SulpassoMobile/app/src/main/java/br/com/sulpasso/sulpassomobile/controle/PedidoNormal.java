@@ -256,6 +256,10 @@ public class PedidoNormal extends EfetuarPedidos
     {
         Boolean alteracao = false;
         int posicao = -1;
+        int especialTipo = -1;
+
+        especialTipo = String.valueOf(super.venda.getCliente().getEspecial()).equalsIgnoreCase("E")  ?
+                super.controleConfiguracao.getConfigVda().getEspecialAlteraValor2() : -1;
 
         /*
         ItensVendidos item = super.controleDigitacao.confirmarItem(
@@ -264,7 +268,7 @@ public class PedidoNormal extends EfetuarPedidos
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
                 super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(),
-                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), super.venda.getTipo());
+                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), super.venda.getTipo(), especialTipo);
 
         if(item != null)
         {
@@ -1276,6 +1280,7 @@ public class PedidoNormal extends EfetuarPedidos
     protected void getNaturezasList(Boolean especial) throws GenercicException
     {
         NaturezaDataAccess nda = new NaturezaDataAccess(super.context);
+        nda.setSearchData(super.codigoNatureza);
 
         if (especial)
             super.listaNaturezas = nda.buscarRestrito();

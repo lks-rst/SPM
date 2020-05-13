@@ -771,8 +771,14 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(conta.getVendas().getFrete() == true ? 1 : 0);
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getVendas().getSolicitaSenha() == true ? 1 : 0);
+
+        this.sBuilder.append("', '");
+        this.sBuilder.append(conta.getVendas().getEspecialAlteraValor2());
+
+        /*
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getVendas().getEspecialAlteraValor() == true ? 1 : 0);
+        */
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getVendas().getMinimoPrazo() == true ? 1 : 0);
         this.sBuilder.append("', '");
@@ -1219,8 +1225,14 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(conta.getVendas().getFrete() == true ? 1 : 0);
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getVendas().getSolicitaSenha() == true ? 1 : 0);
+
+        this.sBuilder.append("', '");
+        this.sBuilder.append(conta.getVendas().getEspecialAlteraValor2());
+
+        /*
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getVendas().getEspecialAlteraValor() == true ? 1 : 0);
+        */
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getVendas().getMinimoPrazo() == true ? 1 : 0);
         this.sBuilder.append("', '");
@@ -2189,7 +2201,9 @@ public class ConfiguradorDataAccess
             conta.setSolicitaSenha(c.getInt(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.SOLICITASENHA)) == 1);
             conta.setEspecialAlteraValor(c.getInt(c.getColumnIndex(
-                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ESPECIALALTERAVALOR)) == 1);
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ESPECIALALTERAVALOR)) > 0);
+            conta.setEspecialAlteraValor2(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.ESPECIALALTERAVALOR)));
             conta.setMinimoPrazo(c.getInt(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOPRAZO)) == 1);
             conta.setControlaGps(c.getInt(c.getColumnIndex(

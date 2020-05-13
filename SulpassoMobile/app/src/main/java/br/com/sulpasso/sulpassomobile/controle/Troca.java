@@ -228,7 +228,6 @@ public class Troca extends EfetuarPedidos {
     {
         Boolean alteracao = false;
         int posicao = -1;
-
         /*
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha);
@@ -236,7 +235,8 @@ public class Troca extends EfetuarPedidos {
 
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
-                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), "TR");
+                super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(), super.controleConfiguracao.getConfigHor().getMaximoItens(),
+                this.getClass(), "TR", 2);
 
         if(item != null)
         {
