@@ -239,8 +239,8 @@ public class InserirItemPedidos
         if(!senha)
         {
             if(this.verificarQuantidade(maximo))
-                if(this.verificarDesconto(desconto, percentual, context))
-                    if(this.verificarValor(desconto, percentual, context, tipoPedido))
+                if(this.verificarDesconto(desconto, percentual, context, 0))
+                    if(this.verificarValor(desconto, percentual, context, tipoPedido, 0))
                     {
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
@@ -306,13 +306,13 @@ public class InserirItemPedidos
         }
     }
 
-    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo, Class tipoPedido, String tipoVenda)
+    public ItensVendidos confirmarItem(float desconto, boolean percentual, Context context, boolean senha, int natureza, int empresa, int maximo, Class tipoPedido, String tipoVenda, int especialTipo)
     {
         if(!senha)
         {
             if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarQuantidade(maximo))
-                if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarDesconto(desconto, percentual, context))
-                    if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarValor(desconto, percentual, context, tipoPedido))
+                if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarDesconto(desconto, percentual, context, especialTipo))
+                    if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarValor(desconto, percentual, context, tipoPedido, especialTipo))
                     {
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
@@ -320,9 +320,11 @@ public class InserirItemPedidos
                         item.setDescricao(this.item.getDescricao());
                         item.setComplemento(this.item.getComplemento());
                         item.setQuantidade(this.quantidade);
-                        item.setValorTabela(Float.parseFloat(this.getValor()));
-                        item.setValorLiquido(this.valor);
-                        item.setValorDigitado(this.valor);
+
+                        item.setValorTabela(Float.parseFloat(buscarDadosVendaItem(1)));
+                        item.setValorLiquido(Float.parseFloat(this.getValor()));
+                        item.setValorDigitado(Float.parseFloat(this.getValor()));
+
                         item.setPeso(this.peso);
                         item.setContribuicao(this.item.getContribuicao());
 
@@ -416,8 +418,10 @@ public class InserirItemPedidos
                 return this.dadosVendaItem.get("QTDCAIXA");
             case 8 :
                 float quantidade = Float.parseFloat(this.dadosVendaItem.get("QTDCAIXA"));
-                float valor = Float.parseFloat(this.dadosVendaItem.get("TABELA"));
+                float valor = 0;
                 float unitario = 0;
+
+                valor = this.valor > 0 ? this.valor : Float.parseFloat(this.dadosVendaItem.get("TABELA"));
 
                 if(this.dadosVendaItem.get("UNIDADE").equalsIgnoreCase("UN") && this.dadosVendaItem.get("UNVENDA").equalsIgnoreCase("UN"))
                 {
@@ -429,7 +433,7 @@ public class InserirItemPedidos
                     catch (Exception e){ unitario = valor; }
                 }
 
-                return String.valueOf(unitario);
+                return Formatacao.format2d(unitario);
             case 9 :
                 return this.dadosVendaItem.get("ESTOQUE");
             default :
@@ -437,63 +441,118 @@ public class InserirItemPedidos
         }
     }
 
-    private Boolean verificarValor(float desconto, boolean percentual, Context context, Class tipoPedido)
+    private Boolean verificarValor(float desconto, boolean percentual, Context context, Class tipoPedido, int especial)
     {
+        Boolean atualizarValores = false;
+
         if(this.valorMaximo(context, tipoPedido))
         {
             if(percentual || tipoPedido == Troca.class)
                 return true;
             else
             {
-                float valordesconto;
-                float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
-                float minimoPromocional = this.verificarPromocoes(context);
-                float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
-                float minimoAcessivel = 0;
-
-                if(minimoPromocional > 0)
+                if((especial == 0) && (this.valor != Float.parseFloat(this.buscarDadosVendaItem(1))))
                 {
-                    if(minimo > 0)
+                    EfetuarPedidos.strErro = "Não é permitido alterar o valor de clientes especiais!";
+                    return false;
+                }
+                else
+                {
+                    if(especial == -1)
                     {
-                        if(minimo < minimoPromocional)
+                        atualizarValores = true;
+                    }
+                    else
+                    {
+                        if(this.valor > Float.parseFloat(this.buscarDadosVendaItem(1)))
                         {
-                            minimoAcessivel = minimo;
+                            if(especial == 1 || especial == 2)
+                                atualizarValores = true;
+                            else
+                            {
+                                EfetuarPedidos.strErro = "Para clientes especiais não é permitido alterar valores acima do valor de tabela!";
+                                atualizarValores = false;
+                                return false;
+                            }
                         }
                         else
                         {
-                            minimoAcessivel = minimoPromocional;
+                            if(this.valor < Float.parseFloat(this.buscarDadosVendaItem(1)))
+                            {
+                                if(especial == 2 || especial == 3)
+                                    atualizarValores = true;
+                                else
+                                {
+                                    EfetuarPedidos.strErro = "Para clientes especiais não é permitido alterar valores abaixo do valor de tabela!";
+                                    atualizarValores = false;
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                atualizarValores = true;
+                            }
                         }
                     }
+
+                    if(atualizarValores)
+                    {
+                        float valordesconto;
+                        float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
+                        float minimoPromocional = this.verificarPromocoes(context);
+                        float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
+                        float minimoAcessivel = 0;
+
+                        if(minimoPromocional > 0)
+                        {
+                            if(minimo > 0)
+                            {
+                                if(minimo < minimoPromocional)
+                                {
+                                    minimoAcessivel = minimo;
+                                }
+                                else
+                                {
+                                    minimoAcessivel = minimoPromocional;
+                                }
+                            }
+                            else
+                            {
+                                minimoAcessivel = minimoPromocional;
+                            }
+                        }
+                        else
+                        {
+                            if(minimo > 0)
+                            {
+                                minimoAcessivel = minimo;
+                            }
+                            else
+                            {
+                                minimoAcessivel = tabela;
+                            }
+                        }
+
+                        /*
+                        minimoAcessivel = minimoPromocional > 0 ?
+                                (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
+                        */
+
+                        minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
+
+                        valordesconto = minimoAcessivel - (minimoAcessivel * desconto / 100);
+
+                        if(this.valor >= valordesconto)
+                            return true;
+                        else
+                            return this.verificarPromocoes(context, this.valor);
+                    }
                     else
                     {
-                        minimoAcessivel = minimoPromocional;
+                        EfetuarPedidos.strErro = "Verifique as restrições de alteração de valores para clientes especiais!";
+                        return false;
                     }
                 }
-                else
-                {
-                    if(minimo > 0)
-                    {
-                        minimoAcessivel = minimo;
-                    }
-                    else
-                    {
-                        minimoAcessivel = tabela;
-                    }
-                }
-
-                /*
-                minimoAcessivel = minimoPromocional > 0 ?
-                        (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
-                */
-
-                minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
-
-                valordesconto = minimoAcessivel - (minimoAcessivel * desconto / 100);
-
-                if(this.valor >= valordesconto)
-                    return true;
-                else
-                    return this.verificarPromocoes(context, this.valor);
             }
         }
         else
@@ -512,13 +571,16 @@ public class InserirItemPedidos
             return false;
     }
 
-    private Boolean verificarDesconto(float desconto, boolean percentual, Context context)
+    private Boolean verificarDesconto(float desconto, boolean percentual, Context context, int especial)
     {
         if(percentual)
-            if(this.desconto < desconto)
-                return true;
+            if(!(especial == 3 || especial == 2))
+                return false;
             else
-                return this.verificarPromocoes(context, this.valor - (this.valor * desconto / 100));
+                if(this.desconto < desconto )
+                    return true;
+                else
+                    return this.verificarPromocoes(context, this.valor - (this.valor * desconto / 100));
         else
             return true;
     }

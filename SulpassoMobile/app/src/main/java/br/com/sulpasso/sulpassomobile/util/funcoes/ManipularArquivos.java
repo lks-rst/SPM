@@ -1513,7 +1513,8 @@ public class ManipularArquivos
                     builder.append(ms.comDireita("" + referencia, " ", 10));
                     //builder.append(ms.comEsquerda(("" + /*(int)*/Formatacao.format2d(i.getEstoque())).replace(".", ""), "0", 6) +
                     builder.append(ms.comEsquerda(("" + (int)i.getQuantidade()).replace(".", ""), "0", 4));
-                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorLiquido())).replace(".", "").replace(",", ""), "0", 9));
+                    //builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorLiquido())).replace(".", "").replace(",", ""), "0", 9));
+                    builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorDigitado())).replace(".", "").replace(",", ""), "0", 9));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorTabela())).replace(".", "").replace(",", ""), "0", 9));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getDesconto())).replace(".", ""), "0", 6));
                     builder.append(ms.comDireita("0", " ", 3));
@@ -1522,13 +1523,14 @@ public class ManipularArquivos
                     builder.append(ms.comDireita((i.isDigitadoSenha() ? "1" : "0"), "0", 1));
                     /*
                     builder.append(ms.comDireita("" + i.getIcm(), " ", 3));
-                    builder.append(ms.comEsquerda(("" + i.getAliq()).replace(".", ""), "0", 4));
+                    builder.append(ms.comEsquerda(("" + i.getAliq()).replace(".", ""), "0   ", 4));
                     builder.append(ms.comEsquerda(("" + i.getBase()).replace(".", ""), "0", 9));
                     */
                     builder.append(ms.comEsquerda("" + i.getItem(), "0", 6));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getDescontoCG())).replace(".", "").replace(",", ""), "0", 5));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorDigitado())).replace(".", "").replace(",", ""), "0", 9));
-                    builder.append(ms.comDireita((i.isDescontoCampanha() ? "1" : "0"), "0", 1));
+                    //builder.append(ms.comDireita((i.isDescontoCampanha() ? "1" : "0"), "0", 1));
+                    builder.append(i.isDescontoCampanha() || i.getDescontoCG() > 0 ? "1" : "0");
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getValorMinimo())).replace(".", "").replace(",", ""), "0", 9));
                     builder.append(ms.comEsquerda((Formatacao.format2d(i.getQuantidadeEspecifica())).replace(".", "").replace(",", ""), "0", 6));
 

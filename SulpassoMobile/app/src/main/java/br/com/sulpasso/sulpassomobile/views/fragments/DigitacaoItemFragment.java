@@ -106,6 +106,8 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
     public void indicarMinimo(String valor)
     {
         ((EditText) (getActivity().findViewById(R.id.fdEdtValor))).setText(valor);
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnitario)))
+                .setText(((Pedido) getActivity()).getValorUnitario());
     }
 
     public void apresentarPromocoes()
@@ -277,6 +279,9 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
 
         ((EditText) (getActivity().findViewById(R.id.fdEdtCnt))).setText(
             (((Pedido) getActivity()).calculoContribuicao(total)));
+        
+        ((EditText) (getActivity().findViewById(R.id.fdEdtUnitario)))
+                .setText(((Pedido) getActivity()).getValorUnitario());
     }
 /**************************************************************************************************/
 /*****************************   END OF FRAGMENT FUNCTIONAL METHODS   *****************************/

@@ -221,6 +221,10 @@ public class AlteracaoPedidos extends EfetuarPedidos
     {
         Boolean alteracao = false;
         int posicao = -1;
+        int especialTipo = -1;
+
+        especialTipo = String.valueOf(super.venda.getCliente().getEspecial()).equalsIgnoreCase("E")  ?
+                super.controleConfiguracao.getConfigVda().getEspecialAlteraValor2() : -1;
 
         /*
         ItensVendidos item = super.controleDigitacao.confirmarItem(
@@ -229,7 +233,7 @@ public class AlteracaoPedidos extends EfetuarPedidos
         ItensVendidos item = super.controleDigitacao.confirmarItem(
                 super.controleConfiguracao.descontoMaximo(), super.controleConfiguracao.alteraValor("d"), super.context, super.senha,
                 super.codigoNatureza, super.controleConfiguracao.getConfigEmp().getCodigo(),
-                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), super.venda.getTipo());
+                super.controleConfiguracao.getConfigHor().getMaximoItens(), this.getClass(), super.venda.getTipo(), especialTipo);
 
         if(item != null)
         {

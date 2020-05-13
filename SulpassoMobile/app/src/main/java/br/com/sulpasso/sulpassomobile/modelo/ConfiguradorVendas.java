@@ -25,6 +25,7 @@ public class ConfiguradorVendas
     private Boolean frete;
     private Boolean solicitaSenha;
     private Boolean especialAlteraValor;
+    private int especialAlteraValor2;
     private Boolean minimoPrazo;
     private Boolean controlaGps;
     private Boolean descontoPecentual;
@@ -53,6 +54,7 @@ public class ConfiguradorVendas
         this.frete = (venda.getInt("frete") == 1 ? true : false);
         this.solicitaSenha = (venda.getInt("solicitaSenha") == 1 ? true : false);
         this.especialAlteraValor = (venda.getInt("especialAlteraValor") == 1 ? true : false);
+        this.especialAlteraValor2 = venda.getInt("especialAlteraValor");
         this.minimoPrazo = (venda.getInt("minimoPrazo") == 1 ? true : false);
         this.controlaGps = (venda.getInt("controlaGps") == 1 ? true : false);
         this.descontoPecentual = (venda.getInt("descontoPecentual") == 1 ? true : false);
@@ -146,6 +148,10 @@ public class ConfiguradorVendas
     public String getValidade() { return validade; }
 
     public void setValidade(String validade) { this.validade = validade; }
+
+    public int getEspecialAlteraValor2() { return especialAlteraValor2; }
+
+    public void setEspecialAlteraValor2(int especialAlteraValor2) { this.especialAlteraValor2 = especialAlteraValor2; }
 
     @Override
     public String toString() {
