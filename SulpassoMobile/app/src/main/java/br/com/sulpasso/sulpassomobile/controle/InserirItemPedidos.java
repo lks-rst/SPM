@@ -563,7 +563,7 @@ public class InserirItemPedidos
 
     }
 
-    private Boolean verificarQuantidade(int maximo)
+    public Boolean verificarQuantidade(int maximo)
     {
         if(this.quantidade > 0 && this.quantidade % Integer.parseInt(this.buscarDadosVendaItem(3)) == 0 && this.quantidade <= maximo)
             return true;

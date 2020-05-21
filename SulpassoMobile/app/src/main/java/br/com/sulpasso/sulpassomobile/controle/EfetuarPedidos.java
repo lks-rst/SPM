@@ -641,7 +641,14 @@ public abstract class EfetuarPedidos
         */
     }
 
-    public final Boolean solicitarSenha() { return this.controleConfiguracao.getConfigEmp().getCodigo() == 3 ? true : false; }
+    public final Boolean solicitarSenha()
+    {
+        return
+                this.controleConfiguracao.getConfigEmp().getCodigo() == 3
+                        ||
+                this.controleConfiguracao.getConfigEmp().getCodigo() == 2
+                        ? true : false;
+    }
 
     public final int restoreClient() { return this.controleClientes.restoreClient(); }
 
@@ -846,6 +853,11 @@ public abstract class EfetuarPedidos
         return this.controleProdutos.verifyItens();
     }
 
+
+    public final Boolean verificarQuantidade()
+    {
+        return this.controleDigitacao.verificarQuantidade(this.controleConfiguracao.getConfigHor().getMaximoItens());
+    }
 /**************************************************************************************************/
 /*********************************NON ABSTRACT OR FINAL METHODS************************************/
 /**************************************************************************************************/

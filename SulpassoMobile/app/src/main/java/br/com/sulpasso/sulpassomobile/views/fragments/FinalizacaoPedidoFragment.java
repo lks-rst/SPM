@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -42,6 +43,8 @@ public class FinalizacaoPedidoFragment extends Fragment
     private Spinner ffpSpnrNaturezas;
     private Spinner ffpSpnrPrazos;
     private Spinner ffpSpnrJustificativa;
+
+    private boolean toPosition = false;
 
     public FinalizacaoPedidoFragment(){}
 /**********************************FRAGMENT LIFE CICLE*********************************************/
@@ -377,8 +380,37 @@ public class FinalizacaoPedidoFragment extends Fragment
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
-            if(s.toString().length() > 0 && s.toString().indexOf('.') != (s.toString().length() - 1))
-                ((Pedido) getActivity()).indicarDescontoPedido(s.toString());
+
+            if(toPosition)
+            {
+                int position = ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto))).length();
+                Editable etext = ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto))).getText();
+                Selection.setSelection(etext, position);
+            }
+
+            toPosition = false;
+
+            if(s.toString().length() > 0)
+            {
+                if(s.length() == 2 && s.toString().substring(0, 1).equalsIgnoreCase("0"))
+                {
+                    toPosition = true;
+                    ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto)))
+                            .setText(s.toString().substring(1));
+                }
+                else
+                {
+                    if(s.toString().indexOf('.') != (s.toString().length() - 1))
+                        ((Pedido) getActivity()).indicarDescontoPedido(s.toString());
+                    else { /*Do nothing*/}
+                }
+            }
+            else
+            {
+                toPosition = true;
+                ((EditText) (getActivity().findViewById(R.id.ffpEdtDesconto)))
+                        .setText("0");
+            }
         }
 
         @Override
