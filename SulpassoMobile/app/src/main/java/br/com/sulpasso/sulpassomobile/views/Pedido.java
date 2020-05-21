@@ -289,9 +289,16 @@ public class Pedido extends AppCompatActivity
 
     public void solicitarSenhaDireto(View v)
     {
-        this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
-        this.chave = sl.getChave();
-        solicitarSenha(this.chave);
+        if(this.controlePedido.verificarQuantidade())
+        {
+            this.sl = new SenhaLiberacao(this.controlePedido.buscarValorItemDigitando(), this.controlePedido.buscarQuantidadeItemDigitando());
+            this.chave = sl.getChave();
+            solicitarSenha(this.chave);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Verifique a quantidade digitada!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void exibirPromocoes(View v)
