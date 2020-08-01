@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
+import br.com.sulpasso.sulpassomobile.exeption.UpdateExeption;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorConexao;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorEmpresa;
 import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
@@ -264,5 +265,18 @@ public class ConfigurarSistema
     public int consultaClientesAbertura()
     {
         return this.configVda.getGerenciarVisitas() ? 5 : 0;
+    }
+
+    public void atualizarSaldoNegativo()
+    {
+        this.configUsr.setSaldo(0);
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(this.context);
+
+        try
+        {
+            cda.updateSaldo("0");
+        } catch (UpdateExeption updateExeption) {
+            updateExeption.printStackTrace();
+        }
     }
 }

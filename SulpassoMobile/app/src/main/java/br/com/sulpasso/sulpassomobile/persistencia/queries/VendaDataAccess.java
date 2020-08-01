@@ -252,6 +252,11 @@ public class VendaDataAccess
                     c.getFloat(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.TOTAL)));
 
+                item.setDigitadoSenha(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA)) == 1 ? true : false
+                );
+
                 itens.add(item);
                 c.moveToNext();
             }
@@ -1011,6 +1016,11 @@ public class VendaDataAccess
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.VALORDIGITADO)));
 
+                item.setDigitadoSenha(
+                        c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA)) == 1 ? true : false
+                );
+
 
                 item.setDescricao(c.getString(c.getColumnIndex("id")));
                 item.setReferencia(c.getString(c.getColumnIndex("ir")));
@@ -1590,6 +1600,16 @@ public class VendaDataAccess
                 item.setDescontoCG(
                         c.getFloat(c.getColumnIndex(
                                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.DESCONTOCG)));
+
+                //Aqui faltava a indicação de que foi digitado senha para o item;
+                //Quando se alterava o pedido sem movimentar o item em questão os valores alterado eram mantidos mas a marcação da senha desaparecia
+
+                item.setDigitadoSenha(
+                        (c.getInt(c.getColumnIndex(
+                                br.com.sulpasso.sulpassomobile.persistencia.tabelas.ItensVendidos.SENHA)))
+                        == 1 ? true : false
+                );
+
 
                 item.setDescontoCampanha((item.getDescontoCG() > 0 || item.getDescontoCP() > 0));
 

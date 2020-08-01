@@ -299,6 +299,7 @@ public class DigitacaoItemFragment extends Fragment implements AlertaPromocoes.E
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
             }
 
+
             view.setOnKeyListener(new View.OnKeyListener()
             {
                 @Override
