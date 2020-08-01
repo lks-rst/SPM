@@ -144,6 +144,7 @@ public class ItensVendidos
         builder.append(ms.comEsquerda(Formatacao.format2d(valorTabela), " ", 8));
         */
         builder.append("\nVB.:");
+        builder.append((isDigitadoSenha()) ? "*" : "");
         builder.append(ms.comEsquerda(Formatacao.format2d(valorDigitado), " ", 8));
         builder.append("  VL.:");
         builder.append(ms.comEsquerda(Formatacao.format2d(valorLiquido), " ", 8));

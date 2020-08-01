@@ -4,10 +4,12 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaGrupo;
 import br.com.sulpasso.sulpassomobile.modelo.CampanhaProduto;
 import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
+import br.com.sulpasso.sulpassomobile.util.funcoes.Formatacao;
 
 /**
  * Created by Lucas on 21/03/2017 - 16:57 as part of the project SulpassoMobile.
@@ -162,8 +164,26 @@ public class VendaDireta extends EfetuarPedidos {
     }
 
     @Override
-    public String buscarDadosVenda(int campo) {
-        return null;
+    public String buscarDadosVenda(int campo)
+    {
+        String retorno;
+        switch (campo)
+        {
+            case R.id.fdcEdtDca :
+                String actualValFlex = Formatacao.format2d(Float.parseFloat(super.controleConfiguracao.buscarFlex()));
+                retorno = String.format(super.context.getResources().getString(R.string.str_flex)
+                        , actualValFlex);
+
+                if(Float.parseFloat(actualValFlex) < 0)
+                {
+                    super.controleConfiguracao.atualizarSaldoNegativo();
+                }
+
+                break;
+            default:
+                retorno = "--";
+        }
+        return retorno;
     }
 
     @Override

@@ -3,6 +3,7 @@ package br.com.sulpasso.sulpassomobile.controle;
 import android.content.Context;
 import android.database.SQLException;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.Contract;
 
@@ -643,11 +644,16 @@ public abstract class EfetuarPedidos
 
     public final Boolean solicitarSenha()
     {
+        //TODO: Mover isso para configuração
+
+        Toast.makeText(this.context, "Código da empresa configurada: " + this.controleConfiguracao.getConfigEmp().getCodigo(), Toast.LENGTH_SHORT).show();
         return
                 this.controleConfiguracao.getConfigEmp().getCodigo() == 3
                         ||
                 this.controleConfiguracao.getConfigEmp().getCodigo() == 2
-                        ? true : false;
+                        ||
+                this.controleConfiguracao.getConfigEmp().getCodigo() == 5
+                    ? true : false;
     }
 
     public final int restoreClient() { return this.controleClientes.restoreClient(); }

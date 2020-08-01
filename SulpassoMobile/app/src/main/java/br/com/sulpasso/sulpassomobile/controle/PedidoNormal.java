@@ -591,8 +591,18 @@ public class PedidoNormal extends EfetuarPedidos
         switch (campo)
         {
             case R.id.fdcEdtDca :
+                String actualValFlex = Formatacao.format2d(Float.parseFloat(super.controleConfiguracao.buscarFlex()));
                 retorno = String.format(super.context.getResources().getString(R.string.str_flex)
-                        , Formatacao.format2d(Float.parseFloat(super.controleConfiguracao.buscarFlex())));
+                        , actualValFlex);
+
+                if(Float.parseFloat(actualValFlex) < 0)
+                {
+                    super.controleConfiguracao.atualizarSaldoNegativo();
+
+                    retorno = String.format(super.context.getResources().getString(R.string.str_flex)
+                            , Formatacao.format2d(0));
+                }
+
                 break;
             default:
                 retorno = "--";

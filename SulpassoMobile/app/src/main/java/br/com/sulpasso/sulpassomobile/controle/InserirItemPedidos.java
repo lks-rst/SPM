@@ -542,6 +542,8 @@ public class InserirItemPedidos
 
                         valordesconto = minimoAcessivel - (minimoAcessivel * desconto / 100);
 
+                        valordesconto = ((float) (Math.round(valordesconto * 100.0) / 100.0)) ;
+
                         if(this.valor >= valordesconto)
                             return true;
                         else
