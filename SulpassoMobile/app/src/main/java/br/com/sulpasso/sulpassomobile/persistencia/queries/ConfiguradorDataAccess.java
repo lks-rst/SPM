@@ -685,6 +685,9 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TELAINICIAL);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOITENS);
         this.sBuilder.append(") VALUES ('");
         this.sBuilder.append(conta.getEmpresa().getCodigo());
         this.sBuilder.append("', '");
@@ -861,6 +864,8 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(conta.getTelas().getPesquisaGeral());
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getTelas().getTelaInicial());
+        this.sBuilder.append("', '");
+        this.sBuilder.append(conta.getVendas().getMinimoItensDiferentes());
         this.sBuilder.append("');");
 
         try
@@ -1139,6 +1144,9 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TELAINICIAL);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOITENS);
         this.sBuilder.append(") VALUES ('");
         this.sBuilder.append(conta.getEmpresa().getCodigo());
         this.sBuilder.append("', '");
@@ -1315,6 +1323,8 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(conta.getTelas().getPesquisaGeral());
         this.sBuilder.append("', '");
         this.sBuilder.append(conta.getTelas().getTelaInicial());
+        this.sBuilder.append("', '");
+        this.sBuilder.append(conta.getVendas().getMinimoItensDiferentes());
         this.sBuilder.append("');");
 
         try
@@ -1602,6 +1612,11 @@ public class ConfiguradorDataAccess
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VALIDADE);
             this.sBuilder.append(" = '");
             this.sBuilder.append(conta.getValidade());
+            this.sBuilder.append("', ");
+            this.sBuilder.append(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOITENS);
+            this.sBuilder.append(" = '");
+            this.sBuilder.append(conta.getMinimoItensDiferentes());
             this.sBuilder.append("';");
 
             this.db.execSQL(this.sBuilder.toString());
@@ -2155,6 +2170,9 @@ public class ConfiguradorDataAccess
         this.sBuilder.append(", ");
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VALIDADE);
+        this.sBuilder.append(", ");
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOITENS);
 
         this.sBuilder.append(" FROM ");
         this.sBuilder.append(
@@ -2212,6 +2230,8 @@ public class ConfiguradorDataAccess
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.TIPODESCONTO)) == 1);
             conta.setValidade(c.getString(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.VALIDADE)));
+            conta.setMinimoItensDiferentes(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.Configurador.MINIMOITENS)));
 
         }
         catch (Exception e)

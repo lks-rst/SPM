@@ -3,6 +3,7 @@ package br.com.sulpasso.sulpassomobile.controle;
 import android.content.Context;
 import android.database.SQLException;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.Contract;
@@ -856,7 +857,16 @@ public abstract class EfetuarPedidos
 
     public final Boolean verifyItens()
     {
-        return this.controleProdutos.verifyItens();
+        Boolean validNumber;
+
+        //validNumber = this.controleProdutos.verifyItens(this.controleConfiguracao.getConfigVda().getMinimoItensDiferentes());
+        validNumber = this.controleConfiguracao.getConfigVda().getMinimoItensDiferentes() <= this.itensVendidos.size();
+
+        Log.d("VALOR", validNumber.toString());
+        return this.controleConfiguracao.getConfigVda().getMinimoItensDiferentes() <= this.itensVendidos.size();
+
+
+       // return this.controleProdutos.verifyItens(this.controleConfiguracao.getConfigVda().getMinimoItensDiferentes());
     }
 
 

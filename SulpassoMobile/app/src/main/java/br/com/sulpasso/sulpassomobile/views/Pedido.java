@@ -355,7 +355,41 @@ public class Pedido extends AppCompatActivity
         }
     }
 
-    public void finalizar(View v) { if(this.controlePedido.finalizarPedido(false) == 1) { finish(); } }
+    public void finalizar(View v)
+    {
+        if (this.controlePedido.verifyItens())
+        {
+            if(this.controlePedido.finalizarPedido(false) == 1) { finish(); }
+        }
+        else
+        {
+            String titulo = "ATENÇÃO -- FALTA DE ITENS";
+            String mensagem = "ATENÇÃO!\nNúmero de itens menor que o indicado para encerramento do pedido";
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle(titulo);
+            alert.setMessage(mensagem);
+            alert.setCancelable(false);
+
+            alert.setPositiveButton("CONCLUIR", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    if(controlePedido.finalizarPedido(false) == 1) { finish(); }
+                }
+            });
+
+            alert.setNegativeButton("RETORNAR", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which){ /*JUST IGNORE THIS BUTTON IT IS HERE ONLY FOR BETTER VISUALIZATION*/ }
+            });
+
+            alert.show();
+        }
+    }
 
     public String calculoContribuicao(float preco)
     {

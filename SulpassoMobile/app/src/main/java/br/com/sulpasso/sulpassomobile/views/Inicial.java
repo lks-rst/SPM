@@ -129,7 +129,11 @@ public class Inicial extends AppCompatActivity
         }
 
         try { this.controle = new TelaInicial(getApplicationContext()); }
-        catch (Exception e) { }
+        catch (Exception e)
+        {
+            String s = e.getMessage();
+            s = "";
+        }
 
         if(this.controle == null)
         {

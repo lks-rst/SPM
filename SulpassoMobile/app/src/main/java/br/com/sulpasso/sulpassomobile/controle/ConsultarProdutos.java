@@ -454,6 +454,11 @@ public class ConsultarProdutos
         return this.lista != null && this.lista.size() > 0;
     }
 
+    public Boolean verifyItens(int minimo)
+    {
+        return (this.lista != null && this.lista.size() > 0) && (minimo <= this.lista.size());
+    }
+
     public Grupo getGrupoItem(int item)
     {
         return this.ida.getGrupoItem(item);
