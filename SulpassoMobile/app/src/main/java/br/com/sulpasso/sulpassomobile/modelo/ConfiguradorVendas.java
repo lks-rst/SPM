@@ -30,6 +30,7 @@ public class ConfiguradorVendas
     private Boolean controlaGps;
     private Boolean descontoPecentual;
     private String validade;
+    private int minimoItensDiferentes;
 
     public ConfiguradorVendas()
     {
@@ -59,6 +60,7 @@ public class ConfiguradorVendas
         this.controlaGps = (venda.getInt("controlaGps") == 1 ? true : false);
         this.descontoPecentual = (venda.getInt("descontoPecentual") == 1 ? true : false);
         this.validade = venda.getString("validade");
+        this.minimoItensDiferentes = venda.getInt("itensDiferentes");
     }
 
     public Boolean getGerenciarVisitas() { return gerenciarVisitas; }
@@ -152,6 +154,14 @@ public class ConfiguradorVendas
     public int getEspecialAlteraValor2() { return especialAlteraValor2; }
 
     public void setEspecialAlteraValor2(int especialAlteraValor2) { this.especialAlteraValor2 = especialAlteraValor2; }
+
+    public int getMinimoItensDiferentes() {
+        return minimoItensDiferentes;
+    }
+
+    public void setMinimoItensDiferentes(int minimoItensDiferentes) {
+        this.minimoItensDiferentes = minimoItensDiferentes;
+    }
 
     @Override
     public String toString() {

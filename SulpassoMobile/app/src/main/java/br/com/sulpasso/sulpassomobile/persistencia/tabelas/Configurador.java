@@ -60,6 +60,8 @@ public class Configurador
     public static final String CONTROLAGPS = "ControlaLocalizacao";
     public static final String TIPODESCONTO = "TipoDesconto";
     public static final String VALIDADE = "ValidadeDados";
+
+    public static final String MINIMOITENS = "MinimoItensDiferentes";
     /* Strings de referencia da parte dos horarios no configurador */
     public static final String INICIOMANHA = "InicioManha";
     public static final String FINALMANHA = "FinalManha";
@@ -261,6 +263,10 @@ public class Configurador
         builder.append(",");
         builder.append(VALIDADE);
         builder.append(Types.CHAR);
+        builder.append(",");
+        builder.append(MINIMOITENS);
+        builder.append(Types.INTEIRO);
+
 
         builder.append(",");
         builder.append(INICIOMANHA);
@@ -428,6 +434,23 @@ public class Configurador
         builder.append(ATUALIZADO);
         builder.append(Types.CHAR);
         builder.append(" DAFAULT '1.5';");
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela4()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(MINIMOITENS);
+        builder.append(Types.INTEIRO);
+        builder.append(" DAFAULT '1';");
+
 
         stmt = builder.toString();
         return stmt;
