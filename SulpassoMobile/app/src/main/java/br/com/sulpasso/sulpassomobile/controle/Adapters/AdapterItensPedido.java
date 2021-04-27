@@ -58,15 +58,30 @@ public class AdapterItensPedido extends BaseAdapter
         }
         else { holder = (ViewHolder) convertView.getTag(); }
 
-        if(mensagem.getSold())
-            convertView.setBackgroundResource(R.color.LightGreen);
-        else
-            convertView.setBackgroundResource(R.color.bgColor);
-
         if(mensagem.getItem().isDestaque())
             holder.separador.setBackgroundResource(R.color.LightGreen);
         else
             holder.separador.setBackgroundResource(R.color.bgColor);
+
+
+        if(mensagem.getItem().getDestaqueTipo() == 1)
+            holder.separador.setBackgroundResource(R.color.LightSkyBlue);
+        else if(mensagem.getItem().getDestaqueTipo() == 2)
+            holder.separador.setBackgroundResource(R.color.DarkSlateBlue);
+
+
+
+
+        if(mensagem.getSold())
+            convertView.setBackgroundResource(R.color.LightGreen);
+        else
+            if(mensagem.getItem().getDestaqueTipo() == 1)
+                convertView.setBackgroundResource(R.color.LightSkyBlue);
+            else if(mensagem.getItem().getDestaqueTipo() == 2)
+                convertView.setBackgroundResource(R.color.DarkSlateBlue);
+            else
+                convertView.setBackgroundResource(R.color.bgColor);
+
 
         holder.codigo.setText(String.valueOf(mensagem.getItem().getCodigo()));
         holder.referencia.setText(mensagem.getItem().getReferencia());

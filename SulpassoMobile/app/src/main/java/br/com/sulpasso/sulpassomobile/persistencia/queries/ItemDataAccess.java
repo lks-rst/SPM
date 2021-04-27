@@ -327,7 +327,8 @@ public class ItemDataAccess
         this.sBuilder.append("', '");
         this.sBuilder.append(item.getCusto());
         this.sBuilder.append("', '");
-        this.sBuilder.append((item.isDestaque() ? "9" : "0"));
+        //this.sBuilder.append((item.isDestaque() ? "9" : "0"));
+        this.sBuilder.append((item.getDestaqueTipo()));
         this.sBuilder.append("');");
 
         try
@@ -530,6 +531,8 @@ public class ItemDataAccess
                 dest = destaque == 9 ? true : false;
 
                 item.setDestaque(dest);
+
+                item.setDestaqueTipo(destaque);
 
                 StringBuilder sb = new StringBuilder();
                 sb.delete(0, this.sBuilder.length());
@@ -803,6 +806,8 @@ public class ItemDataAccess
                 dest = destaque == 9 ? true : false;
 
                 item.setDestaque(dest);
+
+                item.setDestaqueTipo(destaque);
 
                 StringBuilder sb = new StringBuilder();
                 sb.delete(0, this.sBuilder.length());
@@ -1125,6 +1130,8 @@ public class ItemDataAccess
                 dest = destaque == 9 ? true : false;
 
                 item.setDestaque(dest);
+
+                item.setDestaqueTipo(destaque);
 
                 StringBuilder sb = new StringBuilder();
                 sb.delete(0, this.sBuilder.length());
@@ -1466,6 +1473,8 @@ public class ItemDataAccess
 
                 item.setDestaque(dest);
 
+                item.setDestaqueTipo(destaque);
+
                 StringBuilder sb = new StringBuilder();
                 sb.delete(0, this.sBuilder.length());
                 sb.append("SELECT * FROM ");
@@ -1758,6 +1767,8 @@ public class ItemDataAccess
 
                 item.setDestaque(dest);
 
+                item.setDestaqueTipo(destaque);
+
                 StringBuilder sb = new StringBuilder();
                 sb.delete(0, sb.length());
                 sb.append("SELECT * FROM ");
@@ -1926,6 +1937,8 @@ public class ItemDataAccess
 
                 item.setDestaque(dest);
 
+                item.setDestaqueTipo(destaque);
+
                 StringBuilder sb = new StringBuilder();
                 sb.delete(0, this.sBuilder.length());
                 sb.append("SELECT * FROM ");
@@ -2019,6 +2032,7 @@ public class ItemDataAccess
         i.setContribuicao(Float.parseFloat(item.substring(151, 157)) / 1000);
         i.setCusto(Float.parseFloat(item.substring(143, 151)) / 100);
         i.setDestaque(d == 9 ? true : false);
+        i.setDestaqueTipo(d);
 
         return i;
     }
