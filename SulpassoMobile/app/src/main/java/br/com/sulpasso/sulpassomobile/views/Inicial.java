@@ -193,9 +193,10 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
-//            this.serviceIntialize();
             if(validar_data_sistema(4))
             {
+
+                this.serviceIntialize();
                 if(this.acessoConfirmado)
                 {
                     this.fragmentoCentral();

@@ -36,6 +36,8 @@ public class Item
 
     private boolean destaque;
 
+    private int destaqueTipo;
+
     private float vt;
 
     public float getVt() { return vt; }
@@ -134,6 +136,10 @@ public class Item
 
     public void setDestaque(boolean destaque) { this.destaque = destaque; }
 
+    public int getDestaqueTipo() { return destaqueTipo; }
+
+    public void setDestaqueTipo(int destaqueTipo) { this.destaqueTipo = destaqueTipo; }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -159,6 +165,7 @@ public class Item
                 ", tvd='" + tvd + '\'' +
                 ", estoque=" + estoque +
                 ", aplicacao='" + aplicacao + '\'' +
+                ", foco=" + destaqueTipo  +
                 '}';
     }
 
