@@ -990,7 +990,7 @@ public abstract class EfetuarPedidos
         pCont = (cont * 100)/preco;
 
 
-        this.controleDigitacao.getItem().setContribuicao(pCont);
+        this.controleDigitacao.getItem().setContribuicaoCalc(pCont);
 
         return pCont;
     }

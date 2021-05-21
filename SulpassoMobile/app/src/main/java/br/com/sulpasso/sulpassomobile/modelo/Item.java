@@ -40,6 +40,12 @@ public class Item
 
     private float vt;
 
+    private float contribuicaoCalc;
+
+    public float getContribuicaoCalc() { return contribuicaoCalc; }
+
+    public void setContribuicaoCalc(float contribuicaoCalc) { this.contribuicaoCalc = contribuicaoCalc; }
+
     public float getVt() { return vt; }
 
     public void setVt(float vt) { this.vt = vt; }

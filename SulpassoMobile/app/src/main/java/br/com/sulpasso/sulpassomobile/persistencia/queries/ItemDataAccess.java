@@ -2013,6 +2013,15 @@ public class ItemDataAccess
         String dest = item.substring(119, 120);
         int d = Integer.parseInt(dest);
 
+        Double descontoPw = 0d;
+
+        try
+        {
+            String valPw = item.substring(180);
+            descontoPw = Double.parseDouble(valPw) / 100;
+        }
+        catch (Exception desc) { descontoPw = 0d; }
+
         i.setCodigo(Integer.parseInt(item.substring(2, 9)));
         i.setReferencia(ms.trata(item.substring(9, 19)));
         i.setDescricao(ms.trata(item.substring(19, 49)));
@@ -2031,6 +2040,8 @@ public class ItemDataAccess
         i.setFlex(item.substring(118, 119));
         i.setContribuicao(Float.parseFloat(item.substring(151, 157)) / 1000);
         i.setCusto(Float.parseFloat(item.substring(143, 151)) / 100);
+        i.setCusto(Float.parseFloat(item.substring(143, 151)) / 100);
+        i.setDesconto(descontoPw);
         i.setDestaque(d == 9 ? true : false);
         i.setDestaqueTipo(d);
 
