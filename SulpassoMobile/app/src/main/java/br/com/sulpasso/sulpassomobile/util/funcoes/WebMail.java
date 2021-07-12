@@ -35,7 +35,8 @@ public class WebMail
         try
         {
             // Defined URL  where to send data
-            URL url = new URL("http://www.sulpasso.com.br/SulpassoWeb/Server/Vendas/salvarDados.php");
+            //URL url = new URL("http://www.sulpasso.com.br/SulpassoWeb/Server/Vendas/salvarDados.php");
+            URL url = new URL("http://sulpasso.com.br/SulpassoWeb/Server/Vendas/salvarDados.php");
 
             // Send POST data request
             URLConnection conn = url.openConnection();
@@ -56,7 +57,12 @@ public class WebMail
                 sb.append(line + "\n");
             }
         }
-        catch(Exception ex) { return false; }
+        catch(Exception ex)
+        {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+            return false;
+        }
         finally
         {
             try

@@ -311,7 +311,7 @@ public class InserirItemPedidos
         if(!senha)
         {
             if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarQuantidade(maximo))
-                if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarDesconto(desconto, percentual, context, especialTipo))
+                if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarDesconto2(this.item.getDesconto(), desconto, percentual, context, especialTipo))
                     if(tipoPedido == Troca.class || (tipoPedido == AlteracaoPedidos.class && tipoVenda.equalsIgnoreCase("tr")) || this.verificarValor(desconto, percentual, context, tipoPedido, especialTipo))
                     {
                         ItensVendidos item = new ItensVendidos();
@@ -326,7 +326,7 @@ public class InserirItemPedidos
                         item.setValorDigitado(Float.parseFloat(this.getValor()));
 
                         item.setPeso(this.peso);
-                        item.setContribuicao(this.item.getContribuicao());
+                        item.setContribuicao(this.item.getContribuicaoCalc());
 
                         if(tipoPedido == Troca.class)
                             item.setDesconto(0);
@@ -583,6 +583,131 @@ public class InserirItemPedidos
                     return true;
                 else
                     return this.verificarPromocoes(context, this.valor - (this.valor * desconto / 100));
+        else
+            return true;
+    }
+
+    private Boolean verificarDesconto2(Double descontoItem, float desconto, boolean percentual, Context context, int especial)
+    {
+        Boolean atualizarValores = false;
+
+        if(percentual)
+        {
+            if((especial == 0) && (this.valor != Float.parseFloat(this.buscarDadosVendaItem(1))))
+            {
+                EfetuarPedidos.strErro = "Não é permitido alterar o valor de clientes especiais!";
+                return false;
+            }
+            else
+            {
+                if(especial == -1)
+                {
+                    atualizarValores = true;
+                }
+                else
+                {
+                    if(this.valor > Float.parseFloat(this.buscarDadosVendaItem(1)))
+                    {
+                        if(especial == 1 || especial == 2)
+                            atualizarValores = true;
+                        else
+                        {
+                            EfetuarPedidos.strErro = "Para clientes especiais não é permitido alterar valores acima do valor de tabela!";
+                            atualizarValores = false;
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if(this.valor < Float.parseFloat(this.buscarDadosVendaItem(1)))
+                        {
+                            if(especial == 2 || especial == 3)
+                                atualizarValores = true;
+                            else
+                            {
+                                EfetuarPedidos.strErro = "Para clientes especiais não é permitido alterar valores abaixo do valor de tabela!";
+                                atualizarValores = false;
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            atualizarValores = true;
+                        }
+                    }
+                }
+
+                if(atualizarValores)
+                {
+                    float valordesconto;
+                    float minimo = Float.parseFloat(this.buscarDadosVendaItem(2));
+                    float minimoPromocional = this.verificarPromocoes(context);
+                    float tabela = Float.parseFloat(this.buscarDadosVendaItem(1));
+                    float minimoAcessivel = 0;
+
+                    if(minimoPromocional > 0)
+                    {
+                        if(minimo > 0)
+                        {
+                            if(minimo < minimoPromocional)
+                            {
+                                minimoAcessivel = minimo;
+                            }
+                            else
+                            {
+                                minimoAcessivel = minimoPromocional;
+                            }
+                        }
+                        else
+                        {
+                            minimoAcessivel = minimoPromocional;
+                        }
+                    }
+                    else
+                    {
+                        if(minimo > 0)
+                        {
+                            minimoAcessivel = minimo;
+                        }
+                        else
+                        {
+                            minimoAcessivel = tabela;
+                        }
+                    }
+
+                        /*
+                        minimoAcessivel = minimoPromocional > 0 ?
+                                (minimo < minimoPromocional ? minimo : minimoPromocional) : minimo;
+                        */
+
+                    minimoAcessivel = (minimoAcessivel > 0 && minimoAcessivel < tabela) ? minimoAcessivel : tabela;
+
+                    valordesconto = minimoAcessivel - (minimoAcessivel * desconto / 100);
+
+                    valordesconto = ((float) (Math.round(valordesconto * 100.0) / 100.0)) ;
+
+
+                    valordesconto = minimoAcessivel - (minimoAcessivel * descontoItem.floatValue() / 100);
+
+                    valordesconto = ((float) (Math.round(valordesconto * 100.0) / 100.0)) ;
+
+
+                    float valorLiquido = this.valor - (this.valor* (this.desconto/100));
+
+
+                    //if(this.valor >= valordesconto)
+                    if(valorLiquido >= valordesconto)
+                        return true;
+                    else
+                        return this.verificarPromocoes(context, this.valor);
+                }
+                else
+                {
+                    EfetuarPedidos.strErro = "Verifique as restrições de alteração de valores para clientes especiais!";
+                    return false;
+                }
+            }
+        }
         else
             return true;
     }

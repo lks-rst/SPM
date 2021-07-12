@@ -142,6 +142,8 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
+            this.serviceIntialize();
+
             if(validar_data_sistema(4))
             {
 //TODO: Verificar as formas de atualização automáticas
@@ -196,7 +198,7 @@ public class Inicial extends AppCompatActivity
             if(validar_data_sistema(4))
             {
 
-                this.serviceIntialize();
+//                this.serviceIntialize();
                 if(this.acessoConfirmado)
                 {
                     this.fragmentoCentral();
@@ -231,6 +233,18 @@ public class Inicial extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
+
+        /*
+        if (this.controle.controleAcesso())
+        {
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivityForResult(i, REQUEST_LOGIN);
+        }
+        else
+        {
+            this.serviceIntialize();
+        }
+        */
 
         /*
         try { this.controle = new TelaInicial(getApplicationContext()); }

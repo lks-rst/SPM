@@ -253,8 +253,11 @@ public abstract class EfetuarPedidos
     protected final Boolean verificarNaturezaBrinde(int position)
     {
         if(this.listaNaturezas.get(position).getCodigo() == 21 &&
-                this.controleConfiguracao.getConfigEmp().getCodigo() == 7 && !this.verificarSaldo())
-            return false;
+                this.controleConfiguracao.getConfigEmp().getCodigo() == 7)
+            if(!this.verificarSaldoG())
+                return false;
+            else
+                return true;
         else
             return true;
     }
@@ -990,7 +993,7 @@ public abstract class EfetuarPedidos
         pCont = (cont * 100)/preco;
 
 
-        this.controleDigitacao.getItem().setContribuicao(pCont);
+        this.controleDigitacao.getItem().setContribuicaoCalc(pCont);
 
         return pCont;
     }
@@ -1333,6 +1336,30 @@ public abstract class EfetuarPedidos
         //Ps.: Isso não existia na versão anterior do sistema.
         float atual = this.controleConfiguracao.getSaldoAtual();
         float valor = Float.parseFloat(String.valueOf(this.controleSalvar.getTotal()));
+        Boolean aceito = atual >= valor;
+
+        if(aceito)
+            this.controleConfiguracao.setSaldoAtual(atual - valor);
+
+        return aceito;
+    }
+
+    public Boolean verificarSaldoG()
+    {
+        //TODO: Talvez seja necessário retorna o saldo caso se selecione uma natureza diferente.
+        //Ps.: Isso não existia na versão anterior do sistema.
+        float atual = this.controleConfiguracao.getSaldoAtual();
+        float valor = Float.parseFloat(String.valueOf(this.controleSalvar.getTotal()));
+
+        float flexItensAgora = 0;
+
+        for(ItensVendidos iv : this.itensVendidos)
+        {
+            flexItensAgora += iv.getFlex();
+        }
+
+        atual += flexItensAgora;
+
         Boolean aceito = atual >= valor;
 
         if(aceito)

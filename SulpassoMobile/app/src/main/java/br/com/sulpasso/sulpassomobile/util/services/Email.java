@@ -88,7 +88,7 @@ public class Email extends Service
 
             while (!finish)
             {
-                boolean email_antigo = false;
+                boolean email_antigo = false;//Essa váriavel não está sendo utilizada na verdade
 
                 if(email_antigo)
                 {
@@ -96,6 +96,7 @@ public class Email extends Service
                     {
                         try
                         {
+                            //esse código está incorreto
                             data_arquivos = ms.comEsquerda((day - 1 < 1? "1" : String.valueOf(day -1)), "0", 2) + "/" +
                                     ms.comEsquerda(String.valueOf(month + 1), "0", 2) + "/" +
                                     ms.comEsquerda(String.valueOf(year), "0", 4);
