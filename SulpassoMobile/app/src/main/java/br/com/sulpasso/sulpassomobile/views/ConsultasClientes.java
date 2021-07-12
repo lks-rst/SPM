@@ -53,6 +53,8 @@ public class ConsultasClientes extends AppCompatActivity implements ConsultaClie
         // load slide menu items
         fragTitles = getResources().getStringArray(R.array.fragTitlesConsultaClientes);
         displayView(R.id.consulta_clientes_positivacao);
+
+        int b = valorFixo2;
     }
 
     @Override

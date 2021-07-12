@@ -10,6 +10,8 @@ import br.com.sulpasso.sulpassomobile.modelo.PrePedido;
  */
 public interface ConsultaClientes
 {
+    public static final int valorFixo2 = 2;
+
     public ArrayList<String> buscarListaClientes();
     public ArrayList<String> buscarListaTitulos();
     public ArrayList<String> buscarListaDevolucao();

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import br.com.sulpasso.sulpassomobile.controle.interfaces.ConsultaClientes;
 import br.com.sulpasso.sulpassomobile.exeption.GenercicException;
 import br.com.sulpasso.sulpassomobile.modelo.ClienteNovo;
 import br.com.sulpasso.sulpassomobile.modelo.Configurador;
@@ -60,6 +61,8 @@ public class AtualizarSistema
         this.posTabela = -1;
         this.tabelas = false;
         this.erros = false;
+
+        int b2 = ConsultaClientes.valorFixo2;
     }
 
     public boolean atualizar(int parte)
