@@ -789,6 +789,160 @@
             </TableLayout>
 
             <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/margem_superior"
+                android:layout_marginTop="@dimen/margem_superior"
+                android:background="@color/cinza" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margem_superior"
+                android:id="@+id/ffcc_cadastro_cliente_new_tb_layout">
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Informacao Comercial I"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc1"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Fone:"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc2"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Informacao Comercial II"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc3"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Fone:"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc4"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Informacao Comercial III"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc5"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Fone:"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc6"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Data Abertura"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc7"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+            </TableLayout>
+
+
+            <TextView
                 android:id="@+id/ffcc_textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

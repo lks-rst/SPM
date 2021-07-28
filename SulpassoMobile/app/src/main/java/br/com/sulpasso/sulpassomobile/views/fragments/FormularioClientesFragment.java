@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,6 +89,8 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
     Spinner spnr_clientes = null;
 
     TextView txt_aniversario = null;
+
+    TableLayout tbl_layout = null;
 
     ArrayList<String> str_uf = new ArrayList<String>();
     ArrayList<String> str_atividades = new ArrayList<String>();
@@ -266,6 +269,20 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
         spnr_clientes = (Spinner) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_spnr_rota);
 
         txt_aniversario = (TextView) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_txt_aniversario);
+
+        tbl_layout = (TableLayout) getActivity().findViewById(R.id.ffcc_cadastro_cliente_new_tb_layout);
+
+        /*
+        TODO: Verificar se esse campo é realmente o campo do configurador que carrega o código da empresa (esse certamente é o código incorreto em todo o caso);
+        */
+        if(controle.getEmpreza() == 7)
+        {
+            tbl_layout.setVisibility(View.GONE);
+        }
+        else
+        {
+            tbl_layout.setVisibility(View.VISIBLE);
+        }
 
         /*
         adapter_atividades = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, str_atividades);
