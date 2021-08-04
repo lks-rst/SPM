@@ -92,6 +92,38 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
 
     TableLayout tbl_layout = null;
 
+    /*NOVOS CAMPOS AAROTTA*/
+    RadioGroup rgNc1 = null;
+    RadioButton rbNc11 = null;
+    RadioButton rbNc12 = null;
+    RadioButton rbNc13 = null;
+
+    RadioGroup rgNc2 = null;
+    RadioButton rbNc21 = null;
+    RadioButton rbNc22 = null;
+    RadioButton rbNc23 = null;
+
+    RadioGroup rgNc3 = null;
+    RadioButton rbNc31 = null;
+    RadioButton rbNc32 = null;
+
+    RadioGroup rgNc4 = null;
+    RadioButton rbNc41 = null;
+    RadioButton rbNc42 = null;
+    RadioButton rbNc43 = null;
+
+    RadioGroup rgNc5 = null;
+    RadioButton rbNc51 = null;
+    RadioButton rbNc52 = null;
+    RadioButton rbNc53 = null;
+
+    RadioGroup rgNc6 = null;
+    RadioButton rbNc61 = null;
+    RadioButton rbNc62 = null;
+    RadioButton rbNc63 = null;
+
+    EditText  edtNc7;
+
     ArrayList<String> str_uf = new ArrayList<String>();
     ArrayList<String> str_atividades = new ArrayList<String>();
     ArrayList<String> str_bancos = new ArrayList<String>();
@@ -272,15 +304,43 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
 
         tbl_layout = (TableLayout) getActivity().findViewById(R.id.ffcc_cadastro_cliente_new_tb_layout);
 
-        /*
-        TODO: Verificar se esse campo é realmente o campo do configurador que carrega o código da empresa (esse certamente é o código incorreto em todo o caso);
-        */
-        if(controle.getEmpreza() == 7)
+        if(empresa != 4)
         {
             tbl_layout.setVisibility(View.GONE);
         }
         else
         {
+            rgNc1 	=  (RadioGroup) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rg_nc1);
+            rbNc11 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc11);
+            rbNc12 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc12);
+            rbNc13 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc13);
+
+            rgNc2 	=  (RadioGroup) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rg_nc2);
+            rbNc21 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc21);
+            rbNc22 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc22);
+            rbNc23 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc23);
+
+            rgNc3 	=  (RadioGroup) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rg_nc3);
+            rbNc31 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc31);
+            rbNc32 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc32);
+
+            rgNc4 	=  (RadioGroup) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rg_nc4);
+            rbNc41 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc41);
+            rbNc42 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc42);
+            rbNc43 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc43);
+
+            rgNc5 	=  (RadioGroup) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rg_nc5);
+            rbNc51 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc51);
+            rbNc52 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc52);
+            rbNc53 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc53);
+
+            rgNc6 	=  (RadioGroup) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rg_nc6);
+            rbNc61 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc61);
+            rbNc62 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc62);
+            rbNc63 	=  (RadioButton) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_rb_nc63);
+
+            edtNc7 	=  (EditText) getActivity().findViewById(R.id.ffcc_cadastro_cliente_formulario_newc7);
+
             tbl_layout.setVisibility(View.VISIBLE);
         }
 
@@ -395,6 +455,105 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
                 break;
         }
 
+        int rnc1;
+        switch (rgNc1.getCheckedRadioButtonId())
+        {
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc11:
+                rnc1 = 1;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc12:
+                rnc1 = 2;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc13:
+                rnc1 = 3;
+                break;
+            default:
+                rnc1 = 0;
+                break;
+        }
+
+        int rnc2;
+        switch (rgNc2.getCheckedRadioButtonId())
+        {
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc21:
+                rnc2 = 1;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc22:
+                rnc2 = 2;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc23:
+                rnc2 = 3;
+                break;
+            default:
+                rnc2 = 0;
+                break;
+        }
+
+        int rnc3;
+        switch (rgNc3.getCheckedRadioButtonId())
+        {
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc31:
+                rnc3 = 1;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc32:
+                rnc3 = 2;
+                break;
+            default:
+                rnc3 = 0;
+                break;
+        }
+
+        int rnc4;
+        switch (rgNc4.getCheckedRadioButtonId())
+        {
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc41:
+                rnc4 = 1;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc42:
+                rnc4 = 2;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc43:
+                rnc4 = 3;
+                break;
+            default:
+                rnc4 = 0;
+                break;
+        }
+
+        int rnc5;
+        switch (rgNc5.getCheckedRadioButtonId())
+        {
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc51:
+                rnc5 = 1;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc52:
+                rnc5 = 2;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc53:
+                rnc5 = 3;
+                break;
+            default:
+                rnc5 = 0;
+                break;
+        }
+
+        int rnc6;
+        switch (rgNc6.getCheckedRadioButtonId())
+        {
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc61:
+                rnc6 = 1;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc62:
+                rnc6 = 2;
+                break;
+            case R.id.ffcc_cadastro_cliente_formulario_rb_nc63:
+                rnc6 = 3;
+                break;
+            default:
+                rnc6 = 0;
+                break;
+        }
+
         ClienteNovo cliente = new ClienteNovo();
         ManipulacaoStrings ms = new ManipulacaoStrings();
 
@@ -452,6 +611,14 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
         cliente.setComercial3_fone(ms.trata(edt_com3_fone.getText().toString()));
         cliente.setComercial_abertura(ms.trata(edt_com_data.getText().toString()));
         cliente.setData(data);
+
+        cliente.setNc11(rnc1);
+        cliente.setNc21(rnc2);
+        cliente.setNc31(rnc3);
+        cliente.setNc41(rnc4);
+        cliente.setNc51(rnc5);
+        cliente.setNc61(rnc6);
+        cliente.setNc7(edtNc7.getText().toString());
 
         this.controle.setCliente(cliente);
         try

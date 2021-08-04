@@ -45,6 +45,15 @@ public class ClienteNovo
     private String comercial3_fone;
     private String comercial_abertura;
 
+    /*Esses campos foram criados por solicitaçao da Aarotta como são perguntas aleatórias não tem um nome significativo a ser indicado*/
+    private int nc11;
+    private int nc21;
+    private int nc31;
+    private int nc41;
+    private int nc51;
+    private int nc61;
+    private String nc7;
+
     private Boolean enviado;
 
     public int getCod() {
@@ -349,6 +358,63 @@ public class ClienteNovo
 
     public void setComercial_abertura(String comercial_abertura) {
         this.comercial_abertura = comercial_abertura;
+    }
+
+
+    public int getNc11() {
+        return nc11;
+    }
+
+    public void setNc11(int nc11) {
+        this.nc11 = nc11;
+    }
+
+    public int getNc21() {
+        return nc21;
+    }
+
+    public void setNc21(int nc21) {
+        this.nc21 = nc21;
+    }
+
+    public int getNc31() {
+        return nc31;
+    }
+
+    public void setNc31(int nc31) {
+        this.nc31 = nc31;
+    }
+
+    public int getNc41() {
+        return nc41;
+    }
+
+    public void setNc41(int nc41) {
+        this.nc41 = nc41;
+    }
+
+    public int getNc51() {
+        return nc51;
+    }
+
+    public void setNc51(int nc51) {
+        this.nc51 = nc51;
+    }
+
+    public int getNc61() {
+        return nc61;
+    }
+
+    public void setNc61(int nc61) {
+        this.nc61 = nc61;
+    }
+
+    public String getNc7() {
+        return nc7;
+    }
+
+    public void setNc7(String nc7) {
+        this.nc7 = nc7;
     }
 
     public Boolean getEnviado() { return enviado; }

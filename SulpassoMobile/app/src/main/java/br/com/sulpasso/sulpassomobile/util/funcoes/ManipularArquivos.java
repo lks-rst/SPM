@@ -1649,6 +1649,15 @@ public class ManipularArquivos
                 builder.append(ms.comDireita("" + c.getComercial3_fone(), " ", 10));
                 builder.append(ms.comDireita("" + c.getComercial_abertura(), " ", 10));
 
+                /*Escrita dos dado novo solicitados pela AAROTTA*/
+                builder.append(c.getNc11());
+                builder.append(c.getNc21());
+                builder.append(c.getNc31());
+                builder.append(c.getNc41());
+                builder.append(c.getNc51());
+                builder.append(c.getNc61());
+                builder.append(ms.comDireita("" + c.getNc7(), " ", 150));
+
                 osw.append(builder.toString());
                 osw.append("\n");
                 line_count++;

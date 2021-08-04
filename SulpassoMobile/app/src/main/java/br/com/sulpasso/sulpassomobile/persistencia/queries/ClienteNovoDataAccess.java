@@ -428,6 +428,22 @@ public class ClienteNovoDataAccess {
             else
                 cliente.setEnviado(false);
 
+            cliente.setNc11(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC1)));
+            cliente.setNc21(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC2)));
+            cliente.setNc31(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC3)));
+            cliente.setNc41(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC4)));
+            cliente.setNc51(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC5)));
+            cliente.setNc61(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC6)));
+            cliente.setNc7(c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC7)));
+
+
             lista.add(cliente);
             c.moveToNext();
         }
@@ -758,6 +774,15 @@ public class ClienteNovoDataAccess {
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL3_FONE, cliente.getComercial3_fone());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL_ABERTURA, cliente.getComercial_abertura());
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.DATA, cliente.getData());
+
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC1, cliente.getNc11());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC2, cliente.getNc21());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC3, cliente.getNc31());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC4, cliente.getNc41());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC5, cliente.getNc51());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC6, cliente.getNc61());
+        valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC7, cliente.getNc7());
+
         valores.put(br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.ENVIO, 0);
 
 
@@ -1149,6 +1174,21 @@ public class ClienteNovoDataAccess {
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.COMERCIAL_ABERTURA)));
             cliente.setData(c.getString(c.getColumnIndex(
                     br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.DATA)));
+
+            cliente.setNc11(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC1)));
+            cliente.setNc21(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC2)));
+            cliente.setNc31(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC3)));
+            cliente.setNc41(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC4)));
+            cliente.setNc51(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC5)));
+            cliente.setNc61(c.getInt(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC6)));
+            cliente.setNc7(c.getString(c.getColumnIndex(
+                    br.com.sulpasso.sulpassomobile.persistencia.tabelas.ClienteNovo.NC7)));
 
             lista.add(cliente);
             c.moveToNext();
