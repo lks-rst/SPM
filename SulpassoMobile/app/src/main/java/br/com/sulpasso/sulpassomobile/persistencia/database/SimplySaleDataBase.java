@@ -54,7 +54,7 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
 {
     private List<String> scriptSQLCreate;
     private static final String DB_NAME = "simplySale.db";
-    private static final int DB_VERSION = 25;
+    private static final int DB_VERSION = 26;
 
     public SimplySaleDataBase(Context context)
     {
@@ -124,56 +124,56 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
     {
-        if(oldVersion <= 10)
-            db.execSQL(Visita.CriarTabela());
-
-        if(oldVersion <= 11)
-            db.execSQL(Item.AlterarTabela());
-
-        if(oldVersion <= 12)
-            db.execSQL(Venda.AlterarTabela());
-
-        if(oldVersion <= 13)
-            db.execSQL(Configurador.AlterarTabela());
-
-        if(oldVersion <= 14)
-            db.execSQL(Foco.CriarTabela());
-
-        if(oldVersion <= 15)
-            db.execSQL(Item.AlterarTabela2());
-
-        if(oldVersion <= 16)
-        {
-            try { db.execSQL(Configurador.AlterarTabela2()); }
-            catch (Exception e) { /*****/ }
-        }
-
-        if(oldVersion <= 17)
-        {
-            try { db.execSQL(Configurador.AlterarTabela2()); }
-            catch (Exception e) { /*****/ }
-        }
-
-        if(oldVersion <= 18)
-        {
-            try
-            {
-                db.execSQL(ItensVendidos.AlterarTabela());
-                db.execSQL(ItensVendidos.AlterarTabela2());
-                db.execSQL(ItensVendidos.AlterarTabela3());
-                db.execSQL(ItensVendidos.AlterarTabela4());
-            }
-            catch (Exception e) { /*****/ }
-        }
-
-        if(oldVersion <= 19)
-        {
-            try
-            {
-                db.execSQL(Item.AlterarTabela3());
-            }
-            catch (Exception e) { /*****/ }
-        }
+////        if(oldVersion <= 10)
+////            db.execSQL(Visita.CriarTabela());
+////
+////        if(oldVersion <= 11)
+////            db.execSQL(Item.AlterarTabela());
+////
+////        if(oldVersion <= 12)
+////            db.execSQL(Venda.AlterarTabela());
+////
+////        if(oldVersion <= 13)
+////            db.execSQL(Configurador.AlterarTabela());
+////
+////        if(oldVersion <= 14)
+////            db.execSQL(Foco.CriarTabela());
+////
+////        if(oldVersion <= 15)
+////            db.execSQL(Item.AlterarTabela2());
+////
+////        if(oldVersion <= 16)
+////        {
+////            try { db.execSQL(Configurador.AlterarTabela2()); }
+////            catch (Exception e) { /*****/ }
+////        }
+////
+////        if(oldVersion <= 17)
+////        {
+////            try { db.execSQL(Configurador.AlterarTabela2()); }
+////            catch (Exception e) { /*****/ }
+////        }
+////
+////        if(oldVersion <= 18)
+////        {
+////            try
+////            {
+////                db.execSQL(ItensVendidos.AlterarTabela());
+////                db.execSQL(ItensVendidos.AlterarTabela2());
+////                db.execSQL(ItensVendidos.AlterarTabela3());
+////                db.execSQL(ItensVendidos.AlterarTabela4());
+////            }
+////            catch (Exception e) { /*****/ }
+////        }
+////
+////        if(oldVersion <= 19)
+////        {
+////            try
+////            {
+////                db.execSQL(Item.AlterarTabela3());
+////            }
+////            catch (Exception e) { /*****/ }
+////        }
 
         if(oldVersion <= 23)
         {
@@ -189,6 +189,22 @@ public class SimplySaleDataBase extends SQLiteOpenHelper
             try
             {
                 db.execSQL(Configurador.AlterarTabela4());
+            }
+            catch (Exception e) { /*****/ }
+        }
+
+        /*Atualiza a tabela quando atualiza a aplicação */
+        if(oldVersion <= 25)
+        {
+            try
+            {
+                db.execSQL(ClienteNovo.AlterarTabela1());
+                db.execSQL(ClienteNovo.AlterarTabela2());
+                db.execSQL(ClienteNovo.AlterarTabela3());
+                db.execSQL(ClienteNovo.AlterarTabela4());
+                db.execSQL(ClienteNovo.AlterarTabela5());
+                db.execSQL(ClienteNovo.AlterarTabela6());
+                db.execSQL(ClienteNovo.AlterarTabela7());
             }
             catch (Exception e) { /*****/ }
         }

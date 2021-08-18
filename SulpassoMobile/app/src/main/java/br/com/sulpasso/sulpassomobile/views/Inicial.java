@@ -30,7 +30,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.jsoup.Jsoup;
+//import org.jsoup.Jsoup;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +56,8 @@ import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaItensMainFragment;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosLista;
 import br.com.sulpasso.sulpassomobile.views.fragments.ConsultaPedidosResumo;
 import me.drakeet.materialdialog.MaterialDialog;
+
+//import org.jsoup.Jsoup;
 
 /*TODO: Verificar todos os cursores se estão sendo encerrados e a memória liberada
             c.close();
@@ -142,7 +144,7 @@ public class Inicial extends AppCompatActivity
         }
         else
         {
-            this.serviceIntialize();
+//            this.serviceIntialize();
 
             if(validar_data_sistema(4))
             {
@@ -1122,47 +1124,47 @@ public class Inicial extends AppCompatActivity
         }
     }
 
-    private class VersionRequester extends AsyncTask<Void, Void, String>
-    {
-        /*
-        private WeakReference<Presenter> presenter;
-
-        public VersionRequester( Presenter p ){
-            presenter = new WeakReference<>( p );
-        }
-        */
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String version = null;
-            String packageName = getPackageName();
-            try{
-                version = Jsoup
-                        .connect("https://play.google.com/store/apps/details?id=" + packageName)
-                        .get()
-                        .select("div[itemprop=\"softwareVersion\"]")
-                        .text()
-                        .trim();
-                /*
-                version = Jsoup
-                        .connect("https://play.google.com/store/apps/details?id=br.thiengocalopsita")
-                        .get()
-                        .select("div[itemprop=\"softwareVersion\"]")
-                        .text()
-                        .trim();
-                */
-            }
-            catch (IOException e){}
-
-            return version;
-        }
-
-        @Override
-        protected void onPostExecute(String version) {
-            super.onPostExecute(version);
-            showUpdateAppDialog( version );
-        }
-    }
+//    private class VersionRequester extends AsyncTask<Void, Void, String>
+//    {
+//        /*
+//        private WeakReference<Presenter> presenter;
+//
+//        public VersionRequester( Presenter p ){
+//            presenter = new WeakReference<>( p );
+//        }
+//        */
+//
+//        @Override
+//        protected String doInBackground(Void... voids) {
+//            String version = null;
+//            String packageName = getPackageName();
+//            try{
+//                version = Jsoup
+//                        .connect("https://play.google.com/store/apps/details?id=" + packageName)
+//                        .get()
+//                        .select("div[itemprop=\"softwareVersion\"]")
+//                        .text()
+//                        .trim();
+//                /*
+//                version = Jsoup
+//                        .connect("https://play.google.com/store/apps/details?id=br.thiengocalopsita")
+//                        .get()
+//                        .select("div[itemprop=\"softwareVersion\"]")
+//                        .text()
+//                        .trim();
+//                */
+//            }
+//            catch (IOException e){}
+//
+//            return version;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String version) {
+//            super.onPostExecute(version);
+//            showUpdateAppDialog( version );
+//        }
+//    }
 
     private class SPLocalBase {
         private static final String PREF = "PREFERENCES";

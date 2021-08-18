@@ -789,6 +789,338 @@
             </TableLayout>
 
             <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/margem_superior"
+                android:layout_marginTop="@dimen/margem_superior"
+                android:background="@color/cinza" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margem_superior"
+                android:id="@+id/ffcc_cadastro_cliente_new_tb_layout">
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Conhece a empresa?"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <RadioGroup
+                            android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc11"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="NÃO" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc12"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="VAGAMENTE" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc13"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="SIM" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Localização?"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <RadioGroup
+                            android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc21"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="CENTRO" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc22"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="BAIRRO" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc23"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="INTERIOR" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Estrutura do predio?"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <RadioGroup
+                            android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc31"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="PROPRIO" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc32"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="ALUGADO" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="ADMINITRAÇÃO?"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <RadioGroup
+                            android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc41"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="TERCEIROS" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc42"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="SÓCIOS" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc43"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="FAMILIAR" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="INSTALAÇÕES?"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <RadioGroup
+                            android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc51"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="NOVAS" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc52"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="BOM ESTADO" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc53"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="PRECÁRIAS" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="EXPERIÊNCIA NO RAMO"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <RadioGroup
+                            android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc61"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="INICIANTES" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc62"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="POUCA EXPERIÊNCIA" />
+
+                            <RadioButton
+                                android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc63"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="false"
+                                android:text="EXPERIENTE" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="0.3"
+                        android:layout_height="wrap_content"
+                        android:text="Informações relevantes"
+                        android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ffcc_cadastro_cliente_formulario_newc7"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.7"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </TableRow>
+            </TableLayout>
+
+
+            <TextView
                 android:id="@+id/ffcc_textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

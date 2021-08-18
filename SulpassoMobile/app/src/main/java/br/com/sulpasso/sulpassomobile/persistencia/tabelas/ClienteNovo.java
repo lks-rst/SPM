@@ -48,6 +48,15 @@ public class ClienteNovo
     public static final String COMERCIAL3_FONE = "cli_novo_comercial3_fone";
     public static final String COMERCIAL_ABERTURA = "cli_novo_comercial_abertura";
 
+    /*Campos novos, para detalhes verificar a classe do modelo*/
+    public static final String NC1 = "cli_novo_nc1";
+    public static final String NC2 = "cli_novo_nc2";
+    public static final String NC3 = "cli_novo_nc3";
+    public static final String NC4 = "cli_novo_nc4";
+    public static final String NC5 = "cli_novo_nc5";
+    public static final String NC6 = "cli_novo_nc6";
+    public static final String NC7 = "cli_novo_nc7";
+
     public static String CriarTabela()
     {
         String stmt;
@@ -170,9 +179,152 @@ public class ClienteNovo
         builder.append(", ");
         builder.append(COMERCIAL_ABERTURA);
         builder.append(Types.CHAR);
+        builder.append(", ");
+        /*Campos novos (verificar a classe de modelo)*/
+        builder.append(NC1);
+        builder.append(Types.CHAR);
+        builder.append(", ");
+        builder.append(NC2);
+        builder.append(Types.CHAR);
+        builder.append(", ");
+        builder.append(NC3);
+        builder.append(Types.CHAR);
+        builder.append(", ");
+        builder.append(NC4);
+        builder.append(Types.CHAR);
+        builder.append(", ");
+        builder.append(NC5);
+        builder.append(Types.CHAR);
+        builder.append(", ");
+        builder.append(NC6);
+        builder.append(Types.CHAR);
+        builder.append(", ");
+        builder.append(NC7);
+        builder.append(Types.CHAR);
         builder.append(");");
 
         stmt = builder.toString();
         return stmt;
     }
+
+    /*Esses são os métodos que atualizam a tabela se for um update de sistema e não uma instalação nova*/
+    public static String AlterarTabela1()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC1);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela2()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC2);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela3()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC3);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela4()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC4);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela5()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC5);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela6()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC6);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
+    public static String AlterarTabela7()
+    {
+        String stmt;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("ALTER TABLE ");
+        builder.append(TABELA);
+        builder.append(" ADD COLUMN ");
+        builder.append(NC7);
+        builder.append(Types.CHAR);
+        builder.append(" DAFAULT '0';");
+
+
+        stmt = builder.toString();
+        return stmt;
+    }
+
 }

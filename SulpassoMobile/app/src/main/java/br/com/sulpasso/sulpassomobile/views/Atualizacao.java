@@ -21,13 +21,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
 
 import br.com.sulpasso.sulpassomobile.R;
 import br.com.sulpasso.sulpassomobile.controle.AtualizarSistema;
+import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorConexao;
+import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorEmpresa;
+import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorHorarios;
+import br.com.sulpasso.sulpassomobile.modelo.ConfiguradorUsuario;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ClienteNovoDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.ConfiguradorDataAccess;
 import br.com.sulpasso.sulpassomobile.persistencia.queries.VendaDataAccess;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipulacaoStrings;
+import br.com.sulpasso.sulpassomobile.util.funcoes.ManipularArquivos;
 import br.com.sulpasso.sulpassomobile.util.funcoes.SenhaLiberacao;
+import br.com.sulpasso.sulpassomobile.util.funcoes.WebMail;
 
 public class Atualizacao extends AppCompatActivity
 {
@@ -553,6 +562,26 @@ public class Atualizacao extends AppCompatActivity
             timerHandler.removeCallbacks(timerRunnable);
             startTime = System.currentTimeMillis();
             timerHandler.postDelayed(timerRunnable, 0);
+
+            displayMessage = "Enviando atualização relatórios.";
+            percentualAtualizacao = 0;
+            publishProgress();
+
+            String volta = create_email();
+
+            displayMessage = "Retorno do envio de relatórios." + volta;
+            percentualAtualizacao = 0;
+            publishProgress();
+
+
+            for (int i = 0; i < 10000; i++)
+            {
+                /*
+                displayMessage = "Retorno do envio de relatórios." + volta + i;
+                percentualAtualizacao = 0;
+                publishProgress();
+                */
+            }
 
             displayMessage = "Verificando se há pedidos não enviados.";
             percentualAtualizacao = 0;
@@ -1231,4 +1260,105 @@ public class Atualizacao extends AppCompatActivity
             timerHandler.postDelayed(this, 500);
         }
     };
+
+
+    public String create_email()
+    {
+        String data_arquivos = "";
+
+        ConfiguradorConexao conexao = new ConfiguradorConexao();
+        ConfiguradorHorarios horarios = new ConfiguradorHorarios();
+        ConfiguradorUsuario vendedor = new ConfiguradorUsuario();
+        ConfiguradorEmpresa empresa = new ConfiguradorEmpresa();
+        /***********************/
+        boolean finish = false;
+        long endTime;
+        int email_enviado;
+        String email_data;
+        String data;
+        Calendar today;
+
+        ConfiguradorDataAccess cda = new ConfiguradorDataAccess(getApplicationContext());
+        ManipulacaoStrings ms = new ManipulacaoStrings();
+
+        today = Calendar.getInstance();
+        int hour;
+        int minutes;
+        int day;
+        int month;
+        int year;
+        int hour_email;
+        int minutes_email;
+        String horaFinal;
+
+        try { conexao = cda.getConexao(); }
+        catch (Exception ex) { return "Erro ao buscar configurações de conexão";/*****/ }
+
+        try { horarios = cda.getHorario(); }
+        catch (Exception ex) { return "Erro ao buscar configurações de horarios";/*****/ }
+
+        try { vendedor = cda.getUsuario(); }
+        catch (Exception ex) { return "Erro ao buscar configurações de vendedor";/*****/ }
+
+        try { empresa = cda.getEmpresa(); }
+        catch (Exception ex) { return "Erro ao buscar configurações de empresa";/*****/ }
+
+        day = today.get(Calendar.DAY_OF_MONTH);
+        month = today.get(Calendar.MONTH);
+        year = today.get(Calendar.YEAR);
+
+        data = ms.comEsquerda(String.valueOf(day), "0", 2) + "/" +
+                ms.comEsquerda(String.valueOf(month + 1), "0", 2) + "/" +
+                ms.comEsquerda(String.valueOf(year), "0", 4);
+
+        hour_email = Integer.parseInt(horarios.getFinalTarde().substring(0, 2));
+        minutes_email = Integer.parseInt(horarios.getFinalTarde().substring(3));
+
+        /***********************/
+        ManipularArquivos anexos = new ManipularArquivos(getApplicationContext());
+        String path = Environment.getExternalStorageDirectory() + "/MobileVenda";
+        String name = "PlanoVisita.txt";
+        String name1 = "ProdutoFoco.txt";
+        String name2 = "ResumoDia.txt";
+        String name3 = "Graficos.txt";
+
+        String vistas = "PlanoVisita.txt";
+        String foco = "ProdutoFoco.txt";
+        String resumo = "ResumoDia.txt";
+        String graficos = "Graficos.txt";
+
+        try { vistas = anexos.plano_visitas(name, vendedor.getCodigo(), vendedor.getNome()); }
+        catch (Exception e) { return "Erro ao criar arquivo de visitas";/*****/ }
+
+        try { foco = anexos.produtos_foco(name1, data_arquivos, vendedor.getCodigo(), vendedor.getNome()); }
+        catch (Exception e) { return "Erro ao criar arqivo de foco";/*****/ }
+
+        try { resumo = anexos.resumo_dia(name2, data_arquivos, vendedor.getCodigo(), vendedor.getNome()); }
+        catch (Exception e) { return "Erro ao criar arquivo de resumo";/*****/ }
+
+        try { graficos = anexos.graficos(name3, data_arquivos, vendedor.getCodigo(), vendedor.getNome()); }
+        catch (Exception e) { return "Erro ao criar arquivo de graficos";/*****/ }
+
+        WebMail wm = new WebMail();
+        String ret = "";
+
+        try
+        {
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 1, vistas);
+            ret += " -- ";
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 2, foco);
+            ret += " -- ";
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 3, resumo);
+            ret += " -- ";
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 4, graficos);
+
+            //ret = wm.sendMail(vendedor.getCodigo(), empresa.getCodigo());
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
+
+        return ret;
+    }
 }
