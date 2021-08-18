@@ -9,7 +9,7 @@ android{
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 952
-        versionName "3.005.0000"
+        versionName "3.005.0002"
     }
     buildTypes {
         release {

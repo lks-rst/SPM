@@ -438,8 +438,84 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
 //        edt_cnpj.addTextChangedListener(cnpj_masck);
     }
 
+    private boolean validarDadosNovos()
+    {
+        Toast t;
+
+        if(rgNc1.getCheckedRadioButtonId() == -1 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            rgNc1.requestFocus();
+            return false;
+        }
+        if(rgNc2.getCheckedRadioButtonId() == -1 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            rgNc2.requestFocus();
+            return false;
+        }
+        if(rgNc3.getCheckedRadioButtonId() == -1 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            rgNc3.requestFocus();
+            return false;
+        }
+        if(rgNc4.getCheckedRadioButtonId() == -1 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            rgNc4.requestFocus();
+            return false;
+        }
+        if(rgNc5.getCheckedRadioButtonId() == -1 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            rgNc5.requestFocus();
+            return false;
+        }
+        if(rgNc6.getCheckedRadioButtonId() == -1 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            rgNc6.requestFocus();
+            return false;
+        }
+        if(edtNc7.getText().toString().trim().length() <= 0 && empresa == 4)
+        {
+            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+            t.show();
+
+            edtNc7.requestFocus();
+            return false;
+        }
+
+
+        return true;
+    }
+
     private void salvar_cadastro()
     {
+        if(!validarDadosNovos())
+        {
+            return;
+        }
         //criar rotina salvar
         String t_p = "";
 

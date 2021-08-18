@@ -563,11 +563,25 @@ public class Atualizacao extends AppCompatActivity
             startTime = System.currentTimeMillis();
             timerHandler.postDelayed(timerRunnable, 0);
 
-            displayMessage = "Enviand atualização relatórios.";
+            displayMessage = "Enviando atualização relatórios.";
             percentualAtualizacao = 0;
             publishProgress();
 
-            create_email();
+            String volta = create_email();
+
+            displayMessage = "Retorno do envio de relatórios." + volta;
+            percentualAtualizacao = 0;
+            publishProgress();
+
+
+            for (int i = 0; i < 10000; i++)
+            {
+                /*
+                displayMessage = "Retorno do envio de relatórios." + volta + i;
+                percentualAtualizacao = 0;
+                publishProgress();
+                */
+            }
 
             displayMessage = "Verificando se há pedidos não enviados.";
             percentualAtualizacao = 0;
@@ -1248,7 +1262,7 @@ public class Atualizacao extends AppCompatActivity
     };
 
 
-    public boolean create_email()
+    public String create_email()
     {
         String data_arquivos = "";
 
@@ -1278,16 +1292,16 @@ public class Atualizacao extends AppCompatActivity
         String horaFinal;
 
         try { conexao = cda.getConexao(); }
-        catch (Exception ex) { return false;/*****/ }
+        catch (Exception ex) { return "Erro ao buscar configurações de conexão";/*****/ }
 
         try { horarios = cda.getHorario(); }
-        catch (Exception ex) { return false;/*****/ }
+        catch (Exception ex) { return "Erro ao buscar configurações de horarios";/*****/ }
 
         try { vendedor = cda.getUsuario(); }
-        catch (Exception ex) { return false;/*****/ }
+        catch (Exception ex) { return "Erro ao buscar configurações de vendedor";/*****/ }
 
         try { empresa = cda.getEmpresa(); }
-        catch (Exception ex) { return false;/*****/ }
+        catch (Exception ex) { return "Erro ao buscar configurações de empresa";/*****/ }
 
         day = today.get(Calendar.DAY_OF_MONTH);
         month = today.get(Calendar.MONTH);
@@ -1314,30 +1328,36 @@ public class Atualizacao extends AppCompatActivity
         String graficos = "Graficos.txt";
 
         try { vistas = anexos.plano_visitas(name, vendedor.getCodigo(), vendedor.getNome()); }
-        catch (Exception e) { return false;/*****/ }
+        catch (Exception e) { return "Erro ao criar arquivo de visitas";/*****/ }
 
         try { foco = anexos.produtos_foco(name1, data_arquivos, vendedor.getCodigo(), vendedor.getNome()); }
-        catch (Exception e) { return false;/*****/ }
+        catch (Exception e) { return "Erro ao criar arqivo de foco";/*****/ }
 
         try { resumo = anexos.resumo_dia(name2, data_arquivos, vendedor.getCodigo(), vendedor.getNome()); }
-        catch (Exception e) { return false;/*****/ }
+        catch (Exception e) { return "Erro ao criar arquivo de resumo";/*****/ }
 
         try { graficos = anexos.graficos(name3, data_arquivos, vendedor.getCodigo(), vendedor.getNome()); }
-        catch (Exception e) { return false;/*****/ }
+        catch (Exception e) { return "Erro ao criar arquivo de graficos";/*****/ }
 
         WebMail wm = new WebMail();
-        boolean ret = false;
+        String ret = "";
 
         try
         {
-            ret = wm.postData(vendedor.getCodigo(), empresa.getCodigo(), 1, vistas);
-            ret = wm.postData(vendedor.getCodigo(), empresa.getCodigo(), 2, foco);
-            ret = wm.postData(vendedor.getCodigo(), empresa.getCodigo(), 3, resumo);
-            ret = wm.postData(vendedor.getCodigo(), empresa.getCodigo(), 4, graficos);
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 1, vistas);
+            ret += " -- ";
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 2, foco);
+            ret += " -- ";
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 3, resumo);
+            ret += " -- ";
+            ret += wm.postData3(vendedor.getCodigo(), empresa.getCodigo(), 4, graficos);
 
-            ret = wm.sendMail(vendedor.getCodigo(), empresa.getCodigo());
+            //ret = wm.sendMail(vendedor.getCodigo(), empresa.getCodigo());
         }
-        catch (UnsupportedEncodingException e) { e.printStackTrace(); }
+        catch (UnsupportedEncodingException e)
+        {
+            e.printStackTrace();
+        }
 
         return ret;
     }
