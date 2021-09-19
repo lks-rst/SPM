@@ -824,6 +824,7 @@
                             android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                             android:orientation="horizontal" >
 
                             <RadioButton
@@ -831,6 +832,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="NÃO" />
 
                             <RadioButton
@@ -838,6 +840,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="VAGAMENTE" />
 
                             <RadioButton
@@ -845,6 +848,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="SIM" />
                         </RadioGroup>
 
@@ -874,6 +878,7 @@
                             android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                             android:orientation="horizontal" >
 
                             <RadioButton
@@ -881,6 +886,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="CENTRO" />
 
                             <RadioButton
@@ -888,6 +894,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="BAIRRO" />
 
                             <RadioButton
@@ -895,6 +902,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="INTERIOR" />
                         </RadioGroup>
 
@@ -926,6 +934,7 @@
                             android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                             android:orientation="horizontal" >
 
                             <RadioButton
@@ -933,6 +942,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="PROPRIO" />
 
                             <RadioButton
@@ -940,6 +950,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="ALUGADO" />
                         </RadioGroup>
 
@@ -969,6 +980,7 @@
                             android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                             android:orientation="horizontal" >
 
                             <RadioButton
@@ -976,6 +988,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="TERCEIROS" />
 
                             <RadioButton
@@ -983,6 +996,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="SÓCIOS" />
 
                             <RadioButton
@@ -990,6 +1004,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="FAMILIAR" />
                         </RadioGroup>
 
@@ -1020,6 +1035,7 @@
                             android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                             android:orientation="horizontal" >
 
                             <RadioButton
@@ -1027,6 +1043,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="NOVAS" />
 
                             <RadioButton
@@ -1034,6 +1051,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="BOM ESTADO" />
 
                             <RadioButton
@@ -1041,6 +1059,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:text="PRECÁRIAS" />
                         </RadioGroup>
 
@@ -1071,28 +1090,33 @@
                             android:id="@+id/ffcc_cadastro_cliente_formulario_rg_nc6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                             android:orientation="horizontal" >
+
 
                             <RadioButton
                                 android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc61"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
                                 android:checked="false"
-                                android:text="INICIANTES" />
+                                android:text="INICIO" />
 
                             <RadioButton
                                 android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc62"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
-                                android:text="POUCA EXPERIÊNCIA" />
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                                android:text="POUCA" />
 
                             <RadioButton
                                 android:id="@+id/ffcc_cadastro_cliente_formulario_rb_nc63"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checked="false"
-                                android:text="EXPERIENTE" />
+                                android:textSize="@dimen/tamanho_fonte_info_cliente_inicial"
+                                android:text="POSSUI" />
                         </RadioGroup>
 
                     </LinearLayout>
