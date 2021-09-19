@@ -452,11 +452,20 @@ public class Inicial extends AppCompatActivity
                 "ALTERAÇAO PEDIDOS: Correção na verificação de data e hora na alteração dos pedidos.\n" +
                 "ABC CLIENTES: Correção no erro de apresentação da consulta ABC.\n" +
                 "PRE PEDIDO: Corrigido o erro ao inserir itens vendido por kilo direto pelo pre pedido";
-        */
+
 
         mensagem = "LISTA ITENS: Em função do grande número de erros que estava ocorrendo na digitação do pedido o layout da lista de itens foi reduzido ao minimo de informações necessárias para que se execute o pedido.\n" +
                 "ALTERAÇÃO DE TELAS PEDIDO: Também em função dos erros que vinham ocorrendo foi realizado um bloqueio na tela de clientes. Após selecionar o cliente e passar para a tela de itens não é mais possível retornar para a seleção de clientes.\n" +
                 "Esperamos que as modificações realizadas resolvam de uma vez os prolemas de o sistema travar no meio do pedido enquanto trabalhamos para retornar as funcionalidades sem arcar com os problemas.";
+
+        */
+
+        mensagem = "DESCONTOS: Foi adicionado uma nova forma de aplicar desconto a itens do pedido, a funcionalidade deve ser verificada com a distribuidora.\n" +
+                "CONTRIBUIÇÃO: Corrigido erro no cálculo de contribuição exibido no resumo do pedido.\n" +
+                "FLEX: Corrigido problema de desconto de saldo duplicado.\n" +
+                "RELATÓRIOS: Reativada a funcionalidade de envio de relatórios gerencais para o servidor (os dados que são enviados também podem ser verificados em Menu->Consultas->Gerencil, dentro do próprio sistema).\n" +
+                "CADASTRO DE CLIENTES: Em um caso especifico essa funcionalidade sofreu uma alteração, detalhes devem ser verificados com a distribuidora..\n" +
+                "Foram feitas algumas outras modificações para melhoria de performance e outros ajustes para uma melhor experiência na utilização do sistema.";
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

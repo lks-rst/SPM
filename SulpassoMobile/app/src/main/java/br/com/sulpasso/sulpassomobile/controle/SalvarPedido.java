@@ -129,6 +129,8 @@ public class SalvarPedido
         {
             vida.insert(v);
 
+            //vida.AlterCliente(venda.getCliente().getCodigoCliente());
+
             return true;
         }
         catch (GenercicException e)

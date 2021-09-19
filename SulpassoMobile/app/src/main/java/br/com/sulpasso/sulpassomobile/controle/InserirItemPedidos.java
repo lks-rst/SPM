@@ -245,6 +245,7 @@ public class InserirItemPedidos
                         ItensVendidos item = new ItensVendidos();
                         item.setItem(this.item.getCodigo());
                         item.setQuantidade(this.quantidade);
+                        item.setQuantidadeEspecifica(this.quantidade);
                         item.setValorTabela(Float.parseFloat(this.getValor()));
                         item.setValorLiquido(this.valor);
                         item.setValorDigitado(this.valor);
@@ -286,6 +287,7 @@ public class InserirItemPedidos
             ItensVendidos item = new ItensVendidos();
             item.setItem(this.item.getCodigo());
             item.setQuantidade(this.quantidade);
+            item.setQuantidadeEspecifica(this.quantidade);
             item.setValorTabela(Float.parseFloat(this.getValor()));
             item.setValorLiquido(this.valor);
             item.setValorDigitado(this.valor);
@@ -320,6 +322,7 @@ public class InserirItemPedidos
                         item.setDescricao(this.item.getDescricao());
                         item.setComplemento(this.item.getComplemento());
                         item.setQuantidade(this.quantidade);
+                        item.setQuantidadeEspecifica(this.quantidade);
 
                         item.setValorTabela(Float.parseFloat(buscarDadosVendaItem(1)));
                         item.setValorLiquido(Float.parseFloat(this.getValor()));
@@ -377,6 +380,7 @@ public class InserirItemPedidos
             item.setDescricao(this.item.getDescricao());
             item.setComplemento(this.item.getComplemento());
             item.setQuantidade(this.quantidade);
+            item.setQuantidadeEspecifica(this.quantidade);
             item.setValorTabela(Float.parseFloat(this.getValor()));
             item.setValorLiquido(this.valor);
             item.setValorDigitado(this.valor);

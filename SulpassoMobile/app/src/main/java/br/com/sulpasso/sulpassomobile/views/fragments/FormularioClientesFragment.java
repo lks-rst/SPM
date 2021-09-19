@@ -442,70 +442,74 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
     {
         Toast t;
 
-        if(rgNc1.getCheckedRadioButtonId() == -1 && empresa == 4)
+        if(empresa == 4)
         {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
+            if(rgNc1.getCheckedRadioButtonId() == -1)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
 
-            rgNc1.requestFocus();
-            return false;
+                rgNc1.requestFocus();
+                return false;
+            }
+            if(rgNc2.getCheckedRadioButtonId() == -1)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+
+                rgNc2.requestFocus();
+                return false;
+            }
+            if(rgNc3.getCheckedRadioButtonId() == -1)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+
+                rgNc3.requestFocus();
+                return false;
+            }
+            if(rgNc4.getCheckedRadioButtonId() == -1)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+
+                rgNc4.requestFocus();
+                return false;
+            }
+            if(rgNc5.getCheckedRadioButtonId() == -1)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+
+                rgNc5.requestFocus();
+                return false;
+            }
+            if(rgNc6.getCheckedRadioButtonId() == -1)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+
+                rgNc6.requestFocus();
+                return false;
+            }
+            if(edtNc7.getText().toString().trim().length() <= 0)
+            {
+                t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
+                t.show();
+
+                edtNc7.requestFocus();
+                return false;
+            }
+
+            return true;
         }
-        if(rgNc2.getCheckedRadioButtonId() == -1 && empresa == 4)
-        {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
-
-            rgNc2.requestFocus();
-            return false;
-        }
-        if(rgNc3.getCheckedRadioButtonId() == -1 && empresa == 4)
-        {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
-
-            rgNc3.requestFocus();
-            return false;
-        }
-        if(rgNc4.getCheckedRadioButtonId() == -1 && empresa == 4)
-        {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
-
-            rgNc4.requestFocus();
-            return false;
-        }
-        if(rgNc5.getCheckedRadioButtonId() == -1 && empresa == 4)
-        {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
-
-            rgNc5.requestFocus();
-            return false;
-        }
-        if(rgNc6.getCheckedRadioButtonId() == -1 && empresa == 4)
-        {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
-
-            rgNc6.requestFocus();
-            return false;
-        }
-        if(edtNc7.getText().toString().trim().length() <= 0 && empresa == 4)
-        {
-            t = Toast.makeText(getActivity().getApplicationContext(), "Campo dados adicionais deve ser preenchido", Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL, 0);
-            t.show();
-
-            edtNc7.requestFocus();
-            return false;
-        }
-
 
         return true;
     }
@@ -531,104 +535,109 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
                 break;
         }
 
-        int rnc1;
-        switch (rgNc1.getCheckedRadioButtonId())
+        int rnc1 = 0;
+        int rnc2 = 0;
+        int rnc3 = 0;
+        int rnc4 = 0;
+        int rnc5 = 0;
+        int rnc6 = 0;
+
+        if(empresa == 4)
         {
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc11:
-                rnc1 = 1;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc12:
-                rnc1 = 2;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc13:
-                rnc1 = 3;
-                break;
-            default:
-                rnc1 = 0;
-                break;
+            switch (rgNc1.getCheckedRadioButtonId())
+            {
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc11:
+                    rnc1 = 1;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc12:
+                    rnc1 = 2;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc13:
+                    rnc1 = 3;
+                    break;
+                default:
+                    rnc1 = 0;
+                    break;
+            }
+
+            switch (rgNc2.getCheckedRadioButtonId())
+            {
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc21:
+                    rnc2 = 1;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc22:
+                    rnc2 = 2;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc23:
+                    rnc2 = 3;
+                    break;
+                default:
+                    rnc2 = 0;
+                    break;
+            }
+
+            switch (rgNc3.getCheckedRadioButtonId())
+            {
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc31:
+                    rnc3 = 1;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc32:
+                    rnc3 = 2;
+                    break;
+                default:
+                    rnc3 = 0;
+                    break;
+            }
+
+            switch (rgNc4.getCheckedRadioButtonId())
+            {
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc41:
+                    rnc4 = 1;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc42:
+                    rnc4 = 2;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc43:
+                    rnc4 = 3;
+                    break;
+                default:
+                    rnc4 = 0;
+                    break;
+            }
+
+            switch (rgNc5.getCheckedRadioButtonId())
+            {
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc51:
+                    rnc5 = 1;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc52:
+                    rnc5 = 2;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc53:
+                    rnc5 = 3;
+                    break;
+                default:
+                    rnc5 = 0;
+                    break;
+            }
+
+            switch (rgNc6.getCheckedRadioButtonId())
+            {
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc61:
+                    rnc6 = 1;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc62:
+                    rnc6 = 2;
+                    break;
+                case R.id.ffcc_cadastro_cliente_formulario_rb_nc63:
+                    rnc6 = 3;
+                    break;
+                default:
+                    rnc6 = 0;
+                    break;
+            }
         }
 
-        int rnc2;
-        switch (rgNc2.getCheckedRadioButtonId())
-        {
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc21:
-                rnc2 = 1;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc22:
-                rnc2 = 2;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc23:
-                rnc2 = 3;
-                break;
-            default:
-                rnc2 = 0;
-                break;
-        }
-
-        int rnc3;
-        switch (rgNc3.getCheckedRadioButtonId())
-        {
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc31:
-                rnc3 = 1;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc32:
-                rnc3 = 2;
-                break;
-            default:
-                rnc3 = 0;
-                break;
-        }
-
-        int rnc4;
-        switch (rgNc4.getCheckedRadioButtonId())
-        {
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc41:
-                rnc4 = 1;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc42:
-                rnc4 = 2;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc43:
-                rnc4 = 3;
-                break;
-            default:
-                rnc4 = 0;
-                break;
-        }
-
-        int rnc5;
-        switch (rgNc5.getCheckedRadioButtonId())
-        {
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc51:
-                rnc5 = 1;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc52:
-                rnc5 = 2;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc53:
-                rnc5 = 3;
-                break;
-            default:
-                rnc5 = 0;
-                break;
-        }
-
-        int rnc6;
-        switch (rgNc6.getCheckedRadioButtonId())
-        {
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc61:
-                rnc6 = 1;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc62:
-                rnc6 = 2;
-                break;
-            case R.id.ffcc_cadastro_cliente_formulario_rb_nc63:
-                rnc6 = 3;
-                break;
-            default:
-                rnc6 = 0;
-                break;
-        }
 
         ClienteNovo cliente = new ClienteNovo();
         ManipulacaoStrings ms = new ManipulacaoStrings();
@@ -694,7 +703,9 @@ public class FormularioClientesFragment extends Fragment implements AlertDataPed
         cliente.setNc41(rnc4);
         cliente.setNc51(rnc5);
         cliente.setNc61(rnc6);
-        cliente.setNc7(edtNc7.getText().toString());
+
+        cliente.setNc7(empresa == 4 ? edtNc7.getText().toString() : "");
+
 
         this.controle.setCliente(cliente);
         try

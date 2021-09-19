@@ -194,6 +194,7 @@ public class ClienteDataAccess
 
         clientes.clear();
 
+        /*TODO: Rever esa consulta para utilizar apenas os dados das tabelas prontas para realizar essa consulta sem precisar salvar dados adicionais*/
         this.sBuilder.delete(0, this.sBuilder.length());
         this.sBuilder.append("SELECT cli.");
         this.sBuilder.append(
@@ -1627,10 +1628,11 @@ public class ClienteDataAccess
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.CLIENTE);
         this.sBuilder.append(" = c.");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Cliente.CODIGO);
+
         this.sBuilder.append(" AND DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") > DATE ('");
-        this.sBuilder.append(data);
+        this.sBuilder.append(ms.dataBanco(data));
         this.sBuilder.append("', '-");
         this.sBuilder.append(semana);
         this.sBuilder.append(" day', 'weekday 0') AND DATE(");
@@ -1733,6 +1735,14 @@ public class ClienteDataAccess
         this.sBuilder.append(
                 br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.TABELA);
         this.sBuilder.append(" WHERE ");
+
+        /*Caso de algum problema na criação do relatório essa parte deve ser excluída*/
+        this.sBuilder.append(
+                br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.EXCLUIDO);
+        this.sBuilder.append(" = 0 ");
+        this.sBuilder.append(" AND ");
+        /*até aqui*/
+
         this.sBuilder.append(" DATE(");
         this.sBuilder.append(br.com.sulpasso.sulpassomobile.persistencia.tabelas.Venda.DATA);
         this.sBuilder.append(") = DATE ('");
