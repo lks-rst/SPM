@@ -89,7 +89,7 @@ public class Inicial extends AppCompatActivity
 
         Permissions.checkAndRequestPermissions(this);
 
-        if(Permissions.hasPermissions(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        if(Permissions.hasPermissions(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET))
         {
             try
             {

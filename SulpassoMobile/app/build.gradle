@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android{
-    compileSdkVersion 27
+    compileSdkVersion 29
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "br.com.sulpasso.vendas_externas"
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 952
-        versionName "3.005.0008"
+        minSdkVersion 29
+        targetSdkVersion 29
+        versionCode 955
+        versionName "3.005.0011"
     }
     buildTypes {
         release {
