@@ -21,6 +21,7 @@ public class Permissions {
     public static final int REQUEST_PERMISSION_CAMERA = 1;
     public static final int REQUEST_PERMISSION_LOCATION = 2;
     public static final int REQUEST_WRITE_EXTERNAL = 3;
+    public static final int REQUEST_INTERNET = 4;
 
     public static boolean checkAndRequestPermissions(Activity activity) {
         System.out.println("PermissionsUtils checkAndRequestPermissions()");
@@ -29,6 +30,8 @@ public class Permissions {
         int permissionLocation = ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
         int permissionWriteExternal = ContextCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permissionInternet = ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.INTERNET);
 
         // Permission List
         List<String> listPermissionsNeeded = new ArrayList<>();
@@ -46,6 +49,11 @@ public class Permissions {
         // Read/Write Permission
         if (permissionWriteExternal != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        // Internet use
+        if (permissionInternet != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.INTERNET);
         }
 
         // Location Permission
